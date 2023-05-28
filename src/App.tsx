@@ -4,7 +4,7 @@ import "./App.css";
 import { Button, Steps } from "antd";
 
 import { AppTest } from "./app.styles";
-import { BaseModal } from "./components/BaseModal";
+import { BaseModal } from "./components";
 
 function App() {
   const description = "This is a description.";
