@@ -1,1 +1,1 @@
-export * from "./HttpService";
+export * from "./http";
