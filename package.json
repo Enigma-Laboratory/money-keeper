@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.2.1",
     "@types/antd": "^1.0.0",
     "@types/axios": "^0.14.0",
+    "@types/faker": "^6.6.9",
     "@types/jest": "^29.5.1",
     "@types/node": "^20.2.5",
     "@types/react": "^18.2.7",
@@ -15,7 +16,10 @@
     "@types/styled-components": "^5.1.26",
     "antd": "^5.5.1",
     "axios": "^1.4.0",
+    "chart.js": "^4.3.0",
+    "faker": "^6.6.6",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
@@ -46,5 +50,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.2"
   }
 }

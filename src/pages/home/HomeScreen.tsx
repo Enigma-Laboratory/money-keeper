@@ -1,10 +1,12 @@
 import React, { ReactElement } from "react";
 import { HomeScreenStyled } from "./HomeScreen.styles";
-import { BaseButton } from "components";
+import { Dashboard } from "./dashboard";
+import { Analytic } from "./analytic";
 export const HomeScreenDesktop = (): ReactElement => {
   return (
     <HomeScreenStyled>
-      <BaseButton> Click Homeview</BaseButton>
+      <Dashboard />
+      <Analytic />
     </HomeScreenStyled>
   );
 };
