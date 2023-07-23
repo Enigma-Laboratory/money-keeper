@@ -1,13 +1,17 @@
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
-export class BaseStore<T> {
-  private modelSubject: BehaviorSubject<T | any>;
+export class BaseStore<T = any> {
+  private modelSubject: BehaviorSubject<T>;
 
-  constructor(initialModel: T | any) {
-    this.modelSubject = new BehaviorSubject<T | any>(initialModel);
+  constructor(initialModel: T) {
+    this.modelSubject = new BehaviorSubject<T>(initialModel);
   }
 
-  getModel(): T | any {
+  getModelObservable(): Observable<T> {
+    return this.modelSubject.asObservable();
+  }
+
+  getModel(): T {
     return this.modelSubject.getValue();
   }
 

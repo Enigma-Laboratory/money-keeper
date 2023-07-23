@@ -1,35 +1,22 @@
-// useObservable.ts
 import { useState, useEffect } from "react";
-import { Observable, Subscription } from "rxjs";
+import { Observable, Subscription } from "rxjs"; // You need to install RxJS for this example
 
-// Define the generic type for the observable value
-type ObservableValue<T> = Observable<T> | null;
-
-const useObservable = <T>(
-  observableFactory: () => ObservableValue<T>
-): T | null => {
-  const [value, setValue] = useState<T | null>(null);
-  const [subscription, setSubscription] = useState<Subscription | null>(null);
+// Custom hook to use as a listener for an observable
+function useObservable<T>(observable$: Observable<T>): T | null {
+  const [data, setData] = useState<T | null>(null);
 
   useEffect(() => {
-    const newObservable = observableFactory();
+    const subscription: Subscription = observable$.subscribe((newValue) => {
+      setData(newValue);
+    });
 
-    if (newObservable instanceof Observable) {
-      const newSubscription = newObservable.subscribe((newValue) => {
-        setValue(newValue);
-      });
-
-      setSubscription(newSubscription);
-    }
-
+    // Clean up the subscription when the component unmounts
     return () => {
-      if (subscription) {
-        subscription.unsubscribe();
-      }
+      subscription.unsubscribe();
     };
-  }, [observableFactory, subscription]);
+  }, [observable$]);
 
-  return value;
-};
+  return data;
+}
 
 export { useObservable };
