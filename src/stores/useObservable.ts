@@ -1,22 +1,22 @@
-import { useState, useEffect } from "react";
-import { Observable, Subscription } from "rxjs"; // You need to install RxJS for this example
+import { useState, useLayoutEffect } from "react";
+import { BehaviorSubject, Observable } from "rxjs";
 
-// Custom hook to use as a listener for an observable
-function useObservable<T>(observable$: Observable<T>): T | null {
-  const [data, setData] = useState<T | null>(null);
+function useObservable<T>(observable: Observable<T>): T {
+  const [value, setValue] = useState<T>(
+    () => observable instanceof BehaviorSubject && observable.getValue()
+  );
 
-  useEffect(() => {
-    const subscription: Subscription = observable$.subscribe((newValue) => {
-      setData(newValue);
+  useLayoutEffect(() => {
+    const subscription = observable.subscribe((newValue) => {
+      setValue(newValue);
     });
 
-    // Clean up the subscription when the component unmounts
     return () => {
       subscription.unsubscribe();
     };
-  }, [observable$]);
+  }, [observable]);
 
-  return data;
+  return value!;
 }
 
 export { useObservable };

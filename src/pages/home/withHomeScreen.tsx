@@ -1,10 +1,10 @@
 import { ComponentType, useEffect, useState } from "react";
 import { Order, OrderService, orderStore } from "stores";
 import { useObservable } from "stores/useObservable";
-import { FindAllResponse } from "interface";
 export interface HomeScreenProps {
   data: {
     isLoading: boolean;
+    orders: Order[];
   };
   dispatch: {
     onFetchUser?: () => Promise<void>;
@@ -16,10 +16,8 @@ export const withHomeScreenController = <P,>(
 ): ComponentType<P> => {
   return (props: P) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const rows = useObservable(orderStore.getModelObservable());
-    console.log(rows);
 
-    // const { rows } = orderStore.getModel();
+    const { rows: orders } = useObservable(orderStore.model);
 
     const fetchAllOrder = async (): Promise<void> => {
       setIsLoading(true);
@@ -30,13 +28,14 @@ export const withHomeScreenController = <P,>(
       }
     };
 
-    // useEffect(() => {
-    //   fetchAllOrder();
-    // }, []);
+    useEffect(() => {
+      fetchAllOrder();
+    }, []);
 
     const LogicProps: HomeScreenProps = {
       data: {
         isLoading,
+        orders,
       },
       dispatch: {},
     };

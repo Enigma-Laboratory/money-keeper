@@ -1,29 +1,25 @@
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 
 export class BaseStore<T = any> {
-  private modelSubject: BehaviorSubject<T>;
+  public model: BehaviorSubject<T>;
 
   constructor(initialModel: T) {
-    this.modelSubject = new BehaviorSubject<T>(initialModel);
+    this.model = new BehaviorSubject<T>(initialModel);
   }
 
-  getModelObservable(): Observable<T> {
-    return this.modelSubject.asObservable();
+  public getModel(): T {
+    return this.model.getValue();
   }
 
-  getModel(): T {
-    return this.modelSubject.getValue();
+  public setModel(newModel: T): void {
+    this.model.next(newModel);
   }
 
-  setModel(newModel: T): void {
-    this.modelSubject.next(newModel);
-  }
-
-  updateModel(update: Partial<T>): void {
-    const currentModel = this.modelSubject.getValue();
+  public updateModel(value: Partial<T>): void {
+    const currentModel = this.model.getValue();
     if (currentModel) {
-      const updatedModel = { ...currentModel, ...update };
-      this.modelSubject.next(updatedModel);
+      const updatedModel = { ...currentModel, ...value };
+      this.model.next(updatedModel);
     }
   }
 }
