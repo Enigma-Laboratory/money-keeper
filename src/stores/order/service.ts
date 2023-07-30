@@ -1,6 +1,6 @@
-import { OrderApiService } from "services/OrderApiService";
-import { orderStore } from "./store";
-import { CreateOrderParams, DeleteOrderParams, Order } from "./interface";
+import { OrderApiService } from 'services/OrderApiService';
+import { orderStore } from './store';
+import { CreateOrderParams, DeleteOrderParams, Order } from './interface';
 
 export class OrderService {
   public static _instance: OrderService;

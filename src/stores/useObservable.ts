@@ -1,10 +1,8 @@
-import { useState, useLayoutEffect } from "react";
-import { BehaviorSubject, Observable } from "rxjs";
+import { useState, useLayoutEffect } from 'react';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 function useObservable<T>(observable: Observable<T>): T {
-  const [value, setValue] = useState<T>(
-    () => observable instanceof BehaviorSubject && observable.getValue()
-  );
+  const [value, setValue] = useState<T>(() => observable instanceof BehaviorSubject && observable.getValue());
 
   useLayoutEffect(() => {
     const subscription = observable.subscribe((newValue) => {

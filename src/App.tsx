@@ -1,5 +1,5 @@
-import { BaseRoutes } from "routes";
-import { LayoutMain } from "./layouts/LayoutMain";
+import { BaseRoutes } from 'routes';
+import { LayoutMain } from './layouts/LayoutMain';
 
 function App() {
   return (

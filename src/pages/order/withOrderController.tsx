@@ -1,17 +1,17 @@
 import { ComponentType, useEffect, useState } from 'react';
 import { Order, OrderService, orderStore } from 'stores';
 import { useObservable } from 'stores/useObservable';
-export interface HomeScreenProps {
-  data: {
+export interface OrderProps {
+  data?: {
     isLoading: boolean;
     orders: Order[];
   };
-  dispatch: {
-    onFetchUser?: () => Promise<void>;
+  dispatch?: {
+    fetchAllOrder?: () => Promise<void>;
   };
 }
 
-export const withHomeScreenController = <P,>(Component: ComponentType<P>): ComponentType<P> => {
+export const withOrderController = <P,>(Component: ComponentType<P>): ComponentType<P> => {
   return (props: P) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -30,7 +30,7 @@ export const withHomeScreenController = <P,>(Component: ComponentType<P>): Compo
       fetchAllOrder();
     }, []);
 
-    const LogicProps: HomeScreenProps = {
+    const LogicProps: OrderProps = {
       data: {
         isLoading,
         orders,

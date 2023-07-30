@@ -2,7 +2,7 @@
  * @interface ORDER
  */
 
-import { FindAllParams, FindAllResponse, getOneParams } from "/interface";
+import { FindAllParams, FindAllResponse, getOneParams } from '/interface';
 
 export interface Order {
   id: string;
@@ -26,5 +26,4 @@ export interface FindAllOrderResponse extends FindAllResponse<Order> {}
 
 export interface UpdateOrderParams extends Partial<Order> {}
 
-export interface CreateOrderParams
-  extends Pick<Order, "userId" | "orderName"> {}
+export interface CreateOrderParams extends Pick<Order, 'userId' | 'orderName'> {}

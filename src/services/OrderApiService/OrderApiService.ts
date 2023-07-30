@@ -1,13 +1,7 @@
-import { ApiServiceEndPoint } from "../ApiServiceEndpoint";
-import { HttpClientService } from "../http";
-import { HttpConfig, HttpConfigOrder } from "../http";
-import {
-  CreateOrderParams,
-  DeleteOrderParams,
-  FindAllOrderResponse,
-  FindOneOrderParams,
-  Order,
-} from "stores/order";
+import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
+import { HttpClientService } from '../http';
+import { HttpConfig, HttpConfigOrder } from '../http';
+import { CreateOrderParams, DeleteOrderParams, FindAllOrderResponse, FindOneOrderParams, Order } from 'stores/order';
 
 export class OrderApiService extends ApiServiceEndPoint {
   private static _instance: OrderApiService;
