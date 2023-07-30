@@ -1,6 +1,6 @@
 import React from "react";
 
-import { BaseRoutes } from "./routes";
+import { BaseRoutes } from "routes";
 import { LayoutMain } from "./layouts/LayoutMain";
 
 function App() {
