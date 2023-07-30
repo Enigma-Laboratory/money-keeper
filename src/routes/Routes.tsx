@@ -6,6 +6,8 @@ import { ContactScreen } from 'pages/contact';
 import { Landing } from 'pages/landing';
 import { DetailedInvoice } from 'pages/home/analytic/DetailedInvoice';
 import { OrderScreen } from 'pages/order';
+import { CreateOrderScreen } from '../pages/order/createOrder';
+import { EditOrderScreen } from 'pages/order/editOrder';
 
 export const BaseRoutes = () => {
   return (
@@ -17,6 +19,8 @@ export const BaseRoutes = () => {
         <Route path="/contact" element={<ContactScreen />} />
         <Route path="/detail" element={<DetailedInvoice />} />
         <Route path="/order" element={<OrderScreen />} />
+        <Route path="/order/create" element={<CreateOrderScreen />} />
+        <Route path="/order/edit/:id" element={<EditOrderScreen />} />
       </Routes>
     </Router>
   );

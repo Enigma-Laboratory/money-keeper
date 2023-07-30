@@ -37,6 +37,12 @@ export class HttpClientService {
     return response.data as T;
   }
 
+  public static async httpPatch<T = any>(requestUri: string, data: any, options?: AxiosRequestConfig): Promise<T> {
+    const config = await this.getConfig(options);
+    const response: AxiosResponse = await HttpClientService.instance.patch(requestUri, data, config);
+    return response.data as T;
+  }
+
   public static async httpDelete<T = any>(requestUri: string, options?: AxiosRequestConfig): Promise<T> {
     const config = await this.getConfig(options);
 

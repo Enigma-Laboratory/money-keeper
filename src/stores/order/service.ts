@@ -1,6 +1,6 @@
 import { OrderApiService } from 'services/OrderApiService';
 import { orderStore } from './store';
-import { CreateOrderParams, DeleteOrderParams, Order } from './interface';
+import { CreateOrderParams, DeleteOrderParams, Order, UpdateOrderParams } from './interface';
 
 export class OrderService {
   public static _instance: OrderService;
@@ -34,13 +34,13 @@ export class OrderService {
     }
   }
 
-  public async updateOneOrder(params: Order): Promise<void> {
+  public async updateOneOrder(params: UpdateOrderParams): Promise<void> {
     try {
       const order = await OrderApiService.instance.updateOneOrder(params);
       const { rows: orders } = orderStore.getModel();
-      orderStore.updateModel({
-        rows: [...orders, order],
-      });
+      // orderStore.updateModel({
+      //   rows: [...orders, order],
+      // });
     } catch (e: any) {
       console.error(e);
     }

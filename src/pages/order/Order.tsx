@@ -7,6 +7,7 @@ import { OrderStyled } from './Order.styles';
 import { AppstoreOutlined } from '@ant-design/icons';
 import Search from 'antd/es/input/Search';
 import { BaseButton } from 'components';
+import { useNavigate } from 'react-router-dom';
 
 interface DataType {
   key: string;
@@ -50,7 +51,7 @@ const columns: ColumnsType<DataType> = [
 export const Order = (props: OrderProps): ReactElement => {
   const { data } = props;
   const { isLoading = true, orders = [] } = data || {};
-
+  const navigate = useNavigate();
   const dataSource: DataType[] = useMemo(
     () =>
       orders.map((order) => {
@@ -83,13 +84,15 @@ export const Order = (props: OrderProps): ReactElement => {
     return (
       <Space>
         <Search placeholder="input search text" onSearch={onSearch} enterButton />
-        <Space>
-          <BaseButton>Update</BaseButton>
 
-          <BaseButton type="primary">Create</BaseButton>
-        </Space>
+        <BaseButton onClick={() => navigate('/order/create')} type="primary">
+          Create
+        </BaseButton>
       </Space>
     );
+  };
+  const handleClickDetailOrder = (record: any) => {
+    navigate(`/order/edit/${record?.key}`);
   };
 
   return (
@@ -97,7 +100,19 @@ export const Order = (props: OrderProps): ReactElement => {
       {breadcrumb()}
       {headerOrder()}
       <Spin spinning={isLoading}>
-        <Table columns={columns} dataSource={dataSource} onChange={onChange} />;
+        <Table
+          columns={columns}
+          dataSource={dataSource}
+          onChange={onChange}
+          onRow={(record, rowIndex) => {
+            return {
+              onClick: (event) => {
+                handleClickDetailOrder(record);
+              },
+              className: 'pointer-cursor',
+            };
+          }}
+        />
       </Spin>
     </OrderStyled>
   );

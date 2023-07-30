@@ -1,7 +1,14 @@
 import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
 import { HttpClientService } from '../http';
 import { HttpConfig, HttpConfigOrder } from '../http';
-import { CreateOrderParams, DeleteOrderParams, FindAllOrderResponse, FindOneOrderParams, Order } from 'stores/order';
+import {
+  CreateOrderParams,
+  DeleteOrderParams,
+  FindAllOrderResponse,
+  FindOneOrderParams,
+  Order,
+  UpdateOrderParams,
+} from 'stores/order';
 
 export class OrderApiService extends ApiServiceEndPoint {
   private static _instance: OrderApiService;
@@ -28,9 +35,9 @@ export class OrderApiService extends ApiServiceEndPoint {
     return await HttpClientService.httpPost<Order>(endpoint, params);
   }
 
-  public async updateOneOrder(params: Order): Promise<Order> {
+  public async updateOneOrder(params: UpdateOrderParams): Promise<Order> {
     const endpoint = `${this.endPoint}/${HttpConfigOrder.UPDATE_ORDER}`;
-    return await HttpClientService.httpPut<Order>(endpoint, params);
+    return await HttpClientService.httpPatch<Order>(endpoint, params);
   }
 
   public async deleteOneOrder(params: DeleteOrderParams): Promise<any> {
