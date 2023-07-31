@@ -1,18 +1,18 @@
 import { ComponentType, useState } from 'react';
 import { CreateOrderParams, DeleteOrderParams, Order, OrderService, UpdateOrderParams, orderStore } from 'stores';
 export interface EditOrderProps {
-  data?: {
+  data: {
     isLoading: boolean;
     orders: Order[];
   };
-  dispatch?: {
+  dispatch: {
     updateOrder: (params: CreateOrderParams) => Promise<void>;
     deleteOrder: (params: DeleteOrderParams) => Promise<void>;
   };
 }
 
-export const withEditOrderController = <P,>(Component: ComponentType<P>): ComponentType<P> => {
-  return (props: P) => {
+export const withEditOrderController = (Component: ComponentType<EditOrderProps>): ComponentType => {
+  return () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const { rows: orders } = orderStore.getModel();
@@ -46,6 +46,6 @@ export const withEditOrderController = <P,>(Component: ComponentType<P>): Compon
       },
     };
 
-    return <Component {...props} {...LogicProps} />;
+    return <Component {...LogicProps} />;
   };
 };

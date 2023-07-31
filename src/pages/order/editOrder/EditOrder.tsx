@@ -9,23 +9,25 @@ import { useEffect, useMemo } from 'react';
 import { EditOrderProps } from './withEditOrder';
 
 export const EditOrder = (props: EditOrderProps) => {
-  const { data, dispatch } = props;
+  const {
+    data: { orders },
+    dispatch: { updateOrder, deleteOrder },
+  } = props;
 
   const navigate = useNavigate();
   const { id } = useParams();
-
   const [form] = Form.useForm();
   const order = useMemo(() => {
-    return data?.orders.find((order) => order.id === id);
+    return orders.find((order) => order.id === id);
   }, [id]);
 
   const onFinish = async (values: CreateOrderParams): Promise<void> => {
-    await dispatch?.updateOrder({ ...order, ...values });
+    await updateOrder({ ...order, ...values });
     navigate(-1);
   };
 
   const onDeleteOrder = async (): Promise<void> => {
-    await dispatch?.deleteOrder({ id });
+    await deleteOrder({ id });
     navigate(-1);
   };
 
