@@ -15,7 +15,7 @@ export const EditOrder = (props: EditOrderProps) => {
   } = props;
 
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [form] = Form.useForm();
   const order = useMemo(() => {
     return orders.find((order) => order.id === id);

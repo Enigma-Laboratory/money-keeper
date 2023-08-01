@@ -8,6 +8,8 @@ import { AppstoreOutlined } from '@ant-design/icons';
 import Search from 'antd/es/input/Search';
 import { BaseButton } from 'components';
 import { useNavigate } from 'react-router-dom';
+import { routePaths } from 'routes/routeComponent';
+import { getExactPath } from 'utils/getExactPath';
 
 interface DataType {
   key: string;
@@ -85,14 +87,14 @@ export const Order = (props: OrderProps): ReactElement => {
       <Space>
         <Search placeholder="input search text" onSearch={onSearch} enterButton />
 
-        <BaseButton onClick={() => navigate('/order/create')} type="primary">
+        <BaseButton onClick={() => navigate(routePaths.createOrder)} type="primary">
           Create
         </BaseButton>
       </Space>
     );
   };
   const handleClickDetailOrder = (record: any) => {
-    navigate(`/order/edit/${record?.key}`);
+    navigate(getExactPath(routePaths.editOrder, { id: record?.key }));
   };
 
   return (
@@ -106,7 +108,7 @@ export const Order = (props: OrderProps): ReactElement => {
           onChange={onChange}
           onRow={(record, rowIndex) => {
             return {
-              onClick: (event) => {
+              onClick: () => {
                 handleClickDetailOrder(record);
               },
               className: 'pointer-cursor',
