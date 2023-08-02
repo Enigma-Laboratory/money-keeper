@@ -1,6 +1,6 @@
 import { OrderApiService } from 'services/OrderApiService';
 import { orderStore } from './store';
-import { CreateOrderParams, DeleteOrderParams, Order, UpdateOrderParams } from './interface';
+import { CreateOrderParams, DeleteOrderParams, FindOneOrderParams, Order, UpdateOrderParams } from './interface';
 
 export class OrderService {
   public static _instance: OrderService;
@@ -19,6 +19,10 @@ export class OrderService {
     } catch (e: any) {
       console.error(e);
     }
+  }
+
+  public async fetchOneOrder(params: FindOneOrderParams): Promise<Order> {
+    return await OrderApiService.instance.fetchOneOrder(params);
   }
 
   public async createOneOrder(params: CreateOrderParams): Promise<void> {

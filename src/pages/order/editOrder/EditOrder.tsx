@@ -1,29 +1,56 @@
-import { Avatar, Breadcrumb, Form, Input, Space } from 'antd';
-import { CreateOrderParams } from 'stores';
+import { Avatar, Breadcrumb, Form, Input, Space, notification } from 'antd';
+import { CreateOrderParams, Order } from 'stores';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppstoreOutlined, LeftOutlined } from '@ant-design/icons';
 import { BaseButton } from 'components';
 import { EditOrderStyled } from './EditOrder.styles';
 import { useParams } from 'react-router-dom';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { EditOrderProps } from './withEditOrder';
 
 export const EditOrder = (props: EditOrderProps) => {
   const {
-    data: { orders },
-    dispatch: { updateOrder, deleteOrder },
+    data: { isLoading },
+    dispatch: { updateOrder, deleteOrder, fetchOneOrder },
   } = props;
 
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [form] = Form.useForm();
-  const order = useMemo(() => {
-    return orders.find((order) => order.id === id);
+  const [order, setOrder] = useState<Order>();
+
+  useEffect(() => {
+    const handleFetchOneOder = async (id: string) => {
+      try {
+        const orderResponse = await fetchOneOrder({ id });
+        setOrder(orderResponse);
+      } catch {
+        notification.error({
+          message: 'Fetch Data fail',
+          description:
+            'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+        });
+      }
+    };
+    id && handleFetchOneOder(id);
   }, [id]);
 
   const onFinish = async (values: CreateOrderParams): Promise<void> => {
-    await updateOrder({ ...order, ...values });
-    navigate(-1);
+    try {
+      await updateOrder({ ...order, ...values });
+      notification.success({
+        message: 'Update Data success',
+        description:
+          'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+      });
+      navigate(-1);
+    } catch {
+      notification.error({
+        message: 'Update Data fail',
+        description:
+          'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+      });
+    }
   };
 
   const onDeleteOrder = async (): Promise<void> => {
@@ -37,7 +64,7 @@ export const EditOrder = (props: EditOrderProps) => {
       userId: order?.userId,
       orderName: order?.orderName,
     });
-  }, [id, order]);
+  }, [order]);
 
   const breadcrumb = () => {
     return (

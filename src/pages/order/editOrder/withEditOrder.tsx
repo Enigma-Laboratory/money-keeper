@@ -1,5 +1,13 @@
 import { ComponentType, useState } from 'react';
-import { CreateOrderParams, DeleteOrderParams, Order, OrderService, UpdateOrderParams, orderStore } from 'stores';
+import {
+  CreateOrderParams,
+  DeleteOrderParams,
+  FindOneOrderParams,
+  Order,
+  OrderService,
+  UpdateOrderParams,
+  orderStore,
+} from 'stores';
 export interface EditOrderProps {
   data: {
     isLoading: boolean;
@@ -8,6 +16,7 @@ export interface EditOrderProps {
   dispatch: {
     updateOrder: (params: CreateOrderParams) => Promise<void>;
     deleteOrder: (params: DeleteOrderParams) => Promise<void>;
+    fetchOneOrder: (params: FindOneOrderParams) => Promise<Order>;
   };
 }
 
@@ -35,6 +44,10 @@ export const withEditOrderController = (Component: ComponentType<EditOrderProps>
       }
     };
 
+    const fetchOneOrder = async (params: FindOneOrderParams): Promise<Order> => {
+      return await OrderService.instance.fetchOneOrder(params);
+    };
+
     const LogicProps: EditOrderProps = {
       data: {
         isLoading,
@@ -43,6 +56,7 @@ export const withEditOrderController = (Component: ComponentType<EditOrderProps>
       dispatch: {
         updateOrder,
         deleteOrder,
+        fetchOneOrder,
       },
     };
 
