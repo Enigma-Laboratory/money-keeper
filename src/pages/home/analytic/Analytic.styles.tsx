@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const AnalyticStyled = styled.div`
   height: 80vh;

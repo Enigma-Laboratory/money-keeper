@@ -1,1 +1,1 @@
-export * from "./ApiServiceEndpoint";
+export * from './ApiServiceEndpoint';

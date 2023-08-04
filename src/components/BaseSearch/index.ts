@@ -1,1 +1,1 @@
-export * from "./BaseSearch";
+export * from './BaseSearch';

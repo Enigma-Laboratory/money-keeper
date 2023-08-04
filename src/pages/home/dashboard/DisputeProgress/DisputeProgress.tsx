@@ -1,13 +1,9 @@
-import React from "react";
-import { DisputeProgressStyled } from "./DisputeProgress.styles";
-import { Space, Image } from "antd";
-import { AreaChart, BaseButton } from "components";
+import React from 'react';
+import { DisputeProgressStyled } from './DisputeProgress.styles';
+import { Space, Image } from 'antd';
+import { AreaChart, BaseButton } from 'components';
 
-import {
-  EllipsisOutlined,
-  UserOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
+import { EllipsisOutlined, UserOutlined, DeleteOutlined } from '@ant-design/icons';
 
 export const DisputeProgress = () => {
   return (
@@ -15,7 +11,7 @@ export const DisputeProgress = () => {
       bordered={false}
       style={{
         width: 300,
-        borderRadius: "20",
+        borderRadius: '20',
       }}
     >
       <div className="header">

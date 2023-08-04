@@ -1,7 +1,7 @@
-import { BaseSearch } from "../BaseSearch";
-import { Avatar, Badge, Popover, Space } from "antd";
-import { UserOutlined, MessageOutlined } from "@ant-design/icons";
-import { HeaderLayoutStyled } from "./Header.styles";
+import { BaseSearch } from '../BaseSearch';
+import { Avatar, Badge, Popover, Space } from 'antd';
+import { UserOutlined, MessageOutlined } from '@ant-design/icons';
+import { HeaderLayoutStyled } from './Header.styles';
 export const HeaderLayout = () => {
   return (
     <HeaderLayoutStyled>
@@ -26,12 +26,7 @@ export const HeaderLayout = () => {
             trigger="click"
           >
             <Badge count={1} offset={[0, 5]}>
-              <Avatar
-                shape="circle"
-                size="large"
-                icon={<MessageOutlined />}
-                style={{ cursor: "pointer" }}
-              />
+              <Avatar shape="circle" size="large" icon={<MessageOutlined />} style={{ cursor: 'pointer' }} />
             </Badge>
           </Popover>
 
@@ -53,16 +48,16 @@ export const HeaderLayout = () => {
             >
               <p
                 style={{
-                  width: "100px",
+                  width: '100px',
                   margin: 0,
-                  cursor: "pointer",
-                  fontWeight: "bold",
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
                 }}
               >
                 Le Tu Tuan
               </p>
             </Popover>
-            <p style={{ width: "100px", margin: 0 }}>admin</p>
+            <p style={{ width: '100px', margin: 0 }}>admin</p>
           </div>
         </Space>
       </div>
