@@ -1,1 +1,1 @@
-export * from "./DisputeProgress";
+export * from './DisputeProgress';

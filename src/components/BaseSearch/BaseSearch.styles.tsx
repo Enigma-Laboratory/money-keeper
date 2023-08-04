@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { Input } from "antd";
+import { Input } from 'antd';
 
 const { Search } = Input;
 
