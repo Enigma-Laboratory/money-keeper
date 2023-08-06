@@ -94,7 +94,7 @@ export const Order = (props: OrderProps): ReactElement => {
     );
   };
   const handleClickDetailOrder = (record: any) => {
-    navigate(getExactPath(routePaths.editOrder, { id: record?.key }));
+    navigate(getExactPath(routePaths.detailOrder, { id: record?.key }));
   };
 
   return (
