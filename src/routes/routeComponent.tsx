@@ -5,13 +5,14 @@ import { DetailedInvoice } from 'pages/home/analytic/DetailedInvoice';
 import { Landing } from 'pages/landing';
 import { OrderScreen } from 'pages/order';
 import { CreateOrderScreen } from 'pages/order/createOrder';
-import { EditOrderScreen } from 'pages/order/editOrder';
+import { EditOrderScreen } from 'pages/order/detailOrder/editOrder';
 import { ReactElement } from 'react';
+import { DetailOrderScreen } from 'pages/order/detailOrder';
 
 const ROUTE_PATH = '/';
 
 export interface RouteComponent {
-  id: string;
+  name: string;
   path: string;
   component: ReactElement;
 }
@@ -25,49 +26,55 @@ export const routePaths = {
   contact: getPath('/contact'),
   detail: getPath('/detail'),
   order: getPath('/order'),
+  detailOrder: getPath('order/detail-order/:id'),
   createOrder: getPath('order/create'),
   editOrder: getPath('order/edit/:id'),
 };
 
 export const routeComponents: RouteComponent[] = [
   {
-    id: 'landing',
+    name: 'landing',
     path: routePaths.landing,
     component: <Landing />,
   },
   {
-    id: 'home',
+    name: 'home',
     path: routePaths.home,
     component: <HomeScreen />,
   },
   {
-    id: 'about',
+    name: 'about',
     path: routePaths.about,
     component: <AboutScreen />,
   },
   {
-    id: 'contact',
+    name: 'contact',
     path: routePaths.contact,
     component: <ContactScreen />,
   },
   {
-    id: 'detail',
+    name: 'detail',
     path: routePaths.detail,
     component: <DetailedInvoice />,
   },
   {
-    id: 'order',
+    name: 'order',
     path: routePaths.order,
     component: <OrderScreen />,
   },
   {
-    id: 'order-create',
+    name: 'order-create',
     path: routePaths.createOrder,
     component: <CreateOrderScreen />,
   },
   {
-    id: 'order-edit',
+    name: 'order-edit',
     path: routePaths.editOrder,
     component: <EditOrderScreen />,
+  },
+  {
+    name: 'detail-order',
+    path: routePaths.detailOrder,
+    component: <DetailOrderScreen />,
   },
 ];
