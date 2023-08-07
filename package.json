@@ -19,6 +19,7 @@
     "axios": "^1.4.0",
     "chart.js": "^4.3.0",
     "dotenv": "^16.3.1",
+    "env-cmd": "^10.1.0",
     "faker": "^6.6.6",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
@@ -32,11 +33,15 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "env-cmd -f .env react-scripts start",
+    "start:prod": "env-cmd -f .env.prod react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier . --write"
+  },
+  "lint-staged": {
+    "src/**/*.{js,json,scss,ts}": "prettier . --write"
   },
   "eslintConfig": {
     "extends": [
@@ -58,6 +63,8 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
     "prettier": "^3.0.1"
   }
 }
