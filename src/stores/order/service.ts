@@ -55,7 +55,7 @@ export class OrderService {
       const response = await OrderApiService.instance.deleteOneOrder(params);
 
       const { rows: Orders, count } = orderStore.getModel();
-      const newOrders = Orders.filter((order) => order.id !== response.id);
+      const newOrders = Orders.filter(order => order.id !== response.id);
       orderStore.updateModel({
         count: count - 1,
         rows: newOrders,

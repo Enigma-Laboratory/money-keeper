@@ -38,6 +38,9 @@
     "eject": "react-scripts eject",
     "format": "prettier . --write"
   },
+  "lint-staged": {
+    "src/**/*.{js,json,scss,ts}": "prettier . --write"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -58,6 +61,8 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
     "prettier": "^3.0.1"
   }
 }

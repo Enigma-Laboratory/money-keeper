@@ -5,7 +5,7 @@ import { RouteComponent, routeComponents } from './routeComponent';
 export const renderRouteComponent = (routes: RouteComponent[]) => {
   return (
     <Routes>
-      {routes.map((route) => (
+      {routes.map(route => (
         <Route path={route.path} element={route.component} />
       ))}
     </Routes>

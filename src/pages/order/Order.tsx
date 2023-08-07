@@ -56,7 +56,7 @@ export const Order = (props: OrderProps): ReactElement => {
   const navigate = useNavigate();
   const dataSource: DataType[] = useMemo(
     () =>
-      orders.map((order) => {
+      orders.map(order => {
         return {
           key: order.id,
           user: order.userId,
