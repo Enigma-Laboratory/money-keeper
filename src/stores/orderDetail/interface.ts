@@ -19,4 +19,4 @@ export interface FindAllOrderDetailResponse extends FindAllResponse<OrderDetail>
 
 export interface UpdateOrderDetailParams extends Partial<OrderDetail> {}
 
-export interface CreateOrderParams extends Pick<OrderDetail, 'id'> {}
+export interface CreateOrderDetailParams extends Pick<OrderDetail, 'id'> {}
