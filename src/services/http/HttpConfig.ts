@@ -2,6 +2,7 @@ export const HttpConfig = {
   AUTH: 'auth',
   ORDER: 'order',
   PRODUCT: 'product',
+  ORDER_DETAIL: 'order-detail',
 };
 
 export const HttpConfigOrder = {
