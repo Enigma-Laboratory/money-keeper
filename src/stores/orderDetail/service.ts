@@ -46,8 +46,8 @@ export class OrderDetailService {
 
   public async updateOneOrderDetail(params: UpdateOrderDetailParams): Promise<void> {
     try {
-      const order = await OrderDetailApiService.instance.updateOneOrderDetail(params);
-      const { rows: orders } = orderDetailStore.getModel();
+      // const order = await OrderDetailApiService.instance.updateOneOrderDetail(params);
+      // const { rows: orders } = orderDetailStore.getModel();
       // orderStore.updateModel({
       //   rows: [...orders, order],
       // });
@@ -61,7 +61,7 @@ export class OrderDetailService {
       const response = await OrderDetailApiService.instance.deleteOneOrderDetail(params);
 
       const { rows: Orders, count } = orderDetailStore.getModel();
-      const newOrders = Orders.filter((order) => order.id !== response.id);
+      const newOrders = Orders.filter(order => order.id !== response.id);
       orderDetailStore.updateModel({
         count: count - 1,
         rows: newOrders,

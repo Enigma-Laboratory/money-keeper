@@ -1,4 +1,3 @@
-import React from 'react';
 import { InformationStyled } from './Information.styles';
 import { Space, Image } from 'antd';
 import { BaseButton } from 'components';

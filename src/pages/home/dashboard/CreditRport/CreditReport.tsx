@@ -1,4 +1,3 @@
-import React from 'react';
 import { CreditReportStyled } from './CreditReport.styles';
 
 import { AreaChart, BaseButton } from 'components';

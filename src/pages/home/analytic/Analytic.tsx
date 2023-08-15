@@ -1,6 +1,5 @@
-import React from 'react';
 import { AnalyticStyled } from './Analytic.styles';
-import { AreaChart, BaseButton } from 'components';
+import { BaseButton } from 'components';
 import { Image } from 'antd';
 
 export const Analytic = () => {

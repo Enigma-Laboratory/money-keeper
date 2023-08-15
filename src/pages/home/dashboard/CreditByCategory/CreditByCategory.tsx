@@ -1,4 +1,3 @@
-import React from 'react';
 import { CreditByCategoryStyled } from './CreditByCategory.styles';
 import { Space, Image } from 'antd';
 import { AreaChart, BaseButton } from 'components';

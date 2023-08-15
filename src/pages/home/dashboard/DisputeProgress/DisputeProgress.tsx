@@ -1,4 +1,3 @@
-import React from 'react';
 import { DisputeProgressStyled } from './DisputeProgress.styles';
 import { Space, Image } from 'antd';
 import { AreaChart, BaseButton } from 'components';
