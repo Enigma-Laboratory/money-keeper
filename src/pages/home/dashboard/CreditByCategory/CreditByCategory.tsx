@@ -1,8 +1,6 @@
 import { CreditByCategoryStyled } from './CreditByCategory.styles';
-import { Space, Image } from 'antd';
-import { AreaChart, BaseButton } from 'components';
-
-import { EllipsisOutlined, UserOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Image } from 'antd';
+import { EllipsisOutlined } from '@ant-design/icons';
 
 export const CreditByCategory = () => {
   return (

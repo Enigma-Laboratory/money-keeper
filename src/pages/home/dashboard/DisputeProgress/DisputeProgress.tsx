@@ -1,6 +1,5 @@
 import { DisputeProgressStyled } from './DisputeProgress.styles';
-import { Space, Image } from 'antd';
-import { AreaChart, BaseButton } from 'components';
+import { AreaChart } from 'components';
 
 import { EllipsisOutlined, UserOutlined, DeleteOutlined } from '@ant-design/icons';
 

@@ -1,6 +1,5 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { DetailedInvoiceStyled } from './DetailedInvoice.styles';
-
 import { Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
@@ -17,7 +16,7 @@ const columns: ColumnsType<DataType> = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
-    render: text => <a>{text}</a>,
+    render: text => <a href=".">{text}</a>,
   },
   {
     title: 'Age',
@@ -54,8 +53,8 @@ const columns: ColumnsType<DataType> = [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
+        <a href=".">Invite {record.name}</a>
+        <a href=".">Delete</a>
       </Space>
     ),
   },

@@ -1,9 +1,7 @@
 import { CreditReportStyled } from './CreditReport.styles';
-
-import { AreaChart, BaseButton } from 'components';
-
-import { EllipsisOutlined, UserOutlined, DeleteOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { Button, Carousel, Image, Space } from 'antd';
+import { BaseButton } from 'components';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { Image, Space } from 'antd';
 
 export const CreditReport = () => {
   return (

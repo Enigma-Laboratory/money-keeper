@@ -40,8 +40,8 @@ export class OrderService {
 
   public async updateOneOrder(params: UpdateOrderParams): Promise<void> {
     try {
-      const order = await OrderApiService.instance.updateOneOrder(params);
-      const { rows: orders } = orderStore.getModel();
+      // const order = await OrderApiService.instance.updateOneOrder(params);
+      // const { rows: orders } = orderStore.getModel();
       // orderStore.updateModel({
       //   rows: [...orders, order],
       // });

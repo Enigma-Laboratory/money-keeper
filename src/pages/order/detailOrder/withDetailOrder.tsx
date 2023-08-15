@@ -7,7 +7,6 @@ import {
   Order,
   OrderService,
   UpdateOrderParams,
-  orderStore,
 } from 'stores';
 export interface DetailOrderProps {
   data: {
@@ -50,6 +49,7 @@ export const withDetailOrderController = (Component: ComponentType<DetailOrderPr
       return await OrderService.instance.fetchOneOrder(params);
     };
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const fetchInitData = async (id: string) => {
       const response = await fetchOneOrder({ id });
       setOrder(response);
@@ -58,7 +58,7 @@ export const withDetailOrderController = (Component: ComponentType<DetailOrderPr
     useEffect(() => {
       if (!id) return;
       fetchInitData(id);
-    }, [id]);
+    }, [id, fetchInitData]);
 
     const LogicProps: DetailOrderProps = {
       data: {

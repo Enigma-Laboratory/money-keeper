@@ -10,7 +10,7 @@ import { EditOrderProps } from './withEditOrder';
 
 export const EditOrder = (props: EditOrderProps) => {
   const {
-    data: { isLoading },
+    // data: { isLoading },
     dispatch: { updateOrder, deleteOrder, fetchOneOrder },
   } = props;
 
@@ -33,7 +33,7 @@ export const EditOrder = (props: EditOrderProps) => {
       }
     };
     id && handleFetchOneOder(id);
-  }, [id]);
+  }, [id, fetchOneOrder]);
 
   const onFinish = async (values: CreateOrderParams): Promise<void> => {
     try {
@@ -64,7 +64,7 @@ export const EditOrder = (props: EditOrderProps) => {
       userId: order?.userId,
       orderName: order?.orderName,
     });
-  }, [order]);
+  }, [order, form, id]);
 
   const breadcrumb = () => {
     return (
