@@ -4283,6 +4283,13 @@ enhanced-resolve@^5.14.1:
     graceful-fs "^4.2.4"
     tapable "^2.2.0"
 
+enigma-laboratory-sdk@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/enigma-laboratory-sdk/-/enigma-laboratory-sdk-1.0.4.tgz#e089504beb2e2c8bca4e17809e2fd318c509b28a"
+  integrity sha512-PhtAVWW6o06eXfZKMfMlN6pzBB5AcGPjNnh+hr0SEchLeyK5UO0dLG068NueAVsrktDgRwdDPNNO+n0sRoxFBw==
+  dependencies:
+    typescript "^5.1.6"
+
 entities@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/entities/-/entities-2.2.0.tgz#098dc90ebb83d8dffa089d55256b351d34c4da55"
@@ -9637,6 +9644,11 @@ typescript@^5.0.4:
   version "5.0.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.0.4.tgz#b217fd20119bd61a94d4011274e0ab369058da3b"
   integrity sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==
+
+typescript@^5.1.6:
+  version "5.1.6"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.1.6.tgz#02f8ac202b6dad2c0dd5e0913745b47a37998274"
+  integrity sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==
 
 unbox-primitive@^1.0.2:
   version "1.0.2"

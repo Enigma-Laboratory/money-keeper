@@ -19,7 +19,7 @@ export class OrderDetailApiService extends ApiServiceEndPoint {
 
   constructor() {
     super();
-    this.endPoint = `${this.endPoint}/${HttpConfig.ORDER_DETAIL}`;
+    this.endPoint = `${this.endPoint}/${HttpConfig.ORDER_DETAILS}`;
   }
 
   public async fetchAllOrderDetail(): Promise<FindAllOrderDetailResponse> {

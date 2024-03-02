@@ -1,8 +1,9 @@
 export const HttpConfig = {
   AUTH: 'auth',
-  ORDER: 'order',
-  PRODUCT: 'product',
-  ORDER_DETAIL: 'order-detail',
+  ORDERS: 'orders',
+  PRODUCTS: 'products',
+  ORDER_DETAILS: 'order-details',
+  USERS: 'users',
 };
 
 export const HttpConfigOrder = {
