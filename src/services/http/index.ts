@@ -1,2 +1,2 @@
-export * from "./HttpClientService";
-export * from "./HttpConfig";
+export * from './HttpClientService';
+export * from './HttpConfig';

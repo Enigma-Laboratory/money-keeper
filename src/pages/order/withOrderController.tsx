@@ -1,6 +1,8 @@
 import { ComponentType, useEffect, useState } from 'react';
-import { Order, OrderService, orderStore } from 'stores';
+import { OrderService, orderStore } from 'stores';
 import { useObservable } from 'stores/useObservable';
+import { Order } from 'enigma-laboratory-sdk';
+
 export interface OrderProps {
   data?: {
     isLoading: boolean;

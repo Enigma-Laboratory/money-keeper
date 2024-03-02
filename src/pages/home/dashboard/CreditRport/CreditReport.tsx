@@ -1,16 +1,10 @@
-import React from "react";
-import { CreditReportStyled } from "./CreditReport.styles";
+import React from 'react';
+import { CreditReportStyled } from './CreditReport.styles';
 
-import { AreaChart, BaseButton } from "components";
+import { AreaChart, BaseButton } from 'components';
 
-import {
-  EllipsisOutlined,
-  UserOutlined,
-  DeleteOutlined,
-  LeftOutlined,
-  RightOutlined,
-} from "@ant-design/icons";
-import { Button, Carousel, Image, Space } from "antd";
+import { EllipsisOutlined, UserOutlined, DeleteOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { Button, Carousel, Image, Space } from 'antd';
 
 export const CreditReport = () => {
   return (
@@ -18,11 +12,11 @@ export const CreditReport = () => {
       bordered={false}
       style={{
         width: 300,
-        borderRadius: "20",
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        alignItems: "center",
+        borderRadius: '20',
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center',
       }}
     >
       <div className="header">
@@ -36,8 +30,8 @@ export const CreditReport = () => {
           width={100}
           height={100}
           preview={false}
-          src={require("assets/images/payment.jpg")}
-          style={{ borderRadius: "50%" }}
+          src={require('assets/images/payment.jpg')}
+          style={{ borderRadius: '50%' }}
         />
         <BaseButton>
           <RightOutlined />
