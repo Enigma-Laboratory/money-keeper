@@ -6,7 +6,6 @@ import { Landing } from 'pages/landing';
 import { OrderScreen } from 'pages/order';
 import { CreateOrderScreen } from 'pages/order/createOrder';
 import { EditOrderScreen } from 'pages/order/detailOrder/editOrder';
-import { ReactElement } from 'react';
 import { DetailOrderScreen } from 'pages/order/detailOrder';
 
 const ROUTE_PATH = '/';
@@ -14,13 +13,13 @@ const ROUTE_PATH = '/';
 export interface RouteComponent {
   name: string;
   path: string;
-  component: ReactElement;
+  component: JSX.Element;
 }
 
 const getPath = (path: string): string => `${ROUTE_PATH}${path}`;
 
 export const routePaths = {
-  landing: getPath(''),
+  landing: getPath('/'),
   home: getPath('/home'),
   about: getPath('/about'),
   contact: getPath('/contact'),

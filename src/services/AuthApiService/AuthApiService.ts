@@ -30,7 +30,7 @@ export class AuthApiService extends ApiServiceEndPoint {
     return await HttpClientService.httpGet<User>(endpoint);
   }
 
-  public async signIn(params: { email: string; password: string }): Promise<any> {
+  public async signIn(params: { email: string; password: string }): Promise<{ token: string }> {
     const endpoint = `${this.endPoint}/${HttpConfigAuth.SIGN_IN}`;
     return await HttpClientService.httpPost<any>(endpoint, params);
   }

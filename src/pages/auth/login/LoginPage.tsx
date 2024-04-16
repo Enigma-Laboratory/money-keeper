@@ -5,14 +5,16 @@ import { Row, Col, Layout, Card, Typography, Form, Input, Button, theme } from '
 import { layoutStyles, containerStyles, titleStyles, headStyles, bodyStyles } from './LoginPage.styles';
 
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { AuthApiService } from 'services/AuthApiService';
+import { Link, useNavigate } from 'react-router-dom';
+import { authProvider } from 'context/authProvider';
 
-export const LoginPage: React.FC = () => {
+export const LoginPage: React.FC<{ setIsLoggedIn: (value: boolean) => void }> = ({ setIsLoggedIn }) => {
   const { token } = theme.useToken();
   const { t } = useTranslation('auth');
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   const CardTitle = (
     <Typography.Title
@@ -26,11 +28,14 @@ export const LoginPage: React.FC = () => {
     </Typography.Title>
   );
 
-  const handleOnSubmit = async (values: { email: string; password: string }): Promise<void> => {
+  const handleOnSubmit = async (params: { email: string; password: string }): Promise<void> => {
     setIsLoading(true);
     try {
-      const data = await AuthApiService.instance.signIn(values);
-      console.log(data);
+      const { success, redirectTo } = await authProvider.login(params);
+      if (success && !!redirectTo) {
+        setIsLoggedIn(true);
+        navigate(redirectTo);
+      }
     } catch (error) {
       console.log('Can not login :', error);
     } finally {

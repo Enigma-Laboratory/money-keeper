@@ -3,15 +3,15 @@ import React, { ReactElement, ReactNode } from 'react';
 type AuthenticatedProps = {
   key: React.Key;
   fallback?: ReactNode;
-  redirectOnFail?: string | true;
+  isLoggedIn?: boolean;
   loading?: ReactNode;
   children?: ReactNode;
 };
 
 export const Authenticated = (props: AuthenticatedProps): ReactElement => {
-  const { children, redirectOnFail, fallback } = props;
+  const { children, isLoggedIn, fallback } = props;
 
-  if (redirectOnFail) {
+  if (!isLoggedIn) {
     return <>{fallback}</>;
   }
 
