@@ -18,7 +18,7 @@ export const renderRouteComponent = (routes: RouteComponent[]) => {
         }
       >
         {routes.map((route) => (
-          <Route path={route.path} element={route.component} />
+          <Route key={route.name} path={route.path} element={route.component} />
         ))}
       </Route>
 

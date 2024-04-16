@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Row, Col, Layout, Card, Typography, Form, Input, Button, theme } from 'antd';
 
@@ -6,10 +6,13 @@ import { layoutStyles, containerStyles, titleStyles, headStyles, bodyStyles } fr
 
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { AuthApiService } from 'services/AuthApiService';
 
 export const LoginPage: React.FC = () => {
   const { token } = theme.useToken();
   const { t } = useTranslation('auth');
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const CardTitle = (
     <Typography.Title
@@ -23,6 +26,18 @@ export const LoginPage: React.FC = () => {
     </Typography.Title>
   );
 
+  const handleOnSubmit = async (values: { email: string; password: string }): Promise<void> => {
+    setIsLoading(true);
+    try {
+      const data = await AuthApiService.instance.signIn(values);
+      console.log(data);
+    } catch (error) {
+      console.log('Can not login :', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const CardContent = (
     <Card
       title={CardTitle}
@@ -33,7 +48,7 @@ export const LoginPage: React.FC = () => {
         backgroundColor: token.colorBgElevated,
       }}
     >
-      <Form layout="vertical" onFinish={(values) => {}} requiredMark={false}>
+      <Form layout="vertical" onFinish={handleOnSubmit} requiredMark={false}>
         <Form.Item
           name="email"
           label={t('register.email', 'Email')}
@@ -73,8 +88,8 @@ export const LoginPage: React.FC = () => {
             marginBottom: 0,
           }}
         >
-          <Button type="primary" size="large" htmlType="submit" block>
-            {t('pages.register.btnSubmit', 'Register')}
+          <Button type="primary" size="large" htmlType="submit" loading={isLoading} block>
+            {t('pages.register.btnSubmit', 'Sign in')}
           </Button>
         </Form.Item>
       </Form>
