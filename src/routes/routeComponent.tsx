@@ -7,6 +7,7 @@ import { OrderScreen } from 'pages/order';
 import { CreateOrderScreen } from 'pages/order/createOrder';
 import { EditOrderScreen } from 'pages/order/detailOrder/editOrder';
 import { DetailOrderScreen } from 'pages/order/detailOrder';
+import { Dashboard } from 'pages/dashboard';
 
 const ROUTE_PATH = '/';
 
@@ -34,7 +35,7 @@ export const routeComponents: RouteComponent[] = [
   {
     name: 'landing',
     path: routePaths.landing,
-    component: <Landing />,
+    component: <Dashboard />,
   },
   {
     name: 'home',

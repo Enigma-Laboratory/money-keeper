@@ -1,1 +1,5 @@
-export * from './auth';
+import auth from './auth';
+
+export const en = {
+  auth,
+};

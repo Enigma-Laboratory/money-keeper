@@ -39,7 +39,7 @@ export const LayoutMain = (props: LayoutMainProps) => {
             style={{
               padding: 14,
               margin: 0,
-              background: colorBgContainer,
+              overflowY: 'auto',
             }}
           >
             {children}

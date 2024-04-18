@@ -23,7 +23,7 @@ export const Dashboard = (): ReactElement => {
         />
       </div>
       <div className="cards">
-        <Information />
+        {/* <Information /> */}
         <DisputeProgress />
         <CreditReport />
         <CreditByCategory />

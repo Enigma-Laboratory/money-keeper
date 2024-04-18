@@ -26,6 +26,11 @@ export const options = {
       text: 'Chart.js Line Chart',
     },
   },
+  elements: {
+    line: {
+      tension: 0.4,
+    },
+  },
 };
 
 const labels = ['April', 'May', 'June', 'July'];
@@ -36,7 +41,7 @@ export const data = {
     {
       fill: true,
       label: 'Dataset 2',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 10000 })),
       borderColor: 'rgb(53, 162, 235)',
       backgroundColor: 'rgba(53, 162, 235, 0.5)',
     },
