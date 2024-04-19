@@ -10,7 +10,7 @@ import { authProvider } from 'context/authProvider';
 
 export const LoginPage: React.FC<{ setIsLoggedIn: (value: boolean) => void }> = ({ setIsLoggedIn }) => {
   const { token } = theme.useToken();
-  const { t } = useTranslation('auth');
+  const { t } = useTranslation();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -24,7 +24,7 @@ export const LoginPage: React.FC<{ setIsLoggedIn: (value: boolean) => void }> = 
         ...titleStyles,
       }}
     >
-      {t('register.title', 'Sign in to your account')}
+      {t('auth.login.title')}
     </Typography.Title>
   );
 
@@ -56,18 +56,18 @@ export const LoginPage: React.FC<{ setIsLoggedIn: (value: boolean) => void }> = 
       <Form layout="vertical" onFinish={handleOnSubmit} requiredMark={false}>
         <Form.Item
           name="email"
-          label={t('register.email', 'Email')}
+          label={t('auth.login.email')}
           rules={[
             { required: true },
             {
               type: 'email',
-              message: t('register.errors.validEmail', 'Invalid email address'),
+              message: t('auth.login.errors.validEmail'),
             },
           ]}
         >
-          <Input size="large" placeholder={t('register.email', 'Email')} />
+          <Input size="large" placeholder={t('auth.login.email')} />
         </Form.Item>
-        <Form.Item name="password" label={t('register.password', 'Password')} rules={[{ required: true }]}>
+        <Form.Item name="password" label={t('auth.login.password')} rules={[{ required: true }]}>
           <Input type="password" placeholder="●●●●●●●●" size="large" />
         </Form.Item>
         <div
@@ -85,7 +85,7 @@ export const LoginPage: React.FC<{ setIsLoggedIn: (value: boolean) => void }> = 
             }}
             to="/forgot-password"
           >
-            {t('pages.login.buttons.forgotPassword', 'Forgot password?')}
+            {t('auth.login.forgotPassword')}
           </Link>
         </div>
         <Form.Item
@@ -94,13 +94,13 @@ export const LoginPage: React.FC<{ setIsLoggedIn: (value: boolean) => void }> = 
           }}
         >
           <Button type="primary" size="large" htmlType="submit" loading={isLoading} block>
-            {t('pages.register.btnSubmit', 'Sign in')}
+            {t('auth.login.btnSubmit', 'Sign in')}
           </Button>
         </Form.Item>
       </Form>
       <div style={{ marginTop: 20 }}>
         <Typography.Text style={{ fontSize: 12 }}>
-          {t('pages.login.buttons.noAccount', 'Don’t have an account?')}{' '}
+          {t('auth.login.noAccount')}
           <Link
             to="/register"
             style={{
@@ -108,7 +108,7 @@ export const LoginPage: React.FC<{ setIsLoggedIn: (value: boolean) => void }> = 
               color: token.colorPrimaryTextHover,
             }}
           >
-            {t('pages.login.signup', 'Sign up')}
+            {t('auth.login.signup')}
           </Link>
         </Typography.Text>
       </div>

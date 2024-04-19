@@ -2,12 +2,12 @@ import { AboutScreen } from 'pages/about';
 import { ContactScreen } from 'pages/contact';
 import { HomeScreen } from 'pages/home';
 import { DetailedInvoice } from 'pages/home/analytic/DetailedInvoice';
-import { Landing } from 'pages/landing';
 import { OrderScreen } from 'pages/order';
 import { CreateOrderScreen } from 'pages/order/createOrder';
 import { EditOrderScreen } from 'pages/order/detailOrder/editOrder';
 import { DetailOrderScreen } from 'pages/order/detailOrder';
 import { Dashboard } from 'pages/dashboard';
+import { NotFound } from 'components/NotFound';
 
 const ROUTE_PATH = '/';
 
@@ -20,12 +20,12 @@ export interface RouteComponent {
 const getPath = (path: string): string => `${ROUTE_PATH}${path}`;
 
 export const routePaths = {
-  landing: getPath('/'),
+  dashboard: getPath('/'),
   home: getPath('/home'),
   about: getPath('/about'),
   contact: getPath('/contact'),
   detail: getPath('/detail'),
-  order: getPath('/order'),
+  orders: getPath('/orders'),
   detailOrder: getPath('order/detail-order/:id'),
   createOrder: getPath('order/create'),
   editOrder: getPath('order/edit/:id'),
@@ -33,8 +33,8 @@ export const routePaths = {
 
 export const routeComponents: RouteComponent[] = [
   {
-    name: 'landing',
-    path: routePaths.landing,
+    name: 'dashboard',
+    path: routePaths.dashboard,
     component: <Dashboard />,
   },
   {
@@ -59,7 +59,7 @@ export const routeComponents: RouteComponent[] = [
   },
   {
     name: 'order',
-    path: routePaths.order,
+    path: routePaths.orders,
     component: <OrderScreen />,
   },
   {
@@ -76,5 +76,10 @@ export const routeComponents: RouteComponent[] = [
     name: 'detail-order',
     path: routePaths.detailOrder,
     component: <DetailOrderScreen />,
+  },
+  {
+    name: 'page-not-found',
+    path: '*',
+    component: <NotFound />,
   },
 ];

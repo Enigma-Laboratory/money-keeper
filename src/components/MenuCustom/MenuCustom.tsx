@@ -1,9 +1,8 @@
-import React, { ReactElement, useState } from 'react';
-import { AppstoreOutlined, CalendarOutlined, LinkOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-import { Divider, Menu, Switch } from 'antd';
-import type { MenuProps, MenuTheme } from 'antd/es/menu';
+import React, { ReactElement, useEffect, useState } from 'react';
+import { AppstoreOutlined, MailOutlined } from '@ant-design/icons';
+import type { MenuProps } from 'antd/es/menu';
 import { BaseMenu } from '../BaseMenu';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -22,23 +21,33 @@ function getItem(
 }
 
 export const MenuCustom = (): ReactElement => {
+  const { pathname } = useLocation();
+  const [activeItem, setActiveItem] = useState<string[]>([]);
+
   const items: MenuItem[] = [
-    getItem(<a href="/">Dashboard</a>, 'Dashboard', <MailOutlined />),
-    getItem(<a href="/home">Home</a>, 'Home', <CalendarOutlined />),
-    getItem('Order', 'Order', <AppstoreOutlined />, [
-      getItem(<a href="/order">Order</a>, 'order'),
-      getItem(<a href="/order-detail">Order Detail</a>, 'order-detail'),
-    ]),
-    getItem('Setting', 'setting', <SettingOutlined />, [getItem(<a href="/setting/user">User</a>, 'user')]),
+    getItem(<Link to="/">Dashboard</Link>, 'dashboard', <MailOutlined />),
+    getItem(<Link to="/orders">Orders</Link>, 'orders', <AppstoreOutlined />),
+    getItem(<Link to="/customers">Customers</Link>, 'customers', <AppstoreOutlined />),
+    getItem(<Link to="/products">Products</Link>, 'products', <AppstoreOutlined />),
+    getItem(<Link to="/categories">Categories</Link>, 'categories', <AppstoreOutlined />),
+    getItem(<Link to="/logout">Logout</Link>, 'logout', <AppstoreOutlined />),
   ];
 
-  return (
-    <BaseMenu
-      mode="inline"
-      defaultSelectedKeys={['1']}
-      defaultOpenKeys={['sub1']}
-      style={{ height: '100%', borderRight: 0 }}
-      items={items}
-    />
-  );
+  useEffect(() => {
+    if (pathname === '/') {
+      setActiveItem(['dashboard']);
+    } else if (pathname === '/orders') {
+      setActiveItem(['orders']);
+    } else if (pathname === '/customers') {
+      setActiveItem(['customers']);
+    } else if (pathname === '/products') {
+      setActiveItem(['products']);
+    } else if (pathname === '/categories') {
+      setActiveItem(['categories']);
+    } else if (pathname === '/logout') {
+      setActiveItem(['logout']);
+    }
+  }, [pathname]);
+
+  return <BaseMenu selectedKeys={activeItem} mode="inline" style={{ height: '100%', borderRight: 0 }} items={items} />;
 };

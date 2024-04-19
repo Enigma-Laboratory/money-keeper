@@ -1,3 +1,12 @@
+/* eslint-disable import/no-anonymous-default-export */
 export default {
-  test: '123',
+  register: {
+    title: 'Đăng kí tài khoản',
+    email: 'Email',
+    password: 'Mật khẩu',
+    error: {
+      validEmail: 'Email không đúng định dạng',
+    },
+    btnSubmit: 'Đăng kí',
+  },
 };

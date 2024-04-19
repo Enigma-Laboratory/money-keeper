@@ -3,7 +3,7 @@ import { DashboardStyled } from './Dashboard.styles';
 import dayjs from 'dayjs';
 import { DashboardProps } from './withDashboardController';
 import { DailyRevenue } from './dailyRevenue';
-import { Col, Flex, Row, Typography, theme } from 'antd';
+import { Col, Flex, Row, Select, Typography, theme } from 'antd';
 import { CardWithContent, CardWithPlot } from 'components/CardWithPlot';
 import {
   ClockCircleOutlined,
@@ -91,6 +91,19 @@ export const DashboardPage = ({ data, dispatch }: DashboardProps) => {
 
   return (
     <DashboardStyled>
+      <div className="header">
+        <h3>{t('dashboard.overview', 'Overview')}</h3>
+        <Select
+          defaultValue={{ label: 'week' }}
+          style={{ width: 120 }}
+          options={[
+            {
+              label: 'week',
+              value: 'week',
+            },
+          ]}
+        />
+      </div>
       <Row gutter={[16, 16]}>
         <Col md={24}>
           <Row gutter={[16, 16]}>

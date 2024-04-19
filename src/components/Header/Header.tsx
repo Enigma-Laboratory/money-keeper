@@ -1,10 +1,18 @@
 import { BaseSearch } from '../BaseSearch';
-import { Avatar, Badge, Popover, Space } from 'antd';
-import { UserOutlined, MessageOutlined } from '@ant-design/icons';
+import { Avatar, Badge, Button, Popover, Space } from 'antd';
+import { UserOutlined, MessageOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import { HeaderLayoutStyled } from './Header.styles';
-export const HeaderLayout = () => {
+type HeaderLayoutProps = {
+  collapsed: boolean;
+  toggleCollapsed: () => void;
+};
+
+export const HeaderLayout = ({ collapsed, toggleCollapsed }: HeaderLayoutProps) => {
   return (
     <HeaderLayoutStyled>
+      <Button type="text" onClick={toggleCollapsed} style={{ marginBottom: 0 }}>
+        {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+      </Button>
       <div className="logo">
         <p className="title">Money Keeper</p>
         <p className="created-by"> by VietNam Team</p>

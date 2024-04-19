@@ -4,7 +4,7 @@ import { RouteComponent, routeComponents } from './routeComponent';
 import { Authenticated } from 'components/Authenticated';
 import { LayoutMain } from 'layouts/LayoutMain';
 import { LoginPage, RegisterPage } from 'pages/auth';
-import { CatchAllNavigate } from 'components/CatchAllNavigate/CatchAllNavigate';
+import { CatchAllNavigate } from 'components/CatchAllNavigate';
 import { authProvider } from 'context/authProvider';
 import { useMemo, useState } from 'react';
 

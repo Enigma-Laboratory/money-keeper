@@ -11,6 +11,7 @@ export const HeaderLayoutStyled = styled(Header)`
   justify-content: space-between;
   align-items: center;
   background: white;
+  padding: 0;
 
   .logo {
     flex-direction: column;
