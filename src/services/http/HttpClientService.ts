@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, CreateAxiosDefaults, AxiosResponse } from 'axios';
+import { TOKEN_KEY } from 'context/authProvider';
 
 export class HttpClientService {
   private static _instance: AxiosInstance;
@@ -20,6 +21,7 @@ export class HttpClientService {
 
   public static async httpGet<T = any>(requestUri: string, options?: AxiosRequestConfig): Promise<T> {
     const config = await this.getConfig(options);
+    console.log('🚀 ~ HttpClientService ~ config:', config);
 
     const response: AxiosResponse = await HttpClientService.instance.get(requestUri, config);
     return response.data as T;
@@ -54,7 +56,7 @@ export class HttpClientService {
     const { headers: customHeaders, ...remainingCustomOptions } = customOptions ?? {};
     const additionalHeader = customHeaders ?? (await this.generateHeaders());
     return {
-      header: {
+      headers: {
         ...HttpClientService.instance.defaults.headers,
         ...additionalHeader,
       },
@@ -63,7 +65,10 @@ export class HttpClientService {
   }
 
   private static async generateHeaders() {
-    const customHeaders = {};
+    const token = localStorage.getItem(TOKEN_KEY);
+    const customHeaders = {
+      Authorization: `Bearer ${token}`,
+    };
     return {
       ...customHeaders,
     };
