@@ -1,11 +1,11 @@
 import { ComponentType, useState } from 'react';
-import { CreateOrderParams, OrderService } from 'stores';
+import { CreateOneOrderParams, OrderService } from 'stores';
 export interface CreateOrderProps {
   data?: {
     isLoading: boolean;
   };
   dispatch?: {
-    createOrder: (params: CreateOrderParams) => Promise<void>;
+    createOrder: (params: CreateOneOrderParams) => Promise<void>;
   };
 }
 
@@ -13,7 +13,7 @@ export const withCreateOrderController = <P,>(Component: ComponentType<P>): Comp
   return (props: P) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    const createOrder = async (params: CreateOrderParams): Promise<void> => {
+    const createOrder = async (params: CreateOneOrderParams): Promise<void> => {
       setIsLoading(true);
       try {
         await OrderService.instance.createOneOrder(params);

@@ -2,13 +2,13 @@ import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
 import { HttpClientService } from '../http';
 import { HttpConfig, HttpConfigOrder } from '../http';
 import {
-  CreateOrderParams,
-  DeleteOrderParams,
+  CreateOneOrderParams,
+  DeleteOneOrderParams,
   FindAllOrderResponse,
   FindOneOrderParams,
   Order,
-  UpdateOrderParams,
-} from 'stores/order';
+  UpdateOneOrderParams,
+} from '@enigma-laboratory/shared';
 
 export class OrderApiService extends ApiServiceEndPoint {
   private static _instance: OrderApiService;
@@ -26,22 +26,22 @@ export class OrderApiService extends ApiServiceEndPoint {
     return await HttpClientService.httpGet<FindAllOrderResponse>(this.endPoint);
   }
   public async fetchOneOrder(params: FindOneOrderParams): Promise<Order> {
-    const endpoint = `${this.endPoint}/${HttpConfigOrder.GET_ONE_ORDER}/${params.id}`;
+    const endpoint = `${this.endPoint}/${HttpConfigOrder.GET_ONE_ORDER}/${params._id}`;
     return await HttpClientService.httpGet<Order>(endpoint);
   }
 
-  public async createOneOrder(params: CreateOrderParams): Promise<Order> {
+  public async createOneOrder(params: CreateOneOrderParams): Promise<Order> {
     const endpoint = `${this.endPoint}/${HttpConfigOrder.CREATE_ORDER}`;
     return await HttpClientService.httpPost<Order>(endpoint, params);
   }
 
-  public async updateOneOrder(params: UpdateOrderParams): Promise<Order> {
+  public async updateOneOrder(params: UpdateOneOrderParams): Promise<Order> {
     const endpoint = `${this.endPoint}/${HttpConfigOrder.UPDATE_ORDER}`;
     return await HttpClientService.httpPatch<Order>(endpoint, params);
   }
 
-  public async deleteOneOrder(params: DeleteOrderParams): Promise<any> {
-    const endpoint = `${this.endPoint}/${HttpConfigOrder.DELETE_ORDER}/${params.id}`;
+  public async deleteOneOrder(params: DeleteOneOrderParams): Promise<any> {
+    const endpoint = `${this.endPoint}/${HttpConfigOrder.DELETE_ORDER}/${params._id}`;
     return await HttpClientService.httpDelete<any>(endpoint);
   }
 }

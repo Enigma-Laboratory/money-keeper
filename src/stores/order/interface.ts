@@ -12,18 +12,18 @@ export interface Order {
   updatedAt: Date;
 }
 
-export interface DeleteOrderParams extends getOneParams {}
+export interface DeleteOneOrderParams extends getOneParams {}
 
 export interface DeleteOrderResponse {}
 
 export interface FindOneOrderParams extends getOneParams {}
 
-export interface FindAllOrderParams extends Partial<Order>, FindAllParams {}
+export interface FindAllOneOrderParams extends Partial<Order>, FindAllParams {}
 
 export interface FindOneOrderResponse extends Partial<Order> {}
 
 export interface FindAllOrderResponse extends FindAllResponse<Order> {}
 
-export interface UpdateOrderParams extends Partial<Order> {}
+export interface UpdateOneOrderParams extends Partial<Order> {}
 
-export interface CreateOrderParams extends Pick<Order, 'userId' | 'orderName'> {}
+export interface CreateOneOrderParams extends Pick<Order, 'userId' | 'orderName'> {}

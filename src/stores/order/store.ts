@@ -1,4 +1,4 @@
-import { Order } from './interface';
+import { Order } from '@enigma-laboratory/shared';
 import { FindAllResponse } from 'interface';
 import { BaseStore } from '../baseStore';
 

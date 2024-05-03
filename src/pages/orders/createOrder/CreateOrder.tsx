@@ -1,7 +1,7 @@
 import { Avatar, Breadcrumb, Form, Input, Space } from 'antd';
 import { CreateOrderStyled } from './CreateOrder.styles';
 import { CreateOrderProps } from './withCreateOrder';
-import { CreateOrderParams } from '/stores';
+import { CreateOneOrderParams } from '/stores';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppstoreOutlined, LeftOutlined } from '@ant-design/icons';
 import { BaseButton } from 'components';
@@ -10,7 +10,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
   const { data, dispatch } = props;
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const onFinish = async (values: CreateOrderParams): Promise<void> => {
+  const onFinish = async (values: CreateOneOrderParams): Promise<void> => {
     await dispatch?.createOrder(values);
     navigate(-1);
   };
