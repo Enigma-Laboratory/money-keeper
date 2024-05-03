@@ -1,11 +1,7 @@
-import { AboutScreen } from 'pages/about';
-import { ContactScreen } from 'pages/contact';
-import { HomeScreen } from 'pages/home';
-import { DetailedInvoice } from 'pages/home/analytic/DetailedInvoice';
-import { OrderScreen } from 'pages/order';
-import { CreateOrderScreen } from 'pages/order/createOrder';
-import { EditOrderScreen } from 'pages/order/detailOrder/editOrder';
-import { DetailOrderScreen } from 'pages/order/detailOrder';
+import { OrderScreen } from 'pages/orders';
+import { CreateOrderScreen } from 'pages/orders/createOrder';
+import { EditOrderScreen } from 'pages/orders/orderDetail/editOrder';
+import { OrderDetailScreen } from 'pages/orders/orderDetail';
 import { Dashboard } from 'pages/dashboard';
 import { NotFound } from 'components/NotFound';
 
@@ -21,13 +17,9 @@ const getPath = (path: string): string => `${ROUTE_PATH}${path}`;
 
 export const routePaths = {
   dashboard: getPath('/'),
-  home: getPath('/home'),
-  about: getPath('/about'),
-  contact: getPath('/contact'),
-  detail: getPath('/detail'),
   orders: getPath('/orders'),
-  detailOrder: getPath('order/detail-order/:id'),
-  createOrder: getPath('order/create'),
+  detailOrder: getPath('orders/detail/:id'),
+  createOrder: getPath('orders/create'),
   editOrder: getPath('order/edit/:id'),
 };
 
@@ -36,26 +28,6 @@ export const routeComponents: RouteComponent[] = [
     name: 'dashboard',
     path: routePaths.dashboard,
     component: <Dashboard />,
-  },
-  {
-    name: 'home',
-    path: routePaths.home,
-    component: <HomeScreen />,
-  },
-  {
-    name: 'about',
-    path: routePaths.about,
-    component: <AboutScreen />,
-  },
-  {
-    name: 'contact',
-    path: routePaths.contact,
-    component: <ContactScreen />,
-  },
-  {
-    name: 'detail',
-    path: routePaths.detail,
-    component: <DetailedInvoice />,
   },
   {
     name: 'order',
@@ -75,7 +47,7 @@ export const routeComponents: RouteComponent[] = [
   {
     name: 'detail-order',
     path: routePaths.detailOrder,
-    component: <DetailOrderScreen />,
+    component: <OrderDetailScreen />,
   },
   {
     name: 'page-not-found',

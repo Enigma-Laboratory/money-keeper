@@ -5,7 +5,7 @@ import {
   FindOneUserParams,
   UpdateOneUserParams,
   User,
-} from 'enigma-laboratory-sdk';
+} from '@enigma-laboratory/shared';
 import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
 import { HttpClientService, HttpConfigAuth } from '../http';
 import { HttpConfig } from '../http';
@@ -26,7 +26,7 @@ export class AuthApiService extends ApiServiceEndPoint {
     return await HttpClientService.httpGet<FindAllUserResponse>(this.endPoint);
   }
   public async fetchOneUser(params: FindOneUserParams): Promise<User> {
-    const endpoint = `${this.endPoint}/${HttpConfigAuth.GET_ONE_USER}/${params.id}`;
+    const endpoint = `${this.endPoint}/${HttpConfigAuth.GET_ONE_USER}/${params._id}`;
     return await HttpClientService.httpGet<User>(endpoint);
   }
 
@@ -46,7 +46,7 @@ export class AuthApiService extends ApiServiceEndPoint {
   }
 
   public async deleteOneUser(params: DeleteOneUserParams): Promise<any> {
-    const endpoint = `${this.endPoint}/${HttpConfigAuth.DELETE_USER}/${params.id}`;
+    const endpoint = `${this.endPoint}/${HttpConfigAuth.DELETE_USER}/${params._id}`;
     return await HttpClientService.httpDelete<any>(endpoint);
   }
 }

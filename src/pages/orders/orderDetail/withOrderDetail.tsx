@@ -21,7 +21,7 @@ export interface DetailOrderProps {
   };
 }
 
-export const withDetailOrderController = (Component: ComponentType<DetailOrderProps>): ComponentType => {
+export const withOrderDetailController = (Component: ComponentType<DetailOrderProps>): ComponentType => {
   return () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [order, setOrder] = useState<Order>();
@@ -55,10 +55,10 @@ export const withDetailOrderController = (Component: ComponentType<DetailOrderPr
       setOrder(response);
     };
 
-    useEffect(() => {
-      if (!id) return;
-      fetchInitData(id);
-    }, [id]);
+    // useEffect(() => {
+    //   if (!id) return;
+    //   fetchInitData(id);
+    // }, [id]);
 
     const LogicProps: DetailOrderProps = {
       data: {

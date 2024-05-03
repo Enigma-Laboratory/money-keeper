@@ -1419,6 +1419,14 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.5.tgz#77211291c1900a700b8a78cfafda3160d76949ed"
   integrity sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
 
+"@enigma-laboratory/shared@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@enigma-laboratory/shared/-/shared-1.0.2.tgz#15bd641cfecf5b302f94032c9626073d646379d6"
+  integrity sha512-zU8iTkhFC3e5HGG7daU/N9pL3gdaswcGiQqMfNnWRV7aj9RKJmClAgMnOnoH1BYNnNkyZwaYXbeZbIpCIr1Hsw==
+  dependencies:
+    "@types/node" "^20.3.1"
+    typescript "^5.1.6"
+
 "@eslint-community/eslint-utils@^4.2.0":
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/@eslint-community/eslint-utils/-/eslint-utils-4.4.0.tgz#a23514e8fb9af1269d5f7788aa556798d61c6b59"
@@ -2424,6 +2432,13 @@
   version "20.2.5"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-20.2.5.tgz#26d295f3570323b2837d322180dfbf1ba156fefb"
   integrity sha512-JJulVEQXmiY9Px5axXHeYGLSjhkZEnD+MDPDGbCbIAbMslkKwmygtZFy1X6s/075Yo94sf8GuSlFfPzysQrWZQ==
+
+"@types/node@^20.3.1":
+  version "20.12.8"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.12.8.tgz#35897bf2bfe3469847ab04634636de09552e8256"
+  integrity sha512-NU0rJLJnshZWdE/097cdCBbyW1h4hEg0xpovcoAQYHl8dnEyp/NAOiE45pvc+Bd1Dt+2r94v2eGFpQJ4R7g+2w==
+  dependencies:
+    undici-types "~5.26.4"
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -4483,13 +4498,6 @@ enhanced-resolve@^5.14.1:
   dependencies:
     graceful-fs "^4.2.4"
     tapable "^2.2.0"
-
-enigma-laboratory-sdk@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/enigma-laboratory-sdk/-/enigma-laboratory-sdk-1.0.4.tgz#e089504beb2e2c8bca4e17809e2fd318c509b28a"
-  integrity sha512-PhtAVWW6o06eXfZKMfMlN6pzBB5AcGPjNnh+hr0SEchLeyK5UO0dLG068NueAVsrktDgRwdDPNNO+n0sRoxFBw==
-  dependencies:
-    typescript "^5.1.6"
 
 entities@^2.0.0:
   version "2.2.0"
@@ -10248,6 +10256,11 @@ unbox-primitive@^1.0.2:
     has-bigints "^1.0.2"
     has-symbols "^1.0.3"
     which-boxed-primitive "^1.0.2"
+
+undici-types@~5.26.4:
+  version "5.26.5"
+  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.26.5.tgz#bcd539893d00b56e964fd2657a4866b221a65617"
+  integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.0"
