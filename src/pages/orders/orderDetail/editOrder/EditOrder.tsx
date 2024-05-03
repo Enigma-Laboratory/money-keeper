@@ -1,5 +1,5 @@
 import { Avatar, Breadcrumb, Form, Input, Space, notification } from 'antd';
-import { CreateOrderParams, Order } from 'stores';
+import { CreateOneOrderParams, Order } from '@enigma-laboratory/shared';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppstoreOutlined, LeftOutlined } from '@ant-design/icons';
 import { BaseButton } from 'components';
@@ -22,7 +22,7 @@ export const EditOrder = (props: EditOrderProps) => {
   useEffect(() => {
     const handleFetchOneOder = async (id: string) => {
       try {
-        const orderResponse = await fetchOneOrder({ id });
+        const orderResponse = await fetchOneOrder({ _id: id });
         setOrder(orderResponse);
       } catch {
         notification.error({
@@ -35,7 +35,7 @@ export const EditOrder = (props: EditOrderProps) => {
     id && handleFetchOneOder(id);
   }, [id]);
 
-  const onFinish = async (values: CreateOrderParams): Promise<void> => {
+  const onFinish = async (values: CreateOneOrderParams): Promise<void> => {
     try {
       await updateOrder({ ...order, ...values });
       notification.success({
@@ -54,7 +54,7 @@ export const EditOrder = (props: EditOrderProps) => {
   };
 
   const onDeleteOrder = async (): Promise<void> => {
-    await deleteOrder({ id });
+    await deleteOrder({ _id: id });
     navigate(-1);
   };
 
@@ -62,7 +62,7 @@ export const EditOrder = (props: EditOrderProps) => {
     if (!id) return;
     form.setFieldsValue({
       userId: order?.userId,
-      orderName: order?.orderName,
+      orderName: order?.name,
     });
   }, [order]);
 

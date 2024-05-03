@@ -4,6 +4,7 @@ export const HttpConfig = {
   PRODUCTS: 'products',
   ORDER_DETAILS: 'order-details',
   USERS: 'users',
+  OPERATIONAL_SETTINGS: 'operational-settings',
 };
 
 export const HttpConfigOrder = {

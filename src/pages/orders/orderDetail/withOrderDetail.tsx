@@ -1,22 +1,22 @@
 import { ComponentType, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
-  CreateOrderParams,
-  DeleteOrderParams,
+  CreateOneOrderParams,
+  DeleteOneOrderParams,
   FindOneOrderParams,
   Order,
-  OrderService,
-  UpdateOrderParams,
-  orderStore,
-} from 'stores';
+  UpdateOneOrderParams,
+} from '@enigma-laboratory/shared';
+import { OrderService, orderStore } from 'stores';
+
 export interface DetailOrderProps {
   data: {
     isLoading: boolean;
     order?: Order;
   };
   dispatch: {
-    updateOrder: (params: CreateOrderParams) => Promise<void>;
-    deleteOrder: (params: DeleteOrderParams) => Promise<void>;
+    updateOrder: (params: CreateOneOrderParams) => Promise<void>;
+    deleteOrder: (params: DeleteOneOrderParams) => Promise<void>;
     fetchOneOrder: (params: FindOneOrderParams) => Promise<Order>;
   };
 }
@@ -28,7 +28,7 @@ export const withOrderDetailController = (Component: ComponentType<DetailOrderPr
 
     const { id } = useParams<{ id: string }>();
 
-    const updateOrder = async (params: UpdateOrderParams): Promise<void> => {
+    const updateOrder = async (params: UpdateOneOrderParams): Promise<void> => {
       setIsLoading(true);
       try {
         await OrderService.instance.updateOneOrder(params);
@@ -37,7 +37,7 @@ export const withOrderDetailController = (Component: ComponentType<DetailOrderPr
       }
     };
 
-    const deleteOrder = async (params: DeleteOrderParams): Promise<void> => {
+    const deleteOrder = async (params: DeleteOneOrderParams): Promise<void> => {
       setIsLoading(true);
       try {
         await OrderService.instance.deleteOneOrder(params);
@@ -51,7 +51,7 @@ export const withOrderDetailController = (Component: ComponentType<DetailOrderPr
     };
 
     const fetchInitData = async (id: string) => {
-      const response = await fetchOneOrder({ id });
+      const response = await fetchOneOrder({ _id: id });
       setOrder(response);
     };
 

@@ -1,6 +1,12 @@
 import { OrderApiService } from 'services/OrderApiService';
 import { orderStore } from './store';
-import { CreateOrderParams, DeleteOrderParams, FindOneOrderParams, Order, UpdateOrderParams } from './interface';
+import {
+  CreateOneOrderParams,
+  DeleteOneOrderParams,
+  FindOneOrderParams,
+  Order,
+  UpdateOneOrderParams,
+} from '@enigma-laboratory/shared';
 
 export class OrderService {
   public static _instance: OrderService;
@@ -25,7 +31,7 @@ export class OrderService {
     return await OrderApiService.instance.fetchOneOrder(params);
   }
 
-  public async createOneOrder(params: CreateOrderParams): Promise<void> {
+  public async createOneOrder(params: CreateOneOrderParams): Promise<void> {
     try {
       const order = await OrderApiService.instance.createOneOrder(params);
       const { rows: orders, count } = orderStore.getModel();
@@ -38,7 +44,7 @@ export class OrderService {
     }
   }
 
-  public async updateOneOrder(params: UpdateOrderParams): Promise<void> {
+  public async updateOneOrder(params: UpdateOneOrderParams): Promise<void> {
     try {
       const order = await OrderApiService.instance.updateOneOrder(params);
       const { rows: orders } = orderStore.getModel();
@@ -50,12 +56,12 @@ export class OrderService {
     }
   }
 
-  public async deleteOneOrder(params: DeleteOrderParams): Promise<void> {
+  public async deleteOneOrder(params: DeleteOneOrderParams): Promise<void> {
     try {
       const response = await OrderApiService.instance.deleteOneOrder(params);
 
       const { rows: Orders, count } = orderStore.getModel();
-      const newOrders = Orders.filter((order) => order.id !== response.id);
+      const newOrders = Orders.filter((order) => order._id !== response.id);
       orderStore.updateModel({
         count: count - 1,
         rows: newOrders,
