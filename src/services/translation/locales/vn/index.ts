@@ -1,5 +1,6 @@
 import auth from './auth';
-
-export const vn = {
+import common from './common';
+export const vi = {
   auth,
+  common,
 };

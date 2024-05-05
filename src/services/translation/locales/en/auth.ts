@@ -4,7 +4,7 @@ export default {
     title: 'Register for your account',
     email: 'Email',
     password: 'Password',
-    error: {
+    errors: {
       validEmail: 'Invalid email address',
     },
     btnSubmit: 'Register',
@@ -13,7 +13,7 @@ export default {
     title: 'Login for your account',
     email: 'Email',
     password: 'Password',
-    error: {
+    errors: {
       validEmail: 'Invalid email address',
       password: 'Password',
     },

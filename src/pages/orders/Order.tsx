@@ -1,17 +1,16 @@
-import { ReactElement, useMemo } from 'react';
-import React from 'react';
+import { InsertRowRightOutlined } from '@ant-design/icons';
 import { Space, Spin, Table, Typography } from 'antd';
 import type { TableProps } from 'antd/es/table';
-import { OrderProps } from './withOrderController';
-import { OrderStyled } from './Order.styles';
 import { BaseButton } from 'components';
+import { OrderStatus } from 'components/OrderStatus';
+import { ReactElement, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { routePaths } from 'routes/routeComponent';
 import { getExactPath } from 'utils/getExactPath';
+import { OrderStyled } from './Order.styles';
+import { OrderProps } from './withOrderController';
 import { IOrder } from '/interface';
-import { useTranslation } from 'react-i18next';
-import { OrderStatus } from 'components/OrderStatus';
-import { InsertRowRightOutlined } from '@ant-design/icons';
 
 interface DataType {
   key: string;
@@ -1573,9 +1572,8 @@ export const Orders = (props: OrderProps): ReactElement => {
   const headerOrder = () => {
     return (
       <Space>
-        <Typography.Text>Orders</Typography.Text>
-
-        <BaseButton onClick={() => navigate(routePaths.createOrder)} type="primary" icon={<InsertRowRightOutlined />}>
+        <Typography.Title level={2}>{t('order.title', 'Order')}</Typography.Title>
+        <BaseButton onClick={() => navigate(routePaths.createOrder)} type="dashed" icon={<InsertRowRightOutlined />}>
           {t('orders.createOrder', 'Create order')}
         </BaseButton>
       </Space>

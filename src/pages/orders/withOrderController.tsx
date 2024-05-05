@@ -1,8 +1,9 @@
+import { Order } from '@enigma-laboratory/shared';
 import { ComponentType, useEffect, useMemo, useState } from 'react';
 import { OrderService, orderStore } from 'stores';
-import { useObservable } from 'stores/useObservable';
-import { Order } from '@enigma-laboratory/shared';
 import { OperationalSettingService } from 'stores/operationalSettings';
+import { useObservable } from 'stores/useObservable';
+import { UsersService } from 'stores/user';
 import { operationalSettingStore } from './../../stores/operationalSettings/store';
 
 export interface OrderProps {
@@ -27,27 +28,24 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
       try {
         await OrderService.instance.fetchAllOrder();
         await OperationalSettingService.instance.fetchAllOperationalSetting();
+        await UsersService.instance.fetchUsers();
       } finally {
         setIsLoading(false);
       }
     };
+
     const operationalSettingFetch = useMemo(() => {
       return orders.reduce(
         (acc, order) => {
           const { groupId } = order || {};
-          if (!groupId) return acc;
-          if (Object.keys(acc).some((key) => key === groupId)) {
-            acc[groupId] = [...acc[groupId], order];
-          } else {
-            acc[groupId] = [order];
+          if (groupId) {
+            acc[groupId] = [...(acc[groupId] || []), order];
           }
           return acc;
         },
         {} as { [groupId: string]: Order[] },
       );
     }, [orders]);
-
-    console.log(operationalSettingFetch);
 
     useEffect(() => {
       fetchAllOrder();

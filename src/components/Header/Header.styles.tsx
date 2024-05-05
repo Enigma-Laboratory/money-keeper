@@ -10,7 +10,7 @@ export const HeaderLayoutStyled = styled(Header)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: white;
+  /* background: white; */
   padding: 0;
 
   .logo {

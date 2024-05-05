@@ -1419,12 +1419,11 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.5.tgz#77211291c1900a700b8a78cfafda3160d76949ed"
   integrity sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
 
-"@enigma-laboratory/shared@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@enigma-laboratory/shared/-/shared-1.0.2.tgz#15bd641cfecf5b302f94032c9626073d646379d6"
-  integrity sha512-zU8iTkhFC3e5HGG7daU/N9pL3gdaswcGiQqMfNnWRV7aj9RKJmClAgMnOnoH1BYNnNkyZwaYXbeZbIpCIr1Hsw==
+"@enigma-laboratory/shared@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@enigma-laboratory/shared/-/shared-1.1.1.tgz#b01fcb27adcc404e93a662dbcf8dc5edca03d8e0"
+  integrity sha512-LdpoqAZ0RY0JDPrEOcZq5Ll+zZ6difNEx2nThdABoGr+KpaUn61WBQ2abdzmOBqhn+2B7QqvT4SNf6ivq2GgbQ==
   dependencies:
-    "@types/node" "^20.3.1"
     typescript "^5.1.6"
 
 "@eslint-community/eslint-utils@^4.2.0":
@@ -2432,13 +2431,6 @@
   version "20.2.5"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-20.2.5.tgz#26d295f3570323b2837d322180dfbf1ba156fefb"
   integrity sha512-JJulVEQXmiY9Px5axXHeYGLSjhkZEnD+MDPDGbCbIAbMslkKwmygtZFy1X6s/075Yo94sf8GuSlFfPzysQrWZQ==
-
-"@types/node@^20.3.1":
-  version "20.12.8"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.12.8.tgz#35897bf2bfe3469847ab04634636de09552e8256"
-  integrity sha512-NU0rJLJnshZWdE/097cdCBbyW1h4hEg0xpovcoAQYHl8dnEyp/NAOiE45pvc+Bd1Dt+2r94v2eGFpQJ4R7g+2w==
-  dependencies:
-    undici-types "~5.26.4"
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -10256,11 +10248,6 @@ unbox-primitive@^1.0.2:
     has-bigints "^1.0.2"
     has-symbols "^1.0.3"
     which-boxed-primitive "^1.0.2"
-
-undici-types@~5.26.4:
-  version "5.26.5"
-  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.26.5.tgz#bcd539893d00b56e964fd2657a4866b221a65617"
-  integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.0"

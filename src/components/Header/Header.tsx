@@ -1,6 +1,12 @@
+import { MenuFoldOutlined, MenuUnfoldOutlined, MessageFilled } from '@ant-design/icons';
+import { User } from '@enigma-laboratory/shared';
+import { Avatar, Badge, Button, Flex, Popover, Radio, Space, Typography, theme } from 'antd';
+import { Languages, Mode, useConfigProvider } from 'context';
+import { USER_IDENTITY } from 'context/authProvider';
+import { useLocalStorage } from 'hooks';
+import { useTranslation } from 'react-i18next';
+import { generateColorFromAlphabet } from 'utils';
 import { BaseSearch } from '../BaseSearch';
-import { Avatar, Badge, Button, Popover, Space } from 'antd';
-import { UserOutlined, MessageOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import { HeaderLayoutStyled } from './Header.styles';
 type HeaderLayoutProps = {
   collapsed: boolean;
@@ -8,8 +14,19 @@ type HeaderLayoutProps = {
 };
 
 export const HeaderLayout = ({ collapsed, toggleCollapsed }: HeaderLayoutProps) => {
+  const [user] = useLocalStorage<User>(USER_IDENTITY);
+
+  const { mode, setMode, locate, setLocate } = useConfigProvider();
+
+  const { t } = useTranslation('common');
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
+  const firstInitialName = user?.name?.charAt(0)?.toUpperCase() || 'unknown';
+
   return (
-    <HeaderLayoutStyled>
+    <HeaderLayoutStyled style={{ background: colorBgContainer }}>
       <Button type="text" onClick={toggleCollapsed} style={{ marginBottom: 0 }}>
         {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
       </Button>
@@ -34,25 +51,49 @@ export const HeaderLayout = ({ collapsed, toggleCollapsed }: HeaderLayoutProps) 
             trigger="click"
           >
             <Badge count={1} offset={[0, 5]}>
-              <Avatar shape="circle" size="large" icon={<MessageOutlined />} style={{ cursor: 'pointer' }} />
+              <Avatar shape="circle" size="default" icon={<MessageFilled />} style={{ cursor: 'pointer' }} />
             </Badge>
           </Popover>
 
           <Badge>
-            <Avatar shape="circle" size="large" icon={<UserOutlined />} />
+            <Avatar
+              shape="circle"
+              size="default"
+              style={{ background: `${generateColorFromAlphabet(firstInitialName)}` }}
+            >
+              {firstInitialName}
+            </Avatar>
           </Badge>
           <div className="info">
             <Popover
               content={
-                <div>
-                  <div>
-                    <p>Le Tu Tuan</p>
-                    <p>UIT</p>
-                  </div>
-                </div>
+                <Space direction="vertical" style={{ width: 300 }}>
+                  <Flex justify="space-between" align="center" gap={10}>
+                    <Typography.Text>{t('language.title')} </Typography.Text>
+                    <Radio.Group
+                      optionType="button"
+                      options={Object.values(Languages).map((value) => {
+                        return { value, label: t(`language.${value}`) };
+                      })}
+                      onChange={(e) => setLocate(e.target.value)}
+                      value={locate}
+                    />
+                  </Flex>
+                  <Flex justify="space-between" align="center" gap={10}>
+                    <Typography.Text>{t('mode.title')} </Typography.Text>
+                    <Radio.Group
+                      optionType="button"
+                      options={Object.values(Mode).map((value) => {
+                        return { value, label: t(`mode.${value}`) };
+                      })}
+                      value={mode}
+                      onChange={(e) => setMode(e.target.value)}
+                    />
+                  </Flex>
+                </Space>
               }
-              title="Title"
-              trigger="hover"
+              title={t('settings')}
+              trigger="click"
             >
               <p
                 style={{
@@ -62,7 +103,7 @@ export const HeaderLayout = ({ collapsed, toggleCollapsed }: HeaderLayoutProps) 
                   fontWeight: 'bold',
                 }}
               >
-                Le Tu Tuan
+                {user?.name}
               </p>
             </Popover>
             <p style={{ width: '100px', margin: 0 }}>admin</p>

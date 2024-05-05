@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 
-import { Row, Col, Layout, Card, Typography, Form, Input, Button, theme } from 'antd';
+import { Alert, Button, Card, Col, Form, Input, Layout, Row, Typography, theme } from 'antd';
 
-import { layoutStyles, containerStyles, titleStyles, headStyles, bodyStyles } from './LoginPage.styles';
+import { bodyStyles, containerStyles, headStyles, layoutStyles, titleStyles } from './LoginPage.styles';
 
+import { authProvider } from 'context/authProvider';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { authProvider } from 'context/authProvider';
 
 export const LoginPage: React.FC<{ setIsLoggedIn: (value: boolean) => void }> = ({ setIsLoggedIn }) => {
   const { token } = theme.useToken();
-  const { t } = useTranslation();
+  const { t } = useTranslation('auth');
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [isError, setIsError] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -24,7 +26,7 @@ export const LoginPage: React.FC<{ setIsLoggedIn: (value: boolean) => void }> = 
         ...titleStyles,
       }}
     >
-      {t('auth.login.title')}
+      {t('login.title')}
     </Typography.Title>
   );
 
@@ -37,7 +39,7 @@ export const LoginPage: React.FC<{ setIsLoggedIn: (value: boolean) => void }> = 
         navigate(redirectTo);
       }
     } catch (error) {
-      console.log('Can not login :', error);
+      setIsError(true);
     } finally {
       setIsLoading(false);
     }
@@ -53,21 +55,22 @@ export const LoginPage: React.FC<{ setIsLoggedIn: (value: boolean) => void }> = 
         backgroundColor: token.colorBgElevated,
       }}
     >
+      {isError && <Alert message={t('login.error.valid', 'Email or password not correct')} type="error" showIcon />}
       <Form layout="vertical" onFinish={handleOnSubmit} requiredMark={false}>
         <Form.Item
           name="email"
-          label={t('auth.login.email')}
+          label={t('login.email')}
           rules={[
             { required: true },
             {
               type: 'email',
-              message: t('auth.login.errors.validEmail'),
+              message: t('login.errors.validEmail'),
             },
           ]}
         >
-          <Input size="large" placeholder={t('auth.login.email')} />
+          <Input size="large" placeholder={t('login.email')} />
         </Form.Item>
-        <Form.Item name="password" label={t('auth.login.password')} rules={[{ required: true }]}>
+        <Form.Item name="password" label={t('login.password')} rules={[{ required: true }]}>
           <Input type="password" placeholder="●●●●●●●●" size="large" />
         </Form.Item>
         <div
@@ -85,7 +88,7 @@ export const LoginPage: React.FC<{ setIsLoggedIn: (value: boolean) => void }> = 
             }}
             to="/forgot-password"
           >
-            {t('auth.login.forgotPassword')}
+            {t('login.forgotPassword')}
           </Link>
         </div>
         <Form.Item
@@ -94,13 +97,13 @@ export const LoginPage: React.FC<{ setIsLoggedIn: (value: boolean) => void }> = 
           }}
         >
           <Button type="primary" size="large" htmlType="submit" loading={isLoading} block>
-            {t('auth.login.btnSubmit', 'Sign in')}
+            {t('login.btnSubmit')}
           </Button>
         </Form.Item>
       </Form>
       <div style={{ marginTop: 20 }}>
         <Typography.Text style={{ fontSize: 12 }}>
-          {t('auth.login.noAccount')}
+          {t('login.noAccount')}
           <Link
             to="/register"
             style={{
@@ -108,7 +111,7 @@ export const LoginPage: React.FC<{ setIsLoggedIn: (value: boolean) => void }> = 
               color: token.colorPrimaryTextHover,
             }}
           >
-            {t('auth.login.signup')}
+            {t('login.signup')}
           </Link>
         </Typography.Text>
       </div>

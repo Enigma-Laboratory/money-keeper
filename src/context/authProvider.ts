@@ -1,8 +1,10 @@
 import { notification } from 'antd';
 import { disableAutoLogin } from 'hooks';
 import { AuthApiService } from 'services/AuthApiService';
+import { UserApiService } from 'services/UserApiService';
 
 export const TOKEN_KEY = 'money-keeper-auth';
+export const USER_IDENTITY = 'user-identity-auth';
 
 export type SuccessNotificationResponse = {
   message: string;
@@ -48,7 +50,9 @@ type AuthProvider = {
 export const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
     const { token } = await AuthApiService.instance.signIn({ email, password });
+    const user = await UserApiService.instance.fetchOneUser({ email });
     localStorage.setItem(TOKEN_KEY, token);
+    localStorage.setItem(USER_IDENTITY, JSON.stringify(user));
     return {
       success: true,
       redirectTo: '/',
@@ -91,6 +95,7 @@ export const authProvider: AuthProvider = {
   logout: async () => {
     disableAutoLogin();
     localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_IDENTITY);
     return {
       success: true,
       redirectTo: '/login',
