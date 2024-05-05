@@ -1,6 +1,3 @@
-import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
-import { HttpClientService } from '../http';
-import { HttpConfig, HttpConfigOrder } from '../http';
 import {
   CreateOneOrderParams,
   DeleteOneOrderParams,
@@ -9,6 +6,8 @@ import {
   Order,
   UpdateOneOrderParams,
 } from '@enigma-laboratory/shared';
+import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
+import { HttpClientService, HttpConfig, HttpConfigOrder } from '../http';
 
 export class OrderApiService extends ApiServiceEndPoint {
   private static _instance: OrderApiService;
@@ -31,7 +30,7 @@ export class OrderApiService extends ApiServiceEndPoint {
   }
 
   public async createOneOrder(params: CreateOneOrderParams): Promise<Order> {
-    const endpoint = `${this.endPoint}/${HttpConfigOrder.CREATE_ORDER}`;
+    const endpoint = `${this.endPoint}`;
     return await HttpClientService.httpPost<Order>(endpoint, params);
   }
 

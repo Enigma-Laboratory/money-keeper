@@ -1,5 +1,3 @@
-import { OrderApiService } from 'services/OrderApiService';
-import { orderStore } from './store';
 import {
   CreateOneOrderParams,
   DeleteOneOrderParams,
@@ -7,6 +5,8 @@ import {
   Order,
   UpdateOneOrderParams,
 } from '@enigma-laboratory/shared';
+import { OrderApiService } from 'services/OrderApiService';
+import { orderStore } from './store';
 
 export class OrderService {
   public static _instance: OrderService;

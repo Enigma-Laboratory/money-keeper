@@ -1,9 +1,9 @@
+import { NotFound } from 'components/NotFound';
+import { Dashboard } from 'pages/dashboard';
 import { OrderScreen } from 'pages/orders';
 import { CreateOrderScreen } from 'pages/orders/createOrder';
-import { EditOrderScreen } from 'pages/orders/orderDetail/editOrder';
 import { OrderDetailScreen } from 'pages/orders/orderDetail';
-import { Dashboard } from 'pages/dashboard';
-import { NotFound } from 'components/NotFound';
+import { EditOrderScreen } from 'pages/orders/orderDetail/editOrder';
 
 const ROUTE_PATH = '/';
 
@@ -37,7 +37,15 @@ export const routeComponents: RouteComponent[] = [
   {
     name: 'order-create',
     path: routePaths.createOrder,
-    component: <CreateOrderScreen />,
+    component: (
+      <CreateOrderScreen
+        data={{
+          isLoading: false,
+          users: [],
+          operationalSettings: [],
+        }}
+      />
+    ),
   },
   {
     name: 'order-edit',

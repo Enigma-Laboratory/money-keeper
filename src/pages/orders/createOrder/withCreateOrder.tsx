@@ -1,16 +1,21 @@
-import { CreateOneOperationalSettingParams, OperationalSetting, User } from '@enigma-laboratory/shared';
+import {
+  CreateOneOperationalSettingParams,
+  CreateOneOrderParams,
+  OperationalSetting,
+  User,
+} from '@enigma-laboratory/shared';
 import { ComponentType, useEffect, useState } from 'react';
-import { CreateOneOrderParams, OrderService, useObservable } from 'stores';
+import { OrderService, useObservable } from 'stores';
 import { OperationalSettingService, operationalSettingStore } from 'stores/operationalSettings';
 import { UsersService, usersStore } from 'stores/user';
 export interface CreateOrderProps {
-  data?: {
+  data: {
     isLoading: boolean;
     users: User[];
     operationalSettings: OperationalSetting[];
   };
   dispatch?: {
-    createOrder: (params: CreateOneOrderParams) => Promise<void>;
+    createOneOrder: (params: CreateOneOrderParams) => Promise<void>;
     createOperationalSettings: (params: CreateOneOperationalSettingParams) => Promise<void>;
   };
 }
@@ -21,7 +26,7 @@ export const withCreateOrderController = <P,>(Component: ComponentType<P>): Comp
     const { rows: users } = useObservable(usersStore.model);
     const { rows: operationalSettings } = useObservable(operationalSettingStore.model);
 
-    const createOrder = async (params: CreateOneOrderParams): Promise<void> => {
+    const createOneOrder = async (params: CreateOneOrderParams): Promise<void> => {
       await OrderService.instance.createOneOrder(params);
     };
 
@@ -50,7 +55,7 @@ export const withCreateOrderController = <P,>(Component: ComponentType<P>): Comp
         operationalSettings,
       },
       dispatch: {
-        createOrder,
+        createOneOrder,
         createOperationalSettings,
       },
     };

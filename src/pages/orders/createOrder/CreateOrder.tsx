@@ -1,14 +1,16 @@
 import { AppstoreOutlined, LeftOutlined, MinusCircleOutlined, PlusOutlined, RightOutlined } from '@ant-design/icons';
-import { User } from '@enigma-laboratory/shared';
+import { CreateOneOrderParams, Order, User } from '@enigma-laboratory/shared';
 import {
   Breadcrumb,
   Button,
   Col,
   DatePicker,
+  Divider,
   Flex,
   Form,
   Input,
   InputNumber,
+  InputRef,
   Result,
   Row,
   Select,
@@ -21,10 +23,9 @@ import {
 import { CardWithContent } from 'components/CardWithPlot';
 import { USER_IDENTITY } from 'context/authProvider';
 import { useLocalStorage } from 'hooks';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { CreateOneOrderParams } from 'stores';
 import { CreateOrderStyled } from './CreateOrder.styles';
 import { OrderConfirm } from './orderConfirm';
 import { CreateOrderProps } from './withCreateOrder';
@@ -40,26 +41,38 @@ export const CreateOrder = (props: CreateOrderProps) => {
   const { data, dispatch } = props;
   const { users, operationalSettings, isLoading } = data || {};
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t } = useTranslation('order');
   const { token } = theme.useToken();
   const [user] = useLocalStorage<User>(USER_IDENTITY);
+  const [currentOrderStep, setCurrentOrderStep] = useState(CreateOrderSteps.INFORMATION);
+  const [order, setOrder] = useState<CreateOneOrderParams>({ userId: user?._id });
+  const [isLoadingCreateOrder, setIsLoadingCreateOrder] = useState<boolean>(false);
+  const [isLoadingCreateGroup, setIsLoadingCreateGroup] = useState<boolean>(false);
 
-  const [form] = Form.useForm();
-  const onFinish = async (values: CreateOneOrderParams): Promise<void> => {
-    await dispatch?.createOrder(values);
-    navigate(-1);
+  const updateOrderParams = (params: CreateOneOrderParams) => {
+    setOrder((prevOrder) => ({ ...prevOrder, ...params }));
   };
 
+  const handleCreateOrder = async () => {
+    setIsLoadingCreateOrder(true);
+    try {
+      await dispatch?.createOneOrder(order);
+    } catch {
+      message.error('can not create order');
+    } finally {
+      setIsLoadingCreateOrder(false);
+    }
+  };
+
+  const [form] = Form.useForm();
+
   const formatToVnd = (value: any) => {
-    // Remove any non-numeric characters
     const numericValue = value.replace(/\D/g, '');
-    // Format the numeric value to VND format
     const formattedValue = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(numericValue);
     return formattedValue;
   };
 
   const parseFromVnd = (value: any) => {
-    // Remove any non-numeric characters
     const numericValue = value.replace(/\D/g, '');
     return numericValue;
   };
@@ -79,13 +92,58 @@ export const CreateOrder = (props: CreateOrderProps) => {
     );
   };
 
-  const steps = [
+  const nextCurrentOrderStep = () => {
+    form
+      .validateFields()
+      .then(async () => {
+        const formValues = form.getFieldsValue();
+        updateOrderParams({ ...formValues });
+        if (currentOrderStep === CreateOrderSteps.CONFIRM) {
+          await handleCreateOrder();
+          setCurrentOrderStep(currentOrderStep + 1);
+        } else {
+          setCurrentOrderStep(currentOrderStep + 1);
+        }
+      })
+      .catch((errorInfo) => {
+        console.log('Validation failed:', errorInfo);
+      });
+  };
+
+  const prevCurrentOrderStep = () => {
+    setCurrentOrderStep(currentOrderStep - 1);
+  };
+
+  const inputRef = useRef<InputRef>(null);
+  const [groupName, setGroupName] = useState('');
+
+  const handleCreateOperationalSetting = async (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    e.preventDefault();
+    setIsLoadingCreateGroup(true);
+    try {
+      await dispatch?.createOperationalSettings({ name: groupName });
+      setGroupName('');
+    } finally {
+      setIsLoadingCreateGroup(false);
+    }
+  };
+
+  const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGroupName(event.target.value);
+  };
+
+  const createOrderBySteps = [
     {
       key: CreateOrderSteps.INFORMATION,
       content: (
         <>
-          <Form.Item label="Group" name="GroupId" rules={[{ required: true, message: 'Please input your Group!' }]}>
+          <Form.Item
+            label={t('form.group.title')}
+            name="groupId"
+            rules={[{ required: true, message: t('form.group.message') }]}
+          >
             <Select
+              showSearch
               loading={isLoading}
               options={operationalSettings
                 ?.filter(({ status }) => status === 'opening')
@@ -95,36 +153,63 @@ export const CreateOrder = (props: CreateOrderProps) => {
                     value: _id,
                   };
                 })}
-            />
-          </Form.Item>
-
-          <Form.Item label="Buyer" name="userId" rules={[{ required: true, message: 'Please input your Group!' }]}>
-            <Select
-              loading={isLoading}
-              options={users?.map(({ _id, name }) => {
-                return {
-                  label: name,
-                  value: _id,
-                };
-              })}
-              defaultValue={user?._id}
+              placeholder={t('form.group.message')}
+              dropdownRender={(menu) => (
+                <>
+                  {menu}
+                  <Divider style={{ margin: '8px 0' }} />
+                  <Space style={{ padding: '0 8px 4px' }}>
+                    <Input
+                      placeholder="Please enter new group"
+                      ref={inputRef}
+                      value={groupName}
+                      onChange={onNameChange}
+                      onKeyDown={(e) => e.stopPropagation()}
+                    />
+                    <Button
+                      type="text"
+                      icon={<PlusOutlined />}
+                      onClick={handleCreateOperationalSetting}
+                      loading={isLoadingCreateGroup}
+                    >
+                      Create
+                    </Button>
+                  </Space>
+                </>
+              )}
             />
           </Form.Item>
 
           <Form.Item
-            label="Order Name"
+            label={t('form.buyer.title')}
+            name="userId"
+            rules={[{ required: true, message: t('form.buyer.message') }]}
+            initialValue={user?._id}
+          >
+            <Select
+              loading={isLoading}
+              options={users?.map(({ _id, name }) => ({
+                label: name,
+                value: _id,
+              }))}
+              value={user?._id}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label={t('form.order.title')}
             name="name"
-            rules={[{ required: true, message: 'Please input your order name!' }]}
+            rules={[{ required: true, message: t('form.order.message') }]}
           >
             <Input />
           </Form.Item>
 
           <Form.Item
-            label="Created Order At"
-            name="CreatedOrderAt"
-            rules={[{ required: true, message: 'Please input your order name!' }]}
+            label={t('form.createdOrderAt.title')}
+            name="createdOrderAt"
+            rules={[{ required: true, message: t('form.createdOrderAt.message') }]}
           >
-            <DatePicker />
+            <DatePicker format={'YYYY-MM-DD'} />
           </Form.Item>
         </>
       ),
@@ -133,11 +218,12 @@ export const CreateOrder = (props: CreateOrderProps) => {
       key: CreateOrderSteps.PRODUCT,
       content: (
         <div>
-          <Flex style={{ width: '100%' }} justify="space-between">
-            <Typography.Text style={{ width: 150 }}>ProductName</Typography.Text>
-            <Typography.Text>UserIds</Typography.Text>
-            <Typography.Text>Price</Typography.Text>
+          <Flex style={{ width: '100%', fontWeight: 'bold', marginTop: 10 }} justify="space-between">
+            <Typography.Text style={{ width: 300 }}>{t('form.product.name')}</Typography.Text>
+            <Typography.Text style={{ width: '100%' }}>{t('form.product.userIds')}</Typography.Text>
+            <Typography.Text style={{ width: 300 }}>{t('form.product.price')}</Typography.Text>
           </Flex>
+          <Divider />
           <Form.List name="products">
             {(fields, { add, remove }) => (
               <>
@@ -147,7 +233,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
                       {...restField}
                       name={[name, 'name']}
                       style={{ width: 300 }}
-                      rules={[{ required: true, message: 'Missing product name' }]}
+                      rules={[{ required: true, message: t('form.product.messageRequiredName') }]}
                     >
                       <Input placeholder="Product Name" />
                     </Form.Item>
@@ -156,7 +242,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
                       {...restField}
                       name={[name, 'userIds']}
                       style={{ width: '100%' }}
-                      rules={[{ required: true, message: 'Missing users' }]}
+                      rules={[{ required: true, message: t('form.product.messageRequiredUserIds') }]}
                     >
                       <Select
                         loading={isLoading}
@@ -176,7 +262,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
                       {...restField}
                       name={[name, 'price']}
                       style={{ width: 300 }}
-                      rules={[{ required: true, message: 'Missing price' }]}
+                      rules={[{ required: true, message: t('form.product.price') }]}
                     >
                       <InputNumber addonBefore="$" placeholder="Price" formatter={formatToVnd} parser={parseFromVnd} />
                     </Form.Item>
@@ -186,7 +272,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
                 ))}
                 <Form.Item>
                   <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                    Add product
+                    {t('form.addProduct')}
                   </Button>
                 </Form.Item>
               </>
@@ -197,7 +283,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
     },
     {
       key: CreateOrderSteps.CONFIRM,
-      content: <OrderConfirm />,
+      content: <OrderConfirm order={order as Order} users={users} operationalSettings={operationalSettings} />,
     },
     {
       key: CreateOrderSteps.DONE,
@@ -207,7 +293,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
           subTitle={'Order number: #2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait.'}
           status="success"
           extra={[
-            <Button type="primary" key="console">
+            <Button type="primary" key="console" onClick={nextCurrentOrderStep}>
               Go To Order Detail
             </Button>,
           ]}
@@ -216,19 +302,9 @@ export const CreateOrder = (props: CreateOrderProps) => {
     },
   ];
 
-  const orderStepItems = steps.map(({ key }) => ({ key, title: t(`createOrderStep.${key?.toString()}`) }));
-  const [currentOrderStep, setCurrentOrderStep] = useState(0);
-
-  const nextCurrentOrderStep = () => {
-    setCurrentOrderStep(currentOrderStep + 1);
-  };
-
-  const prevCurrentOrderStep = () => {
-    setCurrentOrderStep(currentOrderStep - 1);
-  };
+  const orderStepItems = createOrderBySteps.map(({ key }) => ({ key, title: t(`createOrderStep.${key?.toString()}`) }));
 
   const contentStyle: React.CSSProperties = {
-    // lineHeight: '260px',
     color: token.colorTextTertiary,
     backgroundColor: token.colorFillAlter,
     borderRadius: token.borderRadiusLG,
@@ -251,16 +327,10 @@ export const CreateOrder = (props: CreateOrderProps) => {
             }}
             title={t('create.form.title')}
           >
-            <Form
-              initialValues={{ remember: true }}
-              onFinish={onFinish}
-              autoComplete="off"
-              layout="vertical"
-              form={form}
-            >
+            <Form initialValues={{ remember: true }} autoComplete="off" layout="vertical" form={form}>
               <Steps style={{ padding: 10 }} current={currentOrderStep} size="small" items={orderStepItems} />
               <div className="form-container" style={contentStyle}>
-                {steps[currentOrderStep].content}
+                {createOrderBySteps[currentOrderStep]?.content}
               </div>
               {currentOrderStep !== CreateOrderSteps.DONE && (
                 <Flex className="step-action" justify="space-between">
@@ -272,14 +342,15 @@ export const CreateOrder = (props: CreateOrderProps) => {
                       </Space>
                     )}
                   </Button>
-                  {currentOrderStep < steps.length - 1 && (
-                    <Button type="primary" onClick={() => nextCurrentOrderStep()}>
+                  {currentOrderStep < createOrderBySteps.length - 1 && (
+                    <Button type="primary" onClick={() => nextCurrentOrderStep()} loading={isLoadingCreateOrder}>
                       <Space>
-                        Next <RightOutlined />
+                        {currentOrderStep === CreateOrderSteps.CONFIRM ? 'Create' : 'Next'}
+                        <RightOutlined />
                       </Space>
                     </Button>
                   )}
-                  {currentOrderStep === steps.length - 1 && (
+                  {currentOrderStep === createOrderBySteps.length - 1 && (
                     <Button type="primary" onClick={() => message.success('Processing complete!')}>
                       Done
                     </Button>

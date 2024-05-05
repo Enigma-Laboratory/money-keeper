@@ -2242,10 +2242,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.5.tgz#77211291c1900a700b8a78cfafda3160d76949ed"
   integrity sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
 
-"@enigma-laboratory/shared@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@enigma-laboratory/shared/-/shared-1.1.4.tgz#fb80d4af5184783cb22144f5e7d450a85b60576a"
-  integrity sha512-rIbGXioyosS4P/ib2qZHHYOE+qN0RpSSWVhjs4SZN7AO8xR6ymxNOeayroON8gA9LTssiWNDEbGJ6sHdcq6IYQ==
+"@enigma-laboratory/shared@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@enigma-laboratory/shared/-/shared-1.1.5.tgz#e9672cbe5505ab35ba430379c0dd584dafcdb549"
+  integrity sha512-Iw6EpB6hu6tnbxHI6WkmiijDVUepZDmYAuPZ4+jtslSu2CeTLAZJnKMhUgQZ5fEz/0nBmd4zL3uCLMdJD2hdlA==
   dependencies:
     typescript "^5.1.6"
 

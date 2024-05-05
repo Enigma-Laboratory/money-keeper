@@ -1,9 +1,8 @@
-import React, { ReactNode, useState } from 'react';
+import { ReactNode, useState } from 'react';
 
-import { Button, Layout, theme } from 'antd';
-import { LayoutMainStyled } from './LayoutMain.styles';
+import { Layout, theme } from 'antd';
 import { HeaderLayout, MenuCustom } from 'components';
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { LayoutMainStyled } from './LayoutMain.styles';
 
 const { Content, Sider } = Layout;
 
