@@ -8,7 +8,7 @@ import {
   FindOneOrderDetailParams,
   OrderDetail,
   UpdateOrderDetailParams,
-} from '/stores/orderDetail';
+} from 'stores/orderDetail';
 
 export class OrderDetailApiService extends ApiServiceEndPoint {
   private static _instance: OrderDetailApiService;

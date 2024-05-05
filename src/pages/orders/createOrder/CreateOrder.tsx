@@ -89,9 +89,9 @@ export const CreateOrder = (props: CreateOrderProps) => {
               loading={isLoading}
               options={operationalSettings
                 ?.filter(({ status }) => status === 'opening')
-                ?.map(({ _id, group }) => {
+                ?.map(({ _id, name }) => {
                   return {
-                    label: group,
+                    label: name,
                     value: _id,
                   };
                 })}

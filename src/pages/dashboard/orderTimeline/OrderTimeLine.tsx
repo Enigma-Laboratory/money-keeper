@@ -2,8 +2,8 @@ import { Typography, theme, Divider, List, Skeleton, Spin } from 'antd';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { OrderStatus } from 'components/OrderStatus';
-import { IOrder } from '/interface';
+import { BaseOrderStatus } from 'components/OrderStatus';
+import { IOrder } from 'interface';
 
 dayjs.extend(relativeTime);
 
@@ -90,7 +90,7 @@ export const OrderTimeline = ({ data, dispatch }: OrderTimelineProps) => {
                     }}
                   >
                     <div style={{ width: '128px' }}>
-                      <OrderStatus status={item.status.text} />
+                      <BaseOrderStatus status={item.status.text as any} />
                     </div>
                     <Typography.Text strong>#{item.orderNumber}</Typography.Text>
                   </div>

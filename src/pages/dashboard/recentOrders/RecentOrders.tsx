@@ -1,6 +1,5 @@
 import { Flex, Space, Table, TableProps, Tag, Typography, theme } from 'antd';
-import React from 'react';
-import { IOrder } from '/interface';
+import { IOrder } from 'interface';
 import { getUniqueListWithCount } from 'utils';
 import { OrderActions } from './OrderAction';
 

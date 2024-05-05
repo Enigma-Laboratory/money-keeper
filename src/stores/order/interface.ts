@@ -2,7 +2,7 @@
  * @interface ORDER
  */
 
-import { FindAllParams, FindAllResponse, getOneParams } from '/interface';
+import { FindAllParams, FindAllResponse, getOneParams } from 'interface';
 
 export interface Order {
   id: string;

@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { IOrder, IProduct } from '/interface';
+import { IOrder, IProduct } from 'interface';
 import { Flex, Table, TableProps, Typography } from 'antd';
 
 type Props = {
