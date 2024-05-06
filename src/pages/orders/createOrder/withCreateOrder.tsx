@@ -12,7 +12,7 @@ export interface CreateOrderProps {
   data: {
     isLoading: boolean;
     users: User[];
-    operationalSettings: OperationalSetting[];
+    operationalSettings: Record<string, OperationalSetting>;
   };
   dispatch?: {
     createOneOrder: (params: CreateOneOrderParams) => Promise<void>;

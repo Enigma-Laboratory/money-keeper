@@ -32,7 +32,19 @@ export const routeComponents: RouteComponent[] = [
   {
     name: 'order',
     path: routePaths.orders,
-    component: <OrderScreen />,
+    component: (
+      <OrderScreen
+        data={{
+          isLoading: false,
+          isStatusLoading: {
+            id: '',
+            status: false,
+          },
+          operationalSettings: {},
+          groupOrders: {},
+        }}
+      />
+    ),
   },
   {
     name: 'order-create',
@@ -42,7 +54,7 @@ export const routeComponents: RouteComponent[] = [
         data={{
           isLoading: false,
           users: [],
-          operationalSettings: [],
+          operationalSettings: {},
         }}
       />
     ),

@@ -18,7 +18,7 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
     dispatch,
   } = props;
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  const { id = '' } = useParams<{ id: string }>();
 
   const { t } = useTranslation();
 

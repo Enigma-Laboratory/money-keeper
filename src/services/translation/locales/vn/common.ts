@@ -1,6 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 
-import { OrderStatus } from 'components/OrderStatus';
+import { OrderStatus } from '@enigma-laboratory/shared';
 
 const { CANCELLED, CONFIRM, DONE, PENDING, PROCESSING } = OrderStatus;
 

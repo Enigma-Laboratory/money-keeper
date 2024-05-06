@@ -5,6 +5,8 @@ import {
   FindOneOrderParams,
   Order,
   UpdateOneOrderParams,
+  UpdateOrderEventParams,
+  UpdateOrderEventResponse,
 } from '@enigma-laboratory/shared';
 import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
 import { HttpClientService, HttpConfig, HttpConfigOrder } from '../http';
@@ -37,6 +39,11 @@ export class OrderApiService extends ApiServiceEndPoint {
   public async updateOneOrder(params: UpdateOneOrderParams): Promise<Order> {
     const endpoint = `${this.endPoint}/${HttpConfigOrder.UPDATE_ORDER}`;
     return await HttpClientService.httpPatch<Order>(endpoint, params);
+  }
+
+  public async updateOrderStatus(params: UpdateOrderEventParams): Promise<UpdateOrderEventResponse> {
+    const endpoint = `${this.endPoint}/${HttpConfigOrder.UPDATE_ORDER_STATUS}`;
+    return await HttpClientService.httpPut<UpdateOrderEventResponse>(endpoint, params);
   }
 
   public async deleteOneOrder(params: DeleteOneOrderParams): Promise<any> {

@@ -5,6 +5,7 @@ import {
   DeleteOneOperationalSettingParams,
   UpdateOneOperationalSettingParams,
 } from '@enigma-laboratory/shared';
+import { arrayToObject } from 'utils';
 
 export class OperationalSettingService {
   public static _instance: OperationalSettingService;
@@ -18,8 +19,10 @@ export class OperationalSettingService {
 
   public async fetchAllOperationalSetting(): Promise<any> {
     try {
-      const response = await OperationalSettingApiService.instance.fetchAllOperationalSetting();
-      operationalSettingStore.setModel(response);
+      const { count, rows } = await OperationalSettingApiService.instance.fetchAllOperationalSetting();
+
+      const operationalSettings = arrayToObject('_id', rows);
+      operationalSettingStore.setModel({ count, rows: operationalSettings });
     } catch (e: any) {
       console.error(e);
     }
@@ -31,7 +34,7 @@ export class OperationalSettingService {
       const { rows: operationalSettings, count } = operationalSettingStore.getModel();
       operationalSettingStore.updateModel({
         count: count + 1,
-        rows: [...operationalSettings, operationalSetting],
+        rows: { ...operationalSettings, operationalSetting },
       });
     } catch (e: any) {
       console.error(e);
@@ -41,10 +44,14 @@ export class OperationalSettingService {
   public async updateOneOperationalSetting(params: UpdateOneOperationalSettingParams): Promise<void> {
     try {
       const operationalSetting = await OperationalSettingApiService.instance.updateOneOperationalSetting(params);
-      const { rows: operationalSettings } = operationalSettingStore.getModel();
-      // orderStore.updateModel({
-      //   rows: [...orders, order],
-      // });
+      const { _id } = operationalSetting;
+      const { count, rows: operationalSettings } = operationalSettingStore.getModel();
+      operationalSettings[_id] = operationalSetting;
+
+      operationalSettingStore.updateModel({
+        count,
+        rows: { ...operationalSettings },
+      });
     } catch (e: any) {
       console.error(e);
     }
@@ -52,13 +59,18 @@ export class OperationalSettingService {
 
   public async deleteOneOperationalSetting(params: DeleteOneOperationalSettingParams): Promise<void> {
     try {
-      const response = await OperationalSettingApiService.instance.deleteOneOperationalSetting(params);
+      const { result } = await OperationalSettingApiService.instance.deleteOneOperationalSetting(params);
+
+      if (result) {
+        throw Error("Can't delete Operational Setting");
+      }
 
       const { rows: OperationalSettings, count } = operationalSettingStore.getModel();
-      const newOperationalSettings = OperationalSettings.filter((order) => order._id !== response.id);
+
+      delete OperationalSettings?.[params._id];
       operationalSettingStore.updateModel({
         count: count - 1,
-        rows: newOperationalSettings,
+        rows: OperationalSettings,
       });
     } catch (e: any) {
       console.error(e);

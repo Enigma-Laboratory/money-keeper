@@ -9,7 +9,6 @@ import { routePaths } from 'routes/routeComponent';
 import { getExactPath } from 'utils/getExactPath';
 import { OrderStyled } from './Order.styles';
 import { OrderProps } from './withOrderController';
-import { IOrder } from 'interface';
 import dayjs from 'dayjs';
 import { OperationalSetting, Order } from '@enigma-laboratory/shared';
 import { BaseOrderStatus } from 'components/OrderStatus';
@@ -22,8 +21,8 @@ interface DataType extends OperationalSetting {
 }
 
 export const Orders = (props: OrderProps): ReactElement => {
-  const { data } = props;
-  const { isLoading = true, groupOrders, operationalSettings } = data || {};
+  const { data, dispatch } = props;
+  const { isLoading, isStatusLoading, groupOrders, operationalSettings } = data;
   const navigate = useNavigate();
   const { t } = useTranslation('order');
 
@@ -68,12 +67,16 @@ export const Orders = (props: OrderProps): ReactElement => {
       title: t('', 'Status'),
       dataIndex: 'status',
       key: 'status',
-      render: (value) => {
+      render: (value, record) => {
         return (
           <Switch
             checkedChildren={t('', 'Opening')}
             unCheckedChildren={t('', 'Closed')}
             checked={value === 'opening'}
+            loading={isStatusLoading?.status && isStatusLoading.id === record._id}
+            onChange={async (isOpen) =>
+              await dispatch?.handleOnChangeOrderStatus({ _id: record._id, status: isOpen ? 'opening' : 'closed' })
+            }
           />
         );
       },
@@ -81,7 +84,7 @@ export const Orders = (props: OrderProps): ReactElement => {
   ];
   const dataSource: DataType[] | undefined = useMemo(
     () =>
-      operationalSettings?.map((operationalSetting) => {
+      Object.values(operationalSettings).map((operationalSetting) => {
         return {
           _id: operationalSetting._id,
           key: operationalSetting._id,
@@ -93,10 +96,6 @@ export const Orders = (props: OrderProps): ReactElement => {
       }),
     [operationalSettings, groupOrders],
   );
-
-  const onChange: TableProps<IOrder>['onChange'] = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra);
-  };
 
   const headerOrder = () => {
     return (

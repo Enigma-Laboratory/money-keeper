@@ -15,7 +15,7 @@ export const EditOrder = (props: EditOrderProps) => {
   } = props;
 
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  const { id = '' } = useParams<{ id: string }>();
   const [form] = Form.useForm();
   const [order, setOrder] = useState<Order>();
 
