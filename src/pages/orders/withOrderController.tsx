@@ -9,7 +9,7 @@ import { operationalSettingStore } from './../../stores/operationalSettings/stor
 type GroupOrders = { [groupId: string]: Order[] };
 
 export interface OrderProps {
-  data?: {
+  data: {
     isLoading: boolean;
     isStatusLoading: { id?: string; status: boolean };
     operationalSettings: Record<string, OperationalSetting>;

@@ -66,7 +66,6 @@ export class OperationalSettingService {
       }
 
       const { rows: OperationalSettings, count } = operationalSettingStore.getModel();
-      if (!params._id) return;
 
       delete OperationalSettings?.[params._id];
       operationalSettingStore.updateModel({

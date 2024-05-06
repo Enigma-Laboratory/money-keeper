@@ -18,7 +18,7 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
     dispatch,
   } = props;
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  const { id = '' } = useParams<{ id: string }>();
 
   const { t } = useTranslation();
 
@@ -229,7 +229,7 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
           <Space align="end">
             <BaseButton
               onClick={() => {
-                id && dispatch.deleteOrder({ _id: id });
+                dispatch.deleteOrder({ _id: id });
               }}
               icon={<CloseCircleOutlined />}
               danger

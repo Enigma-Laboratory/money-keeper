@@ -22,7 +22,7 @@ interface DataType extends OperationalSetting {
 
 export const Orders = (props: OrderProps): ReactElement => {
   const { data, dispatch } = props;
-  const { isLoading, isStatusLoading, groupOrders, operationalSettings } = data || {};
+  const { isLoading, isStatusLoading, groupOrders, operationalSettings } = data;
   const navigate = useNavigate();
   const { t } = useTranslation('order');
 
@@ -84,7 +84,7 @@ export const Orders = (props: OrderProps): ReactElement => {
   ];
   const dataSource: DataType[] | undefined = useMemo(
     () =>
-      Object.values(operationalSettings || {}).map((operationalSetting) => {
+      Object.values(operationalSettings).map((operationalSetting) => {
         return {
           _id: operationalSetting._id,
           key: operationalSetting._id,

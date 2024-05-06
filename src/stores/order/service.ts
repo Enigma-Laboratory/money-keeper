@@ -8,7 +8,6 @@ import {
 } from '@enigma-laboratory/shared';
 import { OrderApiService } from 'services/OrderApiService';
 import { orderStore } from './store';
-import order from 'services/translation/locales/en/order';
 
 export class OrderService {
   public static _instance: OrderService;
