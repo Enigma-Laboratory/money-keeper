@@ -4,6 +4,7 @@ import { HttpConfig } from '../http';
 import {
   CreateOneOperationalSettingParams,
   DeleteOneOperationalSettingParams,
+  DeleteOneOperationalSettingResponse,
   FindAllOperationalSettingResponse,
   OperationalSetting,
   UpdateOneOperationalSettingParams,
@@ -33,7 +34,9 @@ export class OperationalSettingApiService extends ApiServiceEndPoint {
     return await HttpClientService.httpPatch<OperationalSetting>(this.endPoint, params);
   }
 
-  public async deleteOneOperationalSetting(params: DeleteOneOperationalSettingParams): Promise<any> {
-    return await HttpClientService.httpDelete<any>(this.endPoint);
+  public async deleteOneOperationalSetting(
+    params: DeleteOneOperationalSettingParams,
+  ): Promise<DeleteOneOperationalSettingResponse> {
+    return await HttpClientService.httpDelete<DeleteOneOperationalSettingResponse>(`${this.endPoint}/${params._id} `);
   }
 }

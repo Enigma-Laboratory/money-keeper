@@ -81,7 +81,7 @@ export const Orders = (props: OrderProps): ReactElement => {
   ];
   const dataSource: DataType[] | undefined = useMemo(
     () =>
-      operationalSettings?.map((operationalSetting) => {
+      Object.values(operationalSettings || {}).map((operationalSetting) => {
         return {
           _id: operationalSetting._id,
           key: operationalSetting._id,

@@ -42,7 +42,7 @@ export const routeComponents: RouteComponent[] = [
         data={{
           isLoading: false,
           users: [],
-          operationalSettings: [],
+          operationalSettings: {},
         }}
       />
     ),

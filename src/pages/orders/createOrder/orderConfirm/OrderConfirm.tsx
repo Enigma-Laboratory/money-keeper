@@ -7,19 +7,11 @@ import { StyledOrderConfirm } from './OrderConfirm.styles';
 type OrderConfirmProps = {
   order: Order;
   users: User[];
-  operationalSettings: OperationalSetting[];
+  operationalSettings: Record<string, OperationalSetting>;
 };
 
 export const OrderConfirm = ({ order, users, operationalSettings }: OrderConfirmProps): ReactElement => {
-  const {
-    createdOrderAt,
-    total,
-    groupId,
-    products,
-    uniqueUserIds,
-    arrayToOjectUsers,
-    arrayToOjectOperationalSettings,
-  } = useMemo(() => {
+  const { createdOrderAt, total, groupId, products, uniqueUserIds, arrayToOjectUsers } = useMemo(() => {
     const sumPrice = order.products?.reduce((sum, product) => sum + product.price, 0) || 0;
     const userIds = order?.products?.flatMap(({ userIds }) => userIds) || [];
 
@@ -30,11 +22,10 @@ export const OrderConfirm = ({ order, users, operationalSettings }: OrderConfirm
       total: sumPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }),
       uniqueUserIds,
       products: order.products || [],
-      arrayToOjectUsers: arrayToObject(users, '_id'),
-      arrayToOjectOperationalSettings: arrayToObject(operationalSettings, '_id'),
+      arrayToOjectUsers: arrayToObject('_id', users),
       groupId: order.groupId || '',
     };
-  }, [order, users, operationalSettings]);
+  }, [order, users]);
 
   return (
     <StyledOrderConfirm>
@@ -48,7 +39,7 @@ export const OrderConfirm = ({ order, users, operationalSettings }: OrderConfirm
       <Divider />
       <Flex justify="space-between" gap={10} className="item">
         <Typography.Text>Name:</Typography.Text>
-        <Typography.Text>{arrayToOjectOperationalSettings[groupId]?.name}</Typography.Text>
+        <Typography.Text>{operationalSettings[groupId]?.name}</Typography.Text>
       </Flex>
       <Divider />
 

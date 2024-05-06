@@ -145,7 +145,8 @@ export const CreateOrder = (props: CreateOrderProps) => {
             <Select
               showSearch
               loading={isLoading}
-              options={operationalSettings
+              options={Object.values(operationalSettings)
+
                 ?.filter(({ status }) => status === 'opening')
                 ?.map(({ _id, name }) => {
                   return {

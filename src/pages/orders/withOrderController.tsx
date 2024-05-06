@@ -11,7 +11,7 @@ type GroupOrders = { [groupId: string]: Order[] };
 export interface OrderProps {
   data?: {
     isLoading: boolean;
-    operationalSettings: OperationalSetting[];
+    operationalSettings: Record<string, OperationalSetting>;
     groupOrders: GroupOrders;
   };
   dispatch?: {
