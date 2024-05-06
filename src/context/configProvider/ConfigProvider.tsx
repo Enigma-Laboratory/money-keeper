@@ -1,4 +1,6 @@
 import { ConfigProvider as AntdConfigProvider, ThemeConfig, theme } from 'antd';
+import en_US from 'antd/lib/locale/en_US';
+import vi_VN from 'antd/lib/locale/vi_VN';
 import { useLocalStorage } from 'hooks';
 import i18n from 'i18next';
 import { PropsWithChildren, createContext, useContext, useEffect, useMemo } from 'react';
@@ -41,17 +43,21 @@ export const ConfigProvider = ({ theme: themeFromProps, children }: PropsWithChi
     html?.setAttribute('data-theme', mode);
   };
 
-  // add data-theme to html tag
   useEffect(() => {
     const html = document.querySelector('html');
     html?.setAttribute('data-theme', mode);
-  }, []);
+  }, [mode]);
 
-  const themeProps = {
-    ...BaseThemeColors.Orange,
-    algorithm: mode === 'light' ? theme.defaultAlgorithm : theme.darkAlgorithm,
-    ...themeFromProps,
-  };
+  const configProviderProps = useMemo(() => {
+    return {
+      locale: locate === Languages.VI ? vi_VN : en_US,
+      theme: {
+        ...BaseThemeColors.Orange,
+        algorithm: mode === 'light' ? theme.defaultAlgorithm : theme.darkAlgorithm,
+        ...themeFromProps,
+      },
+    };
+  }, [locate, mode, themeFromProps]);
 
   const initI18n = useMemo(() => {
     i18n.use(initReactI18next).init({
@@ -65,7 +71,7 @@ export const ConfigProvider = ({ theme: themeFromProps, children }: PropsWithChi
       debug: false,
     });
     return i18n;
-  }, [i18n, locate]);
+  }, [locate]);
 
   const handleSetLocate = (locate: Languages) => {
     setLocate(locate);
@@ -75,8 +81,8 @@ export const ConfigProvider = ({ theme: themeFromProps, children }: PropsWithChi
   return (
     <ConfigProviderContext.Provider value={{ mode, setMode: handleSetMode, locate, setLocate: handleSetLocate }}>
       <I18nextProvider i18n={initI18n}>
-        <AntdConfigProvider theme={themeProps}>
-          <ThemeProvider theme={themeProps}>{children}</ThemeProvider>
+        <AntdConfigProvider {...configProviderProps}>
+          <ThemeProvider theme={configProviderProps.theme}>{children}</ThemeProvider>
         </AntdConfigProvider>
       </I18nextProvider>
     </ConfigProviderContext.Provider>
