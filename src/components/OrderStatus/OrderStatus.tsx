@@ -1,44 +1,54 @@
-import { BellOutlined, CheckCircleOutlined, ClockCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import {
+  BellOutlined,
+  CheckCircleOutlined,
+  ClockCircleOutlined,
+  CloseCircleOutlined,
+  QuestionCircleOutlined,
+  SyncOutlined,
+} from '@ant-design/icons';
 import { Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { BikeWhiteIcon } from 'assets/icons';
 import { OrderStatus } from '@enigma-laboratory/shared';
 
 type OrderStatusProps = {
   status?: OrderStatus;
 };
 
-export const BaseOrderStatus: React.FC<OrderStatusProps> = ({ status = OrderStatus.PENDING }) => {
-  const { t } = useTranslation();
+export const BaseOrderStatus: React.FC<OrderStatusProps> = ({ status }) => {
+  const { t } = useTranslation('common');
   let color;
   let icon;
 
   switch (status) {
     case OrderStatus.PENDING:
-      color = 'orange';
+      color = 'default';
       icon = <ClockCircleOutlined />;
       break;
-    case OrderStatus.CANCELLED:
-      color = 'cyan';
-      icon = <BellOutlined />;
+    case OrderStatus.PROCESSING:
+      color = 'gold';
+      icon = <SyncOutlined spin />;
       break;
     case OrderStatus.CONFIRM:
-      color = 'blue';
-      icon = <BikeWhiteIcon />;
+      color = 'lime';
+      icon = <QuestionCircleOutlined />;
       break;
     case OrderStatus.DONE:
       color = 'green';
       icon = <CheckCircleOutlined />;
       break;
-    case OrderStatus.PROCESSING:
+    case OrderStatus.CANCELLED:
       color = 'red';
       icon = <CloseCircleOutlined />;
       break;
+    default:
+      color = 'red';
+      icon = <BellOutlined />;
+      status = OrderStatus.CANCELLED;
   }
 
   return (
-    <Tag color={color} icon={icon}>
-      {t(`enum.orderStatuses.${status}`, status)}
+    <Tag color={color} icon={icon} style={{ width: '100px', textAlign: 'center' }}>
+      {t(`orderStatus.${status}`, status)}
     </Tag>
   );
 };

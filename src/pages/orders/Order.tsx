@@ -1,5 +1,5 @@
 import { InsertRowRightOutlined } from '@ant-design/icons';
-import { Divider, Space, Spin, Switch, Table, Typography } from 'antd';
+import { Space, Spin, Switch, Table, Typography } from 'antd';
 import type { TableProps } from 'antd/es/table';
 import { BaseButton } from 'components';
 import { ReactElement, useMemo } from 'react';

@@ -1,4 +1,9 @@
 /* eslint-disable import/no-anonymous-default-export */
+
+import { OrderStatus } from 'components/OrderStatus';
+
+const { CANCELLED, CONFIRM, DONE, PENDING, PROCESSING } = OrderStatus;
+
 export default {
   sidebar: {
     dashboard: 'Tổng Quan',
@@ -19,4 +24,11 @@ export default {
     dark: 'Tối',
   },
   settings: 'Cài đặt',
+  orderStatus: {
+    [CANCELLED]: 'Đã hủy',
+    [CONFIRM]: 'Xác nhận',
+    [DONE]: 'Hoàn thành',
+    [PENDING]: 'Đang chờ',
+    [PROCESSING]: 'Đang xử lý',
+  },
 };

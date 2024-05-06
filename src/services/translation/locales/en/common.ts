@@ -1,4 +1,9 @@
 /* eslint-disable import/no-anonymous-default-export */
+
+import { OrderStatus } from 'components/OrderStatus';
+
+const { CANCELLED, CONFIRM, DONE, PENDING, PROCESSING } = OrderStatus;
+
 export default {
   sidebar: {
     dashboard: 'Dashboard',
@@ -19,4 +24,11 @@ export default {
     dark: 'Dark',
   },
   settings: 'Settings',
+  orderStatus: {
+    [CANCELLED]: 'Cancelled',
+    [CONFIRM]: 'Confirm',
+    [DONE]: 'Done',
+    [PENDING]: 'Pending',
+    [PROCESSING]: 'Processing',
+  },
 };
