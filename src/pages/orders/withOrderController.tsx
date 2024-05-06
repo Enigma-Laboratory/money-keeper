@@ -1,9 +1,4 @@
-import {
-  OperationalSetting,
-  Order,
-  UpdateOneOperationalSettingParams,
-  UpdateOrderEventParams,
-} from '@enigma-laboratory/shared';
+import { OperationalSetting, Order, UpdateOneOperationalSettingParams } from '@enigma-laboratory/shared';
 import { ComponentType, useEffect, useMemo, useState } from 'react';
 import { OrderService, orderStore } from 'stores';
 import { OperationalSettingService } from 'stores/operationalSettings';
@@ -16,6 +11,7 @@ type GroupOrders = { [groupId: string]: Order[] };
 export interface OrderProps {
   data?: {
     isLoading: boolean;
+    isStatusLoading: { id?: string; status: boolean };
     operationalSettings: Record<string, OperationalSetting>;
     groupOrders: GroupOrders;
   };
@@ -28,6 +24,7 @@ export interface OrderProps {
 export const withOrderController = <P,>(Component: ComponentType<P>): ComponentType<P> => {
   return (props: P) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isStatusLoading, setIsStatusLoading] = useState<{ id?: string; status: boolean }>({ id: '', status: false });
 
     const { rows: orders } = useObservable(orderStore.model);
     const { rows: operationalSettings } = useObservable(operationalSettingStore.model);
@@ -44,7 +41,13 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
     };
 
     const handleOnChangeOrderStatus = async (params: UpdateOneOperationalSettingParams) => {
-      await OperationalSettingService.instance.updateOneOperationalSetting(params);
+      setIsStatusLoading({ id: params._id, status: true });
+      try {
+        await OperationalSettingService.instance.updateOneOperationalSetting(params);
+      } catch (e: any) {
+      } finally {
+        setIsStatusLoading({ id: '', status: false });
+      }
     };
 
     const groupedOrders: GroupOrders = useMemo(() => {
@@ -60,11 +63,11 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
     useEffect(() => {
       fetchAllOrder();
     }, []);
-    console.log(groupedOrders);
 
     const LogicProps: OrderProps = {
       data: {
         isLoading,
+        isStatusLoading,
         groupOrders: groupedOrders,
         operationalSettings,
       },

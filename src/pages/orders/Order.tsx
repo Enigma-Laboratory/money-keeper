@@ -22,8 +22,7 @@ interface DataType extends OperationalSetting {
 
 export const Orders = (props: OrderProps): ReactElement => {
   const { data, dispatch } = props;
-  const { isLoading = true, groupOrders, operationalSettings } = data || {};
-  console.log(operationalSettings);
+  const { isLoading, isStatusLoading, groupOrders, operationalSettings } = data || {};
   const navigate = useNavigate();
   const { t } = useTranslation('order');
 
@@ -74,6 +73,7 @@ export const Orders = (props: OrderProps): ReactElement => {
             checkedChildren={t('', 'Opening')}
             unCheckedChildren={t('', 'Closed')}
             checked={value === 'opening'}
+            loading={isStatusLoading?.status && isStatusLoading.id === record._id}
             onChange={async (isOpen) =>
               await dispatch?.handleOnChangeOrderStatus({ _id: record._id, status: isOpen ? 'opening' : 'closed' })
             }
