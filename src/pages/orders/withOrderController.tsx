@@ -1,4 +1,9 @@
-import { OperationalSetting, Order, UpdateOrderEventParams } from '@enigma-laboratory/shared';
+import {
+  OperationalSetting,
+  Order,
+  UpdateOneOperationalSettingParams,
+  UpdateOrderEventParams,
+} from '@enigma-laboratory/shared';
 import { ComponentType, useEffect, useMemo, useState } from 'react';
 import { OrderService, orderStore } from 'stores';
 import { OperationalSettingService } from 'stores/operationalSettings';
@@ -16,7 +21,7 @@ export interface OrderProps {
   };
   dispatch?: {
     fetchAllOrder?: () => Promise<void>;
-    handleOnChangeOrderStatus: (params: UpdateOrderEventParams) => Promise<void>;
+    handleOnChangeOrderStatus: (params: UpdateOneOperationalSettingParams) => Promise<void>;
   };
 }
 
@@ -38,9 +43,8 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
       }
     };
 
-    const handleOnChangeOrderStatus = async (params: UpdateOrderEventParams) => {
-      await OrderService.instance.updateOneOrder(params);
-      // await OperationalSettingService.instance.updateOneOperationalSetting(params)
+    const handleOnChangeOrderStatus = async (params: UpdateOneOperationalSettingParams) => {
+      await OperationalSettingService.instance.updateOneOperationalSetting(params);
     };
 
     const groupedOrders: GroupOrders = useMemo(() => {

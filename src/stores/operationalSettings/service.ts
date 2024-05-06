@@ -50,7 +50,7 @@ export class OperationalSettingService {
 
       operationalSettingStore.updateModel({
         count,
-        rows: operationalSettings,
+        rows: { ...operationalSettings },
       });
     } catch (e: any) {
       console.error(e);

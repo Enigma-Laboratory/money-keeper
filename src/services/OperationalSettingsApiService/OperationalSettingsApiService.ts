@@ -31,7 +31,7 @@ export class OperationalSettingApiService extends ApiServiceEndPoint {
   }
 
   public async updateOneOperationalSetting(params: UpdateOneOperationalSettingParams): Promise<OperationalSetting> {
-    return await HttpClientService.httpPatch<OperationalSetting>(this.endPoint, params);
+    return await HttpClientService.httpPut<OperationalSetting>(this.endPoint, params);
   }
 
   public async deleteOneOperationalSetting(

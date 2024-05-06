@@ -9,7 +9,6 @@ import { routePaths } from 'routes/routeComponent';
 import { getExactPath } from 'utils/getExactPath';
 import { OrderStyled } from './Order.styles';
 import { OrderProps } from './withOrderController';
-import { IOrder } from 'interface';
 import dayjs from 'dayjs';
 import { OperationalSetting, Order } from '@enigma-laboratory/shared';
 import { BaseOrderStatus } from 'components/OrderStatus';
@@ -22,8 +21,9 @@ interface DataType extends OperationalSetting {
 }
 
 export const Orders = (props: OrderProps): ReactElement => {
-  const { data } = props;
+  const { data, dispatch } = props;
   const { isLoading = true, groupOrders, operationalSettings } = data || {};
+  console.log(operationalSettings);
   const navigate = useNavigate();
   const { t } = useTranslation('order');
 
@@ -68,12 +68,15 @@ export const Orders = (props: OrderProps): ReactElement => {
       title: t('', 'Status'),
       dataIndex: 'status',
       key: 'status',
-      render: (value) => {
+      render: (value, record) => {
         return (
           <Switch
             checkedChildren={t('', 'Opening')}
             unCheckedChildren={t('', 'Closed')}
             checked={value === 'opening'}
+            onChange={async (isOpen) =>
+              await dispatch?.handleOnChangeOrderStatus({ _id: record._id, status: isOpen ? 'opening' : 'closed' })
+            }
           />
         );
       },
@@ -93,10 +96,6 @@ export const Orders = (props: OrderProps): ReactElement => {
       }),
     [operationalSettings, groupOrders],
   );
-
-  const onChange: TableProps<IOrder>['onChange'] = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra);
-  };
 
   const headerOrder = () => {
     return (
