@@ -229,7 +229,7 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
           <Space align="end">
             <BaseButton
               onClick={() => {
-                dispatch.deleteOrder({ _id: id });
+                id && dispatch.deleteOrder({ _id: id });
               }}
               icon={<CloseCircleOutlined />}
               danger

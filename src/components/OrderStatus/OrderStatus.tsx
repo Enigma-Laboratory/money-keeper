@@ -2,14 +2,7 @@ import { BellOutlined, CheckCircleOutlined, ClockCircleOutlined, CloseCircleOutl
 import { Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { BikeWhiteIcon } from 'assets/icons';
-// import { OrderStatus } from '@enigma-laboratory/shared';
-export enum OrderStatus {
-  PENDING = 'pending',
-  CANCELLED = 'cancelled',
-  PROCESSING = 'processing',
-  CONFIRM = 'confirm',
-  DONE = 'done',
-}
+import { OrderStatus } from '@enigma-laboratory/shared';
 
 type OrderStatusProps = {
   status?: OrderStatus;

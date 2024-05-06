@@ -4,9 +4,11 @@ import {
   FindOneOrderParams,
   Order,
   UpdateOneOrderParams,
+  UpdateOrderEventParams,
 } from '@enigma-laboratory/shared';
 import { OrderApiService } from 'services/OrderApiService';
 import { orderStore } from './store';
+import order from 'services/translation/locales/en/order';
 
 export class OrderService {
   public static _instance: OrderService;
@@ -39,6 +41,21 @@ export class OrderService {
         count: count + 1,
         rows: [...orders, order],
       });
+    } catch (e: any) {
+      console.error(e);
+    }
+  }
+
+  public async updateOrderStatus(params: UpdateOrderEventParams): Promise<void> {
+    try {
+      const response = await OrderApiService.instance.updateOrderStatus(params);
+      if (response.result === 1) {
+        const { rows: orders, count } = orderStore.getModel();
+        orderStore.updateModel({
+          count,
+          rows: orders,
+        });
+      }
     } catch (e: any) {
       console.error(e);
     }

@@ -1,4 +1,4 @@
-import { OperationalSetting, Order } from '@enigma-laboratory/shared';
+import { OperationalSetting, Order, UpdateOrderEventParams } from '@enigma-laboratory/shared';
 import { ComponentType, useEffect, useMemo, useState } from 'react';
 import { OrderService, orderStore } from 'stores';
 import { OperationalSettingService } from 'stores/operationalSettings';
@@ -16,6 +16,7 @@ export interface OrderProps {
   };
   dispatch?: {
     fetchAllOrder?: () => Promise<void>;
+    handleOnChangeOrderStatus: (params: UpdateOrderEventParams) => Promise<void>;
   };
 }
 
@@ -24,7 +25,7 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const { rows: orders } = useObservable(orderStore.model);
-    const { rows: operationalSettings, count } = useObservable(operationalSettingStore.model);
+    const { rows: operationalSettings } = useObservable(operationalSettingStore.model);
 
     const fetchAllOrder = async (): Promise<void> => {
       setIsLoading(true);
@@ -37,7 +38,12 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
       }
     };
 
-    const groupedOrders = useMemo(() => {
+    const handleOnChangeOrderStatus = async (params: UpdateOrderEventParams) => {
+      await OrderService.instance.updateOneOrder(params);
+      // await OperationalSettingService.instance.updateOneOperationalSetting(params)
+    };
+
+    const groupedOrders: GroupOrders = useMemo(() => {
       return orders.reduce((acc, order) => {
         const { groupId } = order || {};
         if (groupId) {
@@ -58,7 +64,9 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
         groupOrders: groupedOrders,
         operationalSettings,
       },
-      dispatch: {},
+      dispatch: {
+        handleOnChangeOrderStatus,
+      },
     };
 
     return <Component {...props} {...LogicProps} />;
