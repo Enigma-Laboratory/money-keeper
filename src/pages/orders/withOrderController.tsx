@@ -1,10 +1,10 @@
 import { OperationalSetting, Order, UpdateOneOperationalSettingParams } from '@enigma-laboratory/shared';
 import { ComponentType, useEffect, useMemo, useState } from 'react';
+import { io } from 'socket.io-client';
 import { OrderService, orderStore } from 'stores';
-import { OperationalSettingService } from 'stores/operationalSettings';
+import { OperationalSettingService, operationalSettingStore } from 'stores/operationalSettings';
 import { useObservable } from 'stores/useObservable';
 import { UsersService } from 'stores/user';
-import { operationalSettingStore } from './../../stores/operationalSettings/store';
 
 type GroupOrders = { [groupId: string]: Order[] };
 
@@ -59,6 +59,22 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
         return acc;
       }, {} as GroupOrders);
     }, [orders]);
+
+    useEffect(() => {
+      const socket = io('http://localhost:1337');
+
+      socket.on('connect', () => {
+        console.log('Connected to server');
+      });
+
+      socket.on('serverEvent', (data) => {
+        console.log('Received data from server:', data);
+      });
+
+      return () => {
+        socket.disconnect(); // Clean up on unmount
+      };
+    }, []);
 
     useEffect(() => {
       fetchAllOrder();

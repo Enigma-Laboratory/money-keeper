@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig, CreateAxiosDefaults, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, CreateAxiosDefaults } from 'axios';
 import { TOKEN_KEY } from 'context/authProvider';
 
 export class HttpClientService {
@@ -21,8 +21,6 @@ export class HttpClientService {
 
   public static async httpGet<T = any>(requestUri: string, options?: AxiosRequestConfig): Promise<T> {
     const config = await this.getConfig(options);
-    console.log('🚀 ~ HttpClientService ~ config:', config);
-
     const response: AxiosResponse = await HttpClientService.instance.get(requestUri, config);
     return response.data as T;
   }

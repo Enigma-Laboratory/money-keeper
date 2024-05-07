@@ -1,7 +1,10 @@
 import { InsertRowRightOutlined } from '@ant-design/icons';
+import { OperationalSetting, Order } from '@enigma-laboratory/shared';
 import { Space, Spin, Switch, Table, Typography } from 'antd';
 import type { TableProps } from 'antd/es/table';
 import { BaseButton } from 'components';
+import { BaseOrderStatus } from 'components/OrderStatus';
+import dayjs from 'dayjs';
 import { ReactElement, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -9,9 +12,6 @@ import { routePaths } from 'routes/routeComponent';
 import { getExactPath } from 'utils/getExactPath';
 import { OrderStyled } from './Order.styles';
 import { OrderProps } from './withOrderController';
-import dayjs from 'dayjs';
-import { OperationalSetting, Order } from '@enigma-laboratory/shared';
-import { BaseOrderStatus } from 'components/OrderStatus';
 
 interface DataType extends OperationalSetting {
   key: string;
@@ -127,6 +127,8 @@ export const Orders = (props: OrderProps): ReactElement => {
           //     className: 'pointer-cursor',
           //   };
           // }}
+          scroll={{ y: 650 }}
+          pagination={{ pageSize: 10 }}
         />
       </Spin>
     </OrderStyled>

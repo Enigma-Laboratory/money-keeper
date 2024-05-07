@@ -6,9 +6,9 @@ import {
   QuestionCircleOutlined,
   SyncOutlined,
 } from '@ant-design/icons';
+import { OrderStatus } from '@enigma-laboratory/shared';
 import { Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { OrderStatus } from '@enigma-laboratory/shared';
 
 type OrderStatusProps = {
   status?: OrderStatus;
@@ -25,7 +25,7 @@ export const BaseOrderStatus: React.FC<OrderStatusProps> = ({ status }) => {
       icon = <ClockCircleOutlined />;
       break;
     case OrderStatus.PROCESSING:
-      color = 'gold';
+      color = 'blue';
       icon = <SyncOutlined spin />;
       break;
     case OrderStatus.CONFIRM:
@@ -47,7 +47,7 @@ export const BaseOrderStatus: React.FC<OrderStatusProps> = ({ status }) => {
   }
 
   return (
-    <Tag color={color} icon={icon} style={{ width: '100px', textAlign: 'center' }}>
+    <Tag color={color} icon={icon} style={{ width: 100, textAlign: 'start', margin: 2 }}>
       {t(`orderStatus.${status}`, status)}
     </Tag>
   );
