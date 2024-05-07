@@ -63,16 +63,17 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
     useEffect(() => {
       const socket = io('http://localhost:1337');
 
-      socket.on('connect', () => {
-        console.log('Connected to server');
-      });
-
-      socket.on('serverEvent', (data) => {
-        console.log('Received data from server:', data);
+      socket.on('order:created', (data: Order) => {
+        console.log('moneyKeeper:CreateOrder', data);
+        const { rows, count } = orderStore.getModel();
+        orderStore.updateModel({
+          count: count + 1,
+          rows: [...rows, data],
+        });
       });
 
       return () => {
-        socket.disconnect(); // Clean up on unmount
+        socket.disconnect();
       };
     }, []);
 
