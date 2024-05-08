@@ -62,22 +62,6 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
       }, {} as GroupOrders);
     }, [orders]);
 
-    // useEffect(() => {
-    //   const socket = io('http://localhost:1337');
-
-    //   socket.on('connect', () => {
-    //     console.log('Connected to server');
-    //   });
-
-    //   socket.on('serverEvent', (data: any) => {
-    //     console.log('Received data from server:', data);
-    //   });
-
-    //   return () => {
-    //     socket.disconnect(); // Clean up on unmount
-    //   };
-    // }, []);
-
     useEffect(() => {
       fetchInitDataSource();
     }, []);
