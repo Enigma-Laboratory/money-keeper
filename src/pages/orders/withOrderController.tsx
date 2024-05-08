@@ -1,10 +1,11 @@
 import { OperationalSetting, Order, UpdateOneOperationalSettingParams } from '@enigma-laboratory/shared';
+import { IAlertModalPayload } from 'components/BaseModal/AlertModal/AlertModal';
 import { ComponentType, useEffect, useMemo, useState } from 'react';
-import { io } from 'socket.io-client';
 import { OrderService, orderStore } from 'stores';
 import { OperationalSettingService, operationalSettingStore } from 'stores/operationalSettings';
 import { useObservable } from 'stores/useObservable';
 import { UsersService } from 'stores/user';
+import { EVENT_NAME, EventAction } from 'utils';
 
 type GroupOrders = { [groupId: string]: Order[] };
 
@@ -15,8 +16,8 @@ export interface OrderProps {
     operationalSettings: Record<string, OperationalSetting>;
     groupOrders: GroupOrders;
   };
-  dispatch?: {
-    fetchAllOrder?: () => Promise<void>;
+  dispatch: {
+    handleOnCloseModal?: () => void;
     handleOnChangeOrderStatus: (params: UpdateOneOperationalSettingParams) => Promise<void>;
   };
 }
@@ -25,11 +26,10 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
   return (props: P) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isStatusLoading, setIsStatusLoading] = useState<{ id?: string; status: boolean }>({ id: '', status: false });
-
     const { rows: orders } = useObservable(orderStore.model);
     const { rows: operationalSettings } = useObservable(operationalSettingStore.model);
 
-    const fetchAllOrder = async (): Promise<void> => {
+    const fetchInitDataSource = async (): Promise<void> => {
       setIsLoading(true);
       try {
         await OrderService.instance.fetchAllOrder();
@@ -45,6 +45,7 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
       try {
         await OperationalSettingService.instance.updateOneOperationalSetting(params);
       } catch (e: any) {
+        EventAction.dispatch<IAlertModalPayload>(EVENT_NAME.OPEN_MODAL, { data: { type: 'error', content: 'hello' } });
       } finally {
         setIsStatusLoading({ id: '', status: false });
       }
@@ -61,24 +62,7 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
     }, [orders]);
 
     useEffect(() => {
-      const socket = io('http://localhost:1337');
-
-      socket.on('order:created', (data: Order) => {
-        console.log('moneyKeeper:CreateOrder', data);
-        const { rows, count } = orderStore.getModel();
-        orderStore.updateModel({
-          count: count + 1,
-          rows: [...rows, data],
-        });
-      });
-
-      return () => {
-        socket.disconnect();
-      };
-    }, []);
-
-    useEffect(() => {
-      fetchAllOrder();
+      fetchInitDataSource();
     }, []);
 
     const LogicProps: OrderProps = {

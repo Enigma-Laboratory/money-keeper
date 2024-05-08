@@ -198,3 +198,10 @@ export interface ITrendingProducts {
   product: IProduct;
   orderCount: number;
 }
+
+export enum AlertType {
+  CONFIRM = 'confirm',
+  WARNING = 'warning',
+  INFO = 'info',
+  ERROR = 'error',
+}

@@ -31,4 +31,12 @@ export default {
     [PENDING]: 'Pending',
     [PROCESSING]: 'Processing',
   },
+  alertTitle: {
+    info: 'Info',
+    confirm: 'Confirm',
+    error: 'Error',
+    warning: 'Warning',
+    success: 'Success',
+    close: 'Close',
+  },
 };
