@@ -3,3 +3,4 @@ export * from './generateColorFromAlphabet';
 export * from './getExactPath';
 export * from './getUniqueListWithCount';
 export * from './constants';
+export * from './customEvent';

@@ -1,11 +1,11 @@
-import { OperationalSettingApiService } from 'services/OperationalSettingsApiService';
-import { operationalSettingStore } from './store';
 import {
   CreateOneOperationalSettingParams,
   DeleteOneOperationalSettingParams,
   UpdateOneOperationalSettingParams,
 } from '@enigma-laboratory/shared';
+import { OperationalSettingApiService } from 'services/OperationalSettingsApiService';
 import { arrayToObject } from 'utils';
+import { operationalSettingStore } from './store';
 
 export class OperationalSettingService {
   public static _instance: OperationalSettingService;

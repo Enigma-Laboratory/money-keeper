@@ -5,8 +5,7 @@ import { OrderService, orderStore } from 'stores';
 import { OperationalSettingService, operationalSettingStore } from 'stores/operationalSettings';
 import { useObservable } from 'stores/useObservable';
 import { UsersService } from 'stores/user';
-import { EVENT_NAME } from 'utils';
-import { EventAction } from 'utils/customEvent';
+import { EVENT_NAME, EventAction } from 'utils';
 
 type GroupOrders = { [groupId: string]: Order[] };
 
@@ -18,7 +17,7 @@ export interface OrderProps {
     groupOrders: GroupOrders;
   };
   dispatch: {
-    handleOk?: () => void;
+    handleOnCloseModal?: () => void;
     handleOnChangeOrderStatus: (params: UpdateOneOperationalSettingParams) => Promise<void>;
   };
 }

@@ -1,4 +1,4 @@
-import { AlertModal } from 'components/BaseModal/AlertModal/AlertModal';
+import { AlertModal } from 'components';
 import { ConfigProvider } from 'context';
 import { BaseRoutes } from 'routes';
 

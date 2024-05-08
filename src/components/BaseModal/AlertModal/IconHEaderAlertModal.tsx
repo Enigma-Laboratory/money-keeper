@@ -13,6 +13,7 @@ export const IconHeaderAlertModal = (props: { type: AlertModalType }): ReactElem
       return <InfoCircleFilled style={{ color: 'blue' }} />;
     case AlertType.ERROR:
       return <CloseCircleFilled style={{ color: 'red' }} />;
+    default:
+      return <></>;
   }
-  return <></>;
 };
