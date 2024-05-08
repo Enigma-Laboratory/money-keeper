@@ -31,4 +31,12 @@ export default {
     [PENDING]: 'Đang chờ',
     [PROCESSING]: 'Đang xử lý',
   },
+  alertTitle: {
+    info: 'Thông tin',
+    confirm: 'Xác nhận',
+    error: 'Lỗi',
+    warning: 'Cảnh báo',
+    success: 'Thành công',
+    close: 'Đóng',
+  },
 };

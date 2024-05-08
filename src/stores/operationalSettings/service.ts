@@ -53,7 +53,7 @@ export class OperationalSettingService {
         rows: { ...operationalSettings },
       });
     } catch (e: any) {
-      console.error(e);
+      throw Error(e);
     }
   }
 

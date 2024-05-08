@@ -1,10 +1,12 @@
 import { OperationalSetting, Order, UpdateOneOperationalSettingParams } from '@enigma-laboratory/shared';
+import { IAlertModalPayload } from 'components/BaseModal/AlertModal/AlertModal';
 import { ComponentType, useEffect, useMemo, useState } from 'react';
-import { io } from 'socket.io-client';
 import { OrderService, orderStore } from 'stores';
 import { OperationalSettingService, operationalSettingStore } from 'stores/operationalSettings';
 import { useObservable } from 'stores/useObservable';
 import { UsersService } from 'stores/user';
+import { EVENT_NAME } from 'utils';
+import { EventAction } from 'utils/customEvent';
 
 type GroupOrders = { [groupId: string]: Order[] };
 
@@ -15,8 +17,8 @@ export interface OrderProps {
     operationalSettings: Record<string, OperationalSetting>;
     groupOrders: GroupOrders;
   };
-  dispatch?: {
-    fetchAllOrder?: () => Promise<void>;
+  dispatch: {
+    handleOk?: () => void;
     handleOnChangeOrderStatus: (params: UpdateOneOperationalSettingParams) => Promise<void>;
   };
 }
@@ -25,11 +27,10 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
   return (props: P) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isStatusLoading, setIsStatusLoading] = useState<{ id?: string; status: boolean }>({ id: '', status: false });
-
     const { rows: orders } = useObservable(orderStore.model);
     const { rows: operationalSettings } = useObservable(operationalSettingStore.model);
 
-    const fetchAllOrder = async (): Promise<void> => {
+    const fetchInitDataSource = async (): Promise<void> => {
       setIsLoading(true);
       try {
         await OrderService.instance.fetchAllOrder();
@@ -45,6 +46,7 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
       try {
         await OperationalSettingService.instance.updateOneOperationalSetting(params);
       } catch (e: any) {
+        EventAction.dispatch<IAlertModalPayload>(EVENT_NAME.OPEN_MODAL, { data: { type: 'error', content: 'hello' } });
       } finally {
         setIsStatusLoading({ id: '', status: false });
       }
@@ -60,24 +62,24 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
       }, {} as GroupOrders);
     }, [orders]);
 
+    // useEffect(() => {
+    //   const socket = io('http://localhost:1337');
+
+    //   socket.on('connect', () => {
+    //     console.log('Connected to server');
+    //   });
+
+    //   socket.on('serverEvent', (data: any) => {
+    //     console.log('Received data from server:', data);
+    //   });
+
+    //   return () => {
+    //     socket.disconnect(); // Clean up on unmount
+    //   };
+    // }, []);
+
     useEffect(() => {
-      const socket = io('http://localhost:1337');
-
-      socket.on('connect', () => {
-        console.log('Connected to server');
-      });
-
-      socket.on('serverEvent', (data) => {
-        console.log('Received data from server:', data);
-      });
-
-      return () => {
-        socket.disconnect(); // Clean up on unmount
-      };
-    }, []);
-
-    useEffect(() => {
-      fetchAllOrder();
+      fetchInitDataSource();
     }, []);
 
     const LogicProps: OrderProps = {

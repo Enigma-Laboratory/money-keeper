@@ -1,20 +1,15 @@
-import React, { ReactElement, useState } from 'react';
+import { PropsWithChildren, ReactElement, useEffect, useState } from 'react';
 import { BaseModalStyled } from './BaseModal.styles';
+import { ModalProps } from 'antd';
 
-export interface BaseModalProps {
-  handleOk: () => void;
-  handleCancel: () => void;
-  isModalOpen: boolean;
-}
+export interface BaseModalProps extends PropsWithChildren, ModalProps {}
 
 export const BaseModal = (props: BaseModalProps): ReactElement => {
-  const { handleCancel, handleOk, isModalOpen } = props;
+  const { title, children, ...remaining } = props;
 
   return (
-    <BaseModalStyled title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-      <p className="header">Some contents...</p>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
+    <BaseModalStyled title={title} {...remaining}>
+      {children}
     </BaseModalStyled>
   );
 };
