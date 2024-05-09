@@ -9,3 +9,33 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+/* Override scrollbar */
+::-webkit-scrollbar {
+  scrollbar-color: auto !important;
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ababab;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  border-width: 0;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: var(--primary);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ant-table-body {
+  scrollbar-color: auto !important;
+}
