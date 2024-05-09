@@ -50,9 +50,14 @@ type AuthProvider = {
 export const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
     const { token } = await AuthApiService.instance.signIn({ email, password });
-    const user = await UserApiService.instance.fetchOneUser({ email });
     localStorage.setItem(TOKEN_KEY, token);
-    localStorage.setItem(USER_IDENTITY, JSON.stringify(user));
+    try {
+      const user = await UserApiService.instance.fetchOneUser({ email });
+      localStorage.setItem(USER_IDENTITY, JSON.stringify(user));
+    } catch {
+      localStorage.removeItem(TOKEN_KEY);
+    }
+
     return {
       success: true,
       redirectTo: '/',

@@ -61,7 +61,7 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
     }, [orders]);
 
     useEffect(() => {
-      const socket = io('http://localhost:1337');
+      const socket = io('http://103.169.35.190:1337');
 
       socket.on('order:created', (data: Order) => {
         console.log('moneyKeeper:CreateOrder', data);
