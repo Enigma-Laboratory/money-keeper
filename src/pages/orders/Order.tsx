@@ -9,10 +9,10 @@ import { ReactElement, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { routePaths } from 'routes/routeComponent';
+import { THC } from 'utils/constants';
 import { getExactPath } from 'utils/getExactPath';
 import { OrderStyled } from './Order.styles';
 import { OrderProps } from './withOrderController';
-
 interface DataType extends OperationalSetting {
   key: string;
   name: string;
@@ -25,6 +25,19 @@ export const Orders = (props: OrderProps): ReactElement => {
   const { isLoading, isStatusLoading, groupOrders, operationalSettings } = data;
   const navigate = useNavigate();
   const { t } = useTranslation('order');
+
+  const TABLE_HEIGHT = useMemo(
+    () =>
+      window.innerHeight -
+      THC.HEADER_HEIGHT -
+      THC.PADDING_MAIN_LAYOUT_HEIGHT * 2 -
+      THC.ORDER_PAGE.HEADER_HEIGHT -
+      THC.ORDER_PAGE.HEADER_MARGIN -
+      THC.ORDER_PAGE.PAGINATION_HEIGHT -
+      THC.ORDER_PAGE.PAGINATION_MARGIN * 2 -
+      THC.ORDER_PAGE.HEADER_TABLE,
+    [],
+  );
 
   const columns: TableProps<DataType>['columns'] = [
     {
@@ -112,7 +125,7 @@ export const Orders = (props: OrderProps): ReactElement => {
   };
 
   return (
-    <OrderStyled>
+    <OrderStyled $tableBodyHeight={TABLE_HEIGHT}>
       {headerOrder()}
       <Spin spinning={isLoading}>
         <Table
@@ -127,7 +140,7 @@ export const Orders = (props: OrderProps): ReactElement => {
           //     className: 'pointer-cursor',
           //   };
           // }}
-          scroll={{ y: 650 }}
+          scroll={{ y: TABLE_HEIGHT }}
           pagination={{ pageSize: 10 }}
         />
       </Spin>
