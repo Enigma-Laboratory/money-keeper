@@ -26,15 +26,18 @@ export const Orders = (props: OrderProps): ReactElement => {
   const navigate = useNavigate();
   const { t } = useTranslation('order');
 
-  const TABLE_HEIGHT =
-    window.innerHeight -
-    THC.HEADER_HEIGHT -
-    THC.PADDING_MAIN_LAYOUT_HEIGHT * 2 -
-    THC.ORDER_PAGE.HEADER_HEIGHT -
-    THC.ORDER_PAGE.HEADER_MARGIN -
-    THC.ORDER_PAGE.PAGINATION_HEIGHT -
-    THC.ORDER_PAGE.PAGINATION_MARGIN * 2 -
-    THC.ORDER_PAGE.HEADER_TABLE;
+  const TABLE_HEIGHT = useMemo(
+    () =>
+      window.innerHeight -
+      THC.HEADER_HEIGHT -
+      THC.PADDING_MAIN_LAYOUT_HEIGHT * 2 -
+      THC.ORDER_PAGE.HEADER_HEIGHT -
+      THC.ORDER_PAGE.HEADER_MARGIN -
+      THC.ORDER_PAGE.PAGINATION_HEIGHT -
+      THC.ORDER_PAGE.PAGINATION_MARGIN * 2 -
+      THC.ORDER_PAGE.HEADER_TABLE,
+    [],
+  );
 
   const columns: TableProps<DataType>['columns'] = [
     {
@@ -120,10 +123,9 @@ export const Orders = (props: OrderProps): ReactElement => {
   const handleClickDetailOrder = (record: any) => {
     navigate(getExactPath(routePaths.detailOrder, { id: record?.key }));
   };
-  console.log(window.innerHeight, window.outerHeight);
 
   return (
-    <OrderStyled>
+    <OrderStyled $tableBodyHeight={TABLE_HEIGHT}>
       {headerOrder()}
       <Spin spinning={isLoading}>
         <Table
