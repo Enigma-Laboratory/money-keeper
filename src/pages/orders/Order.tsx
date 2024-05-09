@@ -56,7 +56,7 @@ export const Orders = (props: OrderProps): ReactElement => {
             {(order || []).map((item) => (
               <Space>
                 {item.name}
-                <BaseOrderStatus status={item.status} />
+                <BaseOrderStatus style={{ width: 100 }} status={item.status} />
               </Space>
             ))}
           </div>

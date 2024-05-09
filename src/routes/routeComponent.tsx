@@ -1,3 +1,4 @@
+import { UpdateOneOperationalSettingParams } from '@enigma-laboratory/shared';
 import { NotFound } from 'components/NotFound';
 import { Dashboard } from 'pages/dashboard';
 import { OrderScreen } from 'pages/orders';
@@ -42,6 +43,12 @@ export const routeComponents: RouteComponent[] = [
           },
           operationalSettings: {},
           groupOrders: {},
+        }}
+        dispatch={{
+          handleOnCloseModal: () => {},
+          handleOnChangeOrderStatus: function (params: UpdateOneOperationalSettingParams): Promise<void> {
+            throw new Error('Function not implemented.');
+          },
         }}
       />
     ),

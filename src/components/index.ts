@@ -6,3 +6,4 @@ export * from './AreaChart';
 export * from './MenuCustom';
 export * from './Header';
 export * from './BaseNotification';
+export * from './BaseModal';

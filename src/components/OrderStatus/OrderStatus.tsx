@@ -8,13 +8,14 @@ import {
 } from '@ant-design/icons';
 import { OrderStatus } from '@enigma-laboratory/shared';
 import { Tag } from 'antd';
+import { ComponentPropsWithoutRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
-type OrderStatusProps = {
+interface OrderStatusProps extends ComponentPropsWithoutRef<'div'> {
   status?: OrderStatus;
-};
+}
 
-export const BaseOrderStatus: React.FC<OrderStatusProps> = ({ status }) => {
+export const BaseOrderStatus: React.FC<OrderStatusProps> = ({ status, ...remaining }) => {
   const { t } = useTranslation('common');
   let color;
   let icon;
@@ -42,13 +43,15 @@ export const BaseOrderStatus: React.FC<OrderStatusProps> = ({ status }) => {
       break;
     default:
       color = 'red';
-      icon = <BellOutlined />;
+      icon = <CloseCircleOutlined />;
       status = OrderStatus.CANCELLED;
   }
 
   return (
-    <Tag color={color} icon={icon} style={{ width: 100, textAlign: 'start', margin: 2 }}>
-      {t(`orderStatus.${status}`, status)}
-    </Tag>
+    <div {...remaining}>
+      <Tag color={color} icon={icon} style={{ textAlign: 'start', margin: 2 }}>
+        {t(`orderStatus.${status}`, status)}
+      </Tag>
+    </div>
   );
 };
