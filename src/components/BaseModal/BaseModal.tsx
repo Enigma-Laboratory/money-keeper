@@ -1,6 +1,6 @@
-import { PropsWithChildren, ReactElement, useEffect, useState } from 'react';
-import { BaseModalStyled } from './BaseModal.styles';
 import { ModalProps } from 'antd';
+import { PropsWithChildren, ReactElement } from 'react';
+import { BaseModalStyled } from './BaseModal.styles';
 
 export interface BaseModalProps extends PropsWithChildren, ModalProps {}
 

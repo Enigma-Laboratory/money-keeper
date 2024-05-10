@@ -1,6 +1,5 @@
-import { OperationalSettingEvent, OrderEvent } from '@enigma-laboratory/shared';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { SocketIOService } from 'services';
+import { SocketIOService, operationalSettingEventHandlers, orderEventHandlers } from 'services';
 import {
   OperationalSettingCollection,
   OperationalSettingService,
@@ -21,18 +20,6 @@ interface FetchInitDataResult {
   orders: OrderCollection;
   operationalSettings: OperationalSettingCollection;
 }
-
-const orderEventHandlers = {
-  [OrderEvent.CREATED]: OrderService.instance.createdOrderWithIO,
-  [OrderEvent.UPDATED]: OrderService.instance.updatedOrderWithIO,
-  [OrderEvent.DELETED]: OrderService.instance.deletedOrderWithIO,
-};
-
-const operationalSettingEventHandlers = {
-  [OperationalSettingEvent.CREATED]: OperationalSettingService.instance.createdOperationalSettingIO,
-  [OperationalSettingEvent.UPDATED]: OperationalSettingService.instance.updatedOperationalSettingIO,
-  [OperationalSettingEvent.DELETED]: OperationalSettingService.instance.deletedOperationalSettingIO,
-};
 
 export const useFetchInitData = (): FetchInitDataResult => {
   const { rows: users } = useObservable(usersStore.model);
