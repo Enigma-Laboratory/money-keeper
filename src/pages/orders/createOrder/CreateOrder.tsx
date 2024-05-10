@@ -1,5 +1,12 @@
-import { AppstoreOutlined, LeftOutlined, MinusCircleOutlined, PlusOutlined, RightOutlined } from '@ant-design/icons';
-import { CreateOneOrderParams, Order, User } from '@enigma-laboratory/shared';
+import {
+  AppstoreOutlined,
+  LeftOutlined,
+  LoadingOutlined,
+  MinusCircleOutlined,
+  PlusOutlined,
+  RightOutlined,
+} from '@ant-design/icons';
+import { ConflictError, CreateOneOrderParams, InternalServerError, Order, User } from '@enigma-laboratory/shared';
 import {
   Breadcrumb,
   Button,
@@ -26,6 +33,7 @@ import { useLocalStorage } from 'hooks';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
+import { formatCurrencyToVnd, getExactPath } from 'utils';
 import { CreateOrderStyled } from './CreateOrder.styles';
 import { OrderConfirm } from './orderConfirm';
 import { CreateOrderProps } from './withCreateOrder';
@@ -44,21 +52,30 @@ export const CreateOrder = (props: CreateOrderProps) => {
   const { t } = useTranslation('order');
   const { token } = theme.useToken();
   const [user] = useLocalStorage<User>(USER_IDENTITY);
+  const [order, setOrder] = useState<CreateOneOrderParams>({
+    userId: user?._id,
+    name: '',
+    groupId: '',
+    createdOrderAt: new Date(),
+    products: [],
+  });
   const [currentOrderStep, setCurrentOrderStep] = useState(CreateOrderSteps.INFORMATION);
-  const [order, setOrder] = useState<CreateOneOrderParams>({ userId: user?._id });
   const [isLoadingCreateOrder, setIsLoadingCreateOrder] = useState<boolean>(false);
   const [isLoadingCreateGroup, setIsLoadingCreateGroup] = useState<boolean>(false);
+  const [orderIdCreated, setOrderIdCreated] = useState<string>();
 
-  const updateOrderParams = (params: CreateOneOrderParams) => {
+  const updateOrderParams = (params: Partial<Order>) => {
     setOrder((prevOrder) => ({ ...prevOrder, ...params }));
   };
 
   const handleCreateOrder = async () => {
     setIsLoadingCreateOrder(true);
     try {
-      await dispatch?.createOneOrder(order);
-    } catch {
-      message.error('can not create order');
+      return await dispatch?.createOneOrder(order);
+    } catch (error) {
+      if (error instanceof InternalServerError) {
+        message.error(`Can not create order ${error.message}`);
+      }
     } finally {
       setIsLoadingCreateOrder(false);
     }
@@ -68,8 +85,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
 
   const formatToVnd = (value: any) => {
     const numericValue = value.replace(/\D/g, '');
-    const formattedValue = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(numericValue);
-    return formattedValue;
+    return formatCurrencyToVnd(numericValue);
   };
 
   const parseFromVnd = (value: any) => {
@@ -99,14 +115,15 @@ export const CreateOrder = (props: CreateOrderProps) => {
         const formValues = form.getFieldsValue();
         updateOrderParams({ ...formValues });
         if (currentOrderStep === CreateOrderSteps.CONFIRM) {
-          await handleCreateOrder();
-          setCurrentOrderStep(currentOrderStep + 1);
+          const orderCreated = await handleCreateOrder();
+          setOrderIdCreated(orderCreated?._id);
+          if (orderCreated) setCurrentOrderStep(currentOrderStep + 1);
         } else {
           setCurrentOrderStep(currentOrderStep + 1);
         }
       })
       .catch((errorInfo) => {
-        console.log('Validation failed:', errorInfo);
+        message.error('Validation failed:', errorInfo);
       });
   };
 
@@ -123,6 +140,12 @@ export const CreateOrder = (props: CreateOrderProps) => {
     try {
       await dispatch?.createOperationalSettings({ name: groupName });
       setGroupName('');
+    } catch (error) {
+      if (error instanceof ConflictError) {
+        message.error(error.message);
+      } else {
+        message.error((error as Error)?.message);
+      }
     } finally {
       setIsLoadingCreateGroup(false);
     }
@@ -189,7 +212,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
           >
             <Select
               loading={isLoading}
-              options={users?.map(({ _id, name }) => ({
+              options={Object.values(users)?.map(({ _id, name }) => ({
                 label: name,
                 value: _id,
               }))}
@@ -248,7 +271,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
                       <Select
                         loading={isLoading}
                         style={{ width: '100%' }}
-                        options={users?.map(({ _id, name }) => {
+                        options={Object.values(users)?.map(({ _id, name }) => {
                           return {
                             label: name,
                             value: _id,
@@ -283,6 +306,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
       ),
     },
     {
+      ...(isLoadingCreateOrder && { icon: <LoadingOutlined /> }),
       key: CreateOrderSteps.CONFIRM,
       content: <OrderConfirm order={order as Order} users={users} operationalSettings={operationalSettings} />,
     },
@@ -291,10 +315,16 @@ export const CreateOrder = (props: CreateOrderProps) => {
       content: (
         <Result
           title={'Create order successfully'}
-          subTitle={'Order number: #2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait.'}
+          subTitle={`Order id: #${orderIdCreated} Cloud server configuration takes 1-5 minutes, please wait.`}
           status="success"
           extra={[
-            <Button type="primary" key="console" onClick={nextCurrentOrderStep}>
+            <Button
+              type="primary"
+              key="console"
+              onClick={() =>
+                orderIdCreated && navigate(getExactPath('/orders/detail/:id', { id: orderIdCreated || '' }))
+              }
+            >
               Go To Order Detail
             </Button>,
           ]}
@@ -303,7 +333,11 @@ export const CreateOrder = (props: CreateOrderProps) => {
     },
   ];
 
-  const orderStepItems = createOrderBySteps.map(({ key }) => ({ key, title: t(`createOrderStep.${key?.toString()}`) }));
+  const orderStepItems = createOrderBySteps.map(({ key, icon }) => ({
+    key,
+    icon,
+    title: t(`createOrderStep.${key?.toString()}`),
+  }));
 
   const contentStyle: React.CSSProperties = {
     color: token.colorTextTertiary,
@@ -344,7 +378,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
                     )}
                   </Button>
                   {currentOrderStep < createOrderBySteps.length - 1 && (
-                    <Button type="primary" onClick={() => nextCurrentOrderStep()} loading={isLoadingCreateOrder}>
+                    <Button type="primary" onClick={() => nextCurrentOrderStep()}>
                       <Space>
                         {currentOrderStep === CreateOrderSteps.CONFIRM ? 'Create' : 'Next'}
                         <RightOutlined />

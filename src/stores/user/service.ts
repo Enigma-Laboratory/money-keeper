@@ -1,11 +1,7 @@
-import {
-  FindAllResponse,
-  FindAllUserResponse,
-  FindOneUserParams,
-  FindOneUserResponse,
-  User,
-} from '@enigma-laboratory/shared';
+import { FindOneUserParams, FindOneUserResponse } from '@enigma-laboratory/shared';
 import { UserApiService } from 'services/UserApiService';
+import { arrayToObject } from 'utils';
+import { UserCollection } from './interface';
 import { usersStore } from './store';
 
 export class UsersService {
@@ -21,18 +17,21 @@ export class UsersService {
   public async fetchOneUser(params: FindOneUserParams): Promise<FindOneUserResponse> {
     try {
       return await UserApiService.instance.fetchOneUser(params);
-    } catch (e: any) {
-      throw Error(e);
+    } catch (error) {
+      throw error;
     }
   }
 
-  public async fetchUsers(): Promise<FindAllUserResponse> {
+  public async fetchUsers(): Promise<void> {
     try {
-      const response = await UserApiService.instance.fetchAllUser();
-      usersStore.setModel(response as FindAllResponse<User>);
-      return response;
-    } catch (e: any) {
-      throw Error(e);
+      const { count, rows } = await UserApiService.instance.fetchAllUser();
+      const users = arrayToObject('_id', rows);
+      usersStore.setModel({
+        count,
+        rows: users as UserCollection,
+      });
+    } catch (error) {
+      throw error;
     }
   }
 }

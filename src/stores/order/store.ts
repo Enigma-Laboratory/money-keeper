@@ -1,10 +1,9 @@
-import { Order } from '@enigma-laboratory/shared';
-import { FindAllResponse } from 'interface';
 import { BaseStore } from '../baseStore';
+import { OrderState } from './interface';
 
-const initialState: FindAllResponse<Order> = {
+const initialState: OrderState = {
   count: 0,
-  rows: [],
+  rows: {},
 };
 
-export const orderStore = new BaseStore<FindAllResponse<Order>>(initialState);
+export const orderStore = new BaseStore<OrderState>(initialState);

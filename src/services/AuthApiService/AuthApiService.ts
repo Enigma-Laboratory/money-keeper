@@ -1,6 +1,6 @@
 import { CreateUserParams } from '@enigma-laboratory/shared';
 import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
-import { HttpClientService, HttpConfig, HttpConfigAuth } from '../http';
+import { HttpClientService, HttpConfig, HttpConfigAuth } from '../Http';
 
 export class AuthApiService extends ApiServiceEndPoint {
   private static _instance: AuthApiService;

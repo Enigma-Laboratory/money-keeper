@@ -15,11 +15,19 @@ export class BaseStore<T = any> {
     this.model.next(newModel);
   }
 
-  public updateModel(value: Partial<T>): void {
+  // public updateModel(value: Partial<T>): void {
+  //   const currentModel = this.model.getValue();
+  //   if (currentModel) {
+  //     const updatedModel = { ...currentModel, ...value };
+  //     this.model.next(updatedModel);
+  //   }
+  // }
+
+  public updateModel(callback: Partial<T> | ((model: T) => Partial<T>)): void {
     const currentModel = this.model.getValue();
     if (currentModel) {
-      const updatedModel = { ...currentModel, ...value };
-      this.model.next(updatedModel);
+      const updatedModel = typeof callback === 'function' ? callback(currentModel) : callback;
+      this.model.next({ ...currentModel, ...updatedModel } as T);
     }
   }
 }

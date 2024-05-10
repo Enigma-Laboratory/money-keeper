@@ -1,17 +1,18 @@
-import { OperationalSetting, Order, User } from '@enigma-laboratory/shared';
+import { Order } from '@enigma-laboratory/shared';
 import { Avatar, Divider, Flex, Tag, Typography } from 'antd';
 import { ReactElement, useMemo } from 'react';
-import { arrayToObject, generateColorFromAlphabet } from 'utils';
+import { OperationalSettingCollection, UserCollection } from 'stores';
+import { generateColorFromAlphabet } from 'utils';
 import { StyledOrderConfirm } from './OrderConfirm.styles';
 
 type OrderConfirmProps = {
   order: Order;
-  users: User[];
-  operationalSettings: Record<string, OperationalSetting>;
+  users: UserCollection;
+  operationalSettings: OperationalSettingCollection;
 };
 
 export const OrderConfirm = ({ order, users, operationalSettings }: OrderConfirmProps): ReactElement => {
-  const { createdOrderAt, total, groupId, products, uniqueUserIds, arrayToOjectUsers } = useMemo(() => {
+  const { createdOrderAt, total, groupId, products, uniqueUserIds } = useMemo(() => {
     const sumPrice = order.products?.reduce((sum, product) => sum + product.price, 0) || 0;
     const userIds = order?.products?.flatMap(({ userIds }) => userIds) || [];
 
@@ -22,10 +23,9 @@ export const OrderConfirm = ({ order, users, operationalSettings }: OrderConfirm
       total: sumPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }),
       uniqueUserIds,
       products: order.products || [],
-      arrayToOjectUsers: arrayToObject('_id', users),
       groupId: order.groupId || '',
     };
-  }, [order, users]);
+  }, [order]);
 
   return (
     <StyledOrderConfirm>
@@ -64,8 +64,7 @@ export const OrderConfirm = ({ order, users, operationalSettings }: OrderConfirm
           <Flex gap="4px 0" wrap="wrap">
             <Avatar.Group maxCount={7} maxPopoverTrigger="click" size="large">
               {uniqueUserIds.map((uniqueUserId) => {
-                const { _id, name } = arrayToOjectUsers[uniqueUserId];
-
+                const { _id, name } = users[uniqueUserId];
                 return (
                   <Avatar key={_id} style={{ backgroundColor: generateColorFromAlphabet(name.charAt(0)) }}>
                     {name}

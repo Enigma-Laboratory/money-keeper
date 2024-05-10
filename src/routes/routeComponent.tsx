@@ -60,7 +60,7 @@ export const routeComponents: RouteComponent[] = [
       <CreateOrderScreen
         data={{
           isLoading: false,
-          users: [],
+          users: {},
           operationalSettings: {},
         }}
       />

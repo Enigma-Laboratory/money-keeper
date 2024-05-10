@@ -7,7 +7,7 @@ import { BaseOrderStatus } from 'components/OrderStatus';
 import dayjs from 'dayjs';
 import { ReactElement, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { routePaths } from 'routes/routeComponent';
 import { getExactPath } from 'utils/getExactPath';
 import { OrderStyled } from './Order.styles';
@@ -54,8 +54,8 @@ export const Orders = (props: OrderProps): ReactElement => {
         return (
           <div>
             {(order || []).map((item) => (
-              <Space>
-                {item.name}
+              <Space key={item._id}>
+                <Link to={getExactPath(routePaths.detailOrder, { id: item._id })}> {item.name}</Link>
                 <BaseOrderStatus style={{ width: 100 }} status={item.status} />
               </Space>
             ))}

@@ -2,7 +2,7 @@
 
 import { OrderStatus } from '@enigma-laboratory/shared';
 
-const { CANCELLED, CONFIRM, DONE, PENDING, PROCESSING } = OrderStatus;
+const { CANCELLED, CONFIRM, DONE, PROCESSING } = OrderStatus;
 
 export default {
   sidebar: {
@@ -28,7 +28,6 @@ export default {
     [CANCELLED]: 'Đã hủy',
     [CONFIRM]: 'Xác nhận',
     [DONE]: 'Hoàn thành',
-    [PENDING]: 'Đang chờ',
     [PROCESSING]: 'Đang xử lý',
   },
   alertTitle: {

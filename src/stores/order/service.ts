@@ -7,6 +7,7 @@ import {
   UpdateOrderEventParams,
 } from '@enigma-laboratory/shared';
 import { OrderApiService } from 'services/OrderApiService';
+import { arrayToObject } from 'utils';
 import { orderStore } from './store';
 
 export class OrderService {
@@ -19,12 +20,13 @@ export class OrderService {
     return this._instance;
   }
 
-  public async fetchAllOrder(): Promise<any> {
+  public async fetchAllOrder(): Promise<void> {
     try {
-      const response = await OrderApiService.instance.fetchAllOrder();
-      orderStore.setModel(response);
-    } catch (e: any) {
-      console.error(e);
+      const { count, rows } = await OrderApiService.instance.fetchAllOrder();
+      const orders = arrayToObject('_id', rows);
+      orderStore.setModel({ count, rows: orders });
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -32,58 +34,67 @@ export class OrderService {
     return await OrderApiService.instance.fetchOneOrder(params);
   }
 
-  public async createOneOrder(params: CreateOneOrderParams): Promise<void> {
+  public async createOneOrder(params: CreateOneOrderParams): Promise<Order> {
     try {
-      const order = await OrderApiService.instance.createOneOrder(params);
+      const createdOrder = await OrderApiService.instance.createOneOrder(params);
       const { rows: orders, count } = orderStore.getModel();
       orderStore.updateModel({
         count: count + 1,
-        rows: [...orders, order],
+        rows: { ...orders, [createdOrder._id]: createdOrder },
       });
-    } catch (e: any) {
-      console.error(e);
+      return createdOrder;
+    } catch (error) {
+      throw error;
     }
   }
 
   public async updateOrderStatus(params: UpdateOrderEventParams): Promise<void> {
     try {
-      const response = await OrderApiService.instance.updateOrderStatus(params);
-      if (response.result === 1) {
-        const { rows: orders, count } = orderStore.getModel();
-        orderStore.updateModel({
-          count,
-          rows: orders,
-        });
-      }
-    } catch (e: any) {
-      console.error(e);
+      await OrderApiService.instance.updateOrderStatus(params);
+    } catch (error) {
+      throw error;
     }
   }
 
   public async updateOneOrder(params: UpdateOneOrderParams): Promise<void> {
     try {
-      const order = await OrderApiService.instance.updateOneOrder(params);
-      const { rows: orders } = orderStore.getModel();
-      // orderStore.updateModel({
-      //   rows: [...orders, order],
-      // });
-    } catch (e: any) {
-      console.error(e);
+      const updatedOrder = await OrderApiService.instance.updateOneOrder(params);
+      const { count, rows: orders } = orderStore.getModel();
+
+      orders[updatedOrder._id] = updatedOrder;
+
+      orderStore.updateModel({
+        count,
+        rows: { ...orders },
+      });
+    } catch (error) {
+      throw error;
     }
   }
 
   public async deleteOneOrder(params: DeleteOneOrderParams): Promise<void> {
     try {
-      const response = await OrderApiService.instance.deleteOneOrder(params);
+      await OrderApiService.instance.deleteOneOrder(params);
+      const { rows: orders, count } = orderStore.getModel();
+      delete orders?.[params._id];
 
-      const { rows: Orders, count } = orderStore.getModel();
-      const newOrders = Orders.filter((order) => order._id !== response.id);
       orderStore.updateModel({
         count: count - 1,
-        rows: newOrders,
+        rows: { ...orders },
       });
-    } catch (e: any) {
-      console.error(e);
+    } catch (error) {
+      throw error;
     }
   }
+
+  public createdOrderWithIO(order: Order) {
+    orderStore.updateModel((model) => ({
+      count: model.count + 1,
+      rows: { ...model.rows, [order._id]: order },
+    }));
+  }
+
+  public updatedOrderWithIO(order: Order) {}
+
+  public deletedOrderWithIO(order: Order) {}
 }

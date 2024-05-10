@@ -1,6 +1,7 @@
 import {
   CreateOneOrderParams,
   DeleteOneOrderParams,
+  DeleteOneOrderResponse,
   FindAllOrderResponse,
   FindOneOrderParams,
   Order,
@@ -9,7 +10,7 @@ import {
   UpdateOrderEventResponse,
 } from '@enigma-laboratory/shared';
 import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
-import { HttpClientService, HttpConfig, HttpConfigOrder } from '../http';
+import { HttpClientService, HttpConfig, HttpConfigOrder } from '../Http';
 
 export class OrderApiService extends ApiServiceEndPoint {
   private static _instance: OrderApiService;
@@ -27,7 +28,7 @@ export class OrderApiService extends ApiServiceEndPoint {
     return await HttpClientService.httpGet<FindAllOrderResponse>(this.endPoint);
   }
   public async fetchOneOrder(params: FindOneOrderParams): Promise<Order> {
-    const endpoint = `${this.endPoint}/${HttpConfigOrder.GET_ONE_ORDER}/${params._id}`;
+    const endpoint = `${this.endPoint}/${params._id}`;
     return await HttpClientService.httpGet<Order>(endpoint);
   }
 
@@ -46,7 +47,7 @@ export class OrderApiService extends ApiServiceEndPoint {
     return await HttpClientService.httpPut<UpdateOrderEventResponse>(endpoint, params);
   }
 
-  public async deleteOneOrder(params: DeleteOneOrderParams): Promise<any> {
+  public async deleteOneOrder(params: DeleteOneOrderParams): Promise<DeleteOneOrderResponse> {
     const endpoint = `${this.endPoint}/${HttpConfigOrder.DELETE_ORDER}/${params._id}`;
     return await HttpClientService.httpDelete<any>(endpoint);
   }

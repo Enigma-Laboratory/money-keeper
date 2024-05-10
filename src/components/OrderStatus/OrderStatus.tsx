@@ -1,11 +1,4 @@
-import {
-  BellOutlined,
-  CheckCircleOutlined,
-  ClockCircleOutlined,
-  CloseCircleOutlined,
-  QuestionCircleOutlined,
-  SyncOutlined,
-} from '@ant-design/icons';
+import { CheckCircleOutlined, CloseCircleOutlined, QuestionCircleOutlined, SyncOutlined } from '@ant-design/icons';
 import { OrderStatus } from '@enigma-laboratory/shared';
 import { Tag } from 'antd';
 import { ComponentPropsWithoutRef } from 'react';
@@ -21,10 +14,6 @@ export const BaseOrderStatus: React.FC<OrderStatusProps> = ({ status, ...remaini
   let icon;
 
   switch (status) {
-    case OrderStatus.PENDING:
-      color = 'default';
-      icon = <ClockCircleOutlined />;
-      break;
     case OrderStatus.PROCESSING:
       color = 'blue';
       icon = <SyncOutlined spin />;

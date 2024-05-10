@@ -1,4 +1,3 @@
-import { ComponentType, useState } from 'react';
 import {
   CreateOneOrderParams,
   DeleteOneOrderParams,
@@ -6,11 +5,12 @@ import {
   Order,
   UpdateOneOrderParams,
 } from '@enigma-laboratory/shared';
-import { OrderService, orderStore } from 'stores';
+import { ComponentType, useState } from 'react';
+import { OrderCollection, OrderService, orderStore } from 'stores';
 export interface EditOrderProps {
   data: {
     isLoading: boolean;
-    orders: Order[];
+    orders: OrderCollection;
   };
   dispatch: {
     updateOrder: (params: CreateOneOrderParams) => Promise<void>;

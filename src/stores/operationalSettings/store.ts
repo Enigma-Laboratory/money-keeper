@@ -1,5 +1,3 @@
-import { OperationalSetting } from '@enigma-laboratory/shared';
-import { FindAllResponse } from 'interface';
 import { BaseStore } from '../baseStore';
 import { OperationalSettingState } from './interfaces';
 

@@ -1,6 +1,8 @@
-import { FindAllResponse, OperationalSetting } from '@enigma-laboratory/shared';
+import { OperationalSetting } from '@enigma-laboratory/shared';
+
+export type OperationalSettingCollection = Record<string, OperationalSetting>;
 
 export type OperationalSettingState = {
   count: number;
-  rows: Record<string, OperationalSetting>;
+  rows: OperationalSettingCollection;
 };

@@ -1,5 +1,3 @@
-import { ComponentType, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import {
   CreateOneOrderParams,
   DeleteOneOrderParams,
@@ -7,71 +5,66 @@ import {
   Order,
   UpdateOneOrderParams,
 } from '@enigma-laboratory/shared';
-import { OrderService, orderStore } from 'stores';
+import { Spin } from 'antd';
+import { useFetchInitData } from 'hooks';
+import { ComponentType, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
+import { OperationalSettingCollection, OrderService, UserCollection } from 'stores';
 
 export interface DetailOrderProps {
   data: {
     isLoading: boolean;
-    order?: Order;
+    order: Order;
+    users: UserCollection;
+    operationalSettings: OperationalSettingCollection;
   };
   dispatch: {
     updateOrder: (params: CreateOneOrderParams) => Promise<void>;
     deleteOrder: (params: DeleteOneOrderParams) => Promise<void>;
-    fetchOneOrder: (params: FindOneOrderParams) => Promise<Order>;
+    fetchOrder: (params: FindOneOrderParams) => Promise<Order>;
   };
 }
 
 export const withOrderDetailController = (Component: ComponentType<DetailOrderProps>): ComponentType => {
   return () => {
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [order, setOrder] = useState<Order>();
+    const { isLoading, operationalSettings, orders, users } = useFetchInitData();
 
     const { id } = useParams<{ id: string }>();
 
+    const order = useMemo(() => {
+      return orders[id || ''];
+    }, [id, orders]);
+
     const updateOrder = async (params: UpdateOneOrderParams): Promise<void> => {
-      setIsLoading(true);
-      try {
-        await OrderService.instance.updateOneOrder(params);
-      } finally {
-        setIsLoading(false);
-      }
+      await OrderService.instance.updateOneOrder(params);
     };
 
     const deleteOrder = async (params: DeleteOneOrderParams): Promise<void> => {
-      setIsLoading(true);
-      try {
-        await OrderService.instance.deleteOneOrder(params);
-      } finally {
-        setIsLoading(false);
-      }
+      await OrderService.instance.deleteOneOrder(params);
     };
 
-    const fetchOneOrder = async (params: FindOneOrderParams): Promise<Order> => {
+    const fetchOrder = async (params: FindOneOrderParams): Promise<Order> => {
       return await OrderService.instance.fetchOneOrder(params);
     };
 
-    const fetchInitData = async (id: string) => {
-      const response = await fetchOneOrder({ _id: id });
-      setOrder(response);
-    };
-
-    // useEffect(() => {
-    //   if (!id) return;
-    //   fetchInitData(id);
-    // }, [id]);
-
-    const LogicProps: DetailOrderProps = {
+    const logicProps: DetailOrderProps = {
       data: {
         isLoading,
         order,
+        users,
+        operationalSettings,
       },
       dispatch: {
         updateOrder,
         deleteOrder,
-        fetchOneOrder,
+        fetchOrder,
       },
     };
 
-    return <Component {...LogicProps} />;
+    return (
+      <Spin spinning={isLoading}>
+        <Component {...logicProps} />
+      </Spin>
+    );
   };
 };

@@ -1,9 +1,9 @@
-import { FindAllResponse, User } from '@enigma-laboratory/shared';
 import { BaseStore } from '../baseStore';
+import { UserState } from './interface';
 
-const initialState: FindAllResponse<User> = {
+const initialState: UserState = {
   count: 0,
-  rows: [],
+  rows: {},
 };
 
-export const usersStore = new BaseStore<FindAllResponse<User>>(initialState);
+export const usersStore = new BaseStore<UserState>(initialState);

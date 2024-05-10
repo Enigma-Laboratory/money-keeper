@@ -1,3 +1,11 @@
+import {
+  BadRequestError,
+  ConflictError,
+  ForbiddenError,
+  InternalServerError,
+  NotFoundError,
+  UnauthorizedError,
+} from '@enigma-laboratory/shared';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, CreateAxiosDefaults } from 'axios';
 import { TOKEN_KEY } from 'context/authProvider';
 
@@ -16,6 +24,30 @@ export class HttpClientService {
     };
     const requestConfig: CreateAxiosDefaults = { headers: header };
     const instance = axios.create(requestConfig);
+
+    instance.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        if (error.response) {
+          const { status, data } = error.response;
+          switch (status) {
+            case 400:
+              return Promise.reject(new BadRequestError(data.message));
+            case 401:
+              return Promise.reject(new UnauthorizedError(data.message));
+            case 403:
+              return Promise.reject(new ForbiddenError(data.message));
+            case 404:
+              return Promise.reject(new NotFoundError(data.message));
+            case 409:
+              return Promise.reject(new ConflictError(data.message));
+          }
+        } else {
+          return Promise.reject(new InternalServerError('Internal Server Error'));
+        }
+      },
+    );
+
     return instance;
   }
 

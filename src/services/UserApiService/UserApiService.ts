@@ -6,7 +6,7 @@ import {
   User,
 } from '@enigma-laboratory/shared';
 import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
-import { HttpClientService, HttpConfig, HttpConfigAuth } from '../http';
+import { HttpClientService, HttpConfig, HttpConfigAuth } from '../Http';
 
 export class UserApiService extends ApiServiceEndPoint {
   private static _instance: UserApiService;
@@ -34,7 +34,7 @@ export class UserApiService extends ApiServiceEndPoint {
   }
 
   public async deleteOneUser(params: DeleteOneUserParams): Promise<any> {
-    const endpoint = `${this.endPoint}/${HttpConfigAuth.DELETE_USER}/${params._id}`;
+    const endpoint = `${this.endPoint}/${params._id}`;
     return await HttpClientService.httpDelete<any>(endpoint);
   }
 }

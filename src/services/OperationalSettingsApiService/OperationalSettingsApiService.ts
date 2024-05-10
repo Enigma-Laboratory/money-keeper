@@ -1,6 +1,3 @@
-import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
-import { HttpClientService } from '../http';
-import { HttpConfig } from '../http';
 import {
   CreateOneOperationalSettingParams,
   DeleteOneOperationalSettingParams,
@@ -9,6 +6,8 @@ import {
   OperationalSetting,
   UpdateOneOperationalSettingParams,
 } from '@enigma-laboratory/shared';
+import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
+import { HttpClientService, HttpConfig } from '../Http';
 
 export class OperationalSettingApiService extends ApiServiceEndPoint {
   private static _instance: OperationalSettingApiService;

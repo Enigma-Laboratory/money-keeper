@@ -1,6 +1,7 @@
 import {
   CreateOneOperationalSettingParams,
   DeleteOneOperationalSettingParams,
+  OperationalSetting,
   UpdateOneOperationalSettingParams,
 } from '@enigma-laboratory/shared';
 import { OperationalSettingApiService } from 'services/OperationalSettingsApiService';
@@ -23,8 +24,8 @@ export class OperationalSettingService {
 
       const operationalSettings = arrayToObject('_id', rows);
       operationalSettingStore.setModel({ count, rows: operationalSettings });
-    } catch (e: any) {
-      console.error(e);
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -36,8 +37,8 @@ export class OperationalSettingService {
         count: count + 1,
         rows: { ...operationalSettings, operationalSetting },
       });
-    } catch (e: any) {
-      console.error(e);
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -52,8 +53,8 @@ export class OperationalSettingService {
         count,
         rows: { ...operationalSettings },
       });
-    } catch (e: any) {
-      throw Error(e);
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -76,4 +77,14 @@ export class OperationalSettingService {
       console.error(e);
     }
   }
+
+  public createdOperationalSettingIO(operationalSetting: OperationalSetting) {
+    operationalSettingStore.updateModel((model) => ({
+      count: model.count + 1,
+      rows: { ...model.rows, [operationalSetting._id]: operationalSetting },
+    }));
+  }
+
+  public updatedOperationalSettingIO(operationalSetting: OperationalSetting) {}
+  public deletedOperationalSettingIO(operationalSetting: OperationalSetting) {}
 }
