@@ -34,7 +34,7 @@ export const routeComponents: RouteComponent[] = [
       <OrderScreen
         data={{
           isLoading: false,
-          isStatusLoading: {
+          statusLoading: {
             id: '',
             status: false,
           },
