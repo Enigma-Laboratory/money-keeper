@@ -47,7 +47,7 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
       }, {} as GroupOrders);
     }, [orders]);
 
-    const LogicProps: OrderProps = {
+    const logicProps: OrderProps = {
       data: {
         isLoading,
         isStatusLoading,
@@ -59,6 +59,6 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
       },
     };
 
-    return <Component {...props} {...LogicProps} />;
+    return <Component {...props} {...logicProps} />;
   };
 };

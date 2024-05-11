@@ -1,23 +1,20 @@
 import { ApiServiceEndPoint } from 'services';
 import { io, Socket } from 'socket.io-client';
+import { DEFAULT_ROOM_NAME } from 'utils';
+
+export interface EventHandlers<T = any> {
+  [key: string]: <K extends T>(params: K) => void;
+}
 
 export class SocketIOService extends ApiServiceEndPoint {
-  private static _instance: SocketIOService;
   private socket: Socket | null;
 
-  private constructor() {
+  constructor() {
     super();
     this.socket = io(this.endPoint);
   }
 
-  static get instance(): SocketIOService {
-    if (!SocketIOService._instance) {
-      SocketIOService._instance = new SocketIOService();
-    }
-    return SocketIOService._instance;
-  }
-
-  initializeEventListeners(groupEvents: { [key: string]: (value: any) => void }[]): void {
+  initializeEventListeners<T>(groupEvents: EventHandlers<T>[]): void {
     if (this.socket) {
       groupEvents.forEach((events) => {
         Object.entries(events).forEach(([event, handler]) => {
@@ -29,6 +26,12 @@ export class SocketIOService extends ApiServiceEndPoint {
 
   getSocket(): Socket | null {
     return this.socket;
+  }
+
+  joinRoom(roomName?: string): void {
+    if (this.socket) {
+      this.socket.emit('join_room', roomName || DEFAULT_ROOM_NAME);
+    }
   }
 
   disconnectSocket(): void {

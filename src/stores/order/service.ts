@@ -94,7 +94,20 @@ export class OrderService {
     }));
   }
 
-  public updatedOrderWithIO(order: Order) {}
+  public updatedOrderWithIO(order: Order) {
+    orderStore.updateModel((model) => ({
+      count: model.count,
+      rows: { ...model.rows, [order._id]: order },
+    }));
+  }
 
-  public deletedOrderWithIO(order: Order) {}
+  public deletedOrderWithIO(order: Order) {
+    orderStore.updateModel((model) => {
+      delete model.rows[order._id];
+      return {
+        count: model.count - 1,
+        rows: { ...model.rows, [order._id]: order },
+      };
+    });
+  }
 }

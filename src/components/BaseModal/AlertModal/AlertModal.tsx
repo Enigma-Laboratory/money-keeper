@@ -1,10 +1,10 @@
-import { ReactElement, useEffect, useMemo, useState, useTransition } from 'react';
+import { Button } from 'antd';
+import { ReactElement, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { EVENT_NAME } from 'utils';
+import { EventAction } from 'utils/customEvent';
 import { BaseModal, BaseModalProps } from '../BaseModal';
 import { HeaderAlertModal } from './HeaderAlertModal';
-import { Button } from 'antd';
-import { EventAction } from 'utils/customEvent';
-import { EVENT_NAME } from 'utils';
-import { useTranslation } from 'react-i18next';
 
 export type AlertModalType = 'confirm' | 'warning' | 'info' | 'error' | 'success';
 

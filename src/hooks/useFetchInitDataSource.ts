@@ -47,11 +47,12 @@ export const useFetchInitData = (): FetchInitDataResult => {
   }, [hasFetchedDataSource]);
 
   useEffect(() => {
-    SocketIOService.instance.initializeEventListeners([orderEventHandlers, operationalSettingEventHandlers]);
+    const socket = new SocketIOService();
+    socket.initializeEventListeners([orderEventHandlers, operationalSettingEventHandlers]);
     return () => {
-      SocketIOService.instance.disconnectSocket();
+      socket.disconnectSocket();
     };
-  }, []);
+  });
 
   useEffect(() => {
     fetchInitDataSource();

@@ -85,6 +85,19 @@ export class OperationalSettingService {
     }));
   }
 
-  public updatedOperationalSettingIO(operationalSetting: OperationalSetting) {}
-  public deletedOperationalSettingIO(operationalSetting: OperationalSetting) {}
+  public updatedOperationalSettingIO(operationalSetting: OperationalSetting) {
+    operationalSettingStore.updateModel((model) => ({
+      count: model.count,
+      rows: { ...model.rows, [operationalSetting._id]: operationalSetting },
+    }));
+  }
+  public deletedOperationalSettingIO(operationalSetting: OperationalSetting) {
+    operationalSettingStore.updateModel(({ count, rows }) => {
+      delete rows[operationalSetting._id];
+      return {
+        count: count - 1,
+        rows: { ...rows },
+      };
+    });
+  }
 }

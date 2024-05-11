@@ -15,3 +15,5 @@ export const THC = {
     HEADER_TABLE: 55,
   },
 };
+
+export const DEFAULT_ROOM_NAME = 'money-keeper';
