@@ -7,11 +7,12 @@ import dayjs from 'dayjs';
 import { ReactElement, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { routePaths } from 'routes';
-import { THC, getExactPath } from 'utils';
+import { routePaths } from 'routes/routeComponent';
+import { getExactPath } from 'utils';
+import { THC } from 'utils/constants';
 import { StyledOrder } from './Order.styles';
-import { OperationalSettingDrawer } from './drawer';
-import { IOperationalSettingData } from './drawer/withDrawerController';
+import { OperationalSettingDrawer } from './operationalSettingDrawer/OperationalSettingDrawer';
+import { IOperationalSettingData } from './operationalSettingDrawer/withOperationalSettingDrawerController';
 import { IOperationalSettingProps } from './withOrderController';
 
 interface DataType extends OperationalSetting {
@@ -135,7 +136,7 @@ export const Orders = (props: IOperationalSettingProps): ReactElement => {
     );
   };
 
-  const handleClickDetailOrder = (record: IOrderGroup): void => {
+  const handleClickDetailOrder = (record: DataType): void => {
     setDrawerData((prev) => ({ ...prev, ...record, isOpen: true }));
   };
 

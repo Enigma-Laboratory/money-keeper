@@ -2,10 +2,10 @@ import { Switch, Typography } from 'antd';
 import dayjs from 'dayjs';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DrawersStyled } from './Drawer.styles';
-import { OperationalSettingProps } from './withDrawerController';
+import { OperationalSettingDrawerStyled } from './OperationalSettingDrawer.styles';
+import { OperationalSettingProps } from './withOperationalSettingDrawerController';
 
-export const Drawer = (props: OperationalSettingProps) => {
+export const OperationalSettingDrawer = (props: OperationalSettingProps) => {
   const { t } = useTranslation('order');
   const { data, dispatch } = props;
   const { isOpen, statusLoading } = data;
@@ -26,9 +26,9 @@ export const Drawer = (props: OperationalSettingProps) => {
     );
   };
   return (
-    <DrawersStyled open={isOpen} onClose={dispatch.closeDrawer} extra={renderHeader()}>
+    <OperationalSettingDrawerStyled open={isOpen} onClose={dispatch.closeDrawer} extra={renderHeader()}>
       <Typography.Title level={2}>{data.name}</Typography.Title>
       <Typography.Title level={5}>{date}</Typography.Title>
-    </DrawersStyled>
+    </OperationalSettingDrawerStyled>
   );
 };
