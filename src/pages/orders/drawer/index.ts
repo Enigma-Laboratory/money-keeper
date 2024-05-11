@@ -1,4 +1,4 @@
 import { Drawer } from './Drawer';
-import { withDrawerController } from './withDrawerController';
+import { withOperationalSettingController } from './withDrawerController';
 
-export const OperationalSettingDrawer = withDrawerController(Drawer);
+export const OperationalSettingDrawer = withOperationalSettingController(Drawer);

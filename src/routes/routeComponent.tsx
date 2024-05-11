@@ -46,7 +46,7 @@ export const routeComponents: RouteComponent[] = [
         }}
         dispatch={{
           handleOnCloseModal: () => {},
-          handleOnChangeOrderStatus: function (params: UpdateOneOperationalSettingParams): Promise<void> {
+          handleUpdateOrderStatus: function (params: UpdateOneOperationalSettingParams): Promise<void> {
             throw new Error('Function not implemented.');
           },
         }}

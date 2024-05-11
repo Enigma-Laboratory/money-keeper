@@ -10,10 +10,10 @@ import { EVENT_NAME, EventAction } from 'utils';
 
 type IGroupOrders = { [groupId: string]: Order[] };
 
-export type OperationalSettingStatusLoading = {
+export interface OperationalSettingStatusLoading {
   id?: string;
   status: boolean;
-};
+}
 export interface IOperationalSettingProps {
   data: {
     isLoading: boolean;
@@ -23,7 +23,7 @@ export interface IOperationalSettingProps {
   };
   dispatch: {
     handleOnCloseModal?: () => void;
-    handleOnChangeOrderStatus: (params: UpdateOneOperationalSettingParams) => Promise<void>;
+    handleUpdateOrderStatus: (params: UpdateOneOperationalSettingParams) => Promise<void>;
   };
 }
 
@@ -44,7 +44,7 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
       }
     };
 
-    const handleOnChangeOrderStatus = async (params: UpdateOneOperationalSettingParams) => {
+    const handleUpdateOrderStatus = async (params: UpdateOneOperationalSettingParams) => {
       setStatusLoading({ id: params._id, status: true });
       try {
         await OperationalSettingService.instance.updateOneOperationalSetting(params);
@@ -85,7 +85,7 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
       fetchInitDataSource();
     }, []);
 
-    const LogicProps: IOperationalSettingProps = {
+    const logicProps: IOperationalSettingProps = {
       data: {
         isLoading,
         statusLoading,
@@ -93,10 +93,10 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
         operationalSettings,
       },
       dispatch: {
-        handleOnChangeOrderStatus,
+        handleUpdateOrderStatus,
       },
     };
 
-    return <Component {...props} {...LogicProps} />;
+    return <Component {...props} {...logicProps} />;
   };
 };
