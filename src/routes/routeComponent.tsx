@@ -43,7 +43,7 @@ export const routeComponents: RouteComponent[] = [
         }}
         dispatch={{
           handleOnCloseModal: () => {},
-          handleOnChangeOrderStatus: async (): Promise<void> => {
+          handleUpdateOrderStatus: async (): Promise<void> => {
             await Promise.resolve();
           },
         }}

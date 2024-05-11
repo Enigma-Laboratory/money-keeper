@@ -11,7 +11,7 @@ import { routePaths } from 'routes';
 import { THC, getExactPath } from 'utils';
 import { StyledOrder } from './Order.styles';
 import { OperationalSettingDrawer } from './drawer';
-import { IDrawerData } from './drawer/withDrawerController';
+import { IOperationalSettingData } from './drawer/withDrawerController';
 import { IOperationalSettingProps } from './withOrderController';
 
 interface DataType extends OperationalSetting {
@@ -24,15 +24,17 @@ interface DataType extends OperationalSetting {
 export const Orders = (props: IOperationalSettingProps): ReactElement => {
   const { data, dispatch } = props;
   const { isLoading, statusLoading, groupOrders, operationalSettings } = data;
-  const { handleOnChangeOrderStatus } = dispatch;
+  const { handleUpdateOrderStatus } = dispatch;
   const navigate = useNavigate();
   const { t } = useTranslation('order');
 
-  const [drawerData, setDrawerData] = useState<Partial<IDrawerData>>({ isOpen: false, statusLoading });
-  console.log(drawerData);
+  const [drawerData, setDrawerData] = useState<Partial<IOperationalSettingData>>({ isOpen: false, statusLoading });
 
   useEffect(() => {
-    setDrawerData((prev) => ({ ...prev, statusLoading, status: operationalSettings?.[prev?._id || ''].status }));
+    setDrawerData((prevDrawerData) => {
+      const updatedStatus = operationalSettings?.[prevDrawerData?._id || '']?.status;
+      return { ...prevDrawerData, statusLoading, status: !!updatedStatus ? updatedStatus : prevDrawerData.status };
+    });
   }, [statusLoading, operationalSettings]);
 
   const TABLE_HEIGHT = useMemo(
@@ -100,7 +102,7 @@ export const Orders = (props: IOperationalSettingProps): ReactElement => {
               e.stopPropagation();
             }}
             onChange={async (isOpen) =>
-              await handleOnChangeOrderStatus({ _id: record._id, status: isOpen ? 'opening' : 'closed' })
+              await handleUpdateOrderStatus({ _id: record._id, status: isOpen ? 'opening' : 'closed' })
             }
           />
         );
@@ -133,8 +135,7 @@ export const Orders = (props: IOperationalSettingProps): ReactElement => {
     );
   };
 
-  const handleClickDetailOrder = (record: DataType): void => {
-    console.log(record);
+  const handleClickDetailOrder = (record: IOrderGroup): void => {
     setDrawerData((prev) => ({ ...prev, ...record, isOpen: true }));
   };
 
@@ -163,8 +164,8 @@ export const Orders = (props: IOperationalSettingProps): ReactElement => {
         />
       </Spin>
       <OperationalSettingDrawer
-        data={drawerData as IDrawerData}
-        dispatch={{ closeDrawer, handleOnChangeOrderStatus }}
+        data={drawerData as IOperationalSettingData}
+        dispatch={{ closeDrawer, handleUpdateOrderStatus }}
       />
     </StyledOrder>
   );

@@ -2,32 +2,34 @@ import { OperationalSetting, Order, UpdateOneOperationalSettingParams } from '@e
 import { ComponentType } from 'react';
 import { OperationalSettingStatusLoading } from '../withOrderController';
 
-export interface IDrawerData extends OperationalSetting {
+export interface IOperationalSettingData extends OperationalSetting {
   isOpen: boolean;
   orders: Order[];
   statusLoading: OperationalSettingStatusLoading;
 }
 
-export interface DrawerProps {
-  data: IDrawerData;
+export interface OperationalSettingProps {
+  data: IOperationalSettingData;
   dispatch: {
     closeDrawer: () => void;
-    handleOnChangeOrderStatus: (params: UpdateOneOperationalSettingParams) => Promise<void>;
+    handleUpdateOrderStatus: (params: UpdateOneOperationalSettingParams) => Promise<void>;
   };
 }
 
-export const withDrawerController = (Component: ComponentType<DrawerProps>): ComponentType<DrawerProps> => {
-  return (props: DrawerProps) => {
+export const withOperationalSettingController = (
+  Component: ComponentType<OperationalSettingProps>,
+): ComponentType<OperationalSettingProps> => {
+  return (props: OperationalSettingProps) => {
     const { data, dispatch } = props;
-    const { handleOnChangeOrderStatus } = dispatch;
+    const { handleUpdateOrderStatus } = dispatch;
     const { closeDrawer } = dispatch;
     console.log(data);
 
-    const LogicProps: DrawerProps = {
+    const LogicProps: OperationalSettingProps = {
       data,
       dispatch: {
         closeDrawer,
-        handleOnChangeOrderStatus,
+        handleUpdateOrderStatus,
       },
     };
     return <Component {...props} {...LogicProps} />;

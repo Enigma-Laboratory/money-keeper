@@ -3,13 +3,13 @@ import dayjs from 'dayjs';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DrawersStyled } from './Drawer.styles';
-import { DrawerProps } from './withDrawerController';
+import { OperationalSettingProps } from './withDrawerController';
 
-export const Drawer = (props: DrawerProps) => {
+export const Drawer = (props: OperationalSettingProps) => {
   const { t } = useTranslation('order');
   const { data, dispatch } = props;
   const { isOpen, statusLoading } = data;
-  const { handleOnChangeOrderStatus } = dispatch;
+  const { handleUpdateOrderStatus } = dispatch;
   const date = dayjs(data.createdAt).format('DD/MM/YYYY hh:mm');
 
   const renderHeader = (): ReactNode => {
@@ -20,7 +20,7 @@ export const Drawer = (props: DrawerProps) => {
         checked={data.status === 'opening'}
         loading={statusLoading?.status}
         onChange={async (isOpen) =>
-          await handleOnChangeOrderStatus({ _id: data._id, status: isOpen ? 'opening' : 'closed' })
+          await handleUpdateOrderStatus({ _id: data._id, status: isOpen ? 'opening' : 'closed' })
         }
       />
     );
