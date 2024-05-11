@@ -11,8 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import { routePaths } from 'routes/routeComponent';
 import { THC } from 'utils/constants';
 import { OrderStyled } from './Order.styles';
-import { OperationalSettingDrawer } from './drawer';
-import { IOperationalSettingData } from './drawer/withDrawerController';
+import { Drawer } from './operationalSettingDrawer';
+import { IOperationalSettingData } from './operationalSettingDrawer/withOperationalSettingDrawerController';
 import { IOperationalSettingProps } from './withOrderController';
 export interface IOrderGroup extends OperationalSetting {
   orders?: Order[];
@@ -159,10 +159,7 @@ export const Orders = (props: IOperationalSettingProps): ReactElement => {
           pagination={{ pageSize: 10 }}
         />
       </Spin>
-      <OperationalSettingDrawer
-        data={drawerData as IOperationalSettingData}
-        dispatch={{ closeDrawer, handleUpdateOrderStatus }}
-      />
+      <Drawer data={drawerData as IOperationalSettingData} dispatch={{ closeDrawer, handleUpdateOrderStatus }} />
     </OrderStyled>
   );
 };
