@@ -31,7 +31,24 @@ export class OrderService {
   }
 
   public async fetchOneOrder(params: FindOneOrderParams): Promise<Order> {
-    return await OrderApiService.instance.fetchOneOrder(params);
+    const fetchedOrder = await OrderApiService.instance.fetchOneOrder(params);
+
+    const { count, rows } = orderStore.getModel();
+
+    const order = rows[fetchedOrder?._id];
+
+    if (order) {
+      orderStore.updateModel({
+        count,
+        rows: { ...rows, [fetchedOrder._id]: fetchedOrder },
+      });
+    } else {
+      orderStore.updateModel({
+        count: count + 1,
+        rows: { ...rows, [fetchedOrder._id]: fetchedOrder },
+      });
+    }
+    return fetchedOrder;
   }
 
   public async createOneOrder(params: CreateOneOrderParams): Promise<Order> {

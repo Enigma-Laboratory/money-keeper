@@ -1,8 +1,9 @@
 import { Order, OrderStatus, User, defaultDateTimeFormat } from '@enigma-laboratory/shared';
-import { Flex, Space, Timeline, Typography } from 'antd';
-import { BaseOrderStatus } from 'components';
+import { Col, Flex, Space, Timeline, Typography } from 'antd';
+import { BaseOrderStatus, CardWithContent } from 'components';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   order?: Order;
@@ -10,36 +11,14 @@ type Props = {
 };
 
 export const OrderEventLog = ({ order, users }: Props) => {
+  const { t } = useTranslation('orderDetail');
+
   const logStepItems = useMemo(
     () =>
       order?.event.map((event) => {
         const userName = users?.[event.userId]?.name || 'unknown';
-
-        let title = `cancelled the order.`;
-        let description = `The order is now closed and can no longer be modified.`;
-        let color = `red`;
-
-        switch (event.status) {
-          case OrderStatus.PROCESSING:
-            title = `created an order.`;
-            description = `The order is currently being processed.`;
-            color = 'gray';
-            break;
-          case OrderStatus.CONFIRM:
-            title = `changed the status to confirm.`;
-            description = `The order has been confirmed and is now awaiting fulfillment.`;
-            color = '#4466e3';
-            break;
-          case OrderStatus.DONE:
-            title = `changed the status to done.`;
-            description = ` The order has been successfully completed.`;
-            color = 'green';
-            break;
-          case OrderStatus.CANCELLED:
-          default:
-            break;
-        }
-
+        const color =
+          event?.status === OrderStatus.DONE ? 'green' : event?.status === OrderStatus.CANCELLED ? 'red' : 'gray';
         return {
           children: (
             <Space direction="vertical" size={0} style={{ width: '100%' }}>
@@ -49,20 +28,34 @@ export const OrderEventLog = ({ order, users }: Props) => {
               </Flex>
 
               <Typography.Text>
-                <Typography.Text strong>{userName}</Typography.Text> {title}
+                <Typography.Text strong>{userName}</Typography.Text>{' '}
+                {t(`eventLogs.${event?.status || OrderStatus.CANCELLED}.title`)}
               </Typography.Text>
-              <Typography.Text type="secondary">{description}</Typography.Text>
+              <Typography.Text type="secondary">
+                {t(`eventLogs.${event?.status || OrderStatus.CANCELLED}.description`)}
+              </Typography.Text>
             </Space>
           ),
           color,
         };
       }),
-    [order, users],
+    [order, t, users],
   );
 
   return (
-    <Flex vertical>
-      <Timeline items={logStepItems} />
-    </Flex>
+    <Col xl={9} lg={24} md={24} sm={24} xs={24}>
+      <CardWithContent
+        bodyStyles={{
+          minHeight: '418px',
+          maxHeight: '600px',
+          overflowY: 'auto',
+        }}
+        title={t('orderEvenLog')}
+      >
+        <Flex vertical>
+          <Timeline items={logStepItems} />
+        </Flex>
+      </CardWithContent>
+    </Col>
   );
 };

@@ -1,5 +1,4 @@
 import {
-  CreateOneOrderParams,
   DeleteOneOrderParams,
   FindOneOrderParams,
   Order,
@@ -8,7 +7,7 @@ import {
 } from '@enigma-laboratory/shared';
 import { Spin } from 'antd';
 import { useFetchInitData } from 'hooks';
-import { ComponentType, useMemo } from 'react';
+import { ComponentType, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { OperationalSettingCollection, OrderService, UserCollection } from 'stores';
 
@@ -20,9 +19,9 @@ export interface DetailOrderProps {
     operationalSettings: OperationalSettingCollection;
   };
   dispatch: {
-    updateOrder: (params: CreateOneOrderParams) => Promise<void>;
+    updateOrder: (params: UpdateOneOrderParams) => Promise<void>;
     deleteOrder: (params: DeleteOneOrderParams) => Promise<void>;
-    fetchOrder: (params: FindOneOrderParams) => Promise<Order>;
+    fetchOrder: (params: FindOneOrderParams) => Promise<void>;
     updateOrderStatus: (params: UpdateOrderEventParams) => Promise<void>;
   };
 }
@@ -45,13 +44,17 @@ export const withOrderDetailController = (Component: ComponentType<DetailOrderPr
       await OrderService.instance.deleteOneOrder(params);
     };
 
-    const fetchOrder = async (params: FindOneOrderParams): Promise<Order> => {
-      return await OrderService.instance.fetchOneOrder(params);
+    const fetchOrder = async (params: FindOneOrderParams): Promise<void> => {
+      await OrderService.instance.fetchOneOrder(params);
     };
 
     const updateOrderStatus = async (params: UpdateOrderEventParams) => {
       return await OrderService.instance.updateOrderEvent(params);
     };
+
+    useEffect(() => {
+      fetchOrder({ _id: id || '' });
+    }, [id]);
 
     const logicProps: DetailOrderProps = {
       data: {

@@ -1,18 +1,23 @@
-import { Order, Product, User } from '@enigma-laboratory/shared';
+import { Order, Product } from '@enigma-laboratory/shared';
 import { Avatar, Flex, Table, TableProps, Typography } from 'antd';
 import { Fragment, ReactElement } from 'react';
+import { useTranslation } from 'react-i18next';
+import { UserCollection } from 'stores';
 import { formatCurrencyToVnd, generateColorFromAlphabet } from 'utils';
 
 type Props = {
   order?: Order;
-  users: Record<string, User>;
+  users: UserCollection;
 };
 
 export const OrderProducts = ({ order, users }: Props): ReactElement => {
   const products = order?.products || [];
+
+  const { t } = useTranslation('orderDetail');
+
   const columns: TableProps<Product>['columns'] = [
     {
-      title: 'Product',
+      title: t('product.name'),
       dataIndex: 'name',
       key: 'name',
       render: (value) => (
@@ -26,7 +31,7 @@ export const OrderProducts = ({ order, users }: Props): ReactElement => {
       ),
     },
     {
-      title: 'userIds',
+      title: t('product.userIds'),
       dataIndex: 'userIds',
       key: 'userIds',
       render: (userIds: string[]) => (
@@ -44,7 +49,7 @@ export const OrderProducts = ({ order, users }: Props): ReactElement => {
       ),
     },
     {
-      title: 'Price',
+      title: t('product.price'),
       dataIndex: 'price',
       key: 'price',
       render: (value) => <Typography.Text>{formatCurrencyToVnd(value)}</Typography.Text>,
@@ -59,7 +64,7 @@ export const OrderProducts = ({ order, users }: Props): ReactElement => {
       footer={(products) => {
         return (
           <Flex justify="flex-end" gap={16}>
-            <Typography.Text>Total</Typography.Text>
+            <Typography.Text>{t('product.total')}:</Typography.Text>
             <Typography.Text>
               {formatCurrencyToVnd(products.reduce((acc, product) => acc + product.price, 0))}
             </Typography.Text>
