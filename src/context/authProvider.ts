@@ -1,10 +1,7 @@
 import { notification } from 'antd';
-import { disableAutoLogin } from 'hooks';
 import { AuthApiService } from 'services/AuthApiService';
 import { UserApiService } from 'services/UserApiService';
-
-export const TOKEN_KEY = 'money-keeper-auth';
-export const USER_IDENTITY = 'user-identity-auth';
+import { TOKEN_KEY, USER_IDENTITY } from 'utils';
 
 export type SuccessNotificationResponse = {
   message: string;
@@ -98,7 +95,6 @@ export const authProvider: AuthProvider = {
     };
   },
   logout: async () => {
-    disableAutoLogin();
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_IDENTITY);
     return {

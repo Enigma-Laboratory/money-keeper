@@ -2,30 +2,61 @@ import { ApiServiceEndPoint } from 'services';
 import { io, Socket } from 'socket.io-client';
 import { DEFAULT_ROOM_NAME } from 'utils';
 
-export interface EventHandlers<T = any> {
-  [key: string]: <K extends T>(params: K) => void;
+export interface EventHandler<T = any> {
+  [eventName: string]: <K extends T>(params: K) => void;
 }
 
-export class SocketIOService extends ApiServiceEndPoint {
+/**
+ * SocketIOService provides a wrapper around Socket.IO client functionality
+ * to manage socket connections, event handling, and room joining.
+ */
+class SocketIOService extends ApiServiceEndPoint {
   private socket: Socket | null;
 
   constructor() {
     super();
-    this.socket = io(this.endPoint);
+    this.socket = io(this.endPoint, { autoConnect: true });
   }
 
-  initializeEventListeners<T>(groupEvents: EventHandlers<T>[]): void {
+  /**
+   * Sets up event listeners for the specified event handlers.
+   * @param eventHandlers An array of objects containing event names and corresponding handlers.
+   * Each handler function receives the data associated with the event.
+   */
+  onEventListeners<T>(evenHandlers: EventHandler<T>[]): void {
     if (this.socket) {
-      groupEvents.forEach((events) => {
-        Object.entries(events).forEach(([event, handler]) => {
-          this.socket?.on(event, handler);
+      evenHandlers.forEach((handlers) => {
+        Object.entries(handlers).forEach(([eventName, handler]) => {
+          this.socket?.on(eventName, handler);
         });
       });
     }
   }
 
-  getSocket(): Socket | null {
-    return this.socket;
+  /**
+   * Removes event listeners for the specified event handlers.
+   * @param eventHandlers An array of objects containing event names and corresponding handlers.
+   */
+  offEventListeners<T>(evenHandlers: EventHandler<T>[]): void {
+    if (this.socket) {
+      evenHandlers.forEach((handlers) => {
+        Object.entries(handlers).forEach(([eventName, handler]) => {
+          this.socket?.off(eventName, handler);
+        });
+      });
+    }
+  }
+
+  /**
+   * Broadcasts an event to all connected sockets.
+   * @param eventName The name of the event to broadcast.
+   * @param eventData The data to send along with the event.
+   * @template T The type of the event data.
+   */
+  public broadcastEvent<T = any>(eventName: string, eventData: T): void {
+    if (this.socket) {
+      this.socket.emit(eventName, eventData);
+    }
   }
 
   joinRoom(roomName?: string): void {
@@ -41,3 +72,5 @@ export class SocketIOService extends ApiServiceEndPoint {
     }
   }
 }
+
+export const socket = new SocketIOService();

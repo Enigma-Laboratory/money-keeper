@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { SocketIOService, operationalSettingEventHandlers, orderEventHandlers } from 'services';
+import { operationalSettingEventHandlers, orderEventHandlers, socket } from 'services';
 import {
   OperationalSettingCollection,
   OperationalSettingService,
@@ -47,12 +47,12 @@ export const useFetchInitData = (): FetchInitDataResult => {
   }, [hasFetchedDataSource]);
 
   useEffect(() => {
-    const socket = new SocketIOService();
-    socket.initializeEventListeners([orderEventHandlers, operationalSettingEventHandlers]);
+    socket.onEventListeners([orderEventHandlers, operationalSettingEventHandlers]);
+
     return () => {
-      socket.disconnectSocket();
+      socket.offEventListeners([orderEventHandlers, operationalSettingEventHandlers]);
     };
-  });
+  }, []);
 
   useEffect(() => {
     fetchInitDataSource();

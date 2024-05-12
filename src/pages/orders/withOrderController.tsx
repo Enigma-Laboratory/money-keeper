@@ -1,8 +1,8 @@
 import { OperationalSetting, Order, UpdateOneOperationalSettingParams } from '@enigma-laboratory/shared';
 import { IAlertModalPayload } from 'components/BaseModal/AlertModal/AlertModal';
-import { useFetchInitData } from 'hooks/useFetchInitDataSource';
+import { useFetchInitData } from 'hooks';
 import { ComponentType, useMemo, useState } from 'react';
-import { OperationalSettingService } from 'stores/operationalSettings';
+import { OperationalSettingService } from 'stores';
 import { EVENT_NAME, EventAction } from 'utils';
 
 type GroupOrders = { [groupId: string]: Order[] };

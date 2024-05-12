@@ -2,10 +2,9 @@ import { MenuFoldOutlined, MenuUnfoldOutlined, MessageFilled } from '@ant-design
 import { User } from '@enigma-laboratory/shared';
 import { Avatar, Badge, Button, Flex, Popover, Radio, Space, Typography, theme } from 'antd';
 import { Languages, Mode, useConfigProvider } from 'context';
-import { USER_IDENTITY } from 'context/authProvider';
 import { useLocalStorage } from 'hooks';
 import { useTranslation } from 'react-i18next';
-import { generateColorFromAlphabet } from 'utils';
+import { USER_IDENTITY, generateColorFromAlphabet } from 'utils';
 import { BaseSearch } from '../BaseSearch';
 import { HeaderLayoutStyled } from './Header.styles';
 type HeaderLayoutProps = {

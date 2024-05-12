@@ -1,12 +1,11 @@
-import { BrowserRouter as Router, Routes, Route, Outlet, Navigate } from 'react-router-dom';
+import { Navigate, Outlet, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
-import { RouteComponent, routeComponents } from './routeComponent';
-import { Authenticated } from 'components/Authenticated';
-import { LayoutMain } from 'layouts/LayoutMain';
-import { LoginPage, RegisterPage } from 'pages/auth';
-import { CatchAllNavigate } from 'components/CatchAllNavigate';
-import { authProvider } from 'context/authProvider';
+import { Authenticated, CatchAllNavigate } from 'components';
+import { authProvider } from 'context';
+import { LayoutMain } from 'layouts';
+import { LoginPage, RegisterPage } from 'pages';
 import { useMemo, useState } from 'react';
+import { RouteComponent, routeComponents } from './routeComponent';
 
 export const RenderRouteComponent = (routes: RouteComponent[]) => {
   const { authenticated } = useMemo(() => authProvider.check(), []);

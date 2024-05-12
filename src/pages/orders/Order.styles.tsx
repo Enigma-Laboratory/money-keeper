@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const OrderStyled = styled.div<{ $tableBodyHeight: number }>`
+export const StyledOrder = styled.div<{ $tableBodyHeight: number }>`
   .ant-space {
     display: flex;
     justify-content: space-between;

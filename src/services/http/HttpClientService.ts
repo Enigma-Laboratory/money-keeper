@@ -7,7 +7,7 @@ import {
   UnauthorizedError,
 } from '@enigma-laboratory/shared';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, CreateAxiosDefaults } from 'axios';
-import { TOKEN_KEY } from 'context/authProvider';
+import { TOKEN_KEY } from 'utils';
 
 export class HttpClientService {
   private static _instance: AxiosInstance;

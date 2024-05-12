@@ -1,10 +1,7 @@
-import { UpdateOneOperationalSettingParams } from '@enigma-laboratory/shared';
 import { NotFound } from 'components/NotFound';
-import { Dashboard } from 'pages/dashboard';
-import { OrderScreen } from 'pages/orders';
-import { CreateOrderScreen } from 'pages/orders/createOrder';
-import { OrderDetailScreen } from 'pages/orders/orderDetail';
-import { EditOrderScreen } from 'pages/orders/orderDetail/editOrder';
+import { Dashboard, OrderScreen } from 'pages';
+
+import { CreateOrderScreen, EditOrderScreen, OrderDetailScreen } from 'pages';
 
 const ROUTE_PATH = '/';
 
@@ -46,8 +43,8 @@ export const routeComponents: RouteComponent[] = [
         }}
         dispatch={{
           handleOnCloseModal: () => {},
-          handleOnChangeOrderStatus: function (params: UpdateOneOperationalSettingParams): Promise<void> {
-            throw new Error('Function not implemented.');
+          handleOnChangeOrderStatus: async (): Promise<void> => {
+            await Promise.resolve();
           },
         }}
       />
@@ -56,15 +53,7 @@ export const routeComponents: RouteComponent[] = [
   {
     name: 'order-create',
     path: routePaths.createOrder,
-    component: (
-      <CreateOrderScreen
-        data={{
-          isLoading: false,
-          users: {},
-          operationalSettings: {},
-        }}
-      />
-    ),
+    component: <CreateOrderScreen />,
   },
   {
     name: 'order-edit',

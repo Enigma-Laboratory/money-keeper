@@ -12,7 +12,7 @@ export const HttpConfigOrder = {
   CREATE_ORDER: 'create-order',
   DELETE_ORDER: 'delete-order',
   UPDATE_ORDER: 'update-order',
-  UPDATE_ORDER_STATUS: 'order-event',
+  UPDATE_ORDER_STATUS: 'order-status',
 };
 
 export const HttpConfigAuth = {

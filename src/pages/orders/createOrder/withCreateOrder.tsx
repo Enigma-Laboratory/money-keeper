@@ -15,8 +15,8 @@ export interface CreateOrderProps {
   };
 }
 
-export const withCreateOrderController = <P,>(Component: ComponentType<P>): ComponentType<P> => {
-  return (props: P) => {
+export const withCreateOrderController = (Component: ComponentType<CreateOrderProps>): ComponentType => {
+  return () => {
     const { isLoading, operationalSettings, users } = useFetchInitData();
 
     const createOneOrder = async (params: CreateOneOrderParams): Promise<Order> => {
@@ -39,6 +39,6 @@ export const withCreateOrderController = <P,>(Component: ComponentType<P>): Comp
       },
     };
 
-    return <Component {...props} {...logicProps} />;
+    return <Component {...logicProps} />;
   };
 };

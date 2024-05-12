@@ -1,13 +1,13 @@
 import { OperationalSetting, OperationalSettingEvent, Order, OrderEvent } from '@enigma-laboratory/shared';
 import { OperationalSettingService, OrderService } from 'stores';
-import { EventHandlers } from './SocketIOService';
+import { EventHandler } from './SocketIOService';
 
 /**
  * Object: orderEventHandlers
  * Description: Event handlers for order-related events.
  * Each event type (created, updated, deleted) corresponds to a specific action on orders.
  */
-export const orderEventHandlers: EventHandlers<Order> = {
+export const orderEventHandlers: EventHandler<Order> = {
   // Handle creation of orders with input/output operations
   [OrderEvent.CREATED]: OrderService.instance.createdOrderWithIO,
   // Handle update of orders with input/output operations
@@ -21,7 +21,7 @@ export const orderEventHandlers: EventHandlers<Order> = {
  * Description: Event handlers for operational setting-related events.
  * Each event type (created, updated, deleted) corresponds to a specific action on operational settings.
  */
-export const operationalSettingEventHandlers: EventHandlers<OperationalSetting> = {
+export const operationalSettingEventHandlers: EventHandler<OperationalSetting> = {
   // Handle creation of operational settings with input/output operations
   [OperationalSettingEvent.CREATED]: OperationalSettingService.instance.createdOperationalSettingIO,
   // Handle update of operational settings with input/output operations

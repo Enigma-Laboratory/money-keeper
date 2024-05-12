@@ -72,6 +72,14 @@ export class OrderService {
     }
   }
 
+  public async updateOrderEvent(params: UpdateOrderEventParams): Promise<void> {
+    try {
+      await OrderApiService.instance.updateOrderStatus(params);
+    } catch (error) {
+      throw error;
+    }
+  }
+
   public async deleteOneOrder(params: DeleteOneOrderParams): Promise<void> {
     try {
       await OrderApiService.instance.deleteOneOrder(params);
@@ -95,6 +103,7 @@ export class OrderService {
   }
 
   public updatedOrderWithIO(order: Order) {
+    console.log(order);
     orderStore.updateModel((model) => ({
       count: model.count,
       rows: { ...model.rows, [order._id]: order },

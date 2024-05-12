@@ -5,7 +5,7 @@ import { useLocalStorage } from 'hooks';
 import i18n from 'i18next';
 import { PropsWithChildren, createContext, useContext, useEffect, useMemo } from 'react';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
-import { en, vi } from 'services/translation/locales';
+import { en, vi } from 'services';
 import { ThemeProvider } from 'styled-components';
 import { BaseThemeColors } from './BaseThemeColors';
 
@@ -19,14 +19,14 @@ export enum Mode {
   DARK = 'dark',
 }
 
-type ConfigProviderContext = {
+type ConfigProviderContextType = {
   mode: Mode;
   setMode: (mode: Mode) => void;
   locate: Languages;
   setLocate: (locate: Languages) => void;
 };
 
-export const ConfigProviderContext = createContext<ConfigProviderContext | undefined>(undefined);
+export const ConfigProviderContext = createContext<ConfigProviderContextType | undefined>(undefined);
 
 type ConfigProviderProps = {
   theme?: ThemeConfig;

@@ -28,12 +28,12 @@ import {
   theme,
 } from 'antd';
 import { CardWithContent } from 'components/CardWithPlot';
-import { USER_IDENTITY } from 'context/authProvider';
+
 import { useLocalStorage } from 'hooks';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { formatCurrencyToVnd, getExactPath } from 'utils';
+import { USER_IDENTITY, formatCurrencyToVnd, getExactPath } from 'utils';
 import { CreateOrderStyled } from './CreateOrder.styles';
 import { OrderConfirm } from './orderConfirm';
 import { CreateOrderProps } from './withCreateOrder';

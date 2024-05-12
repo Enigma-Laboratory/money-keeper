@@ -1,5 +1,5 @@
-import { ComponentType, useState } from 'react';
 import { IOrder } from 'interface';
+import { ComponentType, useState } from 'react';
 
 export type BaseRecord = {
   id?: string;
@@ -3385,19 +3385,7 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
   return (props: P) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    const defaultValue: CustomResponse<{
-      data: ISalesChart[];
-      total: number;
-      trend: number;
-    }> = {
-      data: {
-        data: [{ date: '', value: 0 }],
-        total: 0,
-        trend: 0,
-      },
-    };
-
-    const LogicProps: DashboardProps = {
+    const logicProps: DashboardProps = {
       data: {
         isLoading,
         dailyRevenueData: { data: mockData1 as any },
@@ -3408,6 +3396,6 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
       dispatch: {},
     };
 
-    return <Component {...props} {...LogicProps} />;
+    return <Component {...props} {...logicProps} />;
   };
 };

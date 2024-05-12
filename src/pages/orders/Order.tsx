@@ -1,17 +1,15 @@
 import { InsertRowRightOutlined } from '@ant-design/icons';
 import { OperationalSetting, Order } from '@enigma-laboratory/shared';
-import { Space, Spin, Switch, Table, Typography } from 'antd';
+import { Button, Space, Spin, Switch, Table, Typography } from 'antd';
 import type { TableProps } from 'antd/es/table';
-import { BaseButton } from 'components';
 import { BaseOrderStatus } from 'components/OrderStatus';
 import dayjs from 'dayjs';
 import { ReactElement, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { routePaths } from 'routes/routeComponent';
-import { THC } from 'utils/constants';
-import { getExactPath } from 'utils/getExactPath';
-import { OrderStyled } from './Order.styles';
+import { routePaths } from 'routes';
+import { THC, getExactPath } from 'utils';
+import { StyledOrder } from './Order.styles';
 import { OrderProps } from './withOrderController';
 interface DataType extends OperationalSetting {
   key: string;
@@ -100,6 +98,7 @@ export const Orders = (props: OrderProps): ReactElement => {
       Object.values(operationalSettings).map((operationalSetting) => {
         return {
           _id: operationalSetting._id,
+
           key: operationalSetting._id,
           name: operationalSetting.name,
           createdAt: operationalSetting.createdAt,
@@ -114,18 +113,18 @@ export const Orders = (props: OrderProps): ReactElement => {
     return (
       <Space>
         <Typography.Title level={2}>{t('order.title', 'Order')}</Typography.Title>
-        <BaseButton onClick={() => navigate(routePaths.createOrder)} type="dashed" icon={<InsertRowRightOutlined />}>
+        <Button onClick={() => navigate(routePaths.createOrder)} type="dashed" icon={<InsertRowRightOutlined />}>
           {t('orders.createOrder', 'Create order')}
-        </BaseButton>
+        </Button>
       </Space>
     );
   };
   const handleClickDetailOrder = (record: any) => {
-    navigate(getExactPath(routePaths.detailOrder, { id: record?.key }));
+    // navigate(getExactPath(routePaths.detailOrder, { id: record?.key }));
   };
 
   return (
-    <OrderStyled $tableBodyHeight={TABLE_HEIGHT}>
+    <StyledOrder $tableBodyHeight={TABLE_HEIGHT}>
       {headerOrder()}
       <Spin spinning={isLoading}>
         <Table
@@ -144,6 +143,6 @@ export const Orders = (props: OrderProps): ReactElement => {
           pagination={{ pageSize: 10 }}
         />
       </Spin>
-    </OrderStyled>
+    </StyledOrder>
   );
 };

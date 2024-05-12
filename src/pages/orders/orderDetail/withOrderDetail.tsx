@@ -4,6 +4,7 @@ import {
   FindOneOrderParams,
   Order,
   UpdateOneOrderParams,
+  UpdateOrderEventParams,
 } from '@enigma-laboratory/shared';
 import { Spin } from 'antd';
 import { useFetchInitData } from 'hooks';
@@ -22,6 +23,7 @@ export interface DetailOrderProps {
     updateOrder: (params: CreateOneOrderParams) => Promise<void>;
     deleteOrder: (params: DeleteOneOrderParams) => Promise<void>;
     fetchOrder: (params: FindOneOrderParams) => Promise<Order>;
+    updateOrderStatus: (params: UpdateOrderEventParams) => Promise<void>;
   };
 }
 
@@ -47,6 +49,10 @@ export const withOrderDetailController = (Component: ComponentType<DetailOrderPr
       return await OrderService.instance.fetchOneOrder(params);
     };
 
+    const updateOrderStatus = async (params: UpdateOrderEventParams) => {
+      return await OrderService.instance.updateOrderEvent(params);
+    };
+
     const logicProps: DetailOrderProps = {
       data: {
         isLoading,
@@ -58,6 +64,7 @@ export const withOrderDetailController = (Component: ComponentType<DetailOrderPr
         updateOrder,
         deleteOrder,
         fetchOrder,
+        updateOrderStatus,
       },
     };
 

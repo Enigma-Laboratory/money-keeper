@@ -1,6 +1,7 @@
 import { CheckCircleOutlined, CloseCircleOutlined, LeftOutlined, MoreOutlined } from '@ant-design/icons';
-import { Avatar, Card, Col, Dropdown, Flex, Row, Space, Typography } from 'antd';
-import { BaseButton, BaseOrderStatus, CardWithContent } from 'components';
+import { OrderStatus, UpdateOrderEventParams } from '@enigma-laboratory/shared';
+import { Avatar, Button, Card, Col, Dropdown, Flex, Row, Space, Typography } from 'antd';
+import { BaseButton, BaseOrderStatus, ButtonStatus, CardWithContent } from 'components';
 import { ReactElement, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -19,10 +20,12 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
   } = props;
 
   const { orderNumber, status } = order || {};
+
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
   const { t } = useTranslation();
+  const { t: tCommon } = useTranslation('common');
 
   const { userIds } = useMemo(() => {
     const userIds = order?.products?.flatMap(({ userIds }) => userIds) || [];
@@ -95,24 +98,26 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
                   </Typography.Text>
                 </Flex>
                 <div>
-                  <Dropdown.Button
-                    icon={<MoreOutlined />}
-                    menu={{
-                      items: [
-                        {
-                          label: '1st menu item',
-                          key: '1',
-                        },
-                        {
-                          label: '2nd menu item',
-                          key: '2',
-                        },
-                      ],
-                    }}
-                    danger
-                  >
-                    Confirm
-                  </Dropdown.Button>
+                  <Space>
+                    <ButtonStatus status={status} />
+
+                    <Dropdown
+                      menu={{
+                        items: Object.values(OrderStatus).map((key) => ({ label: tCommon(`orderStatus.${key}`), key })),
+                        selectable: true,
+                        defaultSelectedKeys: [status],
+                        onClick: (e) =>
+                          dispatch.updateOrderStatus({
+                            status: e.key,
+                            orderId: order._id,
+                          } as UpdateOrderEventParams),
+                      }}
+                    >
+                      <Space>
+                        <Button icon={<MoreOutlined />} />
+                      </Space>
+                    </Dropdown>
+                  </Space>
                 </div>
               </Flex>
             </Card>

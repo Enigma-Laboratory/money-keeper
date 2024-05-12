@@ -17,3 +17,5 @@ export const THC = {
 };
 
 export const DEFAULT_ROOM_NAME = 'money-keeper';
+export const TOKEN_KEY = 'money-keeper-auth';
+export const USER_IDENTITY = 'user-identity-auth';
