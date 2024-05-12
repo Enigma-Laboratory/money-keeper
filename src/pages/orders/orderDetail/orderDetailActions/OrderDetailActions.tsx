@@ -5,6 +5,7 @@ import {
   OrderStatus,
   UpdateOneOrderParams,
   UpdateOrderEventParams,
+  defaultDateTimeFormat,
 } from '@enigma-laboratory/shared';
 import { Avatar, Button, Card, Col, Dropdown, Flex, Space, Typography } from 'antd';
 import { ButtonStatus } from 'components';
@@ -54,7 +55,7 @@ export const OrderDetailActions = ({ order, users, dispatch }: OrderDetailAction
               </Avatar.Group>
               <Typography.Text keyboard>
                 <Typography.Text strong>{t('information.createdOrderAt')} :</Typography.Text>
-                {dayjs(order?.createdOrderAt).format('DD/MM/YYYY HH:mm:ss')}
+                {dayjs(order?.createdOrderAt).format(defaultDateTimeFormat)}
               </Typography.Text>
             </Flex>
             <div>

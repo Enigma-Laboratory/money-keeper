@@ -8,29 +8,11 @@ interface ButtonStatusProps extends ButtonProps {
 }
 
 export const ButtonStatus = (props: ButtonStatusProps) => {
-  const { status, style, ...remaining } = props;
+  const { status = OrderStatus.CANCELLED, ...remaining } = props;
   const { t } = useTranslation('common');
-  let color;
-
-  switch (status) {
-    case OrderStatus.PROCESSING:
-      color = 'blue';
-      break;
-    case OrderStatus.CONFIRM:
-      color = 'lime';
-      break;
-    case OrderStatus.DONE:
-      color = 'green';
-      break;
-    case OrderStatus.CANCELLED:
-      color = 'red';
-      break;
-    default:
-      color = 'red';
-  }
 
   return (
-    <StyledButtonStatus style={{ background: color, width: 100, ...style }} {...remaining}>
+    <StyledButtonStatus status={status} {...remaining}>
       {t(`orderStatus.${status}`, status)}
     </StyledButtonStatus>
   );

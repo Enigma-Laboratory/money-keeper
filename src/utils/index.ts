@@ -5,4 +5,5 @@ export * from './formatCurrencyToVnd';
 export * from './generateColorFromAlphabet';
 export * from './getExactPath';
 export * from './getUniqueListWithCount';
+export * from './hexToRgb';
 export * from './objectIsEmpty';

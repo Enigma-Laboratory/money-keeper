@@ -1,16 +1,17 @@
-import { Order, OrderStatus, User, defaultDateTimeFormat } from '@enigma-laboratory/shared';
+import { Order, OrderStatus, defaultDateTimeFormat } from '@enigma-laboratory/shared';
 import { Col, Flex, Space, Timeline, Typography } from 'antd';
 import { BaseOrderStatus, CardWithContent } from 'components';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { UserCollection } from 'stores';
 
-type Props = {
+type OrderEventLogProps = {
   order?: Order;
-  users: Record<string, User>;
+  users: UserCollection;
 };
 
-export const OrderEventLog = ({ order, users }: Props) => {
+export const OrderEventLog = ({ order, users }: OrderEventLogProps) => {
   const { t } = useTranslation('orderDetail');
 
   const logStepItems = useMemo(
@@ -24,7 +25,7 @@ export const OrderEventLog = ({ order, users }: Props) => {
             <Space direction="vertical" size={0} style={{ width: '100%' }}>
               <Flex justify="space-between">
                 <Typography.Text>{dayjs(event.date).format(defaultDateTimeFormat)}</Typography.Text>
-                <BaseOrderStatus status={event.status} />
+                <BaseOrderStatus status={event?.status} />
               </Flex>
 
               <Typography.Text>
