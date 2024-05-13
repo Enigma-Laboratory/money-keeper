@@ -1,6 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 
-import { CreateOrderSteps } from 'pages/orders/createOrder/CreateOrder';
+import { CreateOrderSteps } from 'pages/operationalSetting/createOrder/CreateOrder';
 
 const { INFORMATION, PRODUCT, CONFIRM, DONE } = CreateOrderSteps;
 
