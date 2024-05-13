@@ -14,11 +14,7 @@ import { StyledOrder } from './Order.styles';
 import { OperationalSettingDrawer } from './operationalSettingDrawer/OperationalSettingDrawer';
 import { IOperationalSettingData } from './operationalSettingDrawer/withOperationalSettingDrawerController';
 import { IOperationalSettingProps } from './withOrderController';
-
-interface DataType extends OperationalSetting {
-  key: string;
-  name: string;
-  createdAt: Date;
+export interface OperationalSettingWithOrders extends OperationalSetting {
   orders?: Order[];
 }
 
@@ -51,7 +47,7 @@ export const Orders = (props: IOperationalSettingProps): ReactElement => {
     [],
   );
 
-  const columns: TableProps<DataType>['columns'] = [
+  const columns: TableProps<OperationalSettingWithOrders>['columns'] = [
     {
       title: t('', 'Name'),
       dataIndex: 'name',
@@ -110,7 +106,7 @@ export const Orders = (props: IOperationalSettingProps): ReactElement => {
       },
     },
   ];
-  const dataSource: DataType[] | undefined = useMemo(
+  const dataSource: OperationalSettingWithOrders[] | undefined = useMemo(
     () =>
       Object.values(operationalSettings).map((operationalSetting) => {
         return {
@@ -136,7 +132,7 @@ export const Orders = (props: IOperationalSettingProps): ReactElement => {
     );
   };
 
-  const handleClickDetailOrder = (record: DataType): void => {
+  const handleClickDetailOrder = (record: OperationalSettingWithOrders): void => {
     setDrawerData((prev) => ({ ...prev, ...record, isOpen: true }));
   };
 
