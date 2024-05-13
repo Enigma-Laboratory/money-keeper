@@ -10,4 +10,5 @@ export * from './CardWithContent';
 export * from './CatchAllNavigate';
 export * from './Header';
 export * from './MenuCustom';
+export * from './NotFound';
 export * from './OrderStatus';

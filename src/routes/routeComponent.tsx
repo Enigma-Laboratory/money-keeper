@@ -1,9 +1,6 @@
-import { NotFound } from 'components/NotFound';
-import { Dashboard, OrderScreen } from 'pages';
-
-import { CreateOrderScreen, EditOrderScreen, OrderDetailScreen } from 'pages';
-
-const ROUTE_PATH = '/';
+import { NotFound } from 'components';
+import { CreateOrderScreen, Dashboard, EditOrderScreen, OrderDetailScreen, OrderScreen } from 'pages';
+import { ROUTE_PATH } from 'utils';
 
 export interface RouteComponent {
   name: string;

@@ -47,11 +47,9 @@ export const useFetchInitData = (): FetchInitDataResult => {
   }, [hasFetchedAllData]);
 
   useEffect(() => {
-    console.log('socket on');
     socket.onEventListeners([orderEventHandlers, operationalSettingEventHandlers]);
 
     return () => {
-      console.log('socket off');
       socket.offEventListeners([orderEventHandlers, operationalSettingEventHandlers]);
     };
   }, []);

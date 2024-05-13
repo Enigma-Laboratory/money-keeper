@@ -5,18 +5,18 @@ import { ComponentType, useMemo, useState } from 'react';
 import { OperationalSettingService } from 'stores';
 import { EVENT_NAME, EventAction } from 'utils';
 
-type IGroupOrders = { [groupId: string]: Order[] };
+type GroupOrders = { [groupId: string]: Order[] };
 
 export interface OperationalSettingStatusLoading {
   id?: string;
   status: boolean;
 }
-export interface IOperationalSettingProps {
+export interface OperationalSettingProps {
   data: {
     isLoading: boolean;
     statusLoading: OperationalSettingStatusLoading;
     operationalSettings: Record<string, OperationalSetting>;
-    groupOrders: IGroupOrders;
+    groupOrders: GroupOrders;
   };
   dispatch: {
     handleOnCloseModal?: () => void;
@@ -31,8 +31,6 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
     const { isLoading, operationalSettings, orders } = useFetchInitData();
 
     const handleUpdateOrderStatus = async (params: UpdateOneOperationalSettingParams) => {
-      console.log('hell', params);
-
       setStatusLoading({ id: params._id, status: true });
       try {
         await OperationalSettingService.instance.updateOneOperationalSetting(params);
@@ -43,17 +41,17 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
       }
     };
 
-    const groupedOrders: IGroupOrders = useMemo(() => {
+    const groupedOrders: GroupOrders = useMemo(() => {
       return Object.values(orders).reduce((acc, order) => {
         const { groupId } = order || {};
         if (groupId) {
           acc[groupId] = [...(acc[groupId] || []), order];
         }
         return acc;
-      }, {} as IGroupOrders);
+      }, {} as GroupOrders);
     }, [orders]);
 
-    const logicProps: IOperationalSettingProps = {
+    const logicProps: OperationalSettingProps = {
       data: {
         isLoading,
         statusLoading,

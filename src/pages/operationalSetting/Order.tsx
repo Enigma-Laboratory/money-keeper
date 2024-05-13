@@ -1,31 +1,32 @@
-import { InsertRowRightOutlined } from '@ant-design/icons';
-import { OperationalSetting, Order } from '@enigma-laboratory/shared';
 import { Button, Space, Spin, Switch, Table, Typography } from 'antd';
 import type { TableProps } from 'antd/es/table';
-import { BaseOrderStatus } from 'components/OrderStatus';
 import dayjs from 'dayjs';
 import { ReactElement, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { routePaths } from 'routes';
+
+import { InsertRowRightOutlined } from '@ant-design/icons';
+import { OperationalSetting, Order } from '@enigma-laboratory/shared';
+import { BaseOrderStatus } from 'components/OrderStatus';
 import { getExactPath } from 'utils';
 import { THC } from 'utils/constants';
-import { StyledOrder } from './Order.styles';
-import { Drawer } from './operationalSettingDrawer';
-import { IOperationalSettingData } from './operationalSettingDrawer/withOperationalSettingDrawerController';
-import { IOperationalSettingProps } from './withOrderController';
+
+import { StyledOperationalSetting } from './OperationalSetting.styles';
+import { Drawer, OperationalSettingData } from './operationalSettingDrawer';
+import { OperationalSettingProps } from './withOperationalSettingController';
 export interface OperationalSettingWithOrders extends OperationalSetting {
   orders?: Order[];
 }
 
-export const Orders = (props: IOperationalSettingProps): ReactElement => {
+export const Orders = (props: OperationalSettingProps): ReactElement => {
   const { data, dispatch } = props;
   const { isLoading, statusLoading, groupOrders, operationalSettings } = data;
   const { handleUpdateOrderStatus } = dispatch;
   const navigate = useNavigate();
   const { t } = useTranslation('order');
 
-  const [drawerData, setDrawerData] = useState<Partial<IOperationalSettingData>>({ isOpen: false, statusLoading });
+  const [drawerData, setDrawerData] = useState<Partial<OperationalSettingData>>({ isOpen: false, statusLoading });
 
   useEffect(() => {
     setDrawerData((prevDrawerData) => {
@@ -140,7 +141,7 @@ export const Orders = (props: IOperationalSettingProps): ReactElement => {
   };
 
   return (
-    <StyledOrder $tableBodyHeight={TABLE_HEIGHT}>
+    <StyledOperationalSetting $tableBodyHeight={TABLE_HEIGHT}>
       {headerOrder()}
       <Spin spinning={isLoading}>
         <Table
@@ -159,7 +160,7 @@ export const Orders = (props: IOperationalSettingProps): ReactElement => {
           pagination={{ pageSize: 10 }}
         />
       </Spin>
-      <Drawer data={drawerData as IOperationalSettingData} dispatch={{ closeDrawer, handleUpdateOrderStatus }} />
-    </StyledOrder>
+      <Drawer data={drawerData as OperationalSettingData} dispatch={{ closeDrawer, handleUpdateOrderStatus }} />
+    </StyledOperationalSetting>
   );
 };

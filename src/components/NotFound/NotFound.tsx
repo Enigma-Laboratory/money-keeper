@@ -1,5 +1,5 @@
 import { Button, Result } from 'antd';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 

@@ -22,6 +22,7 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
   const { t } = useTranslation('common');
 
   const [modalSource, setModalSource] = useState<AlertModalPayload>({ data: { type: 'info' } });
+  const { data, dispatch } = modalSource;
 
   const openModal = (payload: CustomEvent<AlertModalPayload>) => {
     const { detail } = payload || {};
@@ -47,22 +48,27 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
 
   useEffect(() => {}, [modalSource]);
 
-  const renderHeader = useMemo(
-    () => <HeaderAlertModal title={modalSource.data?.title} type={modalSource.data.type} />,
-    [modalSource],
-  );
+  const renderHeader = useMemo(() => <HeaderAlertModal title={data?.title} type={data.type} />, [modalSource]);
 
   const renderFooter = () => {
-    return [
+    const buttons: React.ReactNode[] = [
       <Button type="primary" onClick={closeModal}>
         {t('alertTitle.close')}
       </Button>,
     ];
+    if (data.type === 'confirm') {
+      buttons.push(
+        <Button type="primary" onClick={closeModal}>
+          {t('alertTitle.close')}
+        </Button>,
+      );
+    }
+    return buttons;
   };
 
   return (
-    <BaseModal closable={false} open={modalSource.data?.isOpen} footer={renderFooter} {...props} title={renderHeader}>
-      {modalSource.data?.content}
+    <BaseModal closable={false} open={data?.isOpen} footer={renderFooter} {...props} title={renderHeader}>
+      <div style={{ textAlign: 'center' }}>{data?.content}</div>
     </BaseModal>
   );
 };

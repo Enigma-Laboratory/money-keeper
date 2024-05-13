@@ -1,15 +1,15 @@
 import { OperationalSetting, Order, UpdateOneOperationalSettingParams } from '@enigma-laboratory/shared';
 import { ComponentType } from 'react';
-import { OperationalSettingStatusLoading } from '../withOrderController';
+import { OperationalSettingStatusLoading } from '../withOperationalSettingController';
 
-export interface IOperationalSettingData extends OperationalSetting {
+export interface OperationalSettingData extends OperationalSetting {
   isOpen: boolean;
   orders: Order[];
   statusLoading: OperationalSettingStatusLoading;
 }
 
 export interface OperationalSettingProps {
-  data: IOperationalSettingData;
+  data: OperationalSettingData;
   dispatch: {
     closeDrawer: () => void;
     handleUpdateOrderStatus: (params: UpdateOneOperationalSettingParams) => Promise<void>;
@@ -23,6 +23,7 @@ export const withOperationalSettingController = (
     const { data, dispatch } = props;
     const { handleUpdateOrderStatus } = dispatch;
     const { closeDrawer } = dispatch;
+    console.log(data);
 
     const LogicProps: OperationalSettingProps = {
       data,

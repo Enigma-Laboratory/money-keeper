@@ -1,9 +1,9 @@
-import { Typography, theme, Divider, List, Skeleton, Spin } from 'antd';
+import { Divider, List, Skeleton, Spin, Typography, theme } from 'antd';
+import { BaseOrderStatus } from 'components/OrderStatus';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { BaseOrderStatus } from 'components/OrderStatus';
 import { IOrder } from 'interface';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 dayjs.extend(relativeTime);
 
@@ -55,7 +55,6 @@ export const OrderTimeline = ({ data, dispatch }: OrderTimelineProps) => {
           itemLayout="horizontal"
           dataSource={orders}
           renderItem={(item) => {
-            console.log(item);
             return (
               <List.Item
                 onClick={() => console.log('Navigate to order.')}
