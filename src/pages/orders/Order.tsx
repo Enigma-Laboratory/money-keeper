@@ -111,7 +111,6 @@ export const Orders = (props: IOperationalSettingProps): ReactElement => {
       Object.values(operationalSettings).map((operationalSetting) => {
         return {
           _id: operationalSetting._id,
-          key: operationalSetting._id,
           name: operationalSetting.name,
           createdAt: operationalSetting.createdAt,
           status: operationalSetting.status,
