@@ -37,5 +37,6 @@ export default {
     warning: 'Cảnh báo',
     success: 'Thành công',
     close: 'Đóng',
+    ok: 'Đồng ý',
   },
 };

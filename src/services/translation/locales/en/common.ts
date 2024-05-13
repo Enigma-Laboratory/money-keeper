@@ -37,5 +37,6 @@ export default {
     warning: 'Warning',
     success: 'Success',
     close: 'Close',
+    ok: 'Ok',
   },
 };

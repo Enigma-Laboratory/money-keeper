@@ -15,7 +15,10 @@ export interface AlertModalPayload {
     type: AlertModalType;
     content?: string;
   };
-  dispatch?: {};
+  dispatch?: {
+    handleOk?: () => void;
+    handleCancel?: () => void;
+  };
 }
 
 export const AlertModal = (props: BaseModalProps): ReactElement => {
@@ -33,6 +36,15 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
   };
 
   const closeModal = () => {
+    dispatch?.handleCancel?.();
+    setModalSource((prev) => ({
+      ...prev,
+      data: { ...prev.data, isOpen: false },
+    }));
+  };
+
+  const handleOk = (): void => {
+    dispatch?.handleOk?.();
     setModalSource((prev) => ({
       ...prev,
       data: { ...prev.data, isOpen: false },
@@ -51,15 +63,11 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
   const renderHeader = useMemo(() => <HeaderAlertModal title={data?.title} type={data.type} />, [modalSource]);
 
   const renderFooter = () => {
-    const buttons: React.ReactNode[] = [
-      <Button type="primary" onClick={closeModal}>
-        {t('alertTitle.close')}
-      </Button>,
-    ];
+    const buttons: React.ReactNode[] = [<Button onClick={closeModal}>{t('alertTitle.close')}</Button>];
     if (data.type === 'confirm') {
       buttons.push(
-        <Button type="primary" onClick={closeModal}>
-          {t('alertTitle.close')}
+        <Button type="primary" onClick={handleOk}>
+          {t('alertTitle.ok')}
         </Button>,
       );
     }

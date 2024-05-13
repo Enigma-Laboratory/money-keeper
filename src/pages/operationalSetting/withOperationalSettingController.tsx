@@ -35,7 +35,7 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
       try {
         await OperationalSettingService.instance.updateOneOperationalSetting(params);
       } catch (e: any) {
-        EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, { data: { type: 'error', content: 'hello' } });
+        EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, { data: { type: 'confirm', content: 'hello' } });
       } finally {
         setStatusLoading({ id: '', status: false });
       }
