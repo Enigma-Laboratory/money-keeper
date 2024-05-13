@@ -1,23 +1,17 @@
-import React, { useMemo, useTransition } from 'react';
-import { DashboardStyled } from './Dashboard.styles';
-import dayjs from 'dayjs';
-import { DashboardProps } from './withDashboardController';
-import { DailyRevenue } from './dailyRevenue';
+import { ClockCircleOutlined, DollarCircleOutlined, ShoppingOutlined, UserOutlined } from '@ant-design/icons';
 import { Col, Flex, Row, Select, Typography, theme } from 'antd';
-import { CardWithContent, CardWithPlot } from 'components/CardWithPlot';
-import {
-  ClockCircleOutlined,
-  DollarCircleOutlined,
-  RiseOutlined,
-  ShoppingOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
 import { TrendDownIcon, TrendUpIcon } from 'assets/icons';
+import { CardWithContent, CardWithPlot } from 'components/CardWithPlot';
+import dayjs from 'dayjs';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { DashboardStyled } from './Dashboard.styles';
 import { DailyOrders } from './dailyOrders';
+import { DailyRevenue } from './dailyRevenue';
 import { NewCustomers } from './newCustomers';
 import { OrderTimeline } from './orderTimeline';
 import { RecentOrders } from './recentOrders';
+import { DashboardProps } from './withDashboardController';
 
 export const DashboardPage = ({ data, dispatch }: DashboardProps) => {
   const { orders: orderTimelines, dailyRevenueData, dailyOrdersData, newCustomersData } = data || {};

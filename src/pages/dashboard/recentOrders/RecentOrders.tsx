@@ -11,13 +11,13 @@ type OrderTimelineProps = {
   dispatch: {};
 };
 
-interface DataType {
-  key: string;
-  orderNumber: string;
-  age: number;
-  address: string;
-  tags: string[];
-}
+// interface DataType {
+//   key: string;
+//   orderNumber: string;
+//   age: number;
+//   address: string;
+//   tags: string[];
+// }
 
 export const RecentOrders = ({ data }: OrderTimelineProps) => {
   const { orders } = data;

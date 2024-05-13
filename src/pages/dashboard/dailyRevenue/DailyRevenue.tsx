@@ -1,5 +1,3 @@
-import { useConfigProvider } from '../../../context';
-import { useTranslation } from 'react-i18next';
 import { Line } from 'react-chartjs-2';
 
 type Props = {
@@ -13,8 +11,8 @@ type Props = {
 };
 
 export const DailyRevenue = ({ data, height }: Props) => {
-  const t = useTranslation();
-  const { mode } = useConfigProvider();
+  // const t = useTranslation();
+  // const { mode } = useConfigProvider();
 
   const options = {
     maintainAspectRatio: false,

@@ -6,7 +6,7 @@ import {
   User,
 } from '@enigma-laboratory/shared';
 import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
-import { HttpClientService, HttpConfig, HttpConfigAuth } from '../Http';
+import { HttpClientService, HttpConfig, HttpConfigAuth } from '../HttpService';
 
 export class UserApiService extends ApiServiceEndPoint {
   private static _instance: UserApiService;
