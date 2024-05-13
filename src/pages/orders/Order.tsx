@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import { ReactElement, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { routePaths } from 'routes/routeComponent';
+import { routePaths } from 'routes';
 import { getExactPath } from 'utils';
 import { THC } from 'utils/constants';
 import { StyledOrder } from './Order.styles';
