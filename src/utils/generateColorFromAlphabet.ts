@@ -1,4 +1,4 @@
-export function generateColorFromAlphabet(char: string) {
+export const generateColorFromAlphabet = (char: string) => {
   // Get ASCII value of the character
   var asciiValue = char.charCodeAt(0);
 
@@ -9,4 +9,4 @@ export function generateColorFromAlphabet(char: string) {
 
   // Return the RGB color
   return 'rgb(' + red + ',' + green + ',' + blue + ')';
-}
+};

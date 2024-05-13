@@ -1,5 +1,4 @@
 export function hexToRgb(hex: string) {
-  // Kiểm tra đầu vào
   hex = hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (m, r, g, b) => {
     return r + r + g + g + b + b;
   });

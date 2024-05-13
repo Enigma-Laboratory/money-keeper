@@ -2,7 +2,7 @@ interface AnyObject {
   [key: string]: any;
 }
 
-export function arrayToObject<T extends AnyObject, K extends keyof T>(propertyName: K, array: T[]): Record<T[K], T> {
+export const arrayToObject = <T extends AnyObject, K extends keyof T>(propertyName: K, array: T[]): Record<T[K], T> => {
   return array.reduce(
     (acc, item) => {
       acc[item[propertyName]] = item;
@@ -10,4 +10,4 @@ export function arrayToObject<T extends AnyObject, K extends keyof T>(propertyNa
     },
     {} as Record<T[K], T>,
   );
-}
+};

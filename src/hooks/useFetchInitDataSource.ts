@@ -28,14 +28,14 @@ export const useFetchInitData = (): FetchInitDataResult => {
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const hasFetchedDataSource = useMemo(() => {
-    return !objectIsEmpty(operationalSettings) || !objectIsEmpty(orders) || !objectIsEmpty(users);
+  const hasFetchedAllData = useMemo(() => {
+    return !objectIsEmpty(operationalSettings) && !objectIsEmpty(orders) && !objectIsEmpty(users);
   }, [operationalSettings, orders, users]);
 
   const fetchInitDataSource = useCallback(async (): Promise<void> => {
     setIsLoading(true);
     try {
-      if (hasFetchedDataSource) return;
+      if (hasFetchedAllData) return;
       await Promise.all([
         await OperationalSettingService.instance.fetchAllOperationalSetting(),
         await OrderService.instance.fetchAllOrder(),
@@ -44,7 +44,7 @@ export const useFetchInitData = (): FetchInitDataResult => {
     } finally {
       setIsLoading(false);
     }
-  }, [hasFetchedDataSource]);
+  }, [hasFetchedAllData]);
 
   useEffect(() => {
     socket.onEventListeners([orderEventHandlers, operationalSettingEventHandlers]);
