@@ -1,4 +1,4 @@
-import { Flex, Space, Table, TableProps, Tag, Typography, theme } from 'antd';
+import { Flex, Space, Table, TableProps, Typography, theme } from 'antd';
 import { IOrder } from 'interface';
 import { getUniqueListWithCount } from 'utils';
 import { OrderActions } from './OrderAction';

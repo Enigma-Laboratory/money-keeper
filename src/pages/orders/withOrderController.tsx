@@ -5,57 +5,61 @@ import { ComponentType, useMemo, useState } from 'react';
 import { OperationalSettingService } from 'stores';
 import { EVENT_NAME, EventAction } from 'utils';
 
-type GroupOrders = { [groupId: string]: Order[] };
+type IGroupOrders = { [groupId: string]: Order[] };
 
-export interface OrderProps {
+export interface OperationalSettingStatusLoading {
+  id?: string;
+  status: boolean;
+}
+export interface IOperationalSettingProps {
   data: {
     isLoading: boolean;
-    isStatusLoading: { id?: string; status: boolean };
+    statusLoading: OperationalSettingStatusLoading;
     operationalSettings: Record<string, OperationalSetting>;
-    groupOrders: GroupOrders;
+    groupOrders: IGroupOrders;
   };
   dispatch: {
     handleOnCloseModal?: () => void;
-    handleOnChangeOrderStatus: (params: UpdateOneOperationalSettingParams) => Promise<void>;
+    handleUpdateOrderStatus: (params: UpdateOneOperationalSettingParams) => Promise<void>;
   };
 }
 
 export const withOrderController = <P,>(Component: ComponentType<P>): ComponentType<P> => {
   return (props: P) => {
-    const [isStatusLoading, setIsStatusLoading] = useState<{ id?: string; status: boolean }>({ id: '', status: false });
+    const [statusLoading, setStatusLoading] = useState<{ id?: string; status: boolean }>({ id: '', status: false });
 
     const { isLoading, operationalSettings, orders } = useFetchInitData();
 
-    const handleOnChangeOrderStatus = async (params: UpdateOneOperationalSettingParams) => {
-      setIsStatusLoading({ id: params._id, status: true });
+    const handleUpdateOrderStatus = async (params: UpdateOneOperationalSettingParams) => {
+      setStatusLoading({ id: params._id, status: true });
       try {
         await OperationalSettingService.instance.updateOneOperationalSetting(params);
       } catch (e: any) {
         EventAction.dispatch<IAlertModalPayload>(EVENT_NAME.OPEN_MODAL, { data: { type: 'error', content: 'hello' } });
       } finally {
-        setIsStatusLoading({ id: '', status: false });
+        setStatusLoading({ id: '', status: false });
       }
     };
 
-    const groupedOrders: GroupOrders = useMemo(() => {
+    const groupedOrders: IGroupOrders = useMemo(() => {
       return Object.values(orders).reduce((acc, order) => {
         const { groupId } = order || {};
         if (groupId) {
           acc[groupId] = [...(acc[groupId] || []), order];
         }
         return acc;
-      }, {} as GroupOrders);
+      }, {} as IGroupOrders);
     }, [orders]);
 
-    const logicProps: OrderProps = {
+    const logicProps: IOperationalSettingProps = {
       data: {
         isLoading,
-        isStatusLoading,
+        statusLoading,
         groupOrders: groupedOrders,
         operationalSettings,
       },
       dispatch: {
-        handleOnChangeOrderStatus,
+        handleUpdateOrderStatus,
       },
     };
 

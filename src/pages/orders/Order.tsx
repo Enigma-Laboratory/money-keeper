@@ -4,25 +4,35 @@ import { Button, Space, Spin, Switch, Table, Typography } from 'antd';
 import type { TableProps } from 'antd/es/table';
 import { BaseOrderStatus } from 'components/OrderStatus';
 import dayjs from 'dayjs';
-import { ReactElement, useMemo } from 'react';
+import { ReactElement, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { routePaths } from 'routes';
-import { THC, getExactPath } from 'utils';
+import { routePaths } from 'routes/routeComponent';
+import { getExactPath } from 'utils';
+import { THC } from 'utils/constants';
 import { StyledOrder } from './Order.styles';
-import { OrderProps } from './withOrderController';
-interface DataType extends OperationalSetting {
-  key: string;
-  name: string;
-  createdAt: Date;
+import { OperationalSettingDrawer } from './operationalSettingDrawer/OperationalSettingDrawer';
+import { IOperationalSettingData } from './operationalSettingDrawer/withOperationalSettingDrawerController';
+import { IOperationalSettingProps } from './withOrderController';
+export interface OperationalSettingWithOrders extends OperationalSetting {
   orders?: Order[];
 }
 
-export const Orders = (props: OrderProps): ReactElement => {
+export const Orders = (props: IOperationalSettingProps): ReactElement => {
   const { data, dispatch } = props;
-  const { isLoading, isStatusLoading, groupOrders, operationalSettings } = data;
+  const { isLoading, statusLoading, groupOrders, operationalSettings } = data;
+  const { handleUpdateOrderStatus } = dispatch;
   const navigate = useNavigate();
   const { t } = useTranslation('order');
+
+  const [drawerData, setDrawerData] = useState<Partial<IOperationalSettingData>>({ isOpen: false, statusLoading });
+
+  useEffect(() => {
+    setDrawerData((prevDrawerData) => {
+      const updatedStatus = operationalSettings?.[prevDrawerData?._id || '']?.status;
+      return { ...prevDrawerData, statusLoading, status: !!updatedStatus ? updatedStatus : prevDrawerData.status };
+    });
+  }, [statusLoading, operationalSettings]);
 
   const TABLE_HEIGHT = useMemo(
     () =>
@@ -37,7 +47,7 @@ export const Orders = (props: OrderProps): ReactElement => {
     [],
   );
 
-  const columns: TableProps<DataType>['columns'] = [
+  const columns: TableProps<OperationalSettingWithOrders>['columns'] = [
     {
       title: t('', 'Name'),
       dataIndex: 'name',
@@ -84,22 +94,23 @@ export const Orders = (props: OrderProps): ReactElement => {
             checkedChildren={t('', 'Opening')}
             unCheckedChildren={t('', 'Closed')}
             checked={value === 'opening'}
-            loading={isStatusLoading?.status && isStatusLoading.id === record._id}
+            loading={statusLoading?.status && statusLoading.id === record._id}
+            onClick={(_, e: React.MouseEvent) => {
+              e.stopPropagation();
+            }}
             onChange={async (isOpen) =>
-              await dispatch?.handleOnChangeOrderStatus({ _id: record._id, status: isOpen ? 'opening' : 'closed' })
+              await handleUpdateOrderStatus({ _id: record._id, status: isOpen ? 'opening' : 'closed' })
             }
           />
         );
       },
     },
   ];
-  const dataSource: DataType[] | undefined = useMemo(
+  const dataSource: OperationalSettingWithOrders[] | undefined = useMemo(
     () =>
       Object.values(operationalSettings).map((operationalSetting) => {
         return {
           _id: operationalSetting._id,
-
-          key: operationalSetting._id,
           name: operationalSetting.name,
           createdAt: operationalSetting.createdAt,
           status: operationalSetting.status,
@@ -119,8 +130,13 @@ export const Orders = (props: OrderProps): ReactElement => {
       </Space>
     );
   };
-  const handleClickDetailOrder = (record: any) => {
-    // navigate(getExactPath(routePaths.detailOrder, { id: record?.key }));
+
+  const handleClickDetailOrder = (record: OperationalSettingWithOrders): void => {
+    setDrawerData((prev) => ({ ...prev, ...record, isOpen: true }));
+  };
+
+  const closeDrawer = (): void => {
+    setDrawerData((prev) => ({ ...prev, isOpen: false }));
   };
 
   return (
@@ -131,18 +147,22 @@ export const Orders = (props: OrderProps): ReactElement => {
           columns={columns}
           dataSource={dataSource}
           // onChange={onChange}
-          // onRow={(record, rowIndex) => {
-          //   return {
-          //     onClick: () => {
-          //       handleClickDetailOrder(record);
-          //     },
-          //     className: 'pointer-cursor',
-          //   };
-          // }}
+          onRow={(record) => {
+            return {
+              onClick: () => {
+                handleClickDetailOrder(record);
+              },
+              className: 'pointer-cursor',
+            };
+          }}
           scroll={{ y: TABLE_HEIGHT }}
           pagination={{ pageSize: 10 }}
         />
       </Spin>
+      <OperationalSettingDrawer
+        data={drawerData as IOperationalSettingData}
+        dispatch={{ closeDrawer, handleUpdateOrderStatus }}
+      />
     </StyledOrder>
   );
 };

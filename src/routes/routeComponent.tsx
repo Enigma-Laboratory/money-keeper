@@ -34,7 +34,7 @@ export const routeComponents: RouteComponent[] = [
       <OrderScreen
         data={{
           isLoading: false,
-          isStatusLoading: {
+          statusLoading: {
             id: '',
             status: false,
           },
@@ -43,7 +43,7 @@ export const routeComponents: RouteComponent[] = [
         }}
         dispatch={{
           handleOnCloseModal: () => {},
-          handleOnChangeOrderStatus: async (): Promise<void> => {
+          handleUpdateOrderStatus: async (): Promise<void> => {
             await Promise.resolve();
           },
         }}
