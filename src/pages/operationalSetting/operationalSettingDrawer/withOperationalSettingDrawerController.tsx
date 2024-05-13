@@ -54,3 +54,22 @@ export const withOperationalSettingController = (
     return <Component {...props} {...LogicProps} />;
   };
 };
+
+function calculateTotalPriceByUserId(orders: Order[]): { [key: string]: number } {
+  return orders?.reduce(
+    (acc, order) => {
+      const orderTotalPrice = order.products.reduce((total, product) => total + product.price, 0);
+
+      order.products.forEach((product) => {
+        product.userIds.forEach((userId) => {
+          acc[userId] = (acc[userId] ?? 0) - product.price / product.userIds.length;
+        });
+      });
+
+      acc[order.userId] = orderTotalPrice + (acc[order.userId] ?? 0);
+
+      return acc;
+    },
+    {} as { [key: string]: number },
+  );
+}

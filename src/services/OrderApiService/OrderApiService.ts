@@ -48,7 +48,7 @@ export class OrderApiService extends ApiServiceEndPoint {
   }
 
   public async deleteOneOrder(params: DeleteOneOrderParams): Promise<DeleteOneOrderResponse> {
-    const endpoint = `${this.endPoint}/${HttpConfigOrder.DELETE_ORDER}/${params._id}`;
+    const endpoint = `${this.endPoint}/${params._id}`;
     return await HttpClientService.httpDelete<any>(endpoint);
   }
 }

@@ -1,11 +1,10 @@
 import { CheckCircleOutlined, CloseCircleOutlined, LeftOutlined } from '@ant-design/icons';
 import { Avatar, Card, Col, Flex, Row, Space } from 'antd';
-import { BaseButton, BaseOrderStatus } from 'components';
+import { AlertModalPayload, BaseButton, BaseOrderStatus } from 'components';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { routePaths } from 'routes';
-import { getExactPath } from 'utils';
+import { EVENT_NAME, EventAction } from 'utils';
 import { DetailOrderStyled } from './OrderDetail.styles';
 import { OrderEventLog } from './detailStatus';
 import { OrderInformation } from './information';
@@ -42,7 +41,7 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
           <Space align="end">
             <BaseButton
               onClick={() => {
-                dispatch.deleteOrder({ _id: id || '' });
+                // dispatch.updateOrder({ _id: id || '' });
               }}
               icon={<CloseCircleOutlined />}
               danger
@@ -51,7 +50,15 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
             </BaseButton>
             <BaseButton
               onClick={() => {
-                navigate(getExactPath(routePaths.editOrder, { id }));
+                EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
+                  data: { type: 'confirm', content: order?.name },
+                  dispatch: {
+                    async handleOk() {
+                      dispatch.deleteOrder({ _id: id || '' });
+                      navigate('/orders');
+                    },
+                  },
+                });
               }}
               type="primary"
               icon={<CheckCircleOutlined />}
