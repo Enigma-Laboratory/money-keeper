@@ -1,11 +1,18 @@
 import { OperationalSetting, Order, UpdateOneOperationalSettingParams } from '@enigma-laboratory/shared';
+import { useFetchInitData } from 'hooks';
 import { ComponentType } from 'react';
+import { UserCollection } from 'stores';
 import { OperationalSettingStatusLoading } from '../withOperationalSettingController';
 
+interface PriceByUserPair {
+  [userId: string]: number;
+}
 export interface OperationalSettingData extends OperationalSetting {
   isOpen: boolean;
   orders: Order[];
   statusLoading: OperationalSettingStatusLoading;
+  priceByUser: PriceByUserPair;
+  users: UserCollection;
 }
 
 export interface OperationalSettingProps {
@@ -20,13 +27,25 @@ export const withOperationalSettingController = (
   Component: ComponentType<OperationalSettingProps>,
 ): ComponentType<OperationalSettingProps> => {
   return (props: OperationalSettingProps) => {
-    const { data, dispatch } = props;
-    const { handleUpdateOrderStatus } = dispatch;
-    const { closeDrawer } = dispatch;
-    console.log(data);
+    const {
+      data,
+      dispatch: { handleUpdateOrderStatus, closeDrawer },
+    } = props;
+
+    const { users } = useFetchInitData();
+
+    const priceByUser: PriceByUserPair = {};
+
+    data.orders?.forEach(({ products, userId }) => {
+      const totalPrice: number = products.reduce((acc, { userIds, price }) => {
+        userIds.forEach((userId) => (priceByUser[userId] = (priceByUser[userId] ?? 0) + (price / userIds.length) * -1));
+        return (acc += price);
+      }, 0);
+      priceByUser[userId] = (priceByUser[userId] ?? 0) + totalPrice;
+    });
 
     const LogicProps: OperationalSettingProps = {
-      data,
+      data: { ...data, priceByUser, users },
       dispatch: {
         closeDrawer,
         handleUpdateOrderStatus,

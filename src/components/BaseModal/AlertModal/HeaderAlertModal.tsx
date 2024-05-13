@@ -1,8 +1,8 @@
 import { Space } from 'antd';
+import { AlertModalType } from 'interface';
 import { ReactElement } from 'react';
-import { IconHeaderAlertModal } from './IconHEaderAlertModal';
-import { AlertModalType } from './AlertModal';
 import { useTranslation } from 'react-i18next';
+import { IconHeaderAlertModal } from './IconHEaderAlertModal';
 
 export const HeaderAlertModal = (props: { title: string | undefined; type: AlertModalType }): ReactElement => {
   const { title, type } = props;

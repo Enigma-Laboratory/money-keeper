@@ -1,25 +1,13 @@
 import { Button } from 'antd';
+import { AlertModalPayload } from 'interface';
 import { ReactElement, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { EVENT_NAME } from 'utils';
 import { EventAction } from 'utils/customEvent';
+
 import { BaseModal, BaseModalProps } from '../BaseModal';
 import { HeaderAlertModal } from './HeaderAlertModal';
-
-export type AlertModalType = 'confirm' | 'warning' | 'info' | 'error' | 'success';
-
-export interface AlertModalPayload {
-  data: {
-    isOpen?: boolean;
-    title?: string;
-    type: AlertModalType;
-    content?: string;
-  };
-  dispatch?: {
-    handleOk?: () => void;
-    handleCancel?: () => void;
-  };
-}
 
 export const AlertModal = (props: BaseModalProps): ReactElement => {
   const { t } = useTranslation('common');
