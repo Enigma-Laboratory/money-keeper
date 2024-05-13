@@ -1,7 +1,5 @@
-import { useConfigProvider } from '../../../context';
-import { useTranslation } from 'react-i18next';
+import { BarElement, CategoryScale, Chart, Legend, LinearScale, Title, Tooltip } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 type Props = {
   data: {
     timeUnix: number;
@@ -15,8 +13,8 @@ type Props = {
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export const NewCustomers = ({ data, height }: Props) => {
-  const t = useTranslation();
-  const { mode } = useConfigProvider();
+  // const t = useTranslation();
+  // const { mode } = useConfigProvider();
 
   const options = {
     maintainAspectRatio: false,

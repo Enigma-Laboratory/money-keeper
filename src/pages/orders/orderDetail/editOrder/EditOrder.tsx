@@ -1,16 +1,14 @@
-import { Avatar, Breadcrumb, Form, Input, Space, notification } from 'antd';
-import { CreateOneOrderParams, Order } from '@enigma-laboratory/shared';
-import { Link, useNavigate } from 'react-router-dom';
 import { AppstoreOutlined, LeftOutlined } from '@ant-design/icons';
+import { CreateOneOrderParams, Order } from '@enigma-laboratory/shared';
+import { Avatar, Breadcrumb, Form, Input, Space, notification } from 'antd';
 import { BaseButton } from 'components';
-import { EditOrderStyled } from './EditOrder.styles';
-import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { EditOrderStyled } from './EditOrder.styles';
 import { EditOrderProps } from './withEditOrder';
 
 export const EditOrder = (props: EditOrderProps) => {
   const {
-    data: { isLoading },
     dispatch: { updateOrder, deleteOrder, fetchOneOrder },
   } = props;
 
@@ -33,7 +31,7 @@ export const EditOrder = (props: EditOrderProps) => {
       }
     };
     id && handleFetchOneOder(id);
-  }, [id]);
+  }, [id, fetchOneOrder]);
 
   const onFinish = async (values: CreateOneOrderParams): Promise<void> => {
     try {
@@ -64,7 +62,7 @@ export const EditOrder = (props: EditOrderProps) => {
       userId: order?.userId,
       orderName: order?.name,
     });
-  }, [order]);
+  }, [form, id, order]);
 
   const breadcrumb = () => {
     return (

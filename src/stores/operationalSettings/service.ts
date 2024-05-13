@@ -44,11 +44,10 @@ export class OperationalSettingService {
 
   public async updateOneOperationalSetting(params: UpdateOneOperationalSettingParams): Promise<void> {
     try {
-      const operationalSetting = await OperationalSettingApiService.instance.updateOneOperationalSetting(params);
+      // const operationalSetting = await OperationalSettingApiService.instance.updateOneOperationalSetting(params);
       // const { _id } = operationalSetting;
       // const { count, rows: operationalSettings } = operationalSettingStore.getModel();
       // operationalSettings[_id] = operationalSetting;
-
       // operationalSettingStore.updateModel({
       //   count,
       //   rows: { ...operationalSettings },
