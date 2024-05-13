@@ -1,6 +1,7 @@
 import { OperationalSetting, Order, UpdateOneOperationalSettingParams } from '@enigma-laboratory/shared';
-import { AlertModalPayload } from 'components/BaseModal/AlertModal/AlertModal';
+
 import { useFetchInitData } from 'hooks';
+import { AlertModalPayload } from 'interface';
 import { ComponentType, useMemo, useState } from 'react';
 import { OperationalSettingService } from 'stores';
 import { EVENT_NAME, EventAction } from 'utils';
@@ -50,7 +51,7 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
         return acc;
       }, {} as GroupOrders);
     }, [orders]);
-
+    console.log(groupedOrders);
     const logicProps: OperationalSettingProps = {
       data: {
         isLoading,
