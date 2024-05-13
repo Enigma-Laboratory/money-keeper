@@ -1,6 +1,7 @@
 import { CheckCircleOutlined, CloseCircleOutlined, LeftOutlined } from '@ant-design/icons';
 import { Avatar, Card, Col, Flex, Row, Space } from 'antd';
-import { AlertModalPayload, BaseButton, BaseOrderStatus } from 'components';
+import { BaseButton, BaseOrderStatus } from 'components';
+import { AlertModalPayload } from 'interface';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
