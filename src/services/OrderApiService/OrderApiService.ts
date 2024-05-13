@@ -10,7 +10,7 @@ import {
   UpdateOrderEventResponse,
 } from '@enigma-laboratory/shared';
 import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
-import { HttpClientService, HttpConfig, HttpConfigOrder } from '../Http';
+import { HttpClientService, HttpConfig, HttpConfigOrder } from '../HttpService';
 
 export class OrderApiService extends ApiServiceEndPoint {
   private static _instance: OrderApiService;
