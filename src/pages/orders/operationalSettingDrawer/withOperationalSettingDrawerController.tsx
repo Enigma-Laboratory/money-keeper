@@ -23,7 +23,6 @@ export const withOperationalSettingController = (
     const { data, dispatch } = props;
     const { handleUpdateOrderStatus } = dispatch;
     const { closeDrawer } = dispatch;
-    console.log(data);
 
     const LogicProps: OperationalSettingProps = {
       data,

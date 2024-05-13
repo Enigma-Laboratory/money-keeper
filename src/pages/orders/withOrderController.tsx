@@ -1,5 +1,5 @@
 import { OperationalSetting, Order, UpdateOneOperationalSettingParams } from '@enigma-laboratory/shared';
-import { IAlertModalPayload } from 'components/BaseModal/AlertModal/AlertModal';
+import { AlertModalPayload } from 'components/BaseModal/AlertModal/AlertModal';
 import { useFetchInitData } from 'hooks';
 import { ComponentType, useMemo, useState } from 'react';
 import { OperationalSettingService } from 'stores';
@@ -31,11 +31,13 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
     const { isLoading, operationalSettings, orders } = useFetchInitData();
 
     const handleUpdateOrderStatus = async (params: UpdateOneOperationalSettingParams) => {
+      console.log('hell', params);
+
       setStatusLoading({ id: params._id, status: true });
       try {
         await OperationalSettingService.instance.updateOneOperationalSetting(params);
       } catch (e: any) {
-        EventAction.dispatch<IAlertModalPayload>(EVENT_NAME.OPEN_MODAL, { data: { type: 'error', content: 'hello' } });
+        EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, { data: { type: 'error', content: 'hello' } });
       } finally {
         setStatusLoading({ id: '', status: false });
       }

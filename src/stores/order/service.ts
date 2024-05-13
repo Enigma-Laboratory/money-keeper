@@ -120,7 +120,6 @@ export class OrderService {
   }
 
   public updatedOrderWithIO(order: Order) {
-    console.log(order);
     orderStore.updateModel((model) => ({
       count: model.count,
       rows: { ...model.rows, [order._id]: order },

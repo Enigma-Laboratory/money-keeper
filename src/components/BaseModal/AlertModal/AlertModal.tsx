@@ -8,7 +8,7 @@ import { HeaderAlertModal } from './HeaderAlertModal';
 
 export type AlertModalType = 'confirm' | 'warning' | 'info' | 'error' | 'success';
 
-export interface IAlertModalPayload {
+export interface AlertModalPayload {
   data: {
     isOpen?: boolean;
     title?: string;
@@ -21,9 +21,9 @@ export interface IAlertModalPayload {
 export const AlertModal = (props: BaseModalProps): ReactElement => {
   const { t } = useTranslation('common');
 
-  const [modalSource, setModalSource] = useState<IAlertModalPayload>({ data: { type: 'info' } });
+  const [modalSource, setModalSource] = useState<AlertModalPayload>({ data: { type: 'info' } });
 
-  const openModal = (payload: CustomEvent<IAlertModalPayload>) => {
+  const openModal = (payload: CustomEvent<AlertModalPayload>) => {
     const { detail } = payload || {};
     setModalSource((prev) => ({
       data: { ...prev.data, ...detail.data, isOpen: true },
