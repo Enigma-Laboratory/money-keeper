@@ -11,6 +11,7 @@ export default {
     customers: 'Customer',
     products: 'Products',
     categories: 'Categories',
+    profile: 'Profile',
     logout: 'Logout',
   },
   language: {

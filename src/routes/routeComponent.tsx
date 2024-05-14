@@ -1,5 +1,12 @@
 import { NotFound } from 'components';
-import { CreateOrderScreen, Dashboard, EditOrderScreen, OrderDetailScreen, OrderScreen } from 'pages';
+import {
+  CreateOrderScreen,
+  Dashboard,
+  EditOrderScreen,
+  OperationalSettingScreen,
+  OrderDetailScreen,
+  ProfileScreen,
+} from 'pages';
 import { ROUTE_PATH } from 'utils';
 
 export interface RouteComponent {
@@ -16,6 +23,7 @@ export const routePaths = {
   detailOrder: getPath('orders/detail/:id'),
   createOrder: getPath('orders/create'),
   editOrder: getPath('order/edit/:id'),
+  profile: getPath('profile/:id'),
 };
 
 export const routeComponents: RouteComponent[] = [
@@ -28,7 +36,7 @@ export const routeComponents: RouteComponent[] = [
     name: 'order',
     path: routePaths.orders,
     component: (
-      <OrderScreen
+      <OperationalSettingScreen
         data={{
           isLoading: false,
           statusLoading: {
@@ -61,6 +69,11 @@ export const routeComponents: RouteComponent[] = [
     name: 'detail-order',
     path: routePaths.detailOrder,
     component: <OrderDetailScreen />,
+  },
+  {
+    name: 'profile',
+    path: routePaths.profile,
+    component: <ProfileScreen data={{ isLoading: false, user: { _id: '', name: '', email: '', password: '' } }} />,
   },
   {
     name: 'page-not-found',

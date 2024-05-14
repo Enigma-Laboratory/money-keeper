@@ -1,26 +1,24 @@
 import { AppstoreOutlined, MailOutlined } from '@ant-design/icons';
+import { User } from '@enigma-laboratory/shared';
 import type { MenuProps } from 'antd/es/menu';
 import { authProvider } from 'context/authProvider';
-import React, { ReactElement, useEffect, useState } from 'react';
+import { useLocalStorage } from 'hooks';
+import { ReactElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
+import { USER_IDENTITY } from 'utils';
 import { BaseMenu } from '../BaseMenu';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
-function getItem(
-  label: React.ReactNode,
-  key?: React.Key | null,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  } as MenuItem;
-}
+const PATHNAME = {
+  HOME: '/',
+  ORDER: '/orders',
+  CUSTOMER: '/customer',
+  PRODUCT: '/product',
+  CATEGORY: '/categories',
+  PROFILE: '/profile',
+};
 
 export const MenuCustom = (): ReactElement => {
   const { pathname } = useLocation();
@@ -31,29 +29,71 @@ export const MenuCustom = (): ReactElement => {
     await authProvider.logout({});
     window.location.reload();
   };
+  const [user] = useLocalStorage<User>(USER_IDENTITY);
 
   const items: MenuItem[] = [
-    getItem(<Link to="/">{t('sidebar.dashboard')}</Link>, 'dashboard', <MailOutlined />),
-    getItem(<Link to="/orders">{t('sidebar.orders')}</Link>, 'orders', <AppstoreOutlined />),
-    getItem(<Link to="/customers">{t('sidebar.customers')} </Link>, 'customers', <AppstoreOutlined />),
-    getItem(<Link to="/products">{t('sidebar.products')}</Link>, 'products', <AppstoreOutlined />),
-    getItem(<Link to="/categories">{t('sidebar.categories')}</Link>, 'categories', <AppstoreOutlined />),
-    getItem(<div onClick={handleUserLogout}>{t('sidebar.logout')}</div>, 'logout', <AppstoreOutlined />),
+    {
+      label: <Link to={PATHNAME.HOME}>{t('sidebar.dashboard')}</Link>,
+      key: 'dashboard',
+      icon: <MailOutlined />,
+    },
+    {
+      label: <Link to={PATHNAME.ORDER}>{t('sidebar.orders')}</Link>,
+      key: 'orders',
+      icon: <AppstoreOutlined />,
+    },
+    {
+      label: <Link to={PATHNAME.CUSTOMER}>{t('sidebar.customers')} </Link>,
+      key: 'customers',
+      icon: <AppstoreOutlined />,
+    },
+    {
+      label: <Link to={PATHNAME.PRODUCT}>{t('sidebar.products')}</Link>,
+      key: 'products',
+      icon: <AppstoreOutlined />,
+    },
+    {
+      label: <Link to={PATHNAME.CATEGORY}>{t('sidebar.categories')}</Link>,
+      key: 'categories',
+      icon: <AppstoreOutlined />,
+    },
+    {
+      label: <Link to={PATHNAME.PROFILE + '/' + user._id}>{t('sidebar.profile')}</Link>,
+      key: 'profile',
+      icon: <AppstoreOutlined />,
+    },
+    {
+      label: <div onClick={handleUserLogout}>{t('sidebar.logout')}</div>,
+      key: 'logout',
+      icon: <AppstoreOutlined />,
+    },
   ];
 
   useEffect(() => {
-    if (pathname === '/') {
-      setActiveItem(['dashboard']);
-    } else if (pathname === '/orders') {
-      setActiveItem(['orders']);
-    } else if (pathname === '/customers') {
-      setActiveItem(['customers']);
-    } else if (pathname === '/products') {
-      setActiveItem(['products']);
-    } else if (pathname === '/categories') {
-      setActiveItem(['categories']);
-    } else if (pathname === '/logout') {
-      setActiveItem(['logout']);
+    switch (pathname) {
+      case PATHNAME.HOME:
+        setActiveItem(['dashboard']);
+        break;
+      case PATHNAME.ORDER:
+        setActiveItem(['orders']);
+        break;
+      case PATHNAME.CUSTOMER:
+        setActiveItem(['customers']);
+        break;
+      case PATHNAME.PRODUCT:
+        setActiveItem(['products']);
+        break;
+      case PATHNAME.CATEGORY:
+        setActiveItem(['categories']);
+        break;
+      case PATHNAME.PROFILE:
+        setActiveItem(['profile']);
+        break;
+      case 'logout':
+        setActiveItem(['logout']);
+        break;
+      default:
+        return;
     }
   }, [pathname]);
 
