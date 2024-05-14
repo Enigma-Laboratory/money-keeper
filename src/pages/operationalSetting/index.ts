@@ -1,7 +1,7 @@
-import { Orders } from './Order';
+import { OperationalSettings } from './OperationalSetting';
 import { withOrderController } from './withOperationalSettingController';
 
 export * from './createOrder';
 export * from './orderDetail';
 
-export const OrderScreen = withOrderController(Orders);
+export const OperationalSettingScreen = withOrderController(OperationalSettings);

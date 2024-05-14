@@ -11,6 +11,7 @@ export default {
     customers: 'Khách Hàng',
     products: 'Sản Phẩm',
     categories: 'Danh Mục',
+    profile: 'Trang cá nhân',
     logout: 'Đăng Xuất',
   },
   language: {

@@ -1,6 +1,7 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { OrderStatus } from '@enigma-laboratory/shared';
 const { CANCELLED, CONFIRM, DONE, PROCESSING } = OrderStatus;
-/* eslint-disable import/no-anonymous-default-export */
+
 export default {
   information: {
     name: 'Name',
