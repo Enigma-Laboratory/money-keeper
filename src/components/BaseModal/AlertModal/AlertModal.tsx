@@ -66,7 +66,7 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
     const buttons: React.ReactNode[] = [<Button onClick={closeModal}>{t('alertTitle.close')}</Button>];
     if (data.type === 'confirm') {
       buttons.push(
-        <Button type="primary" onClick={handleOk} loading={isLoadingModal} disabled={!isValid}>
+        <Button type="primary" onClick={handleOk} loading={isLoadingModal}>
           {t('confirm.ok', 'Delete')}
         </Button>,
       );
@@ -102,7 +102,7 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
           ></Result>
         );
       default:
-        <div style={{ textAlign: 'center' }}>{data?.content}</div>;
+        return <div style={{ textAlign: 'center' }}>{data?.content}</div>;
     }
   };
 
