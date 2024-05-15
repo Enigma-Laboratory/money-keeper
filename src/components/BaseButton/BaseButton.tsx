@@ -1,6 +1,5 @@
-import React from 'react';
-import { BaseButtonStyled } from './BaseButton.styles';
 import { ButtonProps } from 'antd';
+import { BaseButtonStyled } from './BaseButton.styles';
 
 export interface BaseButtonProps extends ButtonProps {}
 
