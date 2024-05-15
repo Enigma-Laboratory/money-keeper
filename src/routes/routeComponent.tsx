@@ -45,6 +45,7 @@ export const routeComponents: RouteComponent[] = [
           },
           operationalSettings: {},
           groupOrders: {},
+          users: {},
         }}
         dispatch={{
           handleOnCloseModal: () => {},

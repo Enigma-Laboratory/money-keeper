@@ -1,9 +1,9 @@
-import { OperationalSetting, Order, UpdateOneOperationalSettingParams } from '@enigma-laboratory/shared';
+import { Order, UpdateOneOperationalSettingParams } from '@enigma-laboratory/shared';
 
 import { useFetchInitData } from 'hooks';
 import { AlertModalPayload } from 'interface';
 import { ComponentType, useMemo, useState } from 'react';
-import { OperationalSettingService } from 'stores';
+import { OperationalSettingCollection, OperationalSettingService, UserCollection } from 'stores';
 import { EVENT_NAME, EventAction } from 'utils';
 
 type GroupOrders = { [groupId: string]: Order[] };
@@ -16,8 +16,9 @@ export interface OperationalSettingProps {
   data: {
     isLoading: boolean;
     statusLoading: OperationalSettingStatusLoading;
-    operationalSettings: Record<string, OperationalSetting>;
+    operationalSettings: OperationalSettingCollection;
     groupOrders: GroupOrders;
+    users: UserCollection;
   };
   dispatch: {
     handleOnCloseModal?: () => void;
@@ -29,7 +30,7 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
   return (props: P) => {
     const [statusLoading, setStatusLoading] = useState<{ id?: string; status: boolean }>({ id: '', status: false });
 
-    const { isLoading, operationalSettings, orders } = useFetchInitData();
+    const { isLoading, operationalSettings, orders, users } = useFetchInitData();
 
     const handleUpdateOrderStatus = async (params: UpdateOneOperationalSettingParams) => {
       setStatusLoading({ id: params._id, status: true });
@@ -58,6 +59,7 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
         statusLoading,
         groupOrders: groupedOrders,
         operationalSettings,
+        users,
       },
       dispatch: {
         handleUpdateOrderStatus,

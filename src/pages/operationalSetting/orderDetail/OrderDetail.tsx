@@ -1,11 +1,13 @@
 import { CheckCircleOutlined, CloseCircleOutlined, LeftOutlined } from '@ant-design/icons';
+import { User } from '@enigma-laboratory/shared';
 import { Avatar, Card, Col, Flex, Row, Space } from 'antd';
 import { BaseButton, BaseOrderStatus } from 'components';
+import { useLocalStorage } from 'hooks';
 import { AlertModalPayload } from 'interface';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { EVENT_NAME, EventAction } from 'utils';
+import { EVENT_NAME, EventAction, USER_IDENTITY } from 'utils';
 import { DetailOrderStyled } from './OrderDetail.styles';
 import { OrderEventLog } from './detailStatus';
 import { OrderInformation } from './information';
@@ -19,7 +21,8 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
     dispatch,
   } = props;
 
-  const { orderNumber, status } = order || {};
+  const [user] = useLocalStorage<User>(USER_IDENTITY);
+  const { orderNumber } = order || {};
 
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
@@ -37,7 +40,7 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
             <h3>
               {t('orderDetails')} #{orderNumber}
             </h3>
-            <BaseOrderStatus status={status} />
+            <BaseOrderStatus status={order?.usersStatus?.[user._id]} />
           </Space>
           <Space align="end">
             <BaseButton
@@ -76,7 +79,7 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
     <DetailOrderStyled>
       {headerCreateOrder()}
       <Row gutter={[16, 16]}>
-        <OrderDetailActions order={order} users={users} dispatch={{ ...dispatch }} />
+        <OrderDetailActions order={order} users={users} currentUser={user} dispatch={{ ...dispatch }} />
 
         <Col xl={15} lg={24} md={24} sm={24} xs={24}>
           <Card>

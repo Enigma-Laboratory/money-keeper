@@ -12,5 +12,8 @@ export const StyledOperationalSetting = styled.div<{ $tableBodyHeight: number }>
   }
   .ant-table-body {
     min-height: ${(props) => props.$tableBodyHeight}px;
+    .process {
+      min-width: 150;
+    }
   }
 `;

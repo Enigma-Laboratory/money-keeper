@@ -13,7 +13,6 @@ type OrderInformationProps = {
 export const OrderInformation = ({ order, users, operationalSettings }: OrderInformationProps) => {
   const { _id, name, groupId, description, userId } = order || {};
   const { t } = useTranslation('orderDetail', { keyPrefix: 'information' });
-  const { t: tCommon } = useTranslation('common');
   return (
     <StyledOrderInformation>
       <Flex wrap="wrap" justify="space-between" gap={50}>
@@ -37,10 +36,6 @@ export const OrderInformation = ({ order, users, operationalSettings }: OrderInf
         </Space>
 
         <Space direction="vertical">
-          <Space direction="vertical">
-            <Typography.Text>{t('status')}</Typography.Text>
-            <Typography.Text strong>{tCommon(`orderStatus.${order?.status}`)}</Typography.Text>
-          </Space>
           <Space direction="vertical">
             <Typography.Text>{t('groupName')}</Typography.Text>
             <Typography.Text strong>{operationalSettings?.[groupId]?.name}</Typography.Text>
