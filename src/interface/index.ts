@@ -216,7 +216,7 @@ export interface AlertModalPayload {
     confirmName?: string; //** Name which type in to confirm before deleted */
   };
   dispatch?: {
-    handleOk?: () => void;
+    handleOk?: () => Promise<void>;
     handleCancel?: () => void;
   };
 }

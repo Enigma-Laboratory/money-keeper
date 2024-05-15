@@ -20,7 +20,6 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
   } = props;
 
   const { orderNumber, status } = order || {};
-  console.log(order);
 
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
@@ -56,7 +55,7 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
                   data: { type: 'delete', confirmName: order?.name },
                   dispatch: {
                     async handleOk() {
-                      dispatch.deleteOrder({ _id: id || '' });
+                      await dispatch.deleteOrder({ _id: id || '' });
                       navigate('/orders');
                     },
                   },

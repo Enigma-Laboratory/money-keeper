@@ -15,7 +15,7 @@ interface AlertModalProps extends AlertModalPayload {
   isLoadingButton: boolean;
   confirmInput?: string;
   placeholderInput?: string;
-  footer: React.ReactNode[];
+  footer: JSX.Element[];
   resultData: {
     status: ResultStatusType;
     title: string;
@@ -39,8 +39,7 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
   };
   const [modalSource, setModalSource] = useState<AlertModalProps>(initModalSource);
   const { data, dispatch } = modalSource;
-  const [isLoadingModal, setIsLoadingModal] = useState<boolean>(false);
-
+  console.log(modalSource);
   const openModal = (payload: CustomEvent<AlertModalPayload>) => {
     const { detail } = payload || {};
     setModalSource((prev) => ({
@@ -56,7 +55,7 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
   };
 
   const handleOk = async (): Promise<void> => {
-    setIsLoadingModal(true);
+    setModalSource((prev) => ({ ...prev, isLoadingButton: true }));
     try {
       await dispatch?.handleOk?.();
     } catch (error) {
@@ -74,7 +73,37 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
   }, []);
 
   useEffect(() => {
-    const initFooter: React.ReactNode[] = [<Button onClick={closeModal}>{t('alertTitle.close')}</Button>];
+    setModalSource((prev) => {
+      const newFooter: JSX.Element[] = [
+        prev.footer?.[0] || <></>,
+        cloneElement(prev.footer?.[1] || <></>, {
+          confirmInput: prev.confirmInput,
+          confirmName: prev.data.confirmName,
+          onClick: handleOk,
+          loading: prev.isLoadingButton,
+        }),
+      ];
+      return {
+        ...prev,
+        footer: newFooter,
+        resultData: {
+          ...prev.resultData,
+          extra: (
+            <AlertModalExtra
+              setModalSource={setModalSource}
+              placeholder={prev.placeholderInput || ''}
+              value={prev.confirmInput || ''}
+              confirmName={prev.data.confirmName || ''}
+            />
+          ),
+        },
+      };
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalSource.confirmInput, modalSource.isLoadingButton]);
+
+  useEffect(() => {
+    const initFooter: JSX.Element[] = [<Button onClick={closeModal}>{t('alertTitle.close')}</Button>];
     const initPlaceholderInput = 'Please type confirm input...';
     switch (modalSource.data.type) {
       case 'delete':
@@ -117,51 +146,9 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalSource.data.isOpen]);
-  useEffect(() => {
-    setModalSource((prev) => {
-      const newFooter: React.ReactNode[] = [...prev.footer];
-      newFooter.pop();
-      newFooter.push(
-        <AlertModalFooter
-          confirmInput={prev.confirmInput}
-          confirmName={prev.data.confirmName}
-          // onClick={handleOk}
-          loading={prev.isLoadingButton}
-        />,
-      );
-      const x = prev.footer.map((Item: any) =>
-        cloneElement(
-          <Item
-            confirmInput={prev.confirmInput}
-            confirmName={prev.data.confirmName}
-            // onClick={handleOk}
-            loading={prev.isLoadingButton}
-          />,
-        ),
-      );
-      console.log(x);
-      return {
-        ...prev,
-        footer: x,
-        resultData: {
-          ...prev.resultData,
-          extra: (
-            <AlertModalExtra
-              setModalSource={setModalSource}
-              placeholder={prev.placeholderInput || ''}
-              value={prev.confirmInput || ''}
-              confirmName={prev.data.confirmName || ''}
-            />
-          ),
-        },
-      };
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modalSource.confirmInput]);
 
   return (
     <BaseModal closable={false} open={data?.isOpen} footer={modalSource.footer} {...props}>
-      {/* {renderContentModal()} */}
       <Result
         style={{ padding: 0 }}
         status={modalSource.resultData.status}
