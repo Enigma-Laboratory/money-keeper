@@ -4,17 +4,14 @@ import dayjs from 'dayjs';
 import { ReactElement, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { routePaths } from 'routes';
 
 import { InsertRowRightOutlined } from '@ant-design/icons';
 import { OperationalSetting, Order, OrderStatus, defaultDateTimeFormat } from '@enigma-laboratory/shared';
+import { OrderCard } from 'components';
+import { routePaths } from 'routes';
+import { formatCurrencyToVnd } from 'utils';
 import { THC } from 'utils/constants';
 
-import { OrderCard } from 'components';
-
-// import _ from 'lodash';
-
-import { formatCurrencyToVnd } from 'utils';
 import { StyledOperationalSetting } from './OperationalSetting.styles';
 import { Drawer, OperationalSettingData } from './operationalSettingDrawer';
 import { OperationalSettingProps } from './withOperationalSettingController';
