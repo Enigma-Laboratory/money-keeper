@@ -1,10 +1,12 @@
 import { Input, Typography } from 'antd';
+import { Dispatch, SetStateAction } from 'react';
+import { AlertModalProps } from './AlertModal';
 
 export const AlertModalExtra = (props: {
-  value: string;
-  confirmName: string;
-  placeholder: string;
-  setModalSource: any;
+  value?: string;
+  confirmName?: string;
+  placeholder?: string;
+  setModalSource: Dispatch<SetStateAction<AlertModalProps>>;
 }) => {
   const { value, placeholder, confirmName } = props;
 
@@ -14,7 +16,16 @@ export const AlertModalExtra = (props: {
       <Input
         value={value}
         onChange={(e) => {
-          props.setModalSource((prev: any) => ({ ...prev, confirmInput: e.target.value }));
+          props.setModalSource((prev) => ({
+            ...prev,
+            resultData: {
+              ...prev.resultData,
+              deleteType: {
+                ...prev.resultData.deleteType,
+                input: e.target.value,
+              },
+            },
+          }));
         }}
         placeholder={placeholder}
         style={{ width: 400 }}

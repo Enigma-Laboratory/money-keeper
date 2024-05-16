@@ -31,13 +31,16 @@ export default {
     [DONE]: 'Hoàn thành',
     [PROCESSING]: 'Đang xử lý',
   },
-  alertTitle: {
-    info: 'Thông tin',
-    confirm: 'Xác nhận',
-    error: 'Lỗi',
-    warning: 'Cảnh báo',
-    success: 'Thành công',
+  alert: {
+    title: {
+      info: 'Thông tin',
+      confirm: 'Xác nhận',
+      error: 'Lỗi',
+      warning: 'Cảnh báo',
+      success: 'Thành công',
+    },
     close: 'Đóng',
     ok: 'Đồng ý',
+    delete: 'Xoá',
   },
 };

@@ -1,6 +1,6 @@
 import { ModalProps } from 'antd';
 import { PropsWithChildren, ReactElement } from 'react';
-import { BaseModalStyled } from './BaseModal.styles';
+import { StyledBaseModal } from './BaseModal.styles';
 
 export interface BaseModalProps extends PropsWithChildren, ModalProps {}
 
@@ -8,8 +8,8 @@ export const BaseModal = (props: BaseModalProps): ReactElement => {
   const { title, children, ...remaining } = props;
 
   return (
-    <BaseModalStyled title={title} {...remaining}>
+    <StyledBaseModal title={title} {...remaining}>
       {children}
-    </BaseModalStyled>
+    </StyledBaseModal>
   );
 };

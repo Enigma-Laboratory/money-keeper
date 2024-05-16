@@ -1,26 +1,27 @@
 import { Button, Result } from 'antd';
-import { AlertModalPayload } from 'interface';
+import { ResultStatusType } from 'antd/es/result';
 import { ReactElement, cloneElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { AlertModalPayload } from 'interface';
 import { EVENT_NAME } from 'utils';
 import { EventAction } from 'utils/customEvent';
 
-import { ResultStatusType } from 'antd/es/result';
 import { BaseModal, BaseModalProps } from '../BaseModal';
 import { AlertModalExtra } from './AlertModalExtra';
 import { AlertModalFooter } from './AlertModalFooter';
 
-interface AlertModalProps extends AlertModalPayload {
+export interface AlertModalProps extends AlertModalPayload {
+  isOpen: boolean;
   isLoadingButton: boolean;
-  confirmInput?: string;
-  placeholderInput?: string;
   footer: JSX.Element[];
   resultData: {
     status: ResultStatusType;
-    title: string;
-    subTitle: string;
     extra: React.ReactNode;
+    deleteType?: {
+      input: string;
+      placeholderInput?: string;
+    };
   };
 }
 
@@ -28,24 +29,24 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
   const { t } = useTranslation('common');
   const initModalSource: AlertModalProps = {
     data: { type: 'info' },
+    isOpen: false,
     isLoadingButton: false,
     footer: [],
     resultData: {
       status: 'info',
-      title: '',
-      subTitle: '',
       extra: <></>,
     },
   };
   const [modalSource, setModalSource] = useState<AlertModalProps>(initModalSource);
-  const { data, dispatch } = modalSource;
-  console.log(modalSource);
+  const { dispatch } = modalSource;
+
   const openModal = (payload: CustomEvent<AlertModalPayload>) => {
     const { detail } = payload || {};
     setModalSource((prev) => ({
       ...prev,
-      data: { ...prev.data, ...detail.data, isOpen: true },
-      dispatch: { ...prev.dispatch, ...detail?.dispatch },
+      isOpen: true,
+      data: { ...prev.data, ...detail.data },
+      dispatch: { ...prev.dispatch, ...detail.dispatch },
     }));
   };
 
@@ -59,10 +60,14 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
     try {
       await dispatch?.handleOk?.();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setModalSource(initModalSource);
     }
+  };
+
+  const handleCancel = () => {
+    setModalSource(initModalSource);
   };
 
   useEffect(() => {
@@ -73,11 +78,94 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
   }, []);
 
   useEffect(() => {
-    setModalSource((prev) => {
+    if (!modalSource.isOpen) return;
+    const initFooter: JSX.Element[] = [
+      <Button key={0} onClick={closeModal}>
+        {t('alert.close')}
+      </Button>,
+    ];
+    switch (modalSource.data.type) {
+      case 'delete':
+        const initPlaceholderInput = 'Please type confirm input...';
+        setModalSource((prev) => {
+          initFooter.push(
+            <AlertModalFooter
+              key={1}
+              confirmInput={prev.resultData.deleteType?.input}
+              confirmName={modalSource.data.confirmName}
+              onClick={handleOk}
+              loading={modalSource.isLoadingButton}
+            />,
+          );
+          return {
+            ...prev,
+            footer: initFooter,
+            data: {
+              content: 'Are you sure you want to delete this order?',
+              subContent: 'Do you really want to delete these records? This process cannot be undone.',
+              ...prev.data,
+            },
+            resultData: {
+              ...prev.resultData,
+              status: 'warning',
+              deleteType: {
+                input: '',
+                placeholderInput: initPlaceholderInput,
+              },
+              extra: (
+                <AlertModalExtra
+                  setModalSource={setModalSource}
+                  placeholder={initPlaceholderInput}
+                  value={prev.resultData.deleteType?.input}
+                  confirmName={prev.data.confirmName}
+                />
+              ),
+            },
+          };
+        });
+        break;
+      case 'info':
+        setModalSource((prev) => ({
+          ...prev,
+          footer: initFooter,
+          resultData: {
+            ...prev.resultData,
+            status: 'info',
+          },
+        }));
+        break;
+      case 'success':
+        setModalSource((prev) => ({
+          ...prev,
+          footer: initFooter,
+          resultData: {
+            ...prev.resultData,
+            status: 'success',
+          },
+        }));
+        break;
+      case 'warning':
+        setModalSource((prev) => ({
+          ...prev,
+          footer: initFooter,
+          resultData: {
+            ...prev.resultData,
+            status: 'warning',
+          },
+        }));
+        break;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalSource.isOpen]);
+
+  // useEffect just perform when modal type is 'delete'
+  useEffect(() => {
+    if (modalSource.data.type !== 'delete') return;
+    setModalSource((prev: AlertModalProps) => {
       const newFooter: JSX.Element[] = [
         prev.footer?.[0] || <></>,
         cloneElement(prev.footer?.[1] || <></>, {
-          confirmInput: prev.confirmInput,
+          confirmInput: prev.resultData.deleteType?.input,
           confirmName: prev.data.confirmName,
           onClick: handleOk,
           loading: prev.isLoadingButton,
@@ -91,70 +179,24 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
           extra: (
             <AlertModalExtra
               setModalSource={setModalSource}
-              placeholder={prev.placeholderInput || ''}
-              value={prev.confirmInput || ''}
-              confirmName={prev.data.confirmName || ''}
+              placeholder={prev.resultData.deleteType?.placeholderInput}
+              value={prev.resultData.deleteType?.input}
+              confirmName={prev.data.confirmName}
             />
           ),
         },
       };
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modalSource.confirmInput, modalSource.isLoadingButton]);
-
-  useEffect(() => {
-    const initFooter: JSX.Element[] = [<Button onClick={closeModal}>{t('alertTitle.close')}</Button>];
-    const initPlaceholderInput = 'Please type confirm input...';
-    switch (modalSource.data.type) {
-      case 'delete':
-        setModalSource((prev) => {
-          initFooter.push(
-            <AlertModalFooter
-              confirmInput={prev.confirmInput}
-              confirmName={modalSource.data.confirmName}
-              onClick={handleOk}
-              loading={modalSource.isLoadingButton}
-            />,
-          );
-          return {
-            ...prev,
-            footer: initFooter,
-            placeholderInput: initPlaceholderInput,
-            resultData: {
-              ...prev.resultData,
-              status: 'warning',
-              title: 'Are you sure you want to delete this order?',
-              subTitle: 'Do you really want to delete these records? This process cannot be undone.',
-              extra: (
-                <AlertModalExtra
-                  setModalSource={setModalSource}
-                  placeholder={initPlaceholderInput}
-                  value={prev.confirmInput || ''}
-                  confirmName={prev.data.confirmName || ''}
-                />
-              ),
-            },
-          };
-        });
-        break;
-      case 'info':
-        setModalSource((prev) => ({ ...prev }));
-        break;
-      default:
-        break;
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modalSource.data.isOpen]);
+  }, [modalSource.resultData.deleteType?.input, modalSource.isLoadingButton]);
 
   return (
-    <BaseModal closable={false} open={data?.isOpen} footer={modalSource.footer} {...props}>
+    <BaseModal width={600} open={modalSource.isOpen} footer={modalSource.footer} {...props} onCancel={handleCancel}>
       <Result
-        style={{ padding: 0 }}
         status={modalSource.resultData.status}
-        title={modalSource.resultData.title}
-        subTitle={modalSource.resultData.subTitle}
-        extra={[modalSource.resultData.extra]}
+        title={modalSource.data.content}
+        subTitle={modalSource.data.subContent}
+        extra={modalSource.resultData.extra}
       />
     </BaseModal>
   );

@@ -209,10 +209,9 @@ export type AlertModalType = 'confirm' | 'warning' | 'info' | 'error' | 'success
 
 export interface AlertModalPayload {
   data: {
-    isOpen?: boolean;
-    title?: string;
     type: AlertModalType;
     content?: string;
+    subContent?: string;
     confirmName?: string; //** Name which type in to confirm before deleted */
   };
   dispatch?: {

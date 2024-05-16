@@ -1,18 +1,24 @@
-import { Button } from 'antd';
+import { Button, ButtonProps } from 'antd';
 import { useTranslation } from 'react-i18next';
-
-export const AlertModalFooter = (props: {
+interface AlertModalFooterProps extends ButtonProps {
   confirmInput?: string;
   onClick?: () => Promise<void>;
   loading: boolean;
   confirmName?: string;
-}) => {
-  const { confirmInput, confirmName, onClick, loading } = props;
+}
+export const AlertModalFooter = (props: AlertModalFooterProps) => {
+  const { confirmInput, confirmName, onClick, loading, ...remaining } = props;
   const { t } = useTranslation('common');
 
   return (
-    <Button type="primary" onClick={onClick} loading={loading} disabled={!(confirmInput === confirmName)}>
-      {t('confirm.ok', 'Delete')}
+    <Button
+      type="primary"
+      onClick={onClick}
+      loading={loading}
+      disabled={!(confirmInput === confirmName)}
+      {...remaining}
+    >
+      {t('alert.delete')}
     </Button>
   );
 };
