@@ -5,6 +5,7 @@ import {
   OrderStatus,
   UpdateOneOrderParams,
   UpdateOrderEventParams,
+  User,
   defaultDateTimeFormat,
 } from '@enigma-laboratory/shared';
 import { Avatar, Button, Card, Col, Dropdown, Flex, Space, Typography } from 'antd';
@@ -16,8 +17,10 @@ import { UserCollection } from 'stores';
 import { generateColorFromAlphabet } from 'utils';
 
 type OrderDetailActionsProps = {
+  currentUser: User;
   order: Order;
   users: UserCollection;
+
   dispatch: {
     updateOrder: (params: UpdateOneOrderParams) => Promise<void>;
     deleteOrder: (params: DeleteOneOrderParams) => Promise<void>;
@@ -25,18 +28,20 @@ type OrderDetailActionsProps = {
   };
 };
 
-export const OrderDetailActions = ({ order, users, dispatch }: OrderDetailActionsProps) => {
+export const OrderDetailActions = ({ order, users, currentUser, dispatch }: OrderDetailActionsProps) => {
   const { t } = useTranslation('orderDetail');
   const { t: tCommon } = useTranslation('common');
 
   const { userIds } = useMemo(() => {
-    const userIds = order?.products?.flatMap(({ userIds }) => userIds) || [];
+    const userIds = Object.keys(order?.usersStatus)?.flatMap((userId) => userId) || [];
     const uniqueUserIds = [...new Set(userIds)];
 
     return {
       userIds: uniqueUserIds,
     };
   }, [order]);
+
+  const userIsExistOrder = userIds.includes(currentUser._id);
   return (
     <Col xl={24} lg={24} md={24} sm={24} xs={24}>
       <Flex gap={16} vertical>
@@ -59,26 +64,28 @@ export const OrderDetailActions = ({ order, users, dispatch }: OrderDetailAction
               </Typography.Text>
             </Flex>
             <div>
-              <Space>
-                {order?.status && <ButtonStatus status={order.status} />}
+              {userIsExistOrder && (
+                <Space>
+                  <ButtonStatus status={order?.usersStatus[currentUser._id]} />
 
-                <Dropdown
-                  menu={{
-                    items: Object.values(OrderStatus).map((key) => ({ label: tCommon(`orderStatus.${key}`), key })),
-                    selectable: true,
-                    defaultSelectedKeys: [order?.status],
-                    onClick: (e) =>
-                      dispatch.updateOrderStatus({
-                        status: e.key,
-                        orderId: order._id,
-                      } as UpdateOrderEventParams),
-                  }}
-                >
-                  <Space>
-                    <Button icon={<MoreOutlined />} />
-                  </Space>
-                </Dropdown>
-              </Space>
+                  <Dropdown
+                    menu={{
+                      items: Object.values(OrderStatus).map((key) => ({ label: tCommon(`orderStatus.${key}`), key })),
+                      selectable: true,
+                      defaultSelectedKeys: [order?.usersStatus[currentUser._id]],
+                      onClick: (e) =>
+                        dispatch.updateOrderStatus({
+                          status: e.key,
+                          orderId: order._id,
+                        } as UpdateOrderEventParams),
+                    }}
+                  >
+                    <Space>
+                      <Button icon={<MoreOutlined />} />
+                    </Space>
+                  </Dropdown>
+                </Space>
+              )}
             </div>
           </Flex>
         </Card>

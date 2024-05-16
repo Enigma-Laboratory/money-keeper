@@ -5,7 +5,7 @@ import { TabProfile } from './TabProfile';
 import { ProfileProps } from './withProfileController';
 
 export const Profile = (props: ProfileProps) => {
-  const { data, dispatch } = props;
+  const { data } = props;
 
   return (
     <StyledProfile>

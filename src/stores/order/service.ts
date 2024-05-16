@@ -113,6 +113,13 @@ export class OrderService {
   }
 
   public createdOrderWithIO(order: Order) {
+    // notification.open({
+    //   message: 'Order Create Successful',
+    //   description: `The order with id: ${order._id} has been successfully created.`,
+    //   onClick: () => {
+    //     console.log('Notification Clicked!');
+    //   },
+    // });
     orderStore.updateModel((model) => ({
       count: model.count + 1,
       rows: { ...model.rows, [order._id]: order },
@@ -120,6 +127,14 @@ export class OrderService {
   }
 
   public updatedOrderWithIO(order: Order) {
+    // notification.open({
+    //   message: 'Order Update Successful',
+    //   description: `The order id : ${order._id}  has been successfully updated.`,
+    //   onClick: () => {
+    //     console.log('Notification Clicked!');
+    //   },
+    // });
+
     orderStore.updateModel((model) => ({
       count: model.count,
       rows: { ...model.rows, [order._id]: order },
@@ -127,6 +142,13 @@ export class OrderService {
   }
 
   public deletedOrderWithIO(order: Order) {
+    // notification.open({
+    //   message: 'Order Delete Successful',
+    //   description: `The order with id: ${order._id} has been successfully deleted.`,
+    //   onClick: () => {
+    //     console.log('Notification Clicked!');
+    //   },
+    // });
     orderStore.updateModel((model) => {
       delete model.rows[order._id];
       return {

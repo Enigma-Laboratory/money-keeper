@@ -2242,10 +2242,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.5.tgz#77211291c1900a700b8a78cfafda3160d76949ed"
   integrity sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
 
-"@enigma-laboratory/shared@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@enigma-laboratory/shared/-/shared-1.2.2.tgz#d5da4a5d54be0a9f5b409461a5edf93534fd10cc"
-  integrity sha512-VxTgN0R2ZwJ4zCCBQ2KUlgegQysgteL9/HJ6KGG1RbOlaLoBu+alNAs10xZk6xKC34lgh1EOnharMkCF01bCUg==
+"@enigma-laboratory/shared@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@enigma-laboratory/shared/-/shared-1.3.1.tgz#28d66f7656813bb80a914a10cdb5ea152021c55c"
+  integrity sha512-+bsU++wBsZPk50K7LeA4219sdjS5++l9kg3mS58sfrHMCprCz4gtDfR/4IAUPNpl253vfzvw90hc1h82KGYknA==
   dependencies:
     typescript "^5.1.6"
 
@@ -3312,6 +3312,11 @@
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
+
+"@types/lodash@^4.17.1":
+  version "4.17.1"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.17.1.tgz#0fabfcf2f2127ef73b119d98452bd317c4a17eb8"
+  integrity sha512-X+2qazGS3jxLAIz5JDXDzglAF3KpijdhFxlf/V1+hEsOUc+HnWi81L/uv/EvGuV90WY+7mPGFCUDGfQC3Gj95Q==
 
 "@types/mime@^1":
   version "1.3.5"

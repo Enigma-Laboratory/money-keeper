@@ -11,4 +11,5 @@ export * from './CatchAllNavigate';
 export * from './Header';
 export * from './MenuCustom';
 export * from './NotFound';
+export * from './OrderCard';
 export * from './OrderStatus';

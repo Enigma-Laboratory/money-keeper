@@ -1,22 +1,27 @@
-import { Button, Space, Spin, Switch, Table, Typography } from 'antd';
+import { Button, Progress, Space, Spin, Switch, Table, Typography, theme } from 'antd';
 import type { TableProps } from 'antd/es/table';
 import dayjs from 'dayjs';
 import { ReactElement, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { routePaths } from 'routes';
 
 import { InsertRowRightOutlined } from '@ant-design/icons';
-import { OperationalSetting, Order } from '@enigma-laboratory/shared';
-import { BaseOrderStatus } from 'components/OrderStatus';
-import { getExactPath } from 'utils';
+import { OperationalSetting, Order, OrderStatus, defaultDateTimeFormat } from '@enigma-laboratory/shared';
 import { THC } from 'utils/constants';
 
+import { OrderCard } from 'components';
+
+// import _ from 'lodash';
+
+import { formatCurrencyToVnd } from 'utils';
 import { StyledOperationalSetting } from './OperationalSetting.styles';
 import { Drawer, OperationalSettingData } from './operationalSettingDrawer';
 import { OperationalSettingProps } from './withOperationalSettingController';
+
 export interface OperationalSettingWithOrders extends OperationalSetting {
   orders?: Order[];
+  key: React.Key;
 }
 
 export const OperationalSettings = (props: OperationalSettingProps): ReactElement => {
@@ -24,6 +29,8 @@ export const OperationalSettings = (props: OperationalSettingProps): ReactElemen
   const { isLoading, statusLoading, groupOrders, operationalSettings } = data;
   const { handleUpdateOrderStatus } = dispatch;
   const navigate = useNavigate();
+
+  const { token } = theme.useToken();
   const { t } = useTranslation('order');
 
   const [drawerData, setDrawerData] = useState<Partial<OperationalSettingData>>({ isOpen: false, statusLoading });
@@ -53,42 +60,48 @@ export const OperationalSettings = (props: OperationalSettingProps): ReactElemen
       title: t('', 'Name'),
       dataIndex: 'name',
       key: 'name',
+      width: 200,
       render: (value) => <Typography.Text strong>{value}</Typography.Text>,
     },
     {
       title: t('', 'Created Date'),
       dataIndex: 'createdAt',
       key: 'createdAt',
+      width: 200,
       render: (value) => {
-        const date = dayjs(value).format('DD/MM/YYYY hh:mm');
+        const date = dayjs(value).format(defaultDateTimeFormat);
+        return <Typography.Text>{date}</Typography.Text>;
+      },
+    },
+    {
+      title: 'Process',
+      key: 'process',
+      dataIndex: 'orders',
+      className: 'process',
+      render: (_, record) => {
+        const percent = calculateGroupCompletionPercentage(record);
         return (
-          <>
-            <Typography.Text>{date}</Typography.Text>
-          </>
+          <Progress
+            strokeColor={percent === 100 ? token.green : token.colorPrimary}
+            percent={percent}
+            status="active"
+          />
         );
       },
     },
     {
-      title: t('', 'Orders'),
-      key: 'orders',
-      dataIndex: 'orders',
-      render: (order: Order[]) => {
-        return (
-          <div>
-            {(order || []).map((item) => (
-              <Space key={item._id}>
-                <Link to={getExactPath(routePaths.detailOrder, { id: item._id })}> {item.name}</Link>
-                <BaseOrderStatus style={{ width: 100 }} status={item.status} />
-              </Space>
-            ))}
-          </div>
-        );
+      title: t('', 'Price'),
+      key: 'price',
+      width: 150,
+      render: (_, record) => {
+        return <Typography.Text>{formatCurrencyToVnd(calculateTotalPrice(record.orders || []))}</Typography.Text>;
       },
     },
     {
       title: t('', 'Status'),
       dataIndex: 'status',
       key: 'status',
+      width: 150,
       render: (value, record) => {
         return (
           <Switch
@@ -111,6 +124,7 @@ export const OperationalSettings = (props: OperationalSettingProps): ReactElemen
     () =>
       Object.values(operationalSettings).map((operationalSetting) => {
         return {
+          key: operationalSetting._id,
           _id: operationalSetting._id,
           name: operationalSetting.name,
           createdAt: operationalSetting.createdAt,
@@ -147,7 +161,16 @@ export const OperationalSettings = (props: OperationalSettingProps): ReactElemen
         <Table
           columns={columns}
           dataSource={dataSource}
-          // onChange={onChange}
+          expandable={{
+            expandedRowRender: (record) => (
+              <>
+                {(record.orders || []).map((item) => (
+                  <OrderCard order={item} users={data.users} />
+                ))}
+              </>
+            ),
+            rowExpandable: (record) => record.orders?.length !== 0,
+          }}
           onRow={(record) => {
             return {
               onClick: () => {
@@ -163,4 +186,29 @@ export const OperationalSettings = (props: OperationalSettingProps): ReactElemen
       <Drawer data={drawerData as OperationalSettingData} dispatch={{ closeDrawer, handleUpdateOrderStatus }} />
     </StyledOperationalSetting>
   );
+};
+
+const calculateTotalPrice = (orders: Order[]): number => {
+  let totalPrice = 0;
+  orders.forEach((order) => {
+    order.products.forEach((product) => {
+      totalPrice += product.price;
+    });
+  });
+  return totalPrice;
+};
+
+const calculateGroupCompletionPercentage = (group: OperationalSettingWithOrders): number => {
+  const defaultTotalOrder = { total: 0, done: 0 };
+
+  const totalOrders =
+    group?.orders?.reduce((acc, { usersStatus }) => {
+      const usersStatusDone = Object.values(usersStatus || {}).filter((status) => status === OrderStatus.DONE);
+      acc.total += Object.values(usersStatus || {}).length;
+      acc.done += usersStatusDone.length;
+      return acc;
+    }, defaultTotalOrder) || defaultTotalOrder;
+
+  if (totalOrders.total === 0) totalOrders.total = 1;
+  return Math.round((totalOrders.done / totalOrders.total) * 100);
 };
