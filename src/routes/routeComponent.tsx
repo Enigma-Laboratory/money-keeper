@@ -22,7 +22,7 @@ export const routePaths = {
   orders: getPath('/orders'),
   detailOrder: getPath('orders/detail/:id'),
   createOrder: getPath('orders/create'),
-  editOrder: getPath('order/edit/:id'),
+  editOrder: getPath('orders/edit/:id'),
   profile: getPath('profile/:id'),
 };
 

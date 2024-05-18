@@ -7,4 +7,14 @@ export const EditOrderStyled = styled.div`
     align-items: center;
     margin-bottom: 10px;
   }
+
+  .step-action {
+    position: absolute;
+    top: 90%;
+    width: 100%;
+    padding-right: 20px;
+  }
+  .ant-picker {
+    width: 100%;
+  }
 `;
