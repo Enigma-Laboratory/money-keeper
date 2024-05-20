@@ -73,7 +73,7 @@ export class OrderService {
     }
   }
 
-  public async updateOneOrder(params: UpdateOneOrderParams): Promise<void> {
+  public async updateOneOrder(params: UpdateOneOrderParams): Promise<Order> {
     try {
       const updatedOrder = await OrderApiService.instance.updateOneOrder(params);
       const { count, rows: orders } = orderStore.getModel();
@@ -84,6 +84,7 @@ export class OrderService {
         count,
         rows: { ...orders },
       });
+      return updatedOrder;
     } catch (error) {
       throw error;
     }

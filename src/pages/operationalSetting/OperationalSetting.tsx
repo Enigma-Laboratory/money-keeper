@@ -8,8 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { OperationalSetting, Order, OrderStatus, defaultDateTimeFormat } from '@enigma-laboratory/shared';
 import { OrderCard } from 'components';
-import { routePaths } from 'routes';
-import { THC, formatCurrencyToVnd } from 'utils';
+import { THC, formatCurrencyToVnd, routePaths } from 'utils';
 
 import { StyledOperationalSetting } from './OperationalSetting.styles';
 import { Drawer, OperationalSettingData } from './operationalSettingDrawer';

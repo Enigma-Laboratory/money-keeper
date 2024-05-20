@@ -7,7 +7,7 @@ import { LoginPage, RegisterPage } from 'pages';
 import { useMemo, useState } from 'react';
 import { RouteComponent, routeComponents } from './routeComponent';
 
-export const RenderRouteComponent = (routes: RouteComponent[]) => {
+const RenderRouteComponent = (routes: RouteComponent[]) => {
   const { authenticated } = useMemo(() => authProvider.check(), []);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(authenticated);
   return (
@@ -40,6 +40,8 @@ export const RenderRouteComponent = (routes: RouteComponent[]) => {
   );
 };
 
-export const BaseRoutes = () => {
+const BaseRoutes = () => {
   return <Router>{RenderRouteComponent(routeComponents)}</Router>;
 };
+
+export default BaseRoutes;
