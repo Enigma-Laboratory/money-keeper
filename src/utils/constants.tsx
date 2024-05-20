@@ -1,4 +1,4 @@
-export const ROUTE_PATH = '/';
+export const ROUTE_PATH = '';
 
 export const EVENT_NAME = {
   OPEN_MODAL: 'event_name_open_modal',

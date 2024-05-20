@@ -14,11 +14,7 @@ export const RenderRouteComponent = (routes: RouteComponent[]) => {
     <Routes>
       <Route
         element={
-          <Authenticated
-            key="authentication-layout"
-            isLoggedIn={isLoggedIn}
-            fallback={<CatchAllNavigate to="/login" />}
-          >
+          <Authenticated key="authentication-layout" isLoggedIn={isLoggedIn} fallback={<CatchAllNavigate to="login" />}>
             <LayoutMain>
               <Outlet />
             </LayoutMain>
@@ -37,8 +33,8 @@ export const RenderRouteComponent = (routes: RouteComponent[]) => {
           </Authenticated>
         }
       >
-        <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="register" element={<RegisterPage />} />
       </Route>
     </Routes>
   );

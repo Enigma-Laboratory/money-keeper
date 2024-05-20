@@ -19,7 +19,7 @@ const getPath = (path: string): string => `${ROUTE_PATH}${path}`;
 
 export const routePaths = {
   dashboard: getPath('/'),
-  orders: getPath('/orders'),
+  orders: getPath('orders'),
   detailOrder: getPath('orders/detail/:id'),
   createOrder: getPath('orders/create'),
   editOrder: getPath('order/edit/:id'),
