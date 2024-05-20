@@ -26,8 +26,8 @@ export interface AlertModalProps extends AlertModalPayload {
 }
 
 const BUTTON_KEY = {
-  BUTTON_KEY_INDEX_0: 0,
-  BUTTON_KEY_INDEX_1: 1,
+  BUTTON_KEY_FIRST: 0,
+  BUTTON_KEY_SECOND: 1,
 };
 
 export const AlertModal = (props: BaseModalProps): ReactElement => {
@@ -85,7 +85,7 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
   useEffect(() => {
     if (!modalSource.isOpen) return;
     const initFooter: JSX.Element[] = [
-      <Button key={BUTTON_KEY.BUTTON_KEY_INDEX_0} onClick={closeModal}>
+      <Button key={BUTTON_KEY.BUTTON_KEY_FIRST} onClick={closeModal}>
         {t('alert.close')}
       </Button>,
     ];
@@ -95,7 +95,7 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
         setModalSource((prev) => {
           initFooter.push(
             <ConfirmDeleteButton
-              key={BUTTON_KEY.BUTTON_KEY_INDEX_1}
+              key={BUTTON_KEY.BUTTON_KEY_SECOND}
               confirmInput={prev.resultData.deleteType?.input}
               confirmName={modalSource.data.confirmName}
               onClick={handleOk}
@@ -166,8 +166,8 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
   useEffect(() => {
     if (modalSource.data.type !== 'delete') return;
     setModalSource((prev: AlertModalProps) => {
-      const buttonClose = prev.footer?.[0] || <></>;
-      const buttonOk = prev.footer?.[1] || <></>;
+      const buttonClose = prev.footer?.[BUTTON_KEY.BUTTON_KEY_FIRST] || <></>;
+      const buttonOk = prev.footer?.[BUTTON_KEY.BUTTON_KEY_SECOND] || <></>;
 
       const newFooter: JSX.Element[] = [
         buttonClose,
