@@ -6,9 +6,8 @@ import dayjs from 'dayjs';
 import { ReactElement, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { routePaths } from 'routes';
 import { UserCollection } from 'stores';
-import { formatCurrencyToVnd, getExactPath } from 'utils';
+import { formatCurrencyToVnd, getExactPath, routePaths } from 'utils';
 import { StyledOrderCard } from './OrderCard.styles';
 
 interface OrderCardProps {

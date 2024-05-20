@@ -235,6 +235,9 @@ export const CreateOrder = (props: CreateOrderProps) => {
           >
             <DatePicker format={'YYYY-MM-DD'} />
           </Form.Item>
+          <Form.Item label={t('form.description.title')} name="description">
+            <Input />
+          </Form.Item>
         </>
       ),
     },
@@ -360,7 +363,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
               overflowY: 'auto',
               padding: 10,
             }}
-            title={t('create.form.title')}
+            title={t('form.title')}
           >
             <Form initialValues={{ remember: true }} autoComplete="off" layout="vertical" form={form}>
               <Steps style={{ padding: 10 }} current={currentOrderStep} size="small" items={orderStepItems} />
@@ -373,21 +376,21 @@ export const CreateOrder = (props: CreateOrderProps) => {
                     {currentOrderStep > 0 && (
                       <Space>
                         <LeftOutlined />
-                        Previous
+                        {t('btnPrevious')}
                       </Space>
                     )}
                   </Button>
                   {currentOrderStep < createOrderBySteps.length - 1 && (
                     <Button type="primary" onClick={() => nextCurrentOrderStep()}>
                       <Space>
-                        {currentOrderStep === CreateOrderSteps.CONFIRM ? 'Create' : 'Next'}
+                        {currentOrderStep === CreateOrderSteps.CONFIRM ? t('btnCreate') : t('btnNext')}
                         <RightOutlined />
                       </Space>
                     </Button>
                   )}
                   {currentOrderStep === createOrderBySteps.length - 1 && (
                     <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                      Done
+                      {t('btnDone')}
                     </Button>
                   )}
                 </Flex>

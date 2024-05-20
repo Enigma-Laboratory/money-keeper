@@ -7,7 +7,7 @@ import { AlertModalPayload } from 'interface';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { EVENT_NAME, EventAction, USER_IDENTITY } from 'utils';
+import { EVENT_NAME, EventAction, USER_IDENTITY, getExactPath, routePaths } from 'utils';
 import { DetailOrderStyled } from './OrderDetail.styles';
 import { OrderEventLog } from './detailStatus';
 import { OrderInformation } from './information';
@@ -45,7 +45,7 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
           <Space align="end">
             <BaseButton
               onClick={() => {
-                // dispatch.updateOrder({ _id: id || '' });
+                navigate(getExactPath(routePaths.editOrder, { id }));
               }}
               icon={<CloseCircleOutlined />}
               danger

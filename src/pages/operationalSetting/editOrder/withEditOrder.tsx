@@ -1,8 +1,8 @@
 import {
   CreateOneOperationalSettingParams,
-  CreateOneOrderParams,
   FindOneOrderParams,
   Order,
+  UpdateOneOrderParams,
 } from '@enigma-laboratory/shared';
 import { useFetchInitData } from 'hooks';
 import { ComponentType } from 'react';
@@ -16,7 +16,7 @@ export interface EditOrderProps {
     operationalSettings: OperationalSettingCollection;
   };
   dispatch: {
-    updateOneOrder: (params: CreateOneOrderParams) => Promise<Order>;
+    updateOneOrder: (params: UpdateOneOrderParams) => Promise<Order>;
     createOperationalSettings: (params: CreateOneOperationalSettingParams) => Promise<void>;
     fetchOneOrder: (params: FindOneOrderParams) => Promise<Order>;
   };
@@ -26,7 +26,7 @@ export const withEditOrderController = (Component: ComponentType<EditOrderProps>
   return () => {
     const { isLoading, operationalSettings, users, orders } = useFetchInitData();
 
-    const updateOneOrder = async (params: CreateOneOrderParams): Promise<Order> => {
+    const updateOneOrder = async (params: UpdateOneOrderParams): Promise<Order> => {
       return await OrderService.instance.updateOneOrder(params);
     };
 

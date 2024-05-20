@@ -1,6 +1,6 @@
 import { AlertModal } from 'components';
 import { ConfigProvider } from 'context';
-import { BaseRoutes } from 'routes';
+import BaseRoutes from 'routes/BaseRoutes';
 
 function App() {
   return (

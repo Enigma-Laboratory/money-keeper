@@ -5,6 +5,7 @@ const { INFORMATION, PRODUCT, CONFIRM, DONE } = CreateOrderSteps;
 
 export default {
   form: {
+    title: 'Tạo Đơn Hàng',
     group: {
       title: 'Tên Nhóm',
       message: 'Vui lòng nhập tên nhóm của bạn!',
@@ -20,6 +21,10 @@ export default {
     createdOrderAt: {
       title: 'Thời gian tạo đơn hàng',
       message: 'Vui lòng nhập thời gian tạo đơn hàng',
+    },
+    description: {
+      title: 'Ghi Chú',
+      message: 'Vui lòng nhập ghi chú',
     },
     product: {
       name: 'Tên',
@@ -38,4 +43,9 @@ export default {
     [CONFIRM]: 'Xác Nhận',
     [DONE]: 'Hoàn Tất',
   },
+  btnUpdate: 'Cập Nhật',
+  btnNext: 'Tiếp',
+  btnDone: 'Hoàn Thành',
+  btnCreate: 'Tạo',
+  btnPrevious: 'Trước',
 };
