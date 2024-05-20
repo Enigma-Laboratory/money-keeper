@@ -1,3 +1,4 @@
+import { InsertRowRightOutlined } from '@ant-design/icons';
 import { Button, Progress, Space, Spin, Switch, Table, Typography, theme } from 'antd';
 import type { TableProps } from 'antd/es/table';
 import dayjs from 'dayjs';
@@ -5,12 +6,10 @@ import { ReactElement, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { InsertRowRightOutlined } from '@ant-design/icons';
 import { OperationalSetting, Order, OrderStatus, defaultDateTimeFormat } from '@enigma-laboratory/shared';
 import { OrderCard } from 'components';
 import { routePaths } from 'routes';
-import { formatCurrencyToVnd } from 'utils';
-import { THC } from 'utils/constants';
+import { THC, formatCurrencyToVnd } from 'utils';
 
 import { StyledOperationalSetting } from './OperationalSetting.styles';
 import { Drawer, OperationalSettingData } from './operationalSettingDrawer';

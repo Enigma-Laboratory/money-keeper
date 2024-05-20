@@ -1,5 +1,3 @@
-/* eslint-disable import/no-anonymous-default-export */
-
 export default {
   editProfile: 'Chỉnh sửa thông tin',
   notifications: 'Thông báo',

@@ -1,12 +1,12 @@
 import { Button, ButtonProps } from 'antd';
 import { useTranslation } from 'react-i18next';
-interface AlertModalFooterProps extends ButtonProps {
+interface ConfirmDeleteButtonProps extends ButtonProps {
   confirmInput?: string;
   onClick?: () => Promise<void>;
   loading: boolean;
   confirmName?: string;
 }
-export const AlertModalFooter = (props: AlertModalFooterProps) => {
+export const ConfirmDeleteButton = (props: ConfirmDeleteButtonProps) => {
   const { confirmInput, confirmName, onClick, loading, ...remaining } = props;
   const { t } = useTranslation('common');
 

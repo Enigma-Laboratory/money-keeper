@@ -9,7 +9,7 @@ import { EventAction } from 'utils/customEvent';
 
 import { BaseModal, BaseModalProps } from '../BaseModal';
 import { AlertModalExtra } from './AlertModalExtra';
-import { AlertModalFooter } from './AlertModalFooter';
+import { ConfirmDeleteButton } from './AlertModalFooter';
 
 export interface AlertModalProps extends AlertModalPayload {
   isOpen: boolean;
@@ -24,6 +24,11 @@ export interface AlertModalProps extends AlertModalPayload {
     };
   };
 }
+
+const BUTTON_KEY = {
+  BUTTON_KEY_INDEX_0: 0,
+  BUTTON_KEY_INDEX_1: 1,
+};
 
 export const AlertModal = (props: BaseModalProps): ReactElement => {
   const { t } = useTranslation('common');
@@ -80,7 +85,7 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
   useEffect(() => {
     if (!modalSource.isOpen) return;
     const initFooter: JSX.Element[] = [
-      <Button key={0} onClick={closeModal}>
+      <Button key={BUTTON_KEY.BUTTON_KEY_INDEX_0} onClick={closeModal}>
         {t('alert.close')}
       </Button>,
     ];
@@ -89,8 +94,8 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
         const initPlaceholderInput = 'Please type confirm input...';
         setModalSource((prev) => {
           initFooter.push(
-            <AlertModalFooter
-              key={1}
+            <ConfirmDeleteButton
+              key={BUTTON_KEY.BUTTON_KEY_INDEX_1}
               confirmInput={prev.resultData.deleteType?.input}
               confirmName={modalSource.data.confirmName}
               onClick={handleOk}
@@ -155,16 +160,18 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
         }));
         break;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalSource.isOpen]);
 
   // useEffect just perform when modal type is 'delete'
   useEffect(() => {
     if (modalSource.data.type !== 'delete') return;
     setModalSource((prev: AlertModalProps) => {
+      const buttonClose = prev.footer?.[0] || <></>;
+      const buttonOk = prev.footer?.[1] || <></>;
+
       const newFooter: JSX.Element[] = [
-        prev.footer?.[0] || <></>,
-        cloneElement(prev.footer?.[1] || <></>, {
+        buttonClose,
+        cloneElement(buttonOk, {
           confirmInput: prev.resultData.deleteType?.input,
           confirmName: prev.data.confirmName,
           onClick: handleOk,
@@ -187,7 +194,6 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
         },
       };
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalSource.resultData.deleteType?.input, modalSource.isLoadingButton]);
 
   return (
