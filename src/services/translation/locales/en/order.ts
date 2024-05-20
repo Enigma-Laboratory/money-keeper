@@ -6,6 +6,7 @@ const { INFORMATION, PRODUCT, CONFIRM, DONE } = CreateOrderSteps;
 
 export default {
   form: {
+    title: 'Create Order',
     group: {
       title: 'Group Name',
       message: 'Please input your Group!',
@@ -21,6 +22,10 @@ export default {
     createdOrderAt: {
       title: 'Created Order at',
       message: 'Please input your created order at',
+    },
+    description: {
+      title: 'Description',
+      message: 'Please input your description',
     },
     product: {
       name: 'Name',
@@ -44,4 +49,9 @@ export default {
     [CONFIRM]: 'Confirm',
     [DONE]: 'Done',
   },
+  btnUpdate: 'Update',
+  btnNext: 'Next',
+  btnDone: 'Done',
+  btnCreate: 'Create',
+  btnPrevious: 'Previous',
 };

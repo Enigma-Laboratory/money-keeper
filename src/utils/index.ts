@@ -8,3 +8,4 @@ export * from './getExactPath';
 export * from './getUniqueListWithCount';
 export * from './hexToRgb';
 export * from './objectIsEmpty';
+export * from './routePaths';

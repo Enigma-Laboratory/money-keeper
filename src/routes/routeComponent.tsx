@@ -7,24 +7,13 @@ import {
   OrderDetailScreen,
   ProfileScreen,
 } from 'pages';
-import { ROUTE_PATH } from 'utils';
+import { routePaths } from 'utils';
 
 export interface RouteComponent {
   name: string;
   path: string;
   component: JSX.Element;
 }
-
-const getPath = (path: string): string => `${ROUTE_PATH}${path}`;
-
-export const routePaths = {
-  dashboard: getPath('/'),
-  orders: getPath('/orders'),
-  detailOrder: getPath('orders/detail/:id'),
-  createOrder: getPath('orders/create'),
-  editOrder: getPath('orders/edit/:id'),
-  profile: getPath('profile/:id'),
-};
 
 export const routeComponents: RouteComponent[] = [
   {
