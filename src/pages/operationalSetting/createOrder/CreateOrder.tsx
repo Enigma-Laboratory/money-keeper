@@ -33,7 +33,7 @@ import { useLocalStorage } from 'hooks';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { USER_IDENTITY, formatCurrencyToVnd, getExactPath } from 'utils';
+import { USER_IDENTITY, formatCurrencyToVnd, getExactPath, routePaths } from 'utils';
 import { CreateOrderStyled } from './CreateOrder.styles';
 import { OrderConfirm } from './orderConfirm';
 import { CreateOrderProps } from './withCreateOrder';
@@ -325,7 +325,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
               type="primary"
               key="console"
               onClick={() =>
-                orderIdCreated && navigate(getExactPath('/orders/detail/:id', { id: orderIdCreated || '' }))
+                orderIdCreated && navigate(getExactPath(routePaths.detailOrder, { id: orderIdCreated || '' }))
               }
             >
               Go To Order Detail

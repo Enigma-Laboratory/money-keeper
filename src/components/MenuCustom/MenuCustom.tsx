@@ -6,22 +6,23 @@ import { useLocalStorage } from 'hooks';
 import { ReactElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
-import { USER_IDENTITY } from 'utils';
+import { USER_IDENTITY, routePaths } from 'utils';
 import { BaseMenu } from '../BaseMenu';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
 const PATHNAME = {
   HOME: '/',
-  ORDER: '/orders',
-  CUSTOMER: '/customer',
-  PRODUCT: '/product',
-  CATEGORY: '/categories',
-  PROFILE: '/profile',
+  ORDER: 'orders',
+  CUSTOMER: 'customer',
+  PRODUCT: 'product',
+  CATEGORY: 'categories',
+  PROFILE: 'profile',
 };
 
 export const MenuCustom = (): ReactElement => {
   const { pathname } = useLocation();
+  console.log(pathname);
   const { t } = useTranslation('common');
   const [activeItem, setActiveItem] = useState<string[]>([]);
 
@@ -33,32 +34,32 @@ export const MenuCustom = (): ReactElement => {
 
   const items: MenuItem[] = [
     {
-      label: <Link to={PATHNAME.HOME}>{t('sidebar.dashboard')}</Link>,
+      label: <Link to={routePaths.dashboard}>{t('sidebar.dashboard')}</Link>,
       key: 'dashboard',
       icon: <MailOutlined />,
     },
     {
-      label: <Link to={PATHNAME.ORDER}>{t('sidebar.orders')}</Link>,
+      label: <Link to={routePaths.orders}>{t('sidebar.orders')}</Link>,
       key: 'orders',
       icon: <AppstoreOutlined />,
     },
     {
-      label: <Link to={PATHNAME.CUSTOMER}>{t('sidebar.customers')} </Link>,
+      label: <Link to={routePaths.customer}>{t('sidebar.customers')} </Link>,
       key: 'customers',
       icon: <AppstoreOutlined />,
     },
     {
-      label: <Link to={PATHNAME.PRODUCT}>{t('sidebar.products')}</Link>,
+      label: <Link to={routePaths.product}>{t('sidebar.products')}</Link>,
       key: 'products',
       icon: <AppstoreOutlined />,
     },
     {
-      label: <Link to={PATHNAME.CATEGORY}>{t('sidebar.categories')}</Link>,
+      label: <Link to={routePaths.profile}>{t('sidebar.categories')}</Link>,
       key: 'categories',
       icon: <AppstoreOutlined />,
     },
     {
-      label: <Link to={PATHNAME.PROFILE + '/' + user._id}>{t('sidebar.profile')}</Link>,
+      label: <Link to={routePaths.profile + '/' + user._id}>{t('sidebar.profile')}</Link>,
       key: 'profile',
       icon: <AppstoreOutlined />,
     },
@@ -70,23 +71,23 @@ export const MenuCustom = (): ReactElement => {
   ];
 
   useEffect(() => {
-    switch (pathname) {
-      case PATHNAME.HOME:
+    switch (pathname.substring(1)) {
+      case routePaths.dashboard:
         setActiveItem(['dashboard']);
         break;
-      case PATHNAME.ORDER:
+      case routePaths.orders:
         setActiveItem(['orders']);
         break;
-      case PATHNAME.CUSTOMER:
+      case routePaths.customer:
         setActiveItem(['customers']);
         break;
-      case PATHNAME.PRODUCT:
+      case routePaths.product:
         setActiveItem(['products']);
         break;
       case PATHNAME.CATEGORY:
         setActiveItem(['categories']);
         break;
-      case PATHNAME.PROFILE:
+      case routePaths.profile:
         setActiveItem(['profile']);
         break;
       case 'logout':

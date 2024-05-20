@@ -338,13 +338,13 @@ export const EditOrder = (props: EditOrderProps) => {
       content: (
         <Result
           title={'Updated order successfully'}
-          subTitle={`Order id: #${order._id} Cloud server configuration takes 1-5 minutes, please wait.`}
+          subTitle={`Order id: #${order?._id} Cloud server configuration takes 1-5 minutes, please wait.`}
           status="success"
           extra={[
             <Button
               type="primary"
               key="console"
-              onClick={() => navigate(getExactPath(routePaths.detailOrder, { id: order._id || '' }))}
+              onClick={() => navigate(getExactPath(routePaths.detailOrder, { id: order?._id || '' }))}
             >
               Go To Order Detail
             </Button>,

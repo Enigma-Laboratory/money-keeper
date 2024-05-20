@@ -9,4 +9,6 @@ export const routePaths = {
   createOrder: getPath('orders/create'),
   editOrder: getPath('orders/edit/:id'),
   profile: getPath('profile/:id'),
+  customer: getPath('customer'),
+  product: getPath('product'),
 };

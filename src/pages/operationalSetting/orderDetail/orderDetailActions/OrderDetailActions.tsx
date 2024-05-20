@@ -33,7 +33,7 @@ export const OrderDetailActions = ({ order, users, currentUser, dispatch }: Orde
   const { t: tCommon } = useTranslation('common');
 
   const { userIds } = useMemo(() => {
-    const userIds = Object.keys(order?.usersStatus)?.flatMap((userId) => userId) || [];
+    const userIds = Object.keys(order?.usersStatus || [])?.flatMap((userId) => userId) || [];
     const uniqueUserIds = [...new Set(userIds)];
 
     return {

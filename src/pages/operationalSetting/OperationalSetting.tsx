@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { OperationalSetting, Order, OrderStatus, defaultDateTimeFormat } from '@enigma-laboratory/shared';
 import { OrderCard } from 'components';
-import { THC, formatCurrencyToVnd, routePaths } from 'utils';
+import { THC, formatCurrencyToVnd, getExactPath, routePaths } from 'utils';
 
 import { StyledOperationalSetting } from './OperationalSetting.styles';
 import { Drawer, OperationalSettingData } from './operationalSettingDrawer';
@@ -134,7 +134,11 @@ export const OperationalSettings = (props: OperationalSettingProps): ReactElemen
     return (
       <Space>
         <Typography.Title level={2}>{t('order.title', 'Order')}</Typography.Title>
-        <Button onClick={() => navigate(routePaths.createOrder)} type="dashed" icon={<InsertRowRightOutlined />}>
+        <Button
+          onClick={() => navigate(getExactPath(routePaths.createOrder))}
+          type="dashed"
+          icon={<InsertRowRightOutlined />}
+        >
           {t('orders.createOrder', 'Create order')}
         </Button>
       </Space>
