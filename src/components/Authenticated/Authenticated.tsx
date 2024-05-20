@@ -11,9 +11,6 @@ type AuthenticatedProps = {
 export const Authenticated = (props: AuthenticatedProps): ReactElement => {
   const { children, isLoggedIn, fallback } = props;
 
-  if (!isLoggedIn) {
-    return <>{fallback}</>;
-  }
-
+  if (!isLoggedIn) return <>{fallback}</>;
   return <>{children}</>;
 };

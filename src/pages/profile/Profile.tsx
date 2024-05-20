@@ -10,11 +10,11 @@ export const Profile = (props: ProfileProps) => {
   return (
     <StyledProfile>
       <Spin spinning={data.isLoading}>
-        <Row gutter={14}>
-          <Col flex={3}>
+        <Row gutter={[14, 14]}>
+          <Col span={24} lg={6}>
             <InfoProfile data={{ user: data.user }} />
           </Col>
-          <Col flex={9}>
+          <Col span={24} lg={18}>
             <TabProfile></TabProfile>
           </Col>
         </Row>

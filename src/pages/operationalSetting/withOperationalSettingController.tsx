@@ -52,7 +52,7 @@ export const withOrderController = <P,>(Component: ComponentType<P>): ComponentT
         return acc;
       }, {} as GroupOrders);
     }, [orders]);
-    console.log(groupedOrders);
+
     const logicProps: OperationalSettingProps = {
       data: {
         isLoading,

@@ -205,17 +205,17 @@ export enum AlertType {
   INFO = 'info',
   ERROR = 'error',
 }
-export type AlertModalType = 'confirm' | 'warning' | 'info' | 'error' | 'success';
+export type AlertModalType = 'confirm' | 'warning' | 'info' | 'error' | 'success' | 'delete';
 
 export interface AlertModalPayload {
   data: {
-    isOpen?: boolean;
-    title?: string;
     type: AlertModalType;
     content?: string;
+    subContent?: string;
+    confirmName?: string; //** Name which type in to confirm before deleted */
   };
   dispatch?: {
-    handleOk?: () => void;
+    handleOk?: () => Promise<void>;
     handleCancel?: () => void;
   };
 }

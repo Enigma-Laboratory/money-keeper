@@ -1,7 +1,7 @@
-import Modal from 'antd/es/modal/Modal';
+import { Modal } from 'antd';
 import styled from 'styled-components';
 
-export const BaseModalStyled = styled(Modal)`
+export const StyledBaseModal = styled(Modal)`
   .ant-modal-content {
     .header {
     }

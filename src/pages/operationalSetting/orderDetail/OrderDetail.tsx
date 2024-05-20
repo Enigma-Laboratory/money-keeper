@@ -55,10 +55,10 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
             <BaseButton
               onClick={() => {
                 EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
-                  data: { type: 'confirm', content: order?.name },
+                  data: { type: 'delete', confirmName: order?.name },
                   dispatch: {
                     async handleOk() {
-                      dispatch.deleteOrder({ _id: id || '' });
+                      await dispatch.deleteOrder({ _id: id || '' });
                       navigate('/orders');
                     },
                   },
