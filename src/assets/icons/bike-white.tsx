@@ -1,14 +1,7 @@
-import Icon from "@ant-design/icons";
+import Icon from '@ant-design/icons';
 
 const BikeWhiteSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={14}
-    height={14}
-    viewBox="0 0 14 14"
-    fill="none"
-    {...props}
-  >
+  <svg xmlns="http://www.w3.org/2000/svg" width={14} height={14} viewBox="0 0 14 14" fill="none" {...props}>
     <path
       fill="currentColor"
       fillRule="evenodd"
@@ -18,6 +11,4 @@ const BikeWhiteSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   </svg>
 );
 
-export const BikeWhiteIcon = (props: React.ComponentProps<typeof Icon>) => (
-  <Icon component={BikeWhiteSVG} {...props} />
-);
+export const BikeWhiteIcon = (props: React.ComponentProps<typeof Icon>) => <Icon component={BikeWhiteSVG} {...props} />;

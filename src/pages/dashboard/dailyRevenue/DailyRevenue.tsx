@@ -33,6 +33,7 @@ export const DailyRevenue = ({ data, height }: Props) => {
   };
 
   const gradientFill = (context: any) => {
+    console.log(context);
     const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, context.chart.height);
     gradient.addColorStop(1, '#ffffff');
     gradient.addColorStop(0.5, '#D3EBFF');

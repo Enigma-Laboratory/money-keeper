@@ -1,3 +1,4 @@
+import { OrderStatus } from '@enigma-laboratory/shared';
 import { Dayjs } from 'dayjs';
 
 export interface FindAllParams<Scope = string> {
@@ -48,7 +49,7 @@ export interface ISalesChart {
 
 export interface IOrderStatus {
   id: number;
-  text: 'Pending' | 'Ready' | 'On The Way' | 'Delivered' | 'Cancelled';
+  text: OrderStatus;
 }
 
 export interface IUser {

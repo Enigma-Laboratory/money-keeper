@@ -2,6 +2,9 @@
   "name": "money-keeper",
   "version": "0.1.0",
   "private": true,
+  "main": "index.js",
+  "repository": "https://github.com/Enigma-Laboratory/money-keeper.git",
+  "license": "MIT",
   "dependencies": {
     "@ant-design/icons": "^5.3.6",
     "@enigma-laboratory/shared": "^1.3.1",
@@ -24,6 +27,7 @@
     "chart.js": "^4.3.0",
     "dayjs": "^1.11.11",
     "dotenv": "^16.3.1",
+    "eslint-plugin-jsdoc": "^48.2.5",
     "faker": "^6.6.6",
     "i18next": "^23.11.2",
     "lodash": "^4.17.21",
@@ -38,7 +42,7 @@
     "rxjs": "^7.8.1",
     "socket.io-client": "^4.7.5",
     "styled-components": "^5.3.11",
-    "typescript": "^5.0.4",
+    "typescript": "^5.4.5",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
@@ -46,13 +50,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier . --write"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "browserslist": {
     "production": [
@@ -67,7 +67,13 @@
     ]
   },
   "devDependencies": {
+    "@eslint/js": "^9.3.0",
     "@faker-js/faker": "^8.0.2",
-    "prettier": "^3.0.1"
+    "eslint": "^9.3.0",
+    "eslint-plugin-react": "^7.34.1",
+    "globals": "^15.3.0",
+    "prettier": "^3.0.1",
+    "typescript-eslint": "^7.9.0"
   }
+
 }

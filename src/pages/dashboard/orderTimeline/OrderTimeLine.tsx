@@ -89,7 +89,7 @@ export const OrderTimeline = ({ data, dispatch }: OrderTimelineProps) => {
                     }}
                   >
                     <div style={{ width: '128px' }}>
-                      <BaseOrderStatus status={item.status.text as any} />
+                      <BaseOrderStatus status={item.status.text} />
                     </div>
                     <Typography.Text strong>#{item.orderNumber}</Typography.Text>
                   </div>

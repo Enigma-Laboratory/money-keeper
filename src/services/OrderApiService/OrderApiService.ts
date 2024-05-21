@@ -48,6 +48,6 @@ export class OrderApiService extends ApiServiceEndPoint {
 
   public async deleteOneOrder(params: DeleteOneOrderParams): Promise<DeleteOneOrderResponse> {
     const endpoint = `${this.endPoint}/${params._id}`;
-    return await HttpClientService.httpDelete<any>(endpoint);
+    return await HttpClientService.httpDelete<DeleteOneOrderResponse>(endpoint);
   }
 }

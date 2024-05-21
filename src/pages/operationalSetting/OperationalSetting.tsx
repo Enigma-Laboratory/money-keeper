@@ -33,7 +33,7 @@ export const OperationalSettings = (props: OperationalSettingProps): ReactElemen
   useEffect(() => {
     setDrawerData((prevDrawerData) => {
       const updatedStatus = operationalSettings?.[prevDrawerData?._id || '']?.status;
-      return { ...prevDrawerData, statusLoading, status: !!updatedStatus ? updatedStatus : prevDrawerData.status };
+      return { ...prevDrawerData, statusLoading, status: updatedStatus };
     });
   }, [statusLoading, operationalSettings]);
 

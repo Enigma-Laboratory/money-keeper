@@ -14,6 +14,8 @@ type HeaderLayoutProps = {
 
 export const HeaderLayout = ({ collapsed, toggleCollapsed }: HeaderLayoutProps) => {
   const [user] = useLocalStorage<User>(USER_IDENTITY);
+  let v: number = 0;
+  v = 0;
 
   const { mode, setMode, locate, setLocate } = useConfigProvider();
 

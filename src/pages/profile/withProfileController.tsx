@@ -5,7 +5,7 @@ import { USER_IDENTITY } from 'utils';
 
 export interface ProfileProps {
   data: { isLoading: boolean; user: User };
-  dispatch?: {};
+  dispatch?: object;
 }
 
 export const withProfileController = <P,>(Component: ComponentType<P>): ComponentType<P> => {

@@ -83,13 +83,12 @@ export const CreateOrder = (props: CreateOrderProps) => {
 
   const [form] = Form.useForm();
 
-  const formatToVnd = (value: any) => {
-    const numericValue = value.replace(/\D/g, '');
-    return formatCurrencyToVnd(numericValue);
+  const formatToVnd = (value: number | undefined) => {
+    return formatCurrencyToVnd(value as number);
   };
 
-  const parseFromVnd = (value: any) => {
-    const numericValue = value.replace(/\D/g, '');
+  const parseFromVnd = (value: string | undefined) => {
+    const numericValue: number = +value!.replace(/\D/g, '');
     return numericValue;
   };
 

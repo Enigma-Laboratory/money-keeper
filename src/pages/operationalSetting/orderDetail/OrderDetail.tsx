@@ -25,7 +25,7 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
   const { orderNumber } = order || {};
 
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  const { id = '' } = useParams<{ id: string }>();
 
   const { t } = useTranslation('orderDetail');
 

@@ -16,6 +16,7 @@ export default {
     price: 'Price',
     total: 'Total',
   },
+  
   orderEvenLog: 'Order event log',
   btn: {
     update: 'Update',

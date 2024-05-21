@@ -1,12 +1,10 @@
+import { Button, Card, Col, Form, Input, Layout, Row, Typography, theme } from 'antd';
 import React from 'react';
-
-import { Row, Col, Layout, Card, Typography, Form, Input, Button, theme } from 'antd';
-
-import { layoutStyles, containerStyles, titleStyles, headStyles, bodyStyles } from './Register.styles';
-
 import { useTranslation } from 'react-i18next';
 
-export const RegisterPage: React.FC<any> = ({ providers, loginLink, wrapperProps, contentProps, formProps }) => {
+import { bodyStyles, containerStyles, headStyles, layoutStyles, titleStyles } from './Register.styles';
+
+export const RegisterPage: React.FC<any> = ({ wrapperProps, contentProps, formProps }) => {
   const { token } = theme.useToken();
   const { t } = useTranslation('auth');
 

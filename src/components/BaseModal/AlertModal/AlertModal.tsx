@@ -89,8 +89,9 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
         {t('alert.close')}
       </Button>,
     ];
+    const a = 0;
     switch (modalSource.data.type) {
-      case 'delete':
+      case 'delete': {
         const initPlaceholderInput = 'Please type confirm input...';
         setModalSource((prev) => {
           initFooter.push(
@@ -129,7 +130,9 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
           };
         });
         break;
-      case 'info':
+      }
+
+      case 'info': {
         setModalSource((prev) => ({
           ...prev,
           footer: initFooter,
@@ -139,7 +142,9 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
           },
         }));
         break;
-      case 'success':
+      }
+
+      case 'success': {
         setModalSource((prev) => ({
           ...prev,
           footer: initFooter,
@@ -149,7 +154,9 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
           },
         }));
         break;
-      case 'warning':
+      }
+
+      case 'warning': {
         setModalSource((prev) => ({
           ...prev,
           footer: initFooter,
@@ -159,6 +166,7 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
           },
         }));
         break;
+      }
     }
   }, [modalSource.isOpen]);
 
