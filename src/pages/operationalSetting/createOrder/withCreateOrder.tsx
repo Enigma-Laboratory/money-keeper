@@ -1,6 +1,7 @@
 import { CreateOneOperationalSettingParams, CreateOneOrderParams, Order } from '@enigma-laboratory/shared';
-import { useFetchInitData } from 'hooks';
+import { useFetchInitData, useSocketSubscription } from 'hooks';
 import { ComponentType } from 'react';
+import { operationalSettingEventHandlers, orderEventHandlers } from 'services';
 import { OperationalSettingCollection, OperationalSettingService, OrderService } from 'stores';
 import { UserCollection } from 'stores/user';
 export interface CreateOrderProps {
@@ -17,6 +18,7 @@ export interface CreateOrderProps {
 
 export const withCreateOrderController = (Component: ComponentType<CreateOrderProps>): ComponentType => {
   return () => {
+    useSocketSubscription([orderEventHandlers, operationalSettingEventHandlers]);
     const { isLoading, operationalSettings, users } = useFetchInitData();
 
     const createOneOrder = async (params: CreateOneOrderParams): Promise<Order> => {

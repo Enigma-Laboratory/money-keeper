@@ -4,6 +4,7 @@ import {
   OperationalSetting,
   UpdateOneOperationalSettingParams,
 } from '@enigma-laboratory/shared';
+import { notification } from 'antd';
 import { OperationalSettingApiService } from 'services/OperationalSettingsApiService';
 import { arrayToObject } from 'utils';
 import { operationalSettingStore } from './store';
@@ -85,6 +86,13 @@ export class OperationalSettingService {
   }
 
   public updatedOperationalSettingIO(operationalSetting: OperationalSetting) {
+    notification.open({
+      message: 'Order Create Successful',
+      description: `The order with id: ${operationalSetting.name} has been successfully updated.`,
+      onClick: () => {
+        console.log('Notification Clicked!');
+      },
+    });
     operationalSettingStore.updateModel((model) => ({
       count: model.count,
       rows: { ...model.rows, [operationalSetting._id]: operationalSetting },
