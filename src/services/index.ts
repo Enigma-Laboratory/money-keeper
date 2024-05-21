@@ -5,5 +5,5 @@ export * from './OperationalSettingsApiService';
 export * from './OrderApiService';
 export * from './OrderDetailApiService';
 export * from './SocketIOService';
+export * from './Translation';
 export * from './UserApiService';
-export * from './translation';
