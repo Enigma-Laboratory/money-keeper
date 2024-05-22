@@ -1,9 +1,8 @@
 import { Order, UpdateOneOperationalSettingParams } from '@enigma-laboratory/shared';
 
-import { useFetchInitData, useSocketSubscription } from 'hooks';
+import { useFetchInitData } from 'hooks';
 import { AlertModalPayload } from 'interface';
 import { ComponentType, useMemo, useState } from 'react';
-import { operationalSettingEventHandlers, orderEventHandlers } from 'services';
 import { OperationalSettingCollection, OperationalSettingService, UserCollection } from 'stores';
 import { EVENT_NAME, EventAction } from 'utils';
 
@@ -30,7 +29,7 @@ export interface OperationalSettingProps {
 export const withOrderController = <P,>(Component: ComponentType<P>): ComponentType<P> => {
   return (props: P) => {
     const [statusLoading, setStatusLoading] = useState<{ id?: string; status: boolean }>({ id: '', status: false });
-    useSocketSubscription([orderEventHandlers, operationalSettingEventHandlers]);
+
     const { isLoading, operationalSettings, orders, users } = useFetchInitData();
 
     const handleUpdateOrderStatus = async (params: UpdateOneOperationalSettingParams) => {

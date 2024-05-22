@@ -4,9 +4,8 @@ import {
   Order,
   UpdateOneOrderParams,
 } from '@enigma-laboratory/shared';
-import { useFetchInitData, useSocketSubscription } from 'hooks';
+import { useFetchInitData } from 'hooks';
 import { ComponentType } from 'react';
-import { operationalSettingEventHandlers, orderEventHandlers } from 'services';
 import { OperationalSettingCollection, OperationalSettingService, OrderCollection, OrderService } from 'stores';
 import { UserCollection } from 'stores/user';
 export interface EditOrderProps {
@@ -25,7 +24,6 @@ export interface EditOrderProps {
 
 export const withEditOrderController = (Component: ComponentType<EditOrderProps>): ComponentType => {
   return () => {
-    useSocketSubscription([orderEventHandlers, operationalSettingEventHandlers]);
     const { isLoading, operationalSettings, users, orders } = useFetchInitData();
 
     const updateOneOrder = async (params: UpdateOneOrderParams): Promise<Order> => {

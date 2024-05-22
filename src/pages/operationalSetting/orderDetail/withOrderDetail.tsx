@@ -6,10 +6,9 @@ import {
   UpdateOrderEventParams,
 } from '@enigma-laboratory/shared';
 import { Spin } from 'antd';
-import { useFetchInitData, useSocketSubscription } from 'hooks';
+import { useFetchInitData } from 'hooks';
 import { ComponentType, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { operationalSettingEventHandlers, orderEventHandlers } from 'services';
 import { OperationalSettingCollection, OrderService, UserCollection } from 'stores';
 
 export interface DetailOrderProps {
@@ -29,7 +28,6 @@ export interface DetailOrderProps {
 
 export const withOrderDetailController = (Component: ComponentType<DetailOrderProps>): ComponentType => {
   return () => {
-    useSocketSubscription([orderEventHandlers, operationalSettingEventHandlers]);
     const { isLoading, operationalSettings, orders, users } = useFetchInitData();
 
     const { id } = useParams<{ id: string }>();
