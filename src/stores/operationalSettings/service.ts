@@ -79,6 +79,11 @@ export class OperationalSettingService {
   }
 
   public createdOperationalSettingIO(operationalSetting: OperationalSetting) {
+    notification.success({
+      message: 'Order Create Successful',
+      description: `The order with id: ${operationalSetting.name} has been successfully updated.`,
+    });
+
     operationalSettingStore.updateModel((model) => ({
       count: model.count + 1,
       rows: { ...model.rows, [operationalSetting._id]: operationalSetting },
@@ -86,13 +91,11 @@ export class OperationalSettingService {
   }
 
   public updatedOperationalSettingIO(operationalSetting: OperationalSetting) {
-    notification.open({
-      message: 'Order Create Successful',
+    notification.success({
+      message: 'Operational settings Updated Successful',
       description: `The order with id: ${operationalSetting.name} has been successfully updated.`,
-      onClick: () => {
-        console.log('Notification Clicked!');
-      },
     });
+
     operationalSettingStore.updateModel((model) => ({
       count: model.count,
       rows: { ...model.rows, [operationalSetting._id]: operationalSetting },
