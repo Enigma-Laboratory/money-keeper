@@ -1,8 +1,8 @@
-import { Order } from '@enigma-laboratory/shared';
+import { Order, uniqueUserIdsByProduct } from '@enigma-laboratory/shared';
 import { Avatar, Divider, Flex, Tag, Typography } from 'antd';
 import { ReactElement, useMemo } from 'react';
 import { OperationalSettingCollection, UserCollection } from 'stores';
-import { generateColorFromAlphabet } from 'utils';
+import { formatCurrencyToVnd, generateColorFromAlphabet } from 'utils';
 import { StyledOrderConfirm } from './OrderConfirm.styles';
 
 type OrderConfirmProps = {
@@ -12,16 +12,13 @@ type OrderConfirmProps = {
 };
 
 export const OrderConfirm = ({ order, users, operationalSettings }: OrderConfirmProps): ReactElement => {
-  const { createdOrderAt, total, groupId, products, uniqueUserIds } = useMemo(() => {
+  const { createdOrderAt, total, groupId, products, userIds } = useMemo(() => {
     const sumPrice = order.products?.reduce((sum, product) => sum + product.price, 0) || 0;
-    const userIds = order?.products?.flatMap(({ userIds }) => userIds) || [];
-
-    const uniqueUserIds = [...new Set(userIds)];
 
     return {
       createdOrderAt: order.createdOrderAt,
-      total: sumPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }),
-      uniqueUserIds,
+      total: formatCurrencyToVnd(sumPrice),
+      userIds: uniqueUserIdsByProduct(order?.products || []),
       products: order.products || [],
       groupId: order.groupId || '',
     };
@@ -63,7 +60,7 @@ export const OrderConfirm = ({ order, users, operationalSettings }: OrderConfirm
         <div>
           <Flex gap="4px 0" wrap="wrap">
             <Avatar.Group maxCount={7} maxPopoverTrigger="click" size="large">
-              {uniqueUserIds.map((uniqueUserId) => {
+              {userIds.map((uniqueUserId) => {
                 const { _id, name } = users[uniqueUserId];
                 return (
                   <Avatar key={_id} style={{ backgroundColor: generateColorFromAlphabet(name.charAt(0)) }}>
