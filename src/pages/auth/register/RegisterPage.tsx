@@ -1,12 +1,10 @@
+import { Button, Card, Col, Form, Input, Layout, Row, Typography, theme } from 'antd';
 import React from 'react';
-
-import { Row, Col, Layout, Card, Typography, Form, Input, Button, theme } from 'antd';
-
-import { layoutStyles, containerStyles, titleStyles, headStyles, bodyStyles } from './Register.styles';
-
 import { useTranslation } from 'react-i18next';
 
-export const RegisterPage: React.FC<any> = ({ providers, loginLink, wrapperProps, contentProps, formProps }) => {
+import { bodyStyles, containerStyles, headStyles, layoutStyles, titleStyles } from './Register.styles';
+
+export const RegisterPage: React.FC = () => {
   const { token } = theme.useToken();
   const { t } = useTranslation('auth');
 
@@ -31,9 +29,8 @@ export const RegisterPage: React.FC<any> = ({ providers, loginLink, wrapperProps
         ...containerStyles,
         backgroundColor: token.colorBgElevated,
       }}
-      {...(contentProps ?? {})}
     >
-      <Form layout="vertical" onFinish={(values) => {}} requiredMark={false} {...formProps}>
+      <Form layout="vertical" onFinish={() => {}} requiredMark={false}>
         <Form.Item
           name="email"
           label={t('register.email', 'Email')}
@@ -71,7 +68,7 @@ export const RegisterPage: React.FC<any> = ({ providers, loginLink, wrapperProps
   );
 
   return (
-    <Layout style={layoutStyles} {...(wrapperProps ?? {})}>
+    <Layout style={layoutStyles}>
       <Row
         justify="center"
         align={'middle'}

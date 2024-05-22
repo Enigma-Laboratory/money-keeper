@@ -1,6 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 
-export class BaseStore<T = any> {
+export class BaseStore<T> {
   public model: BehaviorSubject<T>;
 
   constructor(initialModel: T) {
@@ -14,14 +14,6 @@ export class BaseStore<T = any> {
   public setModel(newModel: T): void {
     this.model.next(newModel);
   }
-
-  // public updateModel(value: Partial<T>): void {
-  //   const currentModel = this.model.getValue();
-  //   if (currentModel) {
-  //     const updatedModel = { ...currentModel, ...value };
-  //     this.model.next(updatedModel);
-  //   }
-  // }
 
   public updateModel(callback: Partial<T> | ((model: T) => Partial<T>)): void {
     const currentModel = this.model.getValue();

@@ -7,10 +7,10 @@ type OrderActionProps = {
   record: IOrder;
 };
 
-export const OrderActions: React.FC<OrderActionProps> = ({ record }) => {
+export const OrderActions: React.FC<OrderActionProps> = () => {
   const { t } = useTranslation();
 
-  const moreMenu = (record: IOrder) => (
+  const moreMenu = () => (
     <Menu mode="vertical" onClick={({ domEvent }) => domEvent.stopPropagation()}>
       <Menu.Item
         key="accept"
@@ -20,7 +20,6 @@ export const OrderActions: React.FC<OrderActionProps> = ({ record }) => {
           alignItems: 'center',
           fontWeight: 500,
         }}
-        disabled={record.status.text !== 'Pending'}
         icon={
           <CheckCircleOutlined
             style={{
@@ -52,7 +51,6 @@ export const OrderActions: React.FC<OrderActionProps> = ({ record }) => {
             }}
           />
         }
-        disabled={record.status.text === 'Delivered' || record.status.text === 'Cancelled'}
         onClick={() => console.log('delete order')}
       >
         {t('buttons.reject', 'Reject')}
@@ -60,7 +58,7 @@ export const OrderActions: React.FC<OrderActionProps> = ({ record }) => {
     </Menu>
   );
   return (
-    <Dropdown overlay={moreMenu(record)} trigger={['click']}>
+    <Dropdown overlay={moreMenu()} trigger={['click']}>
       <MoreOutlined
         role="button"
         onClick={(e) => {

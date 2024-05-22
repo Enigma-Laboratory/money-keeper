@@ -2,7 +2,7 @@ import { ApiServiceEndPoint } from 'services';
 import { io, Socket } from 'socket.io-client';
 import { DEFAULT_ROOM_NAME } from 'utils';
 
-export interface EventHandler<T = any> {
+export interface EventHandler<T> {
   [eventName: string]: <K extends T>(params: K) => void;
 }
 
@@ -53,7 +53,7 @@ class SocketIOService extends ApiServiceEndPoint {
    * @param eventData The data to send along with the event.
    * @template T The type of the event data.
    */
-  public broadcastEvent<T = any>(eventName: string, eventData: T): void {
+  public broadcastEvent<T>(eventName: string, eventData: T): void {
     if (this.socket) {
       this.socket.emit(eventName, eventData);
     }
