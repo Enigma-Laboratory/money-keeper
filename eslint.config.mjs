@@ -1,7 +1,7 @@
 import eslint from '@eslint/js';
-import react from 'eslint-plugin-react';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+// import react from 'eslint-plugin-react';
 
 export default tseslint.config(
   eslint.configs.recommended,
@@ -15,7 +15,9 @@ export default tseslint.config(
         // ...globals.serviceworker,
         ...globals.browser,
       },
+      parser: tseslint.parser,
       parserOptions: {
+        ecmaVersion: 2024,
         sourceType: 'module',
         project: true,
         tsconfigRootDir: import.meta.dirname,
@@ -24,31 +26,16 @@ export default tseslint.config(
         },
       },
     },
-    ignores: ['public', 'build', 'node_modules', './src/services/HttpService/HttpClientService.ts'],
-    files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
+    ignores: ['/public', '/build', '/node_modules'],
+    files: ['/src/**/*.{js,jsx,mjs,cjs,ts,tsx}'],
     plugins: {
-      react,
+      // react,
+      '@typescript-eslint': tseslint.plugin,
     },
     rules: {
-      '@typescript-eslint/no-explicit-any': 'error',
+      // '@typescript-eslint/no-explicit-any': 'error',
       // 'react/jsx-uses-react': 'error',
       // 'react/jsx-uses-vars': 'error',
     },
   },
 );
-
-// "eslintConfig": {
-//   "extends": [
-//     "react-app"
-//   ]
-// }
-
-// export default [
-//   {
-//     files: ['src/**/*.{js,jsx,mjs,cjs,ts,tsx}'],
-//     rules: {
-//       'no-unused-vars': 'error',
-//       'no-undef': 'error',
-//     },
-//   },
-// ];

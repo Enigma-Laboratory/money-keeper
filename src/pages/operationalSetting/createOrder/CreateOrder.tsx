@@ -28,7 +28,6 @@ import {
   theme,
 } from 'antd';
 import { CardWithContent } from 'components/CardWithPlot';
-
 import { useLocalStorage } from 'hooks';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';

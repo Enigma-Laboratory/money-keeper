@@ -1,3 +1,4 @@
+import { CreateUserParams, LoginParams } from '@enigma-laboratory/shared';
 import { notification } from 'antd';
 import { AuthApiService } from 'services/AuthApiService';
 import { UserApiService } from 'services/UserApiService';
@@ -28,20 +29,21 @@ export type CheckResponse = {
   logout?: boolean;
   error?: Error;
 };
-
+type ForgotPasswordParams = {
+  email: string;
+};
 export type PermissionResponse = unknown;
 export type IdentityResponse = unknown;
 
 type AuthProvider = {
-  login: (params: any) => Promise<AuthActionResponse>;
-  logout: (params: any) => Promise<AuthActionResponse>;
-  onError: (error: any) => Promise<OnErrorResponse>;
-  check: (params?: any) => CheckResponse;
-  register?: (params: any) => Promise<AuthActionResponse>;
-  forgotPassword?: (params: any) => Promise<AuthActionResponse>;
-  updatePassword?: (params: any) => Promise<AuthActionResponse>;
-  getPermissions?: (params?: Record<string, any>) => Promise<PermissionResponse>;
-  getIdentity?: (params?: any) => Promise<IdentityResponse>;
+  login: (params: LoginParams) => Promise<AuthActionResponse>;
+  logout: () => Promise<AuthActionResponse>;
+  check: () => CheckResponse;
+  register?: (params: CreateUserParams) => Promise<AuthActionResponse>;
+  forgotPassword?: (params: ForgotPasswordParams) => Promise<AuthActionResponse>;
+  updatePassword?: () => Promise<AuthActionResponse>;
+  getPermissions?: (params?: Record<string, object>) => Promise<PermissionResponse>;
+  getIdentity?: () => Promise<IdentityResponse>;
 };
 
 export const authProvider: AuthProvider = {
@@ -101,15 +103,6 @@ export const authProvider: AuthProvider = {
       success: true,
       redirectTo: '/login',
     };
-  },
-  onError: async (error) => {
-    if (error.response?.status === 401) {
-      return {
-        logout: true,
-      };
-    }
-
-    return { error };
   },
   check: () => {
     const token = localStorage.getItem(TOKEN_KEY);

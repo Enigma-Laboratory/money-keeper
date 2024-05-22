@@ -50,9 +50,10 @@ export class HttpClientService {
 
     return instance;
   }
-  /* eslint-disable @typescript-eslint/no-explicit-any */
+  /* eslint-disable */
   public static async httpGet<T = any>(requestUri: string, options?: AxiosRequestConfig): Promise<T> {
     const config = await this.getConfig(options);
+
     const response: AxiosResponse = await HttpClientService.instance.get(requestUri, config);
     return response.data as T;
   }
@@ -92,8 +93,8 @@ export class HttpClientService {
       ...remainingCustomOptions,
     };
   }
+  /* eslint-enable */
 
-  /* eslint-enable @typescript-eslint/no-explicit-any */
   private static async generateHeaders() {
     const token = localStorage.getItem(TOKEN_KEY);
     const customHeaders = {

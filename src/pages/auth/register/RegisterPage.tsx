@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { bodyStyles, containerStyles, headStyles, layoutStyles, titleStyles } from './Register.styles';
 
-export const RegisterPage: React.FC<any> = ({ wrapperProps, contentProps, formProps }) => {
+export const RegisterPage: React.FC = () => {
   const { token } = theme.useToken();
   const { t } = useTranslation('auth');
 
@@ -29,9 +29,8 @@ export const RegisterPage: React.FC<any> = ({ wrapperProps, contentProps, formPr
         ...containerStyles,
         backgroundColor: token.colorBgElevated,
       }}
-      {...(contentProps ?? {})}
     >
-      <Form layout="vertical" onFinish={(values) => {}} requiredMark={false} {...formProps}>
+      <Form layout="vertical" onFinish={() => {}} requiredMark={false}>
         <Form.Item
           name="email"
           label={t('register.email', 'Email')}
@@ -69,7 +68,7 @@ export const RegisterPage: React.FC<any> = ({ wrapperProps, contentProps, formPr
   );
 
   return (
-    <Layout style={layoutStyles} {...(wrapperProps ?? {})}>
+    <Layout style={layoutStyles}>
       <Row
         justify="center"
         align={'middle'}

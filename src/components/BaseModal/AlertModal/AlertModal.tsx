@@ -89,7 +89,6 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
         {t('alert.close')}
       </Button>,
     ];
-    const a = 0;
     switch (modalSource.data.type) {
       case 'delete': {
         const initPlaceholderInput = 'Please type confirm input...';
