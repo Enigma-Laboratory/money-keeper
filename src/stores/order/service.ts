@@ -6,6 +6,7 @@ import {
   UpdateOneOrderParams,
   UpdateOrderEventParams,
 } from '@enigma-laboratory/shared';
+import { notification } from 'antd';
 import { OrderApiService } from 'services/OrderApiService';
 import { arrayToObject } from 'utils';
 import { orderStore } from './store';
@@ -89,13 +90,10 @@ export class OrderService {
   }
 
   public createdOrderWithIO(order: Order) {
-    // notification.open({
-    //   message: 'Order Create Successful',
-    //   description: `The order with id: ${order._id} has been successfully created.`,
-    //   onClick: () => {
-    //     console.log('Notification Clicked!');
-    //   },
-    // });
+    notification.success({
+      message: 'Order created Successful',
+      description: `The order with id: ${order.name} has been successfully created.`,
+    });
     orderStore.updateModel((model) => ({
       count: model.count + 1,
       rows: { ...model.rows, [order._id]: order },
@@ -103,13 +101,10 @@ export class OrderService {
   }
 
   public updatedOrderWithIO(order: Order) {
-    // notification.open({
-    //   message: 'Order Update Successful',
-    //   description: `The order id : ${order._id}  has been successfully updated.`,
-    //   onClick: () => {
-    //     console.log('Notification Clicked!');
-    //   },
-    // });
+    notification.success({
+      message: 'Order updated Successful',
+      description: `The order with id: ${order.name} has been successfully updated.`,
+    });
 
     orderStore.updateModel((model) => ({
       count: model.count,
@@ -118,13 +113,10 @@ export class OrderService {
   }
 
   public deletedOrderWithIO(order: Order) {
-    // notification.open({
-    //   message: 'Order Delete Successful',
-    //   description: `The order with id: ${order._id} has been successfully deleted.`,
-    //   onClick: () => {
-    //     console.log('Notification Clicked!');
-    //   },
-    // });
+    notification.success({
+      message: 'Order deleted Successful',
+      description: `The order with id: ${order.name} has been successfully deleted.`,
+    });
     orderStore.updateModel((model) => {
       delete model.rows[order._id];
       return {
