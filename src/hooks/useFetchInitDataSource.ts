@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { operationalSettingEventHandlers, orderEventHandlers, socket } from 'services';
 import {
   OperationalSettingCollection,
   OperationalSettingService,
@@ -45,14 +44,6 @@ export const useFetchInitData = (): FetchInitDataResult => {
       setIsLoading(false);
     }
   }, [hasFetchedAllData]);
-
-  useEffect(() => {
-    socket.onEventListeners([orderEventHandlers, operationalSettingEventHandlers]);
-
-    return () => {
-      socket.offEventListeners([orderEventHandlers, operationalSettingEventHandlers]);
-    };
-  }, []);
 
   useEffect(() => {
     fetchInitDataSource();

@@ -4,6 +4,7 @@ import {
   OperationalSetting,
   UpdateOneOperationalSettingParams,
 } from '@enigma-laboratory/shared';
+import { notification } from 'antd';
 import { OperationalSettingApiService } from 'services/OperationalSettingsApiService';
 import { arrayToObject } from 'utils';
 import { operationalSettingStore } from './store';
@@ -55,6 +56,11 @@ export class OperationalSettingService {
   }
 
   public createdOperationalSettingIO(operationalSetting: OperationalSetting) {
+    notification.success({
+      message: 'Operational settings created Successful',
+      description: `The operational settings  with  ${operationalSetting.name}  has been successfully updated.`,
+    });
+
     operationalSettingStore.updateModel((model) => ({
       count: model.count + 1,
       rows: { ...model.rows, [operationalSetting._id]: operationalSetting },
@@ -62,6 +68,11 @@ export class OperationalSettingService {
   }
 
   public updatedOperationalSettingIO(operationalSetting: OperationalSetting) {
+    notification.success({
+      message: 'Operational settings Updated Successful',
+      description: `The operational settings with name: ${operationalSetting.name} has been successfully updated.`,
+    });
+
     operationalSettingStore.updateModel((model) => ({
       count: model.count,
       rows: { ...model.rows, [operationalSetting._id]: operationalSetting },
