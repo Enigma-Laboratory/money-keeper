@@ -27,7 +27,7 @@ export const TabProfile = () => {
     },
   ];
 
-  const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
+  const onFinish: FormProps<FieldType>['onFinish'] = () => {
     EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
       data: { type: 'warning', content: t('message.changePasswordSuccess') },
     });

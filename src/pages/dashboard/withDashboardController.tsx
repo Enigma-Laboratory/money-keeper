@@ -3,6 +3,7 @@ import { ComponentType, useState } from 'react';
 
 export type BaseRecord = {
   id?: string;
+  // eslint-disable-next-line
   [key: string]: any;
 };
 
@@ -3388,9 +3389,13 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
     const logicProps: DashboardProps = {
       data: {
         isLoading,
+        // eslint-disable-next-line
         dailyRevenueData: { data: mockData1 as any },
+        // eslint-disable-next-line
         dailyOrdersData: { data: mockData2 as any },
+        // eslint-disable-next-line
         newCustomersData: { data: mockData3 as any },
+        // eslint-disable-next-line
         orders: mockorderTimeLine as any,
       },
       dispatch: {},

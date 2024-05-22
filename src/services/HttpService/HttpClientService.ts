@@ -50,26 +50,26 @@ export class HttpClientService {
 
     return instance;
   }
-
+  /* eslint-disable */
   public static async httpGet<T = any>(requestUri: string, options?: AxiosRequestConfig): Promise<T> {
     const config = await this.getConfig(options);
+
     const response: AxiosResponse = await HttpClientService.instance.get(requestUri, config);
     return response.data as T;
   }
-
-  public static async httpPost<T = any>(requestUri: string, data: any, options?: AxiosRequestConfig): Promise<T> {
+  public static async httpPost<T = any>(requestUri: string, data: unknown, options?: AxiosRequestConfig): Promise<T> {
     const config = await this.getConfig(options);
     const response: AxiosResponse = await HttpClientService.instance.post(requestUri, data, config);
     return response.data as T;
   }
 
-  public static async httpPut<T = any>(requestUri: string, data: any, options?: AxiosRequestConfig): Promise<T> {
+  public static async httpPut<T = any>(requestUri: string, data: unknown, options?: AxiosRequestConfig): Promise<T> {
     const config = await this.getConfig(options);
     const response: AxiosResponse = await HttpClientService.instance.put(requestUri, data, config);
     return response.data as T;
   }
 
-  public static async httpPatch<T = any>(requestUri: string, data: any, options?: AxiosRequestConfig): Promise<T> {
+  public static async httpPatch<T = any>(requestUri: string, data: unknown, options?: AxiosRequestConfig): Promise<T> {
     const config = await this.getConfig(options);
     const response: AxiosResponse = await HttpClientService.instance.patch(requestUri, data, config);
     return response.data as T;
@@ -93,6 +93,7 @@ export class HttpClientService {
       ...remainingCustomOptions,
     };
   }
+  /* eslint-enable */
 
   private static async generateHeaders() {
     const token = localStorage.getItem(TOKEN_KEY);

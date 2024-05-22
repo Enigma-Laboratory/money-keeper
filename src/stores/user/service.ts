@@ -15,23 +15,15 @@ export class UsersService {
   }
 
   public async fetchOneUser(params: FindOneUserParams): Promise<FindOneUserResponse> {
-    try {
-      return await UserApiService.instance.fetchOneUser(params);
-    } catch (error) {
-      throw error;
-    }
+    return await UserApiService.instance.fetchOneUser(params);
   }
 
   public async fetchUsers(): Promise<void> {
-    try {
-      const { count, rows } = await UserApiService.instance.fetchAllUser();
-      const users = arrayToObject('_id', rows);
-      usersStore.setModel({
-        count,
-        rows: users as UserCollection,
-      });
-    } catch (error) {
-      throw error;
-    }
+    const { count, rows } = await UserApiService.instance.fetchAllUser();
+    const users = arrayToObject('_id', rows);
+    usersStore.setModel({
+      count,
+      rows: users as UserCollection,
+    });
   }
 }

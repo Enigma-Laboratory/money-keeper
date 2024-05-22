@@ -21,18 +21,13 @@ export class OrderService {
   }
 
   public async fetchAllOrder(): Promise<void> {
-    try {
-      const { count, rows } = await OrderApiService.instance.fetchAllOrder();
-      const orders = arrayToObject('_id', rows);
-      orderStore.setModel({ count, rows: orders });
-    } catch (error) {
-      throw error;
-    }
+    const { count, rows } = await OrderApiService.instance.fetchAllOrder();
+    const orders = arrayToObject('_id', rows);
+    orderStore.setModel({ count, rows: orders });
   }
 
   public async fetchOneOrder(params: FindOneOrderParams): Promise<Order> {
     const fetchedOrder = await OrderApiService.instance.fetchOneOrder(params);
-
     const { count, rows } = orderStore.getModel();
 
     const order = rows[fetchedOrder?._id];
@@ -52,65 +47,45 @@ export class OrderService {
   }
 
   public async createOneOrder(params: CreateOneOrderParams): Promise<Order> {
-    try {
-      const createdOrder = await OrderApiService.instance.createOneOrder(params);
-      const { rows: orders, count } = orderStore.getModel();
-      orderStore.updateModel({
-        count: count + 1,
-        rows: { ...orders, [createdOrder._id]: createdOrder },
-      });
-      return createdOrder;
-    } catch (error) {
-      throw error;
-    }
+    const createdOrder = await OrderApiService.instance.createOneOrder(params);
+    const { rows: orders, count } = orderStore.getModel();
+    orderStore.updateModel({
+      count: count + 1,
+      rows: { ...orders, [createdOrder._id]: createdOrder },
+    });
+    return createdOrder;
   }
 
   public async updateOrderStatus(params: UpdateOrderEventParams): Promise<void> {
-    try {
-      await OrderApiService.instance.updateOrderStatus(params);
-    } catch (error) {
-      throw error;
-    }
+    await OrderApiService.instance.updateOrderStatus(params);
   }
 
   public async updateOneOrder(params: UpdateOneOrderParams): Promise<Order> {
-    try {
-      const updatedOrder = await OrderApiService.instance.updateOneOrder(params);
-      const { count, rows: orders } = orderStore.getModel();
+    const updatedOrder = await OrderApiService.instance.updateOneOrder(params);
+    const { count, rows: orders } = orderStore.getModel();
 
-      orders[updatedOrder._id] = updatedOrder;
+    orders[updatedOrder._id] = updatedOrder;
 
-      orderStore.updateModel({
-        count,
-        rows: { ...orders },
-      });
-      return updatedOrder;
-    } catch (error) {
-      throw error;
-    }
+    orderStore.updateModel({
+      count,
+      rows: { ...orders },
+    });
+    return updatedOrder;
   }
 
   public async updateOrderEvent(params: UpdateOrderEventParams): Promise<void> {
-    try {
-      await OrderApiService.instance.updateOrderStatus(params);
-    } catch (error) {
-      throw error;
-    }
+    await OrderApiService.instance.updateOrderStatus(params);
   }
 
   public async deleteOneOrder(params: DeleteOneOrderParams): Promise<void> {
-    try {
-      await OrderApiService.instance.deleteOneOrder(params);
-      const { rows: orders, count } = orderStore.getModel();
-      delete orders?.[params._id];
+    await OrderApiService.instance.deleteOneOrder(params);
+    const { rows: orders, count } = orderStore.getModel();
+    delete orders?.[params._id];
 
-      orderStore.updateModel({
-        count: count - 1,
-        rows: { ...orders },
-      });
-    } catch (error) {
-      throw error;
-    }
+    orderStore.updateModel({
+      count: count - 1,
+      rows: { ...orders },
+    });
   }
 
   public createdOrderWithIO(order: Order) {

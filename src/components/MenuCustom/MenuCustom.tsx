@@ -17,7 +17,7 @@ export const MenuCustom = (): ReactElement => {
   const [activeItem, setActiveItem] = useState<string[]>([]);
 
   const handleUserLogout = async () => {
-    await authProvider.logout({});
+    await authProvider.logout();
     window.location.reload();
   };
   const [user] = useLocalStorage<User>(USER_IDENTITY);

@@ -19,63 +19,40 @@ export class OperationalSettingService {
     return this._instance;
   }
 
-  public async fetchAllOperationalSetting(): Promise<any> {
-    try {
-      const { count, rows } = await OperationalSettingApiService.instance.fetchAllOperationalSetting();
+  public async fetchAllOperationalSetting(): Promise<void> {
+    const { count, rows } = await OperationalSettingApiService.instance.fetchAllOperationalSetting();
 
-      const operationalSettings = arrayToObject('_id', rows);
-      operationalSettingStore.setModel({ count, rows: operationalSettings });
-    } catch (error) {
-      throw error;
-    }
+    const operationalSettings = arrayToObject('_id', rows);
+    operationalSettingStore.setModel({ count, rows: operationalSettings });
   }
 
   public async createOneOperationalSetting(params: CreateOneOperationalSettingParams): Promise<void> {
-    try {
-      const operationalSetting = await OperationalSettingApiService.instance.createOneOperationalSetting(params);
-      const { rows: operationalSettings, count } = operationalSettingStore.getModel();
-      operationalSettingStore.updateModel({
-        count: count + 1,
-        rows: { ...operationalSettings, operationalSetting },
-      });
-    } catch (error) {
-      throw error;
-    }
+    const operationalSetting = await OperationalSettingApiService.instance.createOneOperationalSetting(params);
+    const { rows: operationalSettings, count } = operationalSettingStore.getModel();
+    operationalSettingStore.updateModel({
+      count: count + 1,
+      rows: { ...operationalSettings, operationalSetting },
+    });
   }
 
   public async updateOneOperationalSetting(params: UpdateOneOperationalSettingParams): Promise<void> {
-    try {
-      await OperationalSettingApiService.instance.updateOneOperationalSetting(params);
-      // const { _id } = operationalSetting;
-      // const { count, rows: operationalSettings } = operationalSettingStore.getModel();
-      // operationalSettings[_id] = operationalSetting;
-      // operationalSettingStore.updateModel({
-      //   count,
-      //   rows: { ...operationalSettings },
-      // });
-    } catch (error) {
-      throw error;
-    }
+    await OperationalSettingApiService.instance.updateOneOperationalSetting(params);
   }
 
   public async deleteOneOperationalSetting(params: DeleteOneOperationalSettingParams): Promise<void> {
-    try {
-      const { result } = await OperationalSettingApiService.instance.deleteOneOperationalSetting(params);
+    const { result } = await OperationalSettingApiService.instance.deleteOneOperationalSetting(params);
 
-      if (result) {
-        throw Error("Can't delete Operational Setting");
-      }
-
-      const { rows: OperationalSettings, count } = operationalSettingStore.getModel();
-
-      delete OperationalSettings?.[params._id];
-      operationalSettingStore.updateModel({
-        count: count - 1,
-        rows: OperationalSettings,
-      });
-    } catch (e: any) {
-      console.error(e);
+    if (result) {
+      throw Error("Can't delete Operational Setting");
     }
+
+    const { rows: OperationalSettings, count } = operationalSettingStore.getModel();
+
+    delete OperationalSettings?.[params._id];
+    operationalSettingStore.updateModel({
+      count: count - 1,
+      rows: OperationalSettings,
+    });
   }
 
   public createdOperationalSettingIO(operationalSetting: OperationalSetting) {

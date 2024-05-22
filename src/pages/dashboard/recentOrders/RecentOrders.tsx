@@ -1,6 +1,5 @@
 import { Flex, Space, Table, TableProps, Typography, theme } from 'antd';
 import { IOrder } from 'interface';
-import { getUniqueListWithCount } from 'utils';
 import { OrderActions } from './OrderAction';
 
 type OrderTimelineProps = {
@@ -8,7 +7,7 @@ type OrderTimelineProps = {
     orders?: IOrder[];
     height?: string;
   };
-  dispatch: {};
+  dispatch: object;
 };
 
 // interface DataType {
@@ -89,8 +88,6 @@ export const RecentOrders = ({ data }: OrderTimelineProps) => {
           return <Typography.Text>-</Typography.Text>;
         }
 
-        const uniqueProducts = getUniqueListWithCount<IOrder['products'][number]>({ list: products, field: 'id' });
-
         return (
           <Space
             size={0}
@@ -99,16 +96,9 @@ export const RecentOrders = ({ data }: OrderTimelineProps) => {
               maxWidth: '220px',
             }}
           >
-            {uniqueProducts.map((product) => (
+            {products.map((product) => (
               <Flex key={product.id} gap={4}>
                 <Typography.Text ellipsis>{product.name}</Typography.Text>
-                <span
-                  style={{
-                    color: token.colorTextSecondary,
-                  }}
-                >
-                  x{product.count}
-                </span>
               </Flex>
             ))}
           </Space>

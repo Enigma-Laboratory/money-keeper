@@ -31,7 +31,7 @@ export const DailyRevenue = ({ data, height }: Props) => {
       duration: 1000,
     },
   };
-
+  // eslint-disable-next-line
   const gradientFill = (context: any) => {
     const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, context.chart.height);
     gradient.addColorStop(1, '#ffffff');

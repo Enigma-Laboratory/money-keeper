@@ -13,7 +13,7 @@ import { OrderTimeline } from './orderTimeline';
 import { RecentOrders } from './recentOrders';
 import { DashboardProps } from './withDashboardController';
 
-export const DashboardPage = ({ data, dispatch }: DashboardProps) => {
+export const DashboardPage = ({ data }: DashboardProps) => {
   const { orders: orderTimelines, dailyRevenueData, dailyOrdersData, newCustomersData } = data || {};
 
   const { token } = theme.useToken();
