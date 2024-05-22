@@ -20,8 +20,6 @@ export interface OperationalSettingWithOrders extends OperationalSetting {
 }
 
 export const OperationalSettings = (props: OperationalSettingProps): ReactElement => {
-  const x: number = 0;
-
   const { data, dispatch } = props;
   const { isLoading, statusLoading, groupOrders, operationalSettings } = data;
   const { handleUpdateOrderStatus } = dispatch;
