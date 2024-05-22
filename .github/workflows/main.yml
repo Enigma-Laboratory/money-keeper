@@ -40,7 +40,6 @@ jobs:
   
     runs-on: ubuntu-latest
     needs: [build]
-
     steps:
     - uses: actions/checkout@master
     - name: Publish
