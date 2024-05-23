@@ -1,10 +1,10 @@
 import { Card, Flex, Space, Typography } from 'antd';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 import { useConfigProvider } from '../../context';
 
 export const CardWithContent = (
   props: PropsWithChildren<{
-    icon?: React.ReactNode;
+    icon?: ReactNode;
     title: string;
     bodyStyles?: React.CSSProperties;
   }>,
@@ -42,9 +42,9 @@ export const CardWithContent = (
 
 export const CardWithPlot = (
   props: PropsWithChildren<{
-    icon: React.ReactNode;
+    icon: ReactNode;
     title: string;
-    rightSlot?: React.ReactNode;
+    rightSlot?: ReactNode;
     bodyStyles?: React.CSSProperties;
   }>,
 ) => {

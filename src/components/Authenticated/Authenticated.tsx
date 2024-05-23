@@ -1,16 +1,18 @@
-import React, { ReactElement, ReactNode } from 'react';
+import { authProvider } from 'context';
+import React, { ReactElement, ReactNode, useMemo } from 'react';
 
 type AuthenticatedProps = {
   key: React.Key;
   fallback?: ReactNode;
-  isLoggedIn?: boolean;
   loading?: ReactNode;
   children?: ReactNode;
 };
 
 export const Authenticated = (props: AuthenticatedProps): ReactElement => {
-  const { children, isLoggedIn, fallback } = props;
+  console.log('authen');
+  const { children, fallback } = props;
+  const { authenticated } = useMemo(() => authProvider.check(), []);
 
-  if (!isLoggedIn) return <>{fallback}</>;
+  if (!authenticated) return <>{fallback}</>;
   return <>{children}</>;
 };

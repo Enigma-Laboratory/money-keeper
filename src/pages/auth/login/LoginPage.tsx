@@ -1,101 +1,67 @@
 import React, { useState } from 'react';
 
-import { Alert, Button, Card, Col, Form, Input, Layout, Row, Typography, theme } from 'antd';
-
-import { bodyStyles, containerStyles, headStyles, layoutStyles, titleStyles } from './LoginPage.styles';
+import { Button, Form, Input, Typography, theme } from 'antd';
 
 import { authProvider } from 'context/authProvider';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 
-export const LoginPage: React.FC<{ setIsLoggedIn: (value: boolean) => void }> = ({ setIsLoggedIn }) => {
+export const LoginPage: React.FC = () => {
   const { token } = theme.useToken();
   const { t } = useTranslation('auth');
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const [isError, setIsError] = useState<boolean>(false);
-
   const navigate = useNavigate();
 
-  const CardTitle = (
-    <Typography.Title
-      level={3}
-      style={{
-        color: token.colorPrimaryTextHover,
-        ...titleStyles,
-      }}
-    >
-      {t('login.title')}
-    </Typography.Title>
-  );
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [form] = Form.useForm();
 
   const handleOnSubmit = async (params: { email: string; password: string }): Promise<void> => {
     setIsLoading(true);
-    try {
-      const { success, redirectTo } = await authProvider.login(params);
-      if (success && !!redirectTo) {
-        setIsLoggedIn(true);
-        navigate(redirectTo);
-      }
-    } catch (error) {
-      setIsError(true);
-    } finally {
-      setIsLoading(false);
+    const { success, redirectTo, error } = await authProvider.login(params);
+    if (success && !!redirectTo) {
+      navigate(redirectTo);
     }
+    switch (error?.message) {
+      case 'Invalid email.':
+        form.setFields([{ name: 'email', errors: [t('login.message.dontExistEmail')] }]);
+        break;
+      case 'Wrong password.':
+        form.setFields([{ name: 'password', errors: [t('login.message.dontMatchPassword')] }]);
+        break;
+      default:
+        break;
+    }
+    setIsLoading(false);
   };
 
-  const CardContent = (
-    <Card
-      title={CardTitle}
-      headStyle={headStyles}
-      bodyStyle={bodyStyles}
-      style={{
-        ...containerStyles,
-        backgroundColor: token.colorBgElevated,
-      }}
-    >
-      {isError && <Alert message={t('login.error.valid', 'Email or password not correct')} type="error" showIcon />}
-      <Form layout="vertical" onFinish={handleOnSubmit} requiredMark={false}>
+  return (
+    <>
+      <Form form={form} layout="vertical" onFinish={handleOnSubmit} requiredMark={false}>
         <Form.Item
           name="email"
           label={t('login.email')}
           rules={[
-            { required: true },
-            {
-              type: 'email',
-              message: t('login.errors.validEmail'),
-            },
+            { required: true, message: t('login.message.emptyEmail') },
+            { type: 'email', message: t('login.message.invalidFormatEmail') },
           ]}
         >
-          <Input size="large" placeholder={t('login.email')} />
+          <Input size="large" placeholder={t('login.placeholder.email')} />
         </Form.Item>
-        <Form.Item name="password" label={t('login.password')} rules={[{ required: true }]}>
-          <Input type="password" placeholder="●●●●●●●●" size="large" />
-        </Form.Item>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginBottom: '24px',
-          }}
+        <Form.Item
+          name="password"
+          label={t('login.password')}
+          rules={[{ required: true, message: t('login.message.emptyPassword') }]}
         >
+          <Input type="password" placeholder={t('login.placeholder.password')} size="large" />
+        </Form.Item>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px' }}>
           <Link
-            style={{
-              color: token.colorPrimaryTextHover,
-              fontSize: '12px',
-              marginLeft: 'auto',
-            }}
-            to="/forgot-password"
+            style={{ color: token.colorPrimaryTextHover, fontSize: '12px', marginLeft: 'auto' }}
+            to="forgot-password"
           >
             {t('login.forgotPassword')}
           </Link>
         </div>
-        <Form.Item
-          style={{
-            marginBottom: 0,
-          }}
-        >
+        <Form.Item style={{ marginBottom: 0 }}>
           <Button type="primary" size="large" htmlType="submit" loading={isLoading} block>
             {t('login.btnSubmit')}
           </Button>
@@ -104,33 +70,11 @@ export const LoginPage: React.FC<{ setIsLoggedIn: (value: boolean) => void }> = 
       <div style={{ marginTop: 20 }}>
         <Typography.Text style={{ fontSize: 12 }}>
           {t('login.noAccount')}
-          <Link
-            to="/register"
-            style={{
-              fontWeight: 'bold',
-              color: token.colorPrimaryTextHover,
-            }}
-          >
+          <Link to="/register" style={{ fontWeight: 'bold', color: token.colorPrimaryTextHover }}>
             {t('login.signup')}
           </Link>
         </Typography.Text>
       </div>
-    </Card>
-  );
-
-  return (
-    <Layout style={layoutStyles}>
-      <Row
-        justify="center"
-        align={'middle'}
-        style={{
-          padding: '16px 0',
-          minHeight: '100dvh',
-          paddingTop: '16px',
-        }}
-      >
-        <Col xs={22}>{CardContent}</Col>
-      </Row>
-    </Layout>
+    </>
   );
 };

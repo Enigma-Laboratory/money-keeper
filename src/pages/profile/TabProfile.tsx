@@ -1,5 +1,5 @@
 import { Button, Form, FormProps, Input } from 'antd';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { EVENT_NAME, EventAction, USER_IDENTITY } from 'utils';
@@ -93,7 +93,7 @@ export const TabProfile = () => {
     );
   };
 
-  const contentList: Record<string, React.ReactNode> = {
+  const contentList: Record<string, ReactNode> = {
     passwordTab: <PasswordTab />,
     notification: <div>Notifications</div>,
   };
