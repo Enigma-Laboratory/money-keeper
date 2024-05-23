@@ -1,4 +1,9 @@
-import { FindOneUserParams, FindOneUserResponse } from '@enigma-laboratory/shared';
+import {
+  FindOneUserParams,
+  FindOneUserResponse,
+  UpdateOneUserParams,
+  UpdateOneUserResponse,
+} from '@enigma-laboratory/shared';
 import { UserApiService } from 'services/UserApiService';
 import { arrayToObject } from 'utils';
 import { UserCollection } from './interface';
@@ -25,5 +30,9 @@ export class UsersService {
       count,
       rows: users as UserCollection,
     });
+  }
+
+  public async updateOneUser(params: UpdateOneUserParams): Promise<UpdateOneUserResponse> {
+    return await UserApiService.instance.updateOneUser(params);
   }
 }

@@ -19,6 +19,5 @@ export const HttpConfigAuth = {
   GET_ONE_USER: 'get-one-user',
   SIGN_IN: 'sign-in',
   SIGN_UP: 'sign-up',
-  UPDATE_USER: 'update-user',
   DELETE_USER: 'delete-user',
 };

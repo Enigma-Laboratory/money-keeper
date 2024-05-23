@@ -6,7 +6,7 @@ import {
   User,
 } from '@enigma-laboratory/shared';
 import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
-import { HttpClientService, HttpConfig, HttpConfigAuth } from '../HttpService';
+import { HttpClientService, HttpConfig } from '../HttpService';
 
 export class UserApiService extends ApiServiceEndPoint {
   private static _instance: UserApiService;
@@ -28,9 +28,8 @@ export class UserApiService extends ApiServiceEndPoint {
     return await HttpClientService.httpGet<User>(endpoint);
   }
 
-  public async updateUserInfo(params: UpdateOneUserParams): Promise<User> {
-    const endpoint = `${this.endPoint}/${HttpConfigAuth.UPDATE_USER}`;
-    return await HttpClientService.httpPatch<User>(endpoint, params);
+  public async updateOneUser(params: UpdateOneUserParams): Promise<User> {
+    return await HttpClientService.httpPut<User>(this.endPoint, params);
   }
 
   public async deleteOneUser(params: DeleteOneUserParams): Promise<void> {

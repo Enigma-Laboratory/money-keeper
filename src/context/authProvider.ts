@@ -49,7 +49,7 @@ type AuthProvider = {
 export const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
     const { token } = await AuthApiService.instance.signIn({ email, password });
-    localStorage.setItem(TOKEN_KEY, token);
+    localStorage.setItem(TOKEN_KEY, token || '');
     try {
       const user = await UserApiService.instance.fetchOneUser({ email });
       localStorage.setItem(USER_IDENTITY, JSON.stringify(user));

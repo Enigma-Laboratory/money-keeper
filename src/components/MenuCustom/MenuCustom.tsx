@@ -44,11 +44,6 @@ export const MenuCustom = (): ReactElement => {
       icon: <AppstoreOutlined />,
     },
     {
-      label: <Link to={routePaths.profile}>{t('sidebar.categories')}</Link>,
-      key: 'categories',
-      icon: <AppstoreOutlined />,
-    },
-    {
       label: <Link to={getExactPath(routePaths.profile, { id: user._id })}>{t('sidebar.profile')}</Link>,
       key: 'profile',
       icon: <AppstoreOutlined />,

@@ -2,12 +2,16 @@ import { Button, Form, FormProps, Input } from 'antd';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { AlertModalPayload } from 'interface';
-import { EVENT_NAME, EventAction } from 'utils';
+import { EVENT_NAME, EventAction, USER_IDENTITY } from 'utils';
 
+import { User } from '@enigma-laboratory/shared';
+import { useLocalStorage } from 'hooks';
+import { AlertModalPayload } from 'interface';
+import { UsersService } from 'stores';
 import { StyledCard } from './TabProfile.styles';
 
-type FieldType = {
+export type FieldType = {
+  currentPassword?: string;
   password?: string;
   passwordConfirm?: string;
 };
@@ -15,6 +19,7 @@ type FieldType = {
 export const TabProfile = () => {
   const { t } = useTranslation('profile');
   const [activeTabKey, setActiveTabKey] = useState<string>('passwordTab');
+  const [user] = useLocalStorage<User>(USER_IDENTITY);
 
   const tabList = [
     {
@@ -27,10 +32,19 @@ export const TabProfile = () => {
     },
   ];
 
-  const onFinish: FormProps<FieldType>['onFinish'] = () => {
-    EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
-      data: { type: 'warning', content: t('message.changePasswordSuccess') },
-    });
+  const onFinish: FormProps<FieldType>['onFinish'] = async (value: FieldType) => {
+    try {
+      await UsersService.instance.updateOneUser({ password: value.password, email: user.email });
+
+      EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
+        data: { type: 'info', content: t('message.changePasswordSuccess') },
+      });
+    } catch (error) {
+      console.error(error);
+      EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
+        data: { type: 'warning', content: t('message.changePasswordFail') },
+      });
+    }
   };
 
   const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
@@ -40,6 +54,13 @@ export const TabProfile = () => {
   const PasswordTab = (): React.ReactElement => {
     return (
       <Form layout="vertical" onFinish={onFinish} onFinishFailed={onFinishFailed} style={{ width: 300 }}>
+        {/* <Form.Item<FieldType>
+          label={t('currentPassword')}
+          name="currentPassword"
+          rules={[{ required: true, message: t('validation.passwordInput') }]}
+        >
+          <Input.Password />
+        </Form.Item> */}
         <Form.Item<FieldType>
           label={t('password')}
           name="password"
