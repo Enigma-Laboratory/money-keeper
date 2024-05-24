@@ -1,10 +1,11 @@
 import { AppstoreOutlined, MailOutlined } from '@ant-design/icons';
 import { User } from '@enigma-laboratory/shared';
 import type { MenuProps } from 'antd/es/menu';
+import { authProvider } from 'context';
 import { useLocalStorage } from 'hooks';
 import { ReactElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, redirect, useLocation, useNavigate } from 'react-router-dom';
 import { USER_IDENTITY, getExactPath, routePaths } from 'utils';
 import { BaseMenu } from '../BaseMenu';
 
@@ -18,8 +19,8 @@ export const MenuCustom = (): ReactElement => {
 
   const handleUserLogout = async () => {
     console.log('click logout');
-    // const { redirectTo } = authProvider.logout();
-    navigate('/login');
+    const { redirectTo } = authProvider.logout();
+    redirect('/');
   };
 
   const [user] = useLocalStorage<User>(USER_IDENTITY);

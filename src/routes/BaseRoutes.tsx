@@ -9,6 +9,7 @@ const RenderRouteComponent = (routes: RouteComponent[]) => {
   return (
     <Routes>
       <Route
+        path="/"
         element={
           <Authenticated key="authentication-layout" fallback={<CatchAllNavigate to="login" />}>
             <LayoutMain>
@@ -23,10 +24,18 @@ const RenderRouteComponent = (routes: RouteComponent[]) => {
       </Route>
 
       <Route
+        path="/"
         element={
-          <InitialLayout>
-            <Outlet />
-          </InitialLayout>
+          <Authenticated
+            key="gate"
+            fallback={
+              <InitialLayout>
+                <Outlet />
+              </InitialLayout>
+            }
+          >
+            <CatchAllNavigate to="login" />
+          </Authenticated>
         }
       >
         <Route path="login" element={<LoginPage />} />

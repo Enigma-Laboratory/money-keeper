@@ -9,7 +9,7 @@ type AuthenticatedProps = {
 };
 
 export const Authenticated = (props: AuthenticatedProps): ReactElement => {
-  console.log('authen');
+  console.log('authen 2');
   const { children, fallback } = props;
   const { authenticated } = useMemo(() => authProvider.check(), []);
 

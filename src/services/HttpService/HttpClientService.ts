@@ -28,6 +28,7 @@ export class HttpClientService {
     instance.interceptors.response.use(
       (response) => response,
       async (error) => {
+        console.log(error);
         if (error.response) {
           const { status, data } = error.response;
           switch (status) {
