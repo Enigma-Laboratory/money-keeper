@@ -1,8 +1,8 @@
-import { ConflictError, CreateUserParams, LoginParams } from '@enigma-laboratory/shared';
+import { CreateUserParams, LoginParams } from '@enigma-laboratory/shared';
 import { notification } from 'antd';
 import { AuthApiService } from 'services/AuthApiService';
 import { UserApiService } from 'services/UserApiService';
-import { TOKEN_KEY, USER_IDENTITY } from 'utils';
+import { REFRESH_TOKEN_KEY, TOKEN_KEY, USER_IDENTITY } from 'utils';
 
 export type SuccessNotificationResponse = {
   message: string;
@@ -48,6 +48,10 @@ type AuthProvider = {
 
 export const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
+    const { token, refreshToken } = await AuthApiService.instance.signIn({ email, password });
+    localStorage.setItem(TOKEN_KEY, token);
+    localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+
     try {
       const { token } = await AuthApiService.instance.signIn({ email, password });
       localStorage.setItem(TOKEN_KEY, token || '');
@@ -56,9 +60,7 @@ export const authProvider: AuthProvider = {
       localStorage.setItem(USER_IDENTITY, JSON.stringify(user));
     } catch (error) {
       localStorage.removeItem(TOKEN_KEY);
-      if (error instanceof ConflictError) {
-        return { success: false, error };
-      }
+      localStorage.removeItem(REFRESH_TOKEN_KEY);
     }
 
     return {
@@ -100,9 +102,18 @@ export const authProvider: AuthProvider = {
       success: true,
     };
   },
-  logout: () => {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_IDENTITY);
+  logout: async () => {
+    try {
+      const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY) || '';
+      await AuthApiService.instance.signOut({ refreshToken });
+      localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(USER_IDENTITY);
+    } catch {
+      return {
+        success: false,
+      };
+    }
     return {
       success: true,
       redirectTo: '/login',

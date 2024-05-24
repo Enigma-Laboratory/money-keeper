@@ -16,8 +16,11 @@ export const HttpConfigOrder = {
 };
 
 export const HttpConfigAuth = {
+  REFRESH_TOKEN: 'refresh-token',
   GET_ONE_USER: 'get-one-user',
   SIGN_IN: 'sign-in',
   SIGN_UP: 'sign-up',
+  SIGN_OUT: 'sign-out',
+  UPDATE_USER: 'update-user',
   DELETE_USER: 'delete-user',
 };
