@@ -10,7 +10,6 @@ export const ForgotPage: React.FC = () => {
 
   const recoverPassword = async (params: { email: string }) => {
     const { success } = await authProvider.forgotPassword({ email: params.email });
-    console.log(success, 'success');
     if (success) {
       EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
         data: {

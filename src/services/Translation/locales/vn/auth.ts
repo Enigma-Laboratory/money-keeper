@@ -38,12 +38,12 @@ export default {
       email: 'Nhập email của bạn',
       password: 'Nhập mật khẩu của bạn',
     },
-    message: {
-      emptyEmail: 'Vui lòng nhập email của bạn.',
-      invalidFormatEmail: 'Định dạng địa chỉ email không hợp lệ.',
-      dontExistEmail: 'Địa chỉ email không tồn tại.',
-      emptyPassword: 'Vui lòng nhập mật khẩu của bạn.',
-      dontMatchPassword: 'Mật khẩu không khớp.',
+    validation: {
+      emailEmpty: 'Vui lòng nhập email của bạn.',
+      emailInvalidFormat: 'Định dạng email không hợp lệ.',
+      emailExist: 'Email không tồn tại.',
+      passwordEmpty: 'Vui lòng nhập mật khẩu của bạn.',
+      passwordIncorrect: 'Mật khẩu của bạn không đúng.',
     },
   },
   forgot: {

@@ -38,13 +38,14 @@ export default {
       email: 'Enter your email',
       password: 'Enter your password',
     },
-    message: {
-      emptyEmail: 'Please enter your email.',
-      invalidFormatEmail: 'Invalid email address format.',
-      dontExistEmail: `Email address doesn't exist.`,
-      emptyPassword: 'Please enter your password.',
-      dontMatchPassword: `Password don't match.`,
+    validation: {
+      emailEmpty: 'Please enter your email.',
+      emailInvalidFormat: 'Invalid email address format.',
+      emailDontExist: 'The email do not exist.',
+      passwordEmpty: 'Please enter your password.',
+      passwordIncorrect: 'Your password is incorrect.',
     },
+    message: {},
   },
   forgot: {
     title: 'Reset your password',

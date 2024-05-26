@@ -48,19 +48,21 @@ type AuthProvider = {
 
 export const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
-    const { token, refreshToken } = await AuthApiService.instance.signIn({ email, password });
-    localStorage.setItem(TOKEN_KEY, token);
-    localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
-
     try {
-      const { token } = await AuthApiService.instance.signIn({ email, password });
-      localStorage.setItem(TOKEN_KEY, token || '');
+      const { token, refreshToken } = await AuthApiService.instance.signIn({ email, password });
+      localStorage.setItem(TOKEN_KEY, token);
+      localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
 
       const user = await UserApiService.instance.fetchOneUser({ email });
       localStorage.setItem(USER_IDENTITY, JSON.stringify(user));
     } catch (error) {
       localStorage.removeItem(TOKEN_KEY);
       localStorage.removeItem(REFRESH_TOKEN_KEY);
+      console.log(error);
+      return {
+        success: false,
+        error: error as Error,
+      };
     }
 
     return {

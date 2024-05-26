@@ -1,4 +1,4 @@
-import { CreateUserParams, LoginParams, LoginResponse } from '@enigma-laboratory/shared';
+import { CreateUserParams, CreateUserResponse, LoginParams, LoginResponse } from '@enigma-laboratory/shared';
 import { ForgotPasswordParams } from 'context';
 import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
 import { HttpClientService, HttpConfig, HttpConfigAuth } from '../HttpService';
@@ -20,9 +20,9 @@ export class AuthApiService extends ApiServiceEndPoint {
     return await HttpClientService.httpPost<LoginResponse>(endpoint, params);
   }
 
-  public async signUp(params: CreateUserParams): Promise<void> {
+  public async signUp(params: CreateUserParams): Promise<CreateUserResponse> {
     const endpoint = `${this.endPoint}/${HttpConfigAuth.SIGN_UP}`;
-    return await HttpClientService.httpPost(endpoint, params);
+    return await HttpClientService.httpPost<CreateUserResponse>(endpoint, params);
   }
 
   public async refreshToken(params: { refreshToken: string }): Promise<{ token: string }> {

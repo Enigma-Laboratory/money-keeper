@@ -11,7 +11,6 @@ interface InitialLayoutProps {
 }
 
 export const InitialLayout = ({ children }: InitialLayoutProps) => {
-  console.log('init layout');
   const { token } = theme.useToken();
   const { t } = useTranslation('auth');
   const { pathname } = useLocation();

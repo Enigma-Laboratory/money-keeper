@@ -22,7 +22,7 @@ export const MenuCustom = (): ReactElement => {
     if (success) navigate(redirectTo || '');
   };
 
-  const [user] = useLocalStorage<Pick<User, '_id'>>(USER_IDENTITY);
+  const [user] = useLocalStorage<Pick<User, '_id'>>(USER_IDENTITY, { _id: '' });
 
   const items: MenuItem[] = [
     {

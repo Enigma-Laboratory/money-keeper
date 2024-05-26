@@ -31,7 +31,6 @@ export const OrderActions: React.FC<OrderActionProps> = () => {
   //         fontWeight: 500,
   //       }}
   //       icon={<CloseCircleOutlined style={{ color: '#EE2A1E', fontSize: 17 }} />}
-  //       onClick={() => console.log('delete order')}
   //     >
   //       {t('buttons.reject', 'Reject')}
   //     </Menu.Item>

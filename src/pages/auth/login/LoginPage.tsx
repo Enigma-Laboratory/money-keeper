@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-
 import { Button, Form, Input, Typography, theme } from 'antd';
+import React, { useState } from 'react';
 
 import { authProvider } from 'context/authProvider';
 import { useTranslation } from 'react-i18next';
@@ -22,10 +21,10 @@ export const LoginPage: React.FC = () => {
     }
     switch (error?.message) {
       case 'Invalid email.':
-        form.setFields([{ name: 'email', errors: [t('login.message.dontExistEmail')] }]);
+        form.setFields([{ name: 'email', errors: [t('login.validation.emailExist')] }]);
         break;
       case 'Wrong password.':
-        form.setFields([{ name: 'password', errors: [t('login.message.dontMatchPassword')] }]);
+        form.setFields([{ name: 'password', errors: [t('login.validation.passwordIncorrect')] }]);
         break;
       default:
         break;
@@ -40,8 +39,8 @@ export const LoginPage: React.FC = () => {
           name="email"
           label={t('login.email')}
           rules={[
-            { required: true, message: t('login.message.emptyEmail') },
-            { type: 'email', message: t('login.message.invalidFormatEmail') },
+            { required: true, message: t('login.validation.emailEmpty') },
+            { type: 'email', message: t('login.validation.emailInvalidFormat') },
           ]}
         >
           <Input size="large" placeholder={t('login.placeholder.email')} />
@@ -49,11 +48,11 @@ export const LoginPage: React.FC = () => {
         <Form.Item
           name="password"
           label={t('login.password')}
-          rules={[{ required: true, message: t('login.message.emptyPassword') }]}
+          rules={[{ required: true, message: t('login.validation.passwordEmpty') }]}
         >
           <Input type="password" placeholder={t('login.placeholder.password')} size="large" />
         </Form.Item>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, marginTop: 60 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, marginTop: 60, zIndex: 0 }}>
           <Link style={{ color: token.colorPrimaryTextHover, fontSize: '12px', marginLeft: 'auto' }} to="/forgot">
             {t('login.forgotPassword')}
           </Link>

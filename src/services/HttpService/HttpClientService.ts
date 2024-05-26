@@ -38,7 +38,6 @@ export class HttpClientService {
           switch (status) {
             case 400:
               return Promise.reject(new BadRequestError(data.message));
-
             case 401: {
               if (!this.isRefreshing) {
                 this.isRefreshing = true;
@@ -76,6 +75,8 @@ export class HttpClientService {
               return Promise.reject(new NotFoundError(data.message));
             case 409:
               return Promise.reject(new ConflictError(data.message));
+            default:
+              return Promise.reject(new InternalServerError('Other Error'));
           }
         } else {
           return Promise.reject(new InternalServerError('Internal Server Error'));

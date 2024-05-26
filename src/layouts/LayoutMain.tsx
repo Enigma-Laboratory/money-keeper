@@ -12,7 +12,6 @@ export interface LayoutMainProps {
 
 export const LayoutMain = (props: LayoutMainProps) => {
   const { children } = props;
-  console.log('main layout');
   const {
     token: { colorBgContainer },
   } = theme.useToken();
