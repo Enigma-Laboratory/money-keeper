@@ -1,17 +1,22 @@
-import { Outlet, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Outlet, Route, BrowserRouter as Router, Routes, useNavigate } from 'react-router-dom';
 
 import { Authenticated, CatchAllNavigate } from 'components';
 import { InitialLayout, LayoutMain } from 'layouts';
 import { LoginPage, RegisterPage } from 'pages';
+import { NavigateService } from 'services/NavigateService';
 import { RouteComponent, routeComponents } from './routeComponent';
 
-const RenderRouteComponent = (routes: RouteComponent[]) => {
+const RenderRouteComponent = (props: { routes: RouteComponent[] }) => {
+  const { routes } = props;
+  const navigate = useNavigate();
+  NavigateService.instance.setNavigate(navigate);
+
   return (
     <Routes>
       <Route
         path="/"
         element={
-          <Authenticated key="authentication-layout" fallback={<CatchAllNavigate to="login" />}>
+          <Authenticated key="authentication" fallback={<CatchAllNavigate to="login" />}>
             <LayoutMain>
               <Outlet />
             </LayoutMain>
@@ -27,7 +32,7 @@ const RenderRouteComponent = (routes: RouteComponent[]) => {
         path="/"
         element={
           <Authenticated
-            key="gate"
+            key="public"
             fallback={
               <InitialLayout>
                 <Outlet />
@@ -46,7 +51,11 @@ const RenderRouteComponent = (routes: RouteComponent[]) => {
 };
 
 const BaseRoutes = () => {
-  return <Router>{RenderRouteComponent(routeComponents)}</Router>;
+  return (
+    <Router>
+      <RenderRouteComponent routes={routeComponents} />
+    </Router>
+  );
 };
 
 export default BaseRoutes;

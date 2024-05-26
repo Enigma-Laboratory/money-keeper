@@ -37,7 +37,7 @@ export type IdentityResponse = unknown;
 
 type AuthProvider = {
   login: (params: LoginParams) => Promise<AuthActionResponse>;
-  logout: () => AuthActionResponse;
+  logout: () => Promise<AuthActionResponse>;
   check: () => CheckResponse;
   register?: (params: CreateUserParams) => Promise<AuthActionResponse>;
   forgotPassword?: (params: ForgotPasswordParams) => Promise<AuthActionResponse>;
@@ -110,14 +110,16 @@ export const authProvider: AuthProvider = {
       localStorage.removeItem(TOKEN_KEY);
       localStorage.removeItem(USER_IDENTITY);
     } catch {
+      console.error("Can't logout");
       return {
         success: false,
       };
+    } finally {
+      return {
+        success: true,
+        redirectTo: '/login',
+      };
     }
-    return {
-      success: true,
-      redirectTo: '/login',
-    };
   },
   check: () => {
     const token = localStorage.getItem(TOKEN_KEY);

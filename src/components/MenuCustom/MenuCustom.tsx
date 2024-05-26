@@ -5,7 +5,7 @@ import { authProvider } from 'context';
 import { useLocalStorage } from 'hooks';
 import { ReactElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, redirect, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { USER_IDENTITY, getExactPath, routePaths } from 'utils';
 import { BaseMenu } from '../BaseMenu';
 
@@ -18,12 +18,11 @@ export const MenuCustom = (): ReactElement => {
   const navigate = useNavigate();
 
   const handleUserLogout = async () => {
-    console.log('click logout');
-    const { redirectTo } = authProvider.logout();
-    redirect('/');
+    const { success, redirectTo } = await authProvider.logout();
+    if (success) navigate(redirectTo || '');
   };
 
-  const [user] = useLocalStorage<User>(USER_IDENTITY);
+  const [user] = useLocalStorage<Pick<User, '_id'>>(USER_IDENTITY);
 
   const items: MenuItem[] = [
     {

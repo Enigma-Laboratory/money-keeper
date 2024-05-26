@@ -19,7 +19,7 @@ export type FieldType = {
 export const TabProfile = () => {
   const { t } = useTranslation('profile');
   const [activeTabKey, setActiveTabKey] = useState<string>('passwordTab');
-  const [user] = useLocalStorage<User>(USER_IDENTITY);
+  const [user] = useLocalStorage<Pick<User, 'email'>>(USER_IDENTITY, { email: '' });
 
   const tabList = [
     {

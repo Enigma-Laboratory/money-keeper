@@ -13,7 +13,7 @@ type HeaderLayoutProps = {
 };
 
 export const HeaderLayout = ({ collapsed, toggleCollapsed }: HeaderLayoutProps) => {
-  const [user] = useLocalStorage<User>(USER_IDENTITY);
+  const [user] = useLocalStorage<Pick<User, 'name'>>(USER_IDENTITY, { name: '' });
 
   const { mode, setMode, locate, setLocate } = useConfigProvider();
 
@@ -22,7 +22,7 @@ export const HeaderLayout = ({ collapsed, toggleCollapsed }: HeaderLayoutProps) 
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const firstInitialName = user?.name?.charAt(0)?.toUpperCase() || 'unknown';
+  const firstInitialName = user.name.charAt(0).toUpperCase();
 
   return (
     <HeaderLayoutStyled style={{ background: colorBgContainer }}>

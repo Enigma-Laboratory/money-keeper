@@ -7,6 +7,7 @@ import { operationalSettingEventHandlers, orderEventHandlers } from 'services';
 function App() {
   useSocketSubscription([orderEventHandlers, operationalSettingEventHandlers]);
   changeTitleApp();
+
   return (
     <ConfigProvider>
       <BaseRoutes />

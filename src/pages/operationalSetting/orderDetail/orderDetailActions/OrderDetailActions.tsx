@@ -17,7 +17,7 @@ import { UserCollection } from 'stores';
 import { generateColorFromAlphabet } from 'utils';
 
 type OrderDetailActionsProps = {
-  currentUser: User;
+  currentUser: Pick<User, '_id'>;
   order: Order;
   users: UserCollection;
 

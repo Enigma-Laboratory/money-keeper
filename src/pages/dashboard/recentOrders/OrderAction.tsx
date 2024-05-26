@@ -18,9 +18,7 @@ export const OrderActions: React.FC<OrderActionProps> = () => {
   //         fontWeight: 500,
   //       }}
   //       icon={<CheckCircleOutlined style={{ color: '#52c41a', fontSize: 17, fontWeight: 500 }} />}
-  //       onClick={() => {
-  //         console.log('update order');
-  //       }}
+  //       onClick={() => {}}
   //     >
   //       {t('buttons.accept', 'Accept')}
   //     </Menu.Item>

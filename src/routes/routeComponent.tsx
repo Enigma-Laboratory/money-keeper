@@ -63,7 +63,7 @@ export const routeComponents: RouteComponent[] = [
   {
     name: 'profile',
     path: routePaths.profile,
-    component: <ProfileScreen data={{ isLoading: false, user: { _id: '', name: '', email: '', password: '' } }} />,
+    component: <ProfileScreen data={{ isLoading: false, user: { _id: '', name: '' } }} />,
   },
   {
     name: 'page-not-found',

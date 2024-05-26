@@ -8,6 +8,7 @@ import {
 } from '@enigma-laboratory/shared';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, CreateAxiosDefaults } from 'axios';
 import { AuthApiService } from 'services/AuthApiService';
+import { NavigateService } from 'services/NavigateService';
 import { REFRESH_TOKEN_KEY, TOKEN_KEY } from 'utils';
 
 export class HttpClientService {
@@ -28,23 +29,17 @@ export class HttpClientService {
     };
     const requestConfig: CreateAxiosDefaults = { headers: header };
     const instance = axios.create(requestConfig);
-
     instance.interceptors.response.use(
       (response) => response,
       async (error) => {
-        console.log(error);
+        const originalRequest = error.config;
         if (error.response) {
           const { status, data } = error.response;
           switch (status) {
             case 400:
               return Promise.reject(new BadRequestError(data.message));
 
-            case 401:
-              if (originalRequest._retry) {
-                return Promise.reject(new UnauthorizedError(data.message));
-              }
-              originalRequest._retry = true;
-
+            case 401: {
               if (!this.isRefreshing) {
                 this.isRefreshing = true;
                 try {
@@ -55,7 +50,8 @@ export class HttpClientService {
                 } catch (err) {
                   this.processQueue(err, null);
                   localStorage.removeItem(TOKEN_KEY);
-                  return Promise.reject(new UnauthorizedError(data.message));
+                  NavigateService.instance.navigate('/login');
+                  return Promise.reject(new InternalServerError(data.message));
                 } finally {
                   this.isRefreshing = false;
                 }
@@ -68,9 +64,11 @@ export class HttpClientService {
                   originalRequest.headers['Authorization'] = `Bearer ${token}`;
                   return this.instance(originalRequest);
                 })
-                .catch((err) => {
-                  return Promise.reject(err);
+                .catch(() => {
+                  NavigateService.instance.navigate('/login');
+                  return Promise.reject(new InternalServerError(data.message));
                 });
+            }
 
             case 403:
               return Promise.reject(new ForbiddenError(data.message));

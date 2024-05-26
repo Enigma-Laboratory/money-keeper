@@ -15,7 +15,6 @@ class SocketIOService extends ApiServiceEndPoint {
 
   constructor() {
     super();
-    console.log('create many connections');
     this.socket = io(this.endPoint, { autoConnect: true });
   }
 
