@@ -3,10 +3,28 @@ export default {
     title: 'Register for your account',
     email: 'Email',
     password: 'Password',
-    errors: {
-      validEmail: 'Invalid email address',
+    name: 'Name',
+    confirmPassword: 'Confirm Password',
+    submitBtn: 'Sign up',
+    placeholder: {
+      email: 'Enter your email',
+      name: 'Enter your name',
+      password: 'Enter your password',
+      confirmPassword: 'Enter your confirm password',
     },
-    btnSubmit: 'Register',
+    validation: {
+      emailEmpty: 'Please enter your email.',
+      emailInvalidFormat: 'Invalid email address format.',
+      emailExist: 'The email already exists.',
+      nameEmpty: 'Please enter your name.',
+      passwordEmpty: 'Please enter your password.',
+      confirmPasswordEmpty: 'Please enter your confirm password.',
+      confirmPasswordDontMatch: 'The new password that you entered do not match!',
+    },
+    message: {
+      success: 'Congratulations, your account has been successfully created.',
+      failure: 'Something went wrong. Please try again!',
+    },
   },
   login: {
     title: 'Login for your account',
@@ -27,12 +45,9 @@ export default {
       emptyPassword: 'Please enter your password.',
       dontMatchPassword: `Password don't match.`,
     },
-    errors: {
-      validEmail: 'Invalid email address',
-      password: 'Password',
-    },
   },
   forgot: {
-    title: 'Find your email',
+    title: 'Reset your password',
+    submitBtn: 'Email me',
   },
 };

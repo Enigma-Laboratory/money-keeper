@@ -2,7 +2,7 @@ import { Outlet, Route, BrowserRouter as Router, Routes, useNavigate } from 'rea
 
 import { Authenticated, CatchAllNavigate } from 'components';
 import { InitialLayout, LayoutMain } from 'layouts';
-import { LoginPage, RegisterPage } from 'pages';
+import { ForgotPage, LoginPage, RegisterPage } from 'pages';
 import { NavigateService } from 'services/NavigateService';
 import { RouteComponent, routeComponents } from './routeComponent';
 
@@ -45,6 +45,7 @@ const RenderRouteComponent = (props: { routes: RouteComponent[] }) => {
       >
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
+        <Route path="forgot" element={<ForgotPage />} />
       </Route>
     </Routes>
   );

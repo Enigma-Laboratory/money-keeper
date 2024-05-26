@@ -53,14 +53,12 @@ export const LoginPage: React.FC = () => {
         >
           <Input type="password" placeholder={t('login.placeholder.password')} size="large" />
         </Form.Item>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px' }}>
-          <Link
-            style={{ color: token.colorPrimaryTextHover, fontSize: '12px', marginLeft: 'auto' }}
-            to="forgot-password"
-          >
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, marginTop: 60 }}>
+          <Link style={{ color: token.colorPrimaryTextHover, fontSize: '12px', marginLeft: 'auto' }} to="/forgot">
             {t('login.forgotPassword')}
           </Link>
         </div>
+
         <Form.Item style={{ marginBottom: 0 }}>
           <Button type="primary" size="large" htmlType="submit" loading={isLoading} block>
             {t('login.btnSubmit')}

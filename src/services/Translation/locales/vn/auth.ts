@@ -1,12 +1,30 @@
 export default {
   register: {
-    title: 'Đăng kí tài khoản',
+    title: 'Đăng ký tài khoản của bạn',
     email: 'Email',
     password: 'Mật khẩu',
-    error: {
-      validEmail: 'Email không đúng định dạng',
+    name: 'Tên',
+    confirmPassword: 'Xác nhận mật khẩu',
+    submitBtn: 'Đăng ký',
+    placeholder: {
+      email: 'Nhập email của bạn',
+      name: 'Nhập tên của bạn',
+      password: 'Nhập mật khẩu của bạn',
+      confirmPassword: 'Nhập lại mật khẩu của bạn',
     },
-    btnSubmit: 'Đăng kí',
+    validation: {
+      emailEmpty: 'Vui lòng nhập email của bạn.',
+      emailInvalidFormat: 'Định dạng email không hợp lệ.',
+      emailExist: 'Email đã tồn tại.',
+      nameEmpty: 'Vui lòng nhập tên của bạn.',
+      passwordEmpty: 'Vui lòng nhập mật khẩu của bạn.',
+      confirmPasswordEmpty: 'Vui lòng nhập lại mật khẩu của bạn.',
+      confirmPasswordDontMatch: 'Mật khẩu xác nhận không khớp!',
+    },
+    message: {
+      success: 'Chúc mừng, tài khoản của bạn đã được tạo thành công.',
+      failure: 'Đã xảy ra lỗi. Vui lòng thử lại!',
+    },
   },
   login: {
     title: 'Đăng nhập',
@@ -27,12 +45,9 @@ export default {
       emptyPassword: 'Vui lòng nhập mật khẩu của bạn.',
       dontMatchPassword: 'Mật khẩu không khớp.',
     },
-    errors: {
-      validEmail: 'Email không đúng định dạng',
-      password: 'Mật khẩu không đúng',
-    },
   },
   forgot: {
-    title: 'Find your email',
+    title: 'Đặt lại mật khẩu của bạn',
+    submitBtn: 'Gửi email cho tôi',
   },
 };

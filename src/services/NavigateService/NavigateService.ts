@@ -9,13 +9,16 @@ import { NavigateFunction } from 'react-router-dom';
  * Then, using in a normal function.
  */
 export class NavigateService {
-  private static _instance: NavigateService;
+  private static _instance: NavigateService | null = null;
   private navigateFc: NavigateFunction | null = null;
 
   private constructor() {}
 
   public static get instance(): NavigateService {
-    return this._instance || new this();
+    if (this._instance === null) {
+      this._instance = new NavigateService();
+    }
+    return this._instance;
   }
 
   public setNavigate(useNavigate: NavigateFunction) {
