@@ -23,4 +23,5 @@ export const HttpConfigAuth = {
   SIGN_OUT: 'sign-out',
   UPDATE_USER: 'update-user',
   DELETE_USER: 'delete-user',
+  FORGOT_PASSWORD: 'forget-password',
 };

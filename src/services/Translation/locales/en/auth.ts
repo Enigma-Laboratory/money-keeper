@@ -49,5 +49,17 @@ export default {
   forgot: {
     title: 'Reset your password',
     submitBtn: 'Email me',
+    placeholder: {
+      email: 'Enter your email',
+    },
+    validation: {
+      emailEmpty: 'Please enter your email.',
+      emailInvalidFormat: 'Invalid email address format.',
+      emailExist: 'The email already exists.',
+    },
+    message: {
+      success: 'Congratulations, your account has been successfully created.',
+      failure: 'Something went wrong. Please try again!',
+    },
   },
 };

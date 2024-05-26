@@ -49,5 +49,9 @@ export default {
   forgot: {
     title: 'Đặt lại mật khẩu của bạn',
     submitBtn: 'Gửi email cho tôi',
+    message: {
+      success: 'Chúc mừng, tài khoản của bạn đã được tạo thành công.',
+      failure: 'Đã xảy ra lỗi. Vui lòng thử lại!',
+    },
   },
 };

@@ -29,7 +29,7 @@ export type CheckResponse = {
   logout?: boolean;
   error?: Error;
 };
-type ForgotPasswordParams = {
+export type ForgotPasswordParams = {
   email: string;
 };
 export type PermissionResponse = unknown;
@@ -40,7 +40,7 @@ type AuthProvider = {
   logout: () => Promise<AuthActionResponse>;
   check: () => CheckResponse;
   register: (params: CreateUserParams) => Promise<AuthActionResponse>;
-  forgotPassword?: (params: ForgotPasswordParams) => Promise<AuthActionResponse>;
+  forgotPassword: (params: ForgotPasswordParams) => Promise<AuthActionResponse>;
   updatePassword?: () => Promise<AuthActionResponse>;
   getPermissions?: (params?: Record<string, object>) => Promise<PermissionResponse>;
   getIdentity?: () => Promise<IdentityResponse>;
@@ -94,10 +94,17 @@ export const authProvider: AuthProvider = {
     };
   },
   forgotPassword: async ({ email }) => {
-    notification.success({
-      message: 'Reset Password',
-      description: `Reset password link sent to "${email}"`,
-    });
+    try {
+      await AuthApiService.instance.forgotPassword({ email });
+    } catch (e) {
+      console.error(e);
+      return { success: false };
+    } finally {
+      notification.success({
+        message: 'Reset Password',
+        description: `Reset password link sent to "${email}"`,
+      });
+    }
     return {
       success: true,
     };
