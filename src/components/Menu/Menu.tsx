@@ -1,5 +1,13 @@
-import { AppstoreOutlined, MailOutlined } from '@ant-design/icons';
+import {
+  DashboardOutlined,
+  LogoutOutlined,
+  ProfileOutlined,
+  ShoppingCartOutlined,
+  TagsOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { User } from '@enigma-laboratory/shared';
+import { Flex, Typography } from 'antd';
 import type { MenuProps } from 'antd/es/menu';
 import { authProvider } from 'context/authProvider';
 import { useLocalStorage } from 'hooks';
@@ -11,7 +19,7 @@ import { BaseMenu } from '../BaseMenu';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
-export const MenuCustom = (): ReactElement => {
+export const Menu = (): ReactElement => {
   const { pathname } = useLocation();
   const { t } = useTranslation('common');
   const [activeItem, setActiveItem] = useState<string[]>([]);
@@ -26,37 +34,27 @@ export const MenuCustom = (): ReactElement => {
     {
       label: <Link to={routePaths.dashboard}>{t('sidebar.dashboard')}</Link>,
       key: 'dashboard',
-      icon: <MailOutlined />,
+      icon: <DashboardOutlined />,
     },
     {
       label: <Link to={routePaths.orders}>{t('sidebar.orders')}</Link>,
       key: 'orders',
-      icon: <AppstoreOutlined />,
+      icon: <ShoppingCartOutlined />,
     },
     {
-      label: <Link to={routePaths.customer}>{t('sidebar.customers')} </Link>,
+      label: <Link to={routePaths.customer}>{t('sidebar.customers')}</Link>,
       key: 'customers',
-      icon: <AppstoreOutlined />,
+      icon: <UserOutlined />,
     },
     {
       label: <Link to={routePaths.product}>{t('sidebar.products')}</Link>,
       key: 'products',
-      icon: <AppstoreOutlined />,
-    },
-    {
-      label: <Link to={routePaths.profile}>{t('sidebar.categories')}</Link>,
-      key: 'categories',
-      icon: <AppstoreOutlined />,
+      icon: <TagsOutlined />,
     },
     {
       label: <Link to={getExactPath(routePaths.profile, { id: user._id })}>{t('sidebar.profile')}</Link>,
       key: 'profile',
-      icon: <AppstoreOutlined />,
-    },
-    {
-      label: <div onClick={handleUserLogout}>{t('sidebar.logout')}</div>,
-      key: 'logout',
-      icon: <AppstoreOutlined />,
+      icon: <ProfileOutlined />,
     },
   ];
 
@@ -85,5 +83,23 @@ export const MenuCustom = (): ReactElement => {
     }
   }, [pathname]);
 
-  return <BaseMenu selectedKeys={activeItem} mode="inline" style={{ height: '100%', borderRight: 0 }} items={items} />;
+  return (
+    <Flex vertical justify="space-between" style={{ height: '100%' }}>
+      <BaseMenu selectedKeys={activeItem} mode="inline" items={items} />
+      <BaseMenu
+        mode="inline"
+        items={[
+          {
+            label: (
+              <Flex vertical>
+                <Typography.Text onClick={handleUserLogout}>{t('sidebar.logout')}</Typography.Text>
+              </Flex>
+            ),
+            key: 'logout',
+            icon: <LogoutOutlined />,
+          },
+        ]}
+      />
+    </Flex>
+  );
 };

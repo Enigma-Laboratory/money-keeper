@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react';
 
 import { Layout, theme } from 'antd';
-import { HeaderLayout, MenuCustom } from 'components';
+import { HeaderLayout, Menu } from 'components';
 import { LayoutMainStyled } from './LayoutMain.styles';
 
 const { Content, Sider } = Layout;
@@ -26,7 +26,7 @@ export const LayoutMain = (props: LayoutMainProps) => {
       <HeaderLayout collapsed={collapsed} toggleCollapsed={toggleCollapsed} />
       <Layout hasSider style={{ marginTop: 64 }}>
         <Sider collapsed={collapsed} style={{ background: colorBgContainer }}>
-          <MenuCustom />
+          <Menu />
         </Sider>
         <Content
           style={{

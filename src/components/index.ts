@@ -9,7 +9,7 @@ export * from './ButtonStatus';
 export * from './CardWithContent';
 export * from './CatchAllNavigate';
 export * from './Header';
-export * from './MenuCustom';
+export * from './Menu';
 export * from './NotFound';
 export * from './OrderCard';
 export * from './OrderStatus';
