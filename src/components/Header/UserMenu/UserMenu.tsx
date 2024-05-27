@@ -24,7 +24,7 @@ export const UserMenu = ({ user }: UserMenuProps): ReactElement => {
       <Popover
         content={
           <Space direction="vertical">
-            <div style={{ width: 350, padding: 16 }}>
+            <div style={{ width: 270, padding: 16 }}>
               <Flex gap={10} justify="space-between">
                 <Space>
                   <Avatar
