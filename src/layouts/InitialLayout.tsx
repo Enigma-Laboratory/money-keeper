@@ -1,11 +1,12 @@
-import { Card, Col, Layout, Row, Typography, theme } from 'antd';
+import { Button, Image, Layout, Typography, theme } from 'antd';
 import { ReactNode } from 'react';
 
-import { bodyStyles, containerStyles, headStyles, layoutStyles, titleStyles } from './InitialLayout.styles';
+import { layoutStyles, titleStyles } from './InitialLayout.styles';
 
+import { LeftOutlined } from '@ant-design/icons';
+import logo from 'assets/images/background-1.webp';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-
 interface InitialLayoutProps {
   children: ReactNode;
 }
@@ -16,20 +17,27 @@ export const InitialLayout = ({ children }: InitialLayoutProps) => {
   const { pathname } = useLocation();
 
   const CardTitle = (
-    <Typography.Title
-      level={3}
-      style={{
-        color: token.colorPrimaryTextHover,
-        ...titleStyles,
-      }}
-    >
-      {t(`${pathname.substring(1)}.title`)}
-    </Typography.Title>
+    <>
+      <Button type="text" shape="circle" style={{ position: 'absolute' }}>
+        <LeftOutlined />
+      </Button>
+      <Typography.Title
+        level={3}
+        style={{
+          color: token.colorPrimaryTextHover,
+          ...titleStyles,
+        }}
+      >
+        {t(`${pathname.substring(1)}.title`)}
+      </Typography.Title>
+    </>
   );
 
   return (
     <Layout style={layoutStyles}>
-      <Row
+      <Layout.Content>{children}</Layout.Content>
+      <Image src={logo} preview={false} />
+      {/* <Row
         justify="center"
         align={'middle'}
         style={{
@@ -51,7 +59,7 @@ export const InitialLayout = ({ children }: InitialLayoutProps) => {
             {children}
           </Card>
         </Col>
-      </Row>
+      </Row> */}
     </Layout>
   );
 };

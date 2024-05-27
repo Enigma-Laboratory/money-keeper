@@ -7,6 +7,7 @@ export * from './BaseNotification';
 export * from './BaseSearch';
 export * from './ButtonStatus';
 export * from './CardWithContent';
+export * from './CardWithPlot';
 export * from './CatchAllNavigate';
 export * from './Header';
 export * from './MenuCustom';

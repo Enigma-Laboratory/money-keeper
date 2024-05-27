@@ -35,7 +35,7 @@ export const useFetchInitData = (): FetchInitDataResult => {
   const fetchInitDataSource = useCallback(async (): Promise<void> => {
     setIsLoading(true);
     try {
-      // if (hasFetchedAllData) return;
+      if (hasFetchedAllData) return;
       await Promise.all([
         await OperationalSettingService.instance.fetchAllOperationalSetting(),
         await OrderService.instance.fetchAllOrder(),

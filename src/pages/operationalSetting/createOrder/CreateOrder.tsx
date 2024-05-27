@@ -31,7 +31,7 @@ import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { CardWithContent } from 'components/CardWithPlot';
+import { CardWithContent } from 'components';
 import { useLocalStorage } from 'hooks';
 import { USER_IDENTITY, formatCurrencyToVnd, getExactPath, routePaths } from 'utils';
 

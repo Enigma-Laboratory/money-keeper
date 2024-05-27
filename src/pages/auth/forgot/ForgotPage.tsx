@@ -32,7 +32,7 @@ export const ForgotPage: React.FC = () => {
     <Form layout="vertical" onFinish={recoverPassword} requiredMark={false}>
       <Form.Item
         name="email"
-        label="Email"
+        label={t('forgot.email')}
         rules={[
           { required: true, message: t('forgot.validation.emailEmpty') },
           {
@@ -41,7 +41,7 @@ export const ForgotPage: React.FC = () => {
           },
         ]}
       >
-        <Input size="large" placeholder={t('forgot.placeholder.email')} />
+        <Input size="large" />
       </Form.Item>
 
       <Form.Item style={{ marginBottom: 0, marginTop: 60 }}>

@@ -1,5 +1,10 @@
-import { CreateUserParams, CreateUserResponse, LoginParams, LoginResponse } from '@enigma-laboratory/shared';
-import { ForgotPasswordParams } from 'context';
+import {
+  CreateUserParams,
+  CreateUserResponse,
+  ForgotPasswordParams,
+  LoginParams,
+  LoginResponse,
+} from '@enigma-laboratory/shared';
 import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
 import { HttpClientService, HttpConfig, HttpConfigAuth } from '../HttpService';
 

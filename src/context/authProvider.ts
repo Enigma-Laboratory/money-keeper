@@ -1,4 +1,4 @@
-import { CreateUserParams, LoginParams } from '@enigma-laboratory/shared';
+import { CreateUserParams, ForgotPasswordParams, LoginParams } from '@enigma-laboratory/shared';
 import { notification } from 'antd';
 import { AuthApiService } from 'services/AuthApiService';
 import { UserApiService } from 'services/UserApiService';
@@ -29,9 +29,7 @@ export type CheckResponse = {
   logout?: boolean;
   error?: Error;
 };
-export type ForgotPasswordParams = {
-  email: string;
-};
+
 export type PermissionResponse = unknown;
 export type IdentityResponse = unknown;
 
@@ -58,7 +56,6 @@ export const authProvider: AuthProvider = {
     } catch (error) {
       localStorage.removeItem(TOKEN_KEY);
       localStorage.removeItem(REFRESH_TOKEN_KEY);
-      console.log(error);
       return {
         success: false,
         error: error as Error,
@@ -79,10 +76,7 @@ export const authProvider: AuthProvider = {
     } catch (error) {
       return {
         success: false,
-        error: {
-          message: 'Register failed',
-          name: 'Invalid email or password',
-        },
+        error: error as Error,
       };
     }
   },

@@ -3,7 +3,7 @@ import { Outlet, Route, BrowserRouter as Router, Routes, useNavigate } from 'rea
 import { Authenticated, CatchAllNavigate } from 'components';
 import { InitialLayout, LayoutMain } from 'layouts';
 import { ForgotPage, LoginPage, RegisterPage } from 'pages';
-import { NavigateService } from 'services/NavigateService';
+import { NavigateService } from 'services';
 import { RouteComponent, routeComponents } from './routeComponent';
 
 const RenderRouteComponent = (props: { routes: RouteComponent[] }) => {

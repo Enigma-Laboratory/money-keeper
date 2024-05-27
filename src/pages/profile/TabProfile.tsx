@@ -40,7 +40,6 @@ export const TabProfile = () => {
         data: { type: 'info', content: t('message.changePasswordSuccess') },
       });
     } catch (error) {
-      console.error(error);
       EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
         data: { type: 'warning', content: t('message.changePasswordFail') },
       });

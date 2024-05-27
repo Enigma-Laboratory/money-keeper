@@ -5,34 +5,40 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { AlertModalPayload } from 'interface';
-import { NavigateService } from 'services/NavigateService';
+import { NavigateService } from 'services';
 import { EVENT_NAME, EventAction } from 'utils';
 
 export const RegisterPage: React.FC = () => {
   const { t } = useTranslation('auth');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [form] = Form.useForm();
 
   const registerUser = async (params: CreateUserParams): Promise<void> => {
     setIsLoading(true);
-    const { success } = await authProvider.register({
+    const { success, error } = await authProvider.register({
       email: params.email,
       password: params.password,
       name: params.name,
     });
+    console.log(success);
     if (success) {
       EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
         data: { type: 'success', content: t('register.message.success') },
       });
       NavigateService.instance.navigate('/login');
     } else {
-      EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
-        data: { type: 'error', content: t('register.message.failure') },
-      });
+      if (error?.message === 'Email already exists.') {
+        form.setFields([{ name: 'email', errors: [t('register.validation.emailExist')] }]);
+      } else {
+        EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
+          data: { type: 'error', content: t('register.message.failure') },
+        });
+      }
     }
     setIsLoading(false);
   };
   return (
-    <Form layout="vertical" onFinish={registerUser} requiredMark={false}>
+    <Form layout="vertical" form={form} onFinish={registerUser} requiredMark={false}>
       <Form.Item
         name="email"
         label={'Email'}

@@ -45,10 +45,17 @@ export default {
       passwordEmpty: 'Vui lòng nhập mật khẩu của bạn.',
       passwordIncorrect: 'Mật khẩu của bạn không đúng.',
     },
+    message: {},
   },
   forgot: {
     title: 'Đặt lại mật khẩu của bạn',
     submitBtn: 'Gửi email cho tôi',
+    email: 'Nhập email của bạn',
+    validation: {
+      emailEmpty: 'Vui lòng nhập email của bạn.',
+      emailInvalidFormat: 'Định dạng địa chỉ email không hợp lệ.',
+      emailExist: 'Email này đã tồn tại.',
+    },
     message: {
       success: 'Chúc mừng, tài khoản của bạn đã được tạo thành công.',
       failure: 'Đã xảy ra lỗi. Vui lòng thử lại!',

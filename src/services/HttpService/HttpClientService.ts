@@ -7,8 +7,7 @@ import {
   UnauthorizedError,
 } from '@enigma-laboratory/shared';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, CreateAxiosDefaults } from 'axios';
-import { AuthApiService } from 'services/AuthApiService';
-import { NavigateService } from 'services/NavigateService';
+import { AuthApiService, NavigateService } from 'services';
 import { REFRESH_TOKEN_KEY, TOKEN_KEY } from 'utils';
 
 export class HttpClientService {
@@ -76,10 +75,10 @@ export class HttpClientService {
             case 409:
               return Promise.reject(new ConflictError(data.message));
             default:
-              return Promise.reject(new InternalServerError('Other Error'));
+              return Promise.reject(new InternalServerError(data.message));
           }
         } else {
-          return Promise.reject(new InternalServerError('Internal Server Error'));
+          return Promise.reject(new InternalServerError());
         }
       },
     );

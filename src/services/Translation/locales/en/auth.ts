@@ -50,9 +50,7 @@ export default {
   forgot: {
     title: 'Reset your password',
     submitBtn: 'Email me',
-    placeholder: {
-      email: 'Enter your email',
-    },
+    email: 'Enter your email address',
     validation: {
       emailEmpty: 'Please enter your email.',
       emailInvalidFormat: 'Invalid email address format.',
