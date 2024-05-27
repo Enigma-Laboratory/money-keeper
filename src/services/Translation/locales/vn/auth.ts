@@ -6,6 +6,11 @@ export default {
     name: 'Tên',
     confirmPassword: 'Xác nhận mật khẩu',
     submitBtn: 'Đăng ký',
+    passwordStrength: {
+      minLength: 'Ít nhất 8 ký tự',
+      hasUppercase: 'Ít nhất 1 chữ hoa',
+      hasLowercase: 'Ít nhất 1 chữ thường',
+    },
     placeholder: {
       email: 'Nhập email của bạn',
       name: 'Nhập tên của bạn',
@@ -20,6 +25,7 @@ export default {
       passwordEmpty: 'Vui lòng nhập mật khẩu của bạn.',
       confirmPasswordEmpty: 'Vui lòng nhập lại mật khẩu của bạn.',
       confirmPasswordDontMatch: 'Mật khẩu xác nhận không khớp!',
+      passwordWeak: 'Vui lòng nhập mật khẩu mạnh của bạn!',
     },
     message: {
       success: 'Chúc mừng, tài khoản của bạn đã được tạo thành công.',

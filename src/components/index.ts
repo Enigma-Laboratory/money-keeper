@@ -14,3 +14,4 @@ export * from './MenuCustom';
 export * from './NotFound';
 export * from './OrderCard';
 export * from './OrderStatus';
+export * from './PasswordStrengthIndicator';

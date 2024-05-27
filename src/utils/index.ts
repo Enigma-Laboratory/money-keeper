@@ -1,4 +1,5 @@
 export * from './arrayToObject';
+export * from './checkPasswordStrength';
 export * from './constants';
 export * from './convertToTitleCase';
 export * from './customEvent';

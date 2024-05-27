@@ -1,10 +1,9 @@
-import { Button, Flex, Image, Layout, Typography, theme } from 'antd';
+import { Button, Card, Col, Layout, Row, Typography, theme } from 'antd';
 import { ReactNode } from 'react';
 
-import { layoutStyles, titleStyles } from './InitialLayout.styles';
+import { bodyStyles, containerStyles, headStyles, layoutStyles, titleStyles } from './InitialLayout.styles';
 
 import { LeftOutlined } from '@ant-design/icons';
-import logo from 'assets/images/background-1.webp';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 interface InitialLayoutProps {
@@ -35,11 +34,11 @@ export const InitialLayout = ({ children }: InitialLayoutProps) => {
 
   return (
     <Layout style={layoutStyles}>
-      <Flex>
+      {/* <Flex>
         <Layout.Content>{children}</Layout.Content>
         <Image src={logo} preview={false} />
-      </Flex>
-      {/* <Row
+      </Flex> */}
+      <Row
         justify="center"
         align={'middle'}
         style={{
@@ -61,7 +60,7 @@ export const InitialLayout = ({ children }: InitialLayoutProps) => {
             {children}
           </Card>
         </Col>
-      </Row> */}
+      </Row>
     </Layout>
   );
 };
