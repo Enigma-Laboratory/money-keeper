@@ -5,7 +5,7 @@ import {
   UpdateOneOperationalSettingParams,
 } from '@enigma-laboratory/shared';
 import { notification } from 'antd';
-import { OperationalSettingApiService } from 'services/OperationalSettingsApiService';
+import { OperationalSettingApiService } from 'services';
 import { arrayToObject } from 'utils';
 import { operationalSettingStore } from './store';
 

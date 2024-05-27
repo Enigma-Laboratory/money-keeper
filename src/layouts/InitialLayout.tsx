@@ -1,4 +1,4 @@
-import { Button, Image, Layout, Typography, theme } from 'antd';
+import { Button, Flex, Image, Layout, Typography, theme } from 'antd';
 import { ReactNode } from 'react';
 
 import { layoutStyles, titleStyles } from './InitialLayout.styles';
@@ -35,8 +35,10 @@ export const InitialLayout = ({ children }: InitialLayoutProps) => {
 
   return (
     <Layout style={layoutStyles}>
-      <Layout.Content>{children}</Layout.Content>
-      <Image src={logo} preview={false} />
+      <Flex>
+        <Layout.Content>{children}</Layout.Content>
+        <Image src={logo} preview={false} />
+      </Flex>
       {/* <Row
         justify="center"
         align={'middle'}

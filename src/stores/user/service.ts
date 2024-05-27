@@ -4,7 +4,7 @@ import {
   UpdateOneUserParams,
   UpdateOneUserResponse,
 } from '@enigma-laboratory/shared';
-import { UserApiService } from 'services/UserApiService';
+import { UserApiService } from 'services';
 import { arrayToObject } from 'utils';
 import { UserCollection } from './interface';
 import { usersStore } from './store';

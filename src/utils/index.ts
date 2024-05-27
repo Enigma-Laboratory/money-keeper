@@ -5,6 +5,5 @@ export * from './customEvent';
 export * from './formatCurrencyToVnd';
 export * from './generateColorFromAlphabet';
 export * from './getExactPath';
-export * from './globalRouter';
 export * from './objectIsEmpty';
 export * from './routePaths';

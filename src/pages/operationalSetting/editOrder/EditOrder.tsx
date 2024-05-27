@@ -28,7 +28,7 @@ import {
   message,
   theme,
 } from 'antd';
-import { CardWithContent } from 'components/CardWithPlot';
+import { CardWithContent } from 'components';
 
 import dayjs from 'dayjs';
 import { useEffect, useMemo, useRef, useState } from 'react';
