@@ -17,8 +17,7 @@ export class NotificationService {
   }
 
   public success(message: string, description?: string) {
-    console.log(message);
-    // this.notify('success', message, description);
+    this.notify('success', message, description);
   }
 
   error(message: string, description?: string) {
