@@ -1,5 +1,4 @@
 import { OperationalSetting, Order, UpdateOneOperationalSettingParams } from '@enigma-laboratory/shared';
-import { useFetchInitData } from 'hooks';
 import { ComponentType } from 'react';
 import { UserCollection } from 'stores';
 import { OperationalSettingStatusLoading } from '../withOperationalSettingController';
@@ -32,8 +31,6 @@ export const withOperationalSettingController = (
       dispatch: { handleUpdateOrderStatus, closeDrawer },
     } = props;
 
-    const { users } = useFetchInitData();
-
     const priceByUser: PriceByUserPair = {};
 
     data.orders?.forEach(({ products, userId }) => {
@@ -45,7 +42,7 @@ export const withOperationalSettingController = (
     });
 
     const LogicProps: OperationalSettingProps = {
-      data: { ...data, priceByUser, users },
+      data: { ...data, priceByUser },
       dispatch: {
         closeDrawer,
         handleUpdateOrderStatus,
