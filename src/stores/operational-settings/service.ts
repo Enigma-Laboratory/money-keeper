@@ -4,11 +4,12 @@ import {
   OperationalSetting,
   UpdateOneOperationalSettingParams,
 } from '@enigma-laboratory/shared';
-import { NotificationService, OperationalSettingApiService } from 'services';
+import { notification } from 'antd';
+import { OperationalSettingApiService } from 'services';
 import { arrayToObject } from 'utils';
 import { operationalSettingStore } from './store';
 
-export class OperationalSettingService extends NotificationService {
+export class OperationalSettingService {
   public static _instance: OperationalSettingService;
 
   public static get instance(): OperationalSettingService {
@@ -55,7 +56,10 @@ export class OperationalSettingService extends NotificationService {
   }
 
   public createdOperationalSettingIO(operationalSetting: OperationalSetting) {
-    this.success('orderNotification.update.successMessage', 'orderNotification.update.successDescription');
+    notification.success({
+      message: 'Operational settings created Successful',
+      description: `The operational settings  with  ${operationalSetting.name}  has been successfully updated.`,
+    });
 
     operationalSettingStore.updateModel((model) => ({
       count: model.count + 1,
@@ -64,7 +68,10 @@ export class OperationalSettingService extends NotificationService {
   }
 
   public updatedOperationalSettingIO(operationalSetting: OperationalSetting) {
-    this.success('orderNotification.update.successMessage', 'orderNotification.update.successDescription');
+    notification.success({
+      message: 'Operational settings Updated Successful',
+      description: `The operational settings with name: ${operationalSetting.name} has been successfully updated.`,
+    });
 
     operationalSettingStore.updateModel((model) => ({
       count: model.count,
