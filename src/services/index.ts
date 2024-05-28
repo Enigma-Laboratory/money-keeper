@@ -6,4 +6,4 @@ export * from './endpoints';
 export * from './api';
 export * from './http';
 export * from './socket';
-export * from './translation';
+export * from './translation1';
