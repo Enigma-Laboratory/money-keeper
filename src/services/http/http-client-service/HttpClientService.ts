@@ -7,7 +7,7 @@ import {
   UnauthorizedError,
 } from '@enigma-laboratory/shared';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, CreateAxiosDefaults } from 'axios';
-import { AuthApiService } from 'services';
+import { AuthApiService, DEFAULT_HEADERS } from 'services';
 
 import { REFRESH_TOKEN_KEY, TOKEN_KEY } from 'utils';
 
@@ -24,69 +24,75 @@ export class HttpClientService {
   }
 
   private static create(): AxiosInstance {
-    const header = {
-      'Content-type': 'application/json',
-    };
-    const requestConfig: CreateAxiosDefaults = { headers: header };
+    const requestConfig: CreateAxiosDefaults = { headers: DEFAULT_HEADERS };
     const instance = axios.create(requestConfig);
 
     instance.interceptors.response.use(
       (response) => response,
-      async (error) => {
-        const originalRequest = error.config;
-        if (error.response) {
-          const { status, data } = error.response;
-          switch (status) {
-            case 400:
-              return Promise.reject(new BadRequestError(data.message));
-
-            case 401:
-              if (originalRequest._retry) {
-                return Promise.reject(new UnauthorizedError(data.message));
-              }
-              originalRequest._retry = true;
-
-              if (!this.isRefreshing) {
-                this.isRefreshing = true;
-                try {
-                  const newToken = await this.refreshToken();
-                  localStorage.setItem(TOKEN_KEY, newToken);
-                  this.instance.defaults.headers['Authorization'] = `Bearer ${newToken}`;
-                  this.processQueue(null, newToken);
-                } catch (err) {
-                  this.processQueue(err, null);
-                  localStorage.removeItem(TOKEN_KEY);
-                  return Promise.reject(new UnauthorizedError(data.message));
-                } finally {
-                  this.isRefreshing = false;
-                }
-              }
-
-              return new Promise((resolve, reject) => {
-                this.failedQueue.push({ resolve, reject });
-              })
-                .then((token) => {
-                  originalRequest.headers['Authorization'] = `Bearer ${token}`;
-                  return this.instance(originalRequest);
-                })
-                .catch((err) => {
-                  return Promise.reject(err);
-                });
-
-            case 403:
-              return Promise.reject(new ForbiddenError(data.message));
-            case 404:
-              return Promise.reject(new NotFoundError(data.message));
-            case 409:
-              return Promise.reject(new ConflictError(data.message));
-          }
-        } else {
-          return Promise.reject(new InternalServerError('Internal Server Error'));
-        }
-      },
+      async (error) => this.handleResponseError(error),
     );
 
     return instance;
+  }
+
+  /* eslint-disable */
+  private static async handleResponseError(error: any): Promise<AxiosResponse | never> {
+    const originalRequest = error.config;
+
+    if (error.response) {
+      const { status, data } = error.response;
+      switch (status) {
+        case 400:
+          throw new BadRequestError(data.message);
+        case 401:
+          return this.handleUnauthorizedError(originalRequest, data.message);
+        case 403:
+          throw new ForbiddenError(data.message);
+        case 404:
+          throw new NotFoundError(data.message);
+        case 409:
+          throw new ConflictError(data.message);
+        default:
+          throw new InternalServerError();
+      }
+    } else {
+      throw new InternalServerError();
+    }
+  }
+
+  private static async handleUnauthorizedError(
+    originalRequest: any,
+    errorMessage: string,
+  ): Promise<AxiosResponse | never> {
+    if (originalRequest._retry) {
+      return Promise.reject(new UnauthorizedError(errorMessage));
+    }
+    originalRequest._retry = true;
+
+    if (!this.isRefreshing) {
+      this.isRefreshing = true;
+      try {
+        const newToken = await this.refreshToken();
+        localStorage.setItem(TOKEN_KEY, newToken);
+        this.instance.defaults.headers['Authorization'] = `Bearer ${newToken}`;
+        this.processQueue(null, newToken);
+      } catch (err) {
+        this.processQueue(err, null);
+        localStorage.removeItem(TOKEN_KEY);
+        return Promise.reject(new UnauthorizedError(errorMessage));
+      } finally {
+        this.isRefreshing = false;
+      }
+    }
+
+    return new Promise((resolve, reject) => {
+      this.failedQueue.push({ resolve, reject });
+    })
+      .then((token) => {
+        originalRequest.headers['Authorization'] = `Bearer ${token}`;
+        return this.instance(originalRequest);
+      })
+      .catch((err) => Promise.reject(err));
   }
 
   private static processQueue(error: unknown, token: string | null = null) {
@@ -117,7 +123,6 @@ export class HttpClientService {
     }
   }
 
-  /* eslint-disable */
   public static async httpGet<T = any>(requestUri: string, options?: AxiosRequestConfig): Promise<T> {
     const config = await this.getConfig(options);
 
