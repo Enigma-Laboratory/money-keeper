@@ -14,7 +14,7 @@ import { REFRESH_TOKEN_KEY, TOKEN_KEY } from 'utils';
 export class HttpClientService {
   private static _instance: AxiosInstance;
   private static isRefreshing = false;
-  private static failedQueue: { resolve: (value?: unknown) => void; reject: (reason?: any) => void }[] = [];
+  private static failedQueue: { resolve: (value?: unknown) => void; reject: (reason?: unknown) => void }[] = [];
 
   public static get instance(): AxiosInstance {
     if (!this._instance) {
@@ -89,7 +89,7 @@ export class HttpClientService {
     return instance;
   }
 
-  private static processQueue(error: any, token: string | null = null) {
+  private static processQueue(error: unknown, token: string | null = null) {
     this.failedQueue.forEach((prom) => {
       if (error) {
         prom.reject(error);
