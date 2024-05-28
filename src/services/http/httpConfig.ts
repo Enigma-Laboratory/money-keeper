@@ -24,3 +24,9 @@ export const HttpConfigAuth = {
   UPDATE_USER: 'update-user',
   DELETE_USER: 'delete-user',
 };
+
+export const DEFAULT_HEADERS = {
+  Accept: 'application/json',
+  'Content-type': 'application/json',
+  'X-Requested-With': 'XMLHttpRequest',
+};
