@@ -9,10 +9,10 @@ import {
   UpdateOrderEventParams,
   UpdateOrderEventResponse,
 } from '@enigma-laboratory/shared';
-import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
-import { HttpClientService, HttpConfig, HttpConfigOrder } from '../HttpService';
 
-export class OrderApiService extends ApiServiceEndPoint {
+import { ApiEndpointService, HttpClientService, HttpConfig, HttpConfigOrder } from 'services';
+
+export class OrderApiService extends ApiEndpointService {
   private static _instance: OrderApiService;
 
   public static get instance(): OrderApiService {

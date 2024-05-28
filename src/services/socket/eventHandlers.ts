@@ -1,6 +1,6 @@
 import { OperationalSetting, OperationalSettingEvent, Order, OrderEvent } from '@enigma-laboratory/shared';
 import { OperationalSettingService, OrderService } from 'stores';
-import { EventHandler } from './SocketIOService';
+import { EventHandler } from './socket-service';
 
 /**
  * Object: orderEventHandlers

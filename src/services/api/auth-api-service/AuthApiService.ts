@@ -1,8 +1,7 @@
 import { CreateUserParams, LoginParams, LoginResponse } from '@enigma-laboratory/shared';
-import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
-import { HttpClientService, HttpConfig, HttpConfigAuth } from '../HttpService';
+import { ApiEndpointService, HttpClientService, HttpConfig, HttpConfigAuth } from 'services';
 
-export class AuthApiService extends ApiServiceEndPoint {
+export class AuthApiService extends ApiEndpointService {
   private static _instance: AuthApiService;
 
   public static get instance(): AuthApiService {

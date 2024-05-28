@@ -1,8 +1,9 @@
-export * from './ApiServiceEndpoint';
-export * from './AuthApiService';
-export * from './HttpService';
-export * from './OperationalSettingsApiService';
-export * from './OrderApiService';
-export * from './SocketIOService';
-export * from './Translation';
-export * from './UserApiService';
+// Ensure endpoints are initialized first
+export * from './endpoints';
+/**
+ * Initialize other modules that depend on endpoints
+ */
+export * from './api';
+export * from './http';
+export * from './socket';
+export * from './translation';

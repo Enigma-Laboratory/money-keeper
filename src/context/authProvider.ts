@@ -1,7 +1,6 @@
 import { CreateUserParams, LoginParams } from '@enigma-laboratory/shared';
 import { notification } from 'antd';
-import { AuthApiService } from 'services/AuthApiService';
-import { UserApiService } from 'services/UserApiService';
+import { AuthApiService, UserApiService } from 'services';
 import { REFRESH_TOKEN_KEY, TOKEN_KEY, USER_IDENTITY } from 'utils';
 
 export type SuccessNotificationResponse = {

@@ -7,7 +7,7 @@ import {
   UpdateOrderEventParams,
 } from '@enigma-laboratory/shared';
 import { notification } from 'antd';
-import { OrderApiService } from 'services/OrderApiService';
+import { OrderApiService } from 'services';
 import { arrayToObject } from 'utils';
 import { orderStore } from './store';
 

@@ -1,4 +1,4 @@
-import { BaseStore } from '../baseStore';
+import { BaseStore } from '../base-store/baseStore';
 import { OperationalSettingState } from './interfaces';
 
 const initialState: OperationalSettingState = {

@@ -6,10 +6,10 @@ import {
   OperationalSetting,
   UpdateOneOperationalSettingParams,
 } from '@enigma-laboratory/shared';
-import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
-import { HttpClientService, HttpConfig } from '../HttpService';
 
-export class OperationalSettingApiService extends ApiServiceEndPoint {
+import { ApiEndpointService, HttpClientService, HttpConfig } from 'services';
+
+export class OperationalSettingApiService extends ApiEndpointService {
   private static _instance: OperationalSettingApiService;
 
   public static get instance(): OperationalSettingApiService {

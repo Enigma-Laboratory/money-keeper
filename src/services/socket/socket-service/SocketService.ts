@@ -1,4 +1,4 @@
-import { ApiServiceEndPoint } from 'services';
+import { ApiEndpointService } from 'services';
 import { io, Socket } from 'socket.io-client';
 import { DEFAULT_ROOM_NAME } from 'utils';
 
@@ -10,7 +10,7 @@ export interface EventHandler<T> {
  * SocketIOService provides a wrapper around Socket.IO client functionality
  * to manage socket connections, event handling, and room joining.
  */
-class SocketIOService extends ApiServiceEndPoint {
+class SocketService extends ApiEndpointService {
   private socket: Socket | null;
 
   constructor() {
@@ -73,4 +73,4 @@ class SocketIOService extends ApiServiceEndPoint {
   }
 }
 
-export const socket = new SocketIOService();
+export const socket = new SocketService();

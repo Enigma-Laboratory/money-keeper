@@ -5,10 +5,9 @@ import {
   UpdateOneUserParams,
   User,
 } from '@enigma-laboratory/shared';
-import { ApiServiceEndPoint } from '../ApiServiceEndpoint';
-import { HttpClientService, HttpConfig, HttpConfigAuth } from '../HttpService';
+import { ApiEndpointService, HttpClientService, HttpConfig, HttpConfigAuth } from 'services';
 
-export class UserApiService extends ApiServiceEndPoint {
+export class UserApiService extends ApiEndpointService {
   private static _instance: UserApiService;
 
   public static get instance(): UserApiService {
