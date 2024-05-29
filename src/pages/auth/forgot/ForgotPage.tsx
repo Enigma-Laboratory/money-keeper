@@ -1,5 +1,5 @@
 import { Button, Form, Input } from 'antd';
-import { authProvider } from 'context';
+import { authProvider } from 'contexts';
 import { AlertModalPayload } from 'interface';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

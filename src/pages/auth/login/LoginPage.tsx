@@ -1,7 +1,7 @@
 import { Button, Form, Input, Typography, theme } from 'antd';
 import React, { useState } from 'react';
 
-import { authProvider } from 'context/authProvider';
+import { authProvider } from 'contexts/authProvider';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 

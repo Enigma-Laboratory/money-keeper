@@ -2,7 +2,7 @@ import { DownOutlined, EyeOutlined, LogoutOutlined, SettingOutlined, UserSwitchO
 import { User } from '@enigma-laboratory/shared';
 import { Avatar, Button, Divider, Dropdown, Flex, Popover, Space, Typography } from 'antd';
 import { IconMoon, IconSun } from 'assets/icons';
-import { Languages, Mode, useConfigProvider } from 'context';
+import { Languages, Mode, useConfigProvider } from 'contexts';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateColorFromAlphabet } from 'utils';

@@ -1,6 +1,6 @@
 import { CreateUserParams } from '@enigma-laboratory/shared';
 import { Button, Form, Input } from 'antd';
-import { authProvider } from 'context';
+import { authProvider } from 'contexts';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 

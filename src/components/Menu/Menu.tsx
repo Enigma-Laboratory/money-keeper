@@ -9,7 +9,7 @@ import {
 import { User } from '@enigma-laboratory/shared';
 import { Flex, Typography } from 'antd';
 import type { MenuProps } from 'antd/es/menu';
-import { authProvider } from 'context';
+import { authProvider } from 'contexts';
 import { useLocalStorage } from 'hooks';
 import { ReactElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';

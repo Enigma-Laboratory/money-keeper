@@ -1,4 +1,4 @@
-import { authProvider } from 'context';
+import { authProvider } from 'contexts';
 import React, { ReactElement, ReactNode, useMemo } from 'react';
 
 type AuthenticatedProps = {

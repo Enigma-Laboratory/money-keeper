@@ -1,21 +1,14 @@
-import { SVGProps } from "react";
-import { useConfigProvider } from "../../context";
+import { SVGProps } from 'react';
+import { useConfigProvider } from '../../contexts';
 
 export const Rank4Icon = (props: SVGProps<SVGSVGElement>) => {
   const { mode } = useConfigProvider();
 
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={44}
-      height={44}
-      viewBox="0 0 44 44"
-      fill="none"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width={44} height={44} viewBox="0 0 44 44" fill="none" {...props}>
       <path
         fill="#2F54EB"
-        stroke={mode === "dark" ? "#000" : "#fff"}
+        stroke={mode === 'dark' ? '#000' : '#fff'}
         strokeWidth={2}
         d="M25.429 1.81a7.667 7.667 0 0 0-6.858 0L5.238 8.475A7.667 7.667 0 0 0 1 15.333v13.334a7.666 7.666 0 0 0 4.238 6.857l13.333 6.667a7.666 7.666 0 0 0 6.858 0l13.333-6.667A7.667 7.667 0 0 0 43 28.667V15.333a7.667 7.667 0 0 0-4.238-6.857L25.429 1.81Z"
       />

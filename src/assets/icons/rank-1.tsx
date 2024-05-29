@@ -1,21 +1,14 @@
-import { SVGProps } from "react";
-import { useConfigProvider } from "../../context";
+import { SVGProps } from 'react';
+import { useConfigProvider } from '../../contexts';
 
 export const Rank1Icon = (props: SVGProps<SVGSVGElement>) => {
   const { mode } = useConfigProvider();
 
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={46}
-      height={46}
-      viewBox="0 0 46 46"
-      fill="none"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width={46} height={46} viewBox="0 0 46 46" fill="none" {...props}>
       <path
         fill="url(#rank-1-a)"
-        stroke={mode === "dark" ? "#000" : "#fff"}
+        stroke={mode === 'dark' ? '#000' : '#fff'}
         strokeWidth={3}
         d="M26.652 2.362a8.166 8.166 0 0 0-7.304 0L6.014 9.03A8.167 8.167 0 0 0 1.5 16.333v13.334a8.167 8.167 0 0 0 4.514 7.304l13.334 6.667a8.166 8.166 0 0 0 7.304 0l13.334-6.667a8.167 8.167 0 0 0 4.514-7.304V16.333a8.167 8.167 0 0 0-4.514-7.304L26.652 2.362Z"
       />
@@ -53,14 +46,7 @@ export const Rank1Icon = (props: SVGProps<SVGSVGElement>) => {
           <stop stopColor="#FFC53D" />
           <stop offset={1} stopColor="#FAAD14" />
         </radialGradient>
-        <linearGradient
-          id="rank-1-c"
-          x1={23}
-          x2={23}
-          y1={3}
-          y2={43}
-          gradientUnits="userSpaceOnUse"
-        >
+        <linearGradient id="rank-1-c" x1={23} x2={23} y1={3} y2={43} gradientUnits="userSpaceOnUse">
           <stop stopColor="#FFD666" />
           <stop offset={1} stopColor="#D48806" />
         </linearGradient>
@@ -74,23 +60,12 @@ export const Rank1Icon = (props: SVGProps<SVGSVGElement>) => {
           filterUnits="userSpaceOnUse"
         >
           <feFlood floodOpacity={0} result="BackgroundImageFix" />
-          <feColorMatrix
-            in="SourceAlpha"
-            result="hardAlpha"
-            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-          />
+          <feColorMatrix in="SourceAlpha" result="hardAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
           <feOffset dy={0.625} />
           <feComposite in2="hardAlpha" operator="out" />
           <feColorMatrix values="0 0 0 0 1 0 0 0 0 0.898039 0 0 0 0 0.560784 0 0 0 1 0" />
-          <feBlend
-            in2="BackgroundImageFix"
-            result="effect1_dropShadow_917_3659"
-          />
-          <feBlend
-            in="SourceGraphic"
-            in2="effect1_dropShadow_917_3659"
-            result="shape"
-          />
+          <feBlend in2="BackgroundImageFix" result="effect1_dropShadow_917_3659" />
+          <feBlend in="SourceGraphic" in2="effect1_dropShadow_917_3659" result="shape" />
         </filter>
       </defs>
     </svg>
