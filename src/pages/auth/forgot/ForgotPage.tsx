@@ -1,15 +1,16 @@
+import { ForgotPasswordParams } from '@enigma-laboratory/shared';
 import { Button, Form, Input } from 'antd';
-import { authProvider } from 'contexts';
 import { AlertModalPayload } from 'interfaces';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { AuthService } from 'stores';
 import { EVENT_NAME, EventAction } from 'utils';
 
 export const ForgotPage: React.FC = () => {
   const { t } = useTranslation('auth');
 
-  const recoverPassword = async (params: { email: string }) => {
-    const { success } = await authProvider.forgotPassword({ email: params.email });
+  const recoverPassword = async (params: ForgotPasswordParams) => {
+    const { success } = await AuthService.instance.forgotPassword(params);
     if (success) {
       EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
         data: {
