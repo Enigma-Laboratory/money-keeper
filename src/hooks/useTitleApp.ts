@@ -1,5 +1,5 @@
-import { APP_NAME } from 'utils';
+import { appConfig } from 'config';
 
 export const changeTitleApp = (): void => {
-  document.title = APP_NAME;
+  document.title = appConfig.appTitle;
 };
