@@ -1,10 +1,11 @@
-export * from './ApiServiceEndpoint';
-export * from './AuthApiService';
-export * from './CSSTokenService';
-export * from './HttpService';
+// Ensure endpoints are initialized first
+export * from './endpoints';
+/**
+ * Initialize other modules that depend on endpoints
+ */
 export * from './NavigateService';
-export * from './OperationalSettingsApiService';
-export * from './OrderApiService';
-export * from './SocketIOService';
-export * from './Translation';
-export * from './UserApiService';
+export * from './api';
+export * from './http';
+export * from './notification';
+export * from './socket';
+export * from './translation';

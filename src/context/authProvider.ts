@@ -109,7 +109,6 @@ export const authProvider: AuthProvider = {
       const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY) || '';
       await AuthApiService.instance.signOut({ refreshToken });
       localStorage.removeItem(TOKEN_KEY);
-      localStorage.removeItem(TOKEN_KEY);
       localStorage.removeItem(USER_IDENTITY);
     } catch {
       console.error("Can't logout");

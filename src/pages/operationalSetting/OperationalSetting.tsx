@@ -21,14 +21,18 @@ export interface OperationalSettingWithOrders extends OperationalSetting {
 
 export const OperationalSettings = (props: OperationalSettingProps): ReactElement => {
   const { data, dispatch } = props;
-  const { isLoading, statusLoading, groupOrders, operationalSettings } = data;
+  const { isLoading, statusLoading, groupOrders, operationalSettings, users } = data;
   const { handleUpdateOrderStatus } = dispatch;
   const navigate = useNavigate();
 
   const { token } = theme.useToken();
   const { t } = useTranslation('order');
 
-  const [drawerData, setDrawerData] = useState<Partial<OperationalSettingData>>({ isOpen: false, statusLoading });
+  const [drawerData, setDrawerData] = useState<Partial<OperationalSettingData>>({
+    isOpen: false,
+    statusLoading,
+    users,
+  });
 
   useEffect(() => {
     setDrawerData((prevDrawerData) => {
@@ -164,7 +168,7 @@ export const OperationalSettings = (props: OperationalSettingProps): ReactElemen
             expandedRowRender: (record) => (
               <>
                 {(record.orders || []).map((item) => (
-                  <OrderCard order={item} users={data.users} />
+                  <OrderCard key={item._id} order={item} users={data.users} />
                 ))}
               </>
             ),

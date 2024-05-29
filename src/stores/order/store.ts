@@ -1,4 +1,4 @@
-import { BaseStore } from '../baseStore';
+import { BaseStore } from '../base-store';
 import { OrderState } from './interface';
 
 const initialState: OrderState = {

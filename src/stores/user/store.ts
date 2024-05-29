@@ -1,4 +1,4 @@
-import { BaseStore } from '../baseStore';
+import { BaseStore } from '../base-store';
 import { UserState } from './interface';
 
 const initialState: UserState = {
