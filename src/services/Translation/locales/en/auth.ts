@@ -6,6 +6,11 @@ export default {
     name: 'Name',
     confirmPassword: 'Confirm Password',
     submitBtn: 'Sign up',
+    passwordStrength: {
+      minLength: '8 characters min.',
+      hasUppercase: '1 uppercase',
+      hasLowercase: '1 lowercase',
+    },
     placeholder: {
       email: 'Enter your email',
       name: 'Enter your name',
@@ -20,6 +25,7 @@ export default {
       passwordEmpty: 'Please enter your password.',
       confirmPasswordEmpty: 'Please enter your confirm password.',
       confirmPasswordDontMatch: 'The new password that you entered do not match!',
+      passwordWeak: 'Please enter your strong password !',
     },
     message: {
       success: 'Congratulations, your account has been successfully created.',

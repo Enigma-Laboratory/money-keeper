@@ -4,17 +4,26 @@ import { authProvider } from 'context';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { PasswordStrengthIndicator } from 'components';
 import { AlertModalPayload } from 'interface';
 import { NavigateService } from 'services';
-import { EVENT_NAME, EventAction } from 'utils';
+import { EVENT_NAME, EventAction, checkPasswordStrength } from 'utils';
 
 export const RegisterPage: React.FC = () => {
   const { t } = useTranslation('auth');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [form] = Form.useForm();
+  const [password, setPassword] = useState<string>('');
 
-  const registerUser = async (params: CreateUserParams): Promise<void> => {
+  const handleOnRegisterUser = async (params: CreateUserParams): Promise<void> => {
+    const strength = checkPasswordStrength(params.password);
+    if (!strength.minLength || !strength.hasUppercase || !strength.hasLowercase) {
+      form.setFields([{ name: 'password', errors: [t('register.validation.passwordWeak')] }]);
+      return;
+    }
+
     setIsLoading(true);
+
     const { success, error } = await authProvider.register({
       email: params.email,
       password: params.password,
@@ -37,7 +46,7 @@ export const RegisterPage: React.FC = () => {
     setIsLoading(false);
   };
   return (
-    <Form layout="vertical" form={form} onFinish={registerUser} requiredMark={false}>
+    <Form layout="vertical" form={form} onFinish={handleOnRegisterUser} requiredMark={false}>
       <Form.Item
         name="email"
         label={'Email'}
@@ -65,8 +74,13 @@ export const RegisterPage: React.FC = () => {
         label={t('register.password')}
         rules={[{ required: true, message: t('register.validation.passwordEmpty') }]}
       >
-        <Input.Password placeholder={t('register.placeholder.password')} size="large" />
+        <Input.Password
+          placeholder={t('register.placeholder.password')}
+          size="large"
+          onChange={(e) => setPassword(e.target.value)}
+        />
       </Form.Item>
+      <PasswordStrengthIndicator password={password} />
 
       <Form.Item
         label={t('register.confirmPassword')}
