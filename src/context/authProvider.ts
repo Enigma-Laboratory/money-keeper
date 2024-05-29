@@ -110,15 +110,14 @@ export const authProvider: AuthProvider = {
       await AuthApiService.instance.signOut({ refreshToken });
       localStorage.removeItem(TOKEN_KEY);
       localStorage.removeItem(USER_IDENTITY);
+      return {
+        success: true,
+        redirectTo: '/login',
+      };
     } catch {
       console.error("Can't logout");
       return {
         success: false,
-      };
-    } finally {
-      return {
-        success: true,
-        redirectTo: '/login',
       };
     }
   },
