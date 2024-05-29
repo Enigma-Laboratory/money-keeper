@@ -2,12 +2,10 @@ import { Button, Form, FormProps, Input } from 'antd';
 import { ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { EVENT_NAME, EventAction, USER_IDENTITY } from 'utils';
+import { EVENT_NAME, EventAction } from 'utils';
 
-import { User } from '@enigma-laboratory/shared';
-import { useLocalStorage } from 'hooks';
 import { AlertModalPayload } from 'interfaces';
-import { UsersService } from 'stores';
+import { AuthService, UsersService } from 'stores';
 import { StyledCard } from './TabProfile.styles';
 
 export type FieldType = {
@@ -19,7 +17,7 @@ export type FieldType = {
 export const TabProfile = () => {
   const { t } = useTranslation('profile');
   const [activeTabKey, setActiveTabKey] = useState<string>('passwordTab');
-  const [user] = useLocalStorage<Pick<User, 'email'>>(USER_IDENTITY, { email: '' });
+  const user = AuthService.instance.getAuth();
 
   const tabList = [
     {

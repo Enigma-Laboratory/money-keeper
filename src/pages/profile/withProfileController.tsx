@@ -1,7 +1,6 @@
 import { User } from '@enigma-laboratory/shared';
-import { useLocalStorage } from 'hooks';
 import { ComponentType } from 'react';
-import { USER_IDENTITY } from 'utils';
+import { AuthService } from 'stores';
 
 export interface ProfileProps {
   data: { isLoading: boolean; user: Pick<User, '_id' | 'name'> };
@@ -10,11 +9,7 @@ export interface ProfileProps {
 
 export const withProfileController = <P,>(Component: ComponentType<P>): ComponentType<P> => {
   return (props: P) => {
-    // const { isLoading, operationalSettings, orders } = useFetchInitData();
-    const [user] = useLocalStorage<Pick<User, '_id' | 'name'>>(USER_IDENTITY, {
-      _id: '',
-      name: '',
-    });
+    const user = AuthService.instance.getAuth();
 
     const logicProps: ProfileProps = {
       data: { isLoading: false, user },
