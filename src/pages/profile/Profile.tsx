@@ -1,7 +1,8 @@
 import { Col, Row, Spin } from 'antd';
-import { InfoProfile } from './InfoProfile';
+
 import { StyledProfile } from './Profile.styles';
-import { TabProfile } from './TabProfile';
+import { InfoProfile } from './info-profile';
+import { TabProfile } from './tab-profile';
 import { ProfileProps } from './withProfileController';
 
 export const Profile = (props: ProfileProps) => {
