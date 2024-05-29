@@ -18,7 +18,7 @@ const StyledTypographyTitle = styled(Typography.Title)`
 
 export const StyledCard = styled(Card)`
   && {
-    width: 400;
+    width: 400px;
     border: none;
     > div {
       border: none;
@@ -32,6 +32,7 @@ export const StyledTypography = {
 
 export const StyledImage = styled(Image)`
   && {
+    background-color: red;
     object-fit: cover;
     height: 100vh;
   }
