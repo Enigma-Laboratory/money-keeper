@@ -6,15 +6,13 @@ import {
   TagsOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { User } from '@enigma-laboratory/shared';
 import { Flex, Typography } from 'antd';
 import type { MenuProps } from 'antd/es/menu';
-import { authProvider } from 'contexts';
-import { useLocalStorage } from 'hooks';
 import { ReactElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { USER_IDENTITY, getExactPath, routePaths } from 'utils';
+import { AuthService } from 'stores';
+import { getExactPath, routePaths } from 'utils';
 import { BaseMenu } from '../base-menu';
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -26,11 +24,11 @@ export const Menu = (): ReactElement => {
   const navigate = useNavigate();
 
   const handleUserLogout = async () => {
-    const { success, redirectTo } = await authProvider.logout();
-    if (success) navigate(redirectTo || '');
+    const { success, redirectTo } = await AuthService.instance.logout();
+    if (success && !!redirectTo) navigate(redirectTo);
   };
 
-  const [user] = useLocalStorage<Pick<User, '_id'>>(USER_IDENTITY, { _id: '' });
+  const user = AuthService.instance.getAuth();
 
   const items: MenuItem[] = [
     {

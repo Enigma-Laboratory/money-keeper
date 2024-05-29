@@ -1,13 +1,12 @@
 import { CheckCircleOutlined, CloseCircleOutlined, LeftOutlined } from '@ant-design/icons';
-import { User } from '@enigma-laboratory/shared';
 import { Avatar, Card, Col, Flex, Row, Space } from 'antd';
 import { BaseButton, BaseOrderStatus } from 'components';
-import { useLocalStorage } from 'hooks';
 import { AlertModalPayload } from 'interfaces';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { EVENT_NAME, EventAction, USER_IDENTITY, getExactPath, routePaths } from 'utils';
+import { AuthService } from 'stores';
+import { EVENT_NAME, EventAction, getExactPath, routePaths } from 'utils';
 import { DetailOrderStyled } from './OrderDetail.styles';
 import { OrderEventLog } from './detail-status';
 import { OrderInformation } from './information';
@@ -21,7 +20,7 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
     dispatch,
   } = props;
 
-  const [user] = useLocalStorage<Pick<User, '_id'>>(USER_IDENTITY, { _id: '' });
+  const user = AuthService.instance.getAuth();
   const { orderNumber } = order || {};
 
   const navigate = useNavigate();

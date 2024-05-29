@@ -6,7 +6,7 @@ import {
   PlusOutlined,
   RightOutlined,
 } from '@ant-design/icons';
-import { ConflictError, CreateOneOrderParams, InternalServerError, Order, User } from '@enigma-laboratory/shared';
+import { ConflictError, CreateOneOrderParams, InternalServerError, Order } from '@enigma-laboratory/shared';
 import {
   Breadcrumb,
   Button,
@@ -32,9 +32,9 @@ import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { CardWithContent } from 'components';
-import { useLocalStorage } from 'hooks';
-import { USER_IDENTITY, formatCurrencyToVnd, getExactPath, routePaths } from 'utils';
+import { formatCurrencyToVnd, getExactPath, routePaths } from 'utils';
 
+import { AuthService } from 'stores';
 import { CreateOrderStyled } from './CreateOrder.styles';
 import { OrderConfirm } from './confirm-order';
 import { CreateOrderProps } from './withCreateOrder';
@@ -52,7 +52,8 @@ export const CreateOrder = (props: CreateOrderProps) => {
   const navigate = useNavigate();
   const { t } = useTranslation('order');
   const { token } = theme.useToken();
-  const [user] = useLocalStorage<Pick<User, '_id'>>(USER_IDENTITY, { _id: '' });
+
+  const user = AuthService.instance.getAuth();
   const [order, setOrder] = useState<CreateOneOrderParams>({
     userId: user?._id,
     name: '',

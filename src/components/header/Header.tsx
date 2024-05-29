@@ -1,8 +1,6 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { User } from '@enigma-laboratory/shared';
 import { Button, Space, theme } from 'antd';
-import { useLocalStorage } from 'hooks';
-import { USER_IDENTITY } from 'utils';
+import { AuthService } from 'stores';
 import { BaseSearch } from '../base-search';
 import { HeaderLayoutStyled } from './Header.styles';
 import { UserMenu } from './user-menu';
@@ -13,7 +11,7 @@ type HeaderLayoutProps = {
 };
 
 export const HeaderLayout = ({ collapsed, toggleCollapsed }: HeaderLayoutProps) => {
-  const [user] = useLocalStorage<Pick<User, 'name'>>(USER_IDENTITY, { name: '' });
+  const user = AuthService.instance.getAuth();
 
   const {
     token: { colorBgContainer },
