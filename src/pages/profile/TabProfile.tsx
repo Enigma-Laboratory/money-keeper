@@ -6,7 +6,7 @@ import { EVENT_NAME, EventAction, USER_IDENTITY } from 'utils';
 
 import { User } from '@enigma-laboratory/shared';
 import { useLocalStorage } from 'hooks';
-import { AlertModalPayload } from 'interface';
+import { AlertModalPayload } from 'interfaces';
 import { UsersService } from 'stores';
 import { StyledCard } from './TabProfile.styles';
 

@@ -3,15 +3,15 @@ import { User } from '@enigma-laboratory/shared';
 import { Avatar, Card, Col, Flex, Row, Space } from 'antd';
 import { BaseButton, BaseOrderStatus } from 'components';
 import { useLocalStorage } from 'hooks';
-import { AlertModalPayload } from 'interface';
+import { AlertModalPayload } from 'interfaces';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { EVENT_NAME, EventAction, USER_IDENTITY, getExactPath, routePaths } from 'utils';
 import { DetailOrderStyled } from './OrderDetail.styles';
-import { OrderEventLog } from './detailStatus';
+import { OrderEventLog } from './detail-status';
 import { OrderInformation } from './information';
-import { OrderDetailActions } from './orderDetailActions';
+import { OrderDetailActions } from './order-detail-actions';
 import { OrderProducts } from './products';
 import { DetailOrderProps } from './withOrderDetail';
 

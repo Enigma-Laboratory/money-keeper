@@ -1,8 +1,8 @@
 import { Divider, List, Skeleton, Spin, Typography, theme } from 'antd';
-import { BaseOrderStatus } from 'components/OrderStatus';
+import { BaseOrderStatus } from 'components/order-status';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { IOrder } from 'interface';
+import { IOrder } from 'interfaces';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 dayjs.extend(relativeTime);

@@ -1,5 +1,5 @@
 import { Space } from 'antd';
-import { AlertModalType } from 'interface';
+import { AlertModalType } from 'interfaces';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IconHeaderAlertModal } from './IconHEaderAlertModal';

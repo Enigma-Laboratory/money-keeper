@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { PasswordStrengthIndicator } from 'components';
-import { AlertModalPayload } from 'interface';
+import { AlertModalPayload } from 'interfaces';
 import { NavigateService } from 'services';
 import { EVENT_NAME, EventAction, checkPasswordStrength } from 'utils';
 

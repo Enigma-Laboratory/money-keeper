@@ -1,7 +1,7 @@
 import { MoreOutlined, SwapRightOutlined } from '@ant-design/icons';
 import { Order, defaultDateTimeFormat } from '@enigma-laboratory/shared';
 import { Button, Divider, Flex, Typography } from 'antd';
-import { BaseOrderStatus } from 'components/OrderStatus';
+import { BaseOrderStatus } from 'components/order-status';
 import dayjs from 'dayjs';
 import { ReactElement, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';

@@ -15,7 +15,7 @@ import { ReactElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { USER_IDENTITY, getExactPath, routePaths } from 'utils';
-import { BaseMenu } from '../BaseMenu';
+import { BaseMenu } from '../base-menu';
 
 type MenuItem = Required<MenuProps>['items'][number];
 

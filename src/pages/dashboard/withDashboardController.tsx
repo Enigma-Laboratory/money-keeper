@@ -1,4 +1,4 @@
-import { IOrder } from 'interface';
+import { IOrder } from 'interfaces';
 import { ComponentType, useState } from 'react';
 
 export type BaseRecord = {

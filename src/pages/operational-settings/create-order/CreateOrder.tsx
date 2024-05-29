@@ -6,7 +6,7 @@ import {
   PlusOutlined,
   RightOutlined,
 } from '@ant-design/icons';
-import { ConflictError, InternalServerError, Order, UpdateOneOrderParams } from '@enigma-laboratory/shared';
+import { ConflictError, CreateOneOrderParams, InternalServerError, Order, User } from '@enigma-laboratory/shared';
 import {
   Breadcrumb,
   Button,
@@ -22,88 +22,67 @@ import {
   Row,
   Select,
   Space,
-  Spin,
   Steps,
   Typography,
   message,
   theme,
 } from 'antd';
-import { CardWithContent } from 'components';
-
-import dayjs from 'dayjs';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { formatCurrencyToVnd, getExactPath } from 'utils';
-import { EditOrderStyled } from './EditOrder.styles';
-import { OrderConfirm } from './orderConfirm';
-import { EditOrderProps } from './withEditOrder';
+import { Link, useNavigate } from 'react-router-dom';
 
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import isoWeek from 'dayjs/plugin/isoWeek';
-import localeData from 'dayjs/plugin/localeData';
-import localizedFormat from 'dayjs/plugin/localizedFormat';
-import weekday from 'dayjs/plugin/weekday';
-import { routePaths } from 'utils';
+import { CardWithContent } from 'components';
+import { useLocalStorage } from 'hooks';
+import { USER_IDENTITY, formatCurrencyToVnd, getExactPath, routePaths } from 'utils';
 
-dayjs.extend(weekday);
-dayjs.extend(isoWeek);
-dayjs.extend(customParseFormat);
-dayjs.extend(localizedFormat);
-dayjs.extend(localeData);
+import { CreateOrderStyled } from './CreateOrder.styles';
+import { OrderConfirm } from './confirm-order';
+import { CreateOrderProps } from './withCreateOrder';
 
-export enum UpdateOrderSteps {
+export enum CreateOrderSteps {
   INFORMATION,
   PRODUCT,
   CONFIRM,
   DONE,
 }
 
-export const EditOrder = (props: EditOrderProps) => {
+export const CreateOrder = (props: CreateOrderProps) => {
   const { data, dispatch } = props;
-  const { users, orders, operationalSettings, isLoading } = data || {};
+  const { users, operationalSettings, isLoading } = data || {};
   const navigate = useNavigate();
   const { t } = useTranslation('order');
   const { token } = theme.useToken();
-
-  const { id = '' } = useParams<{ id: string }>();
-
-  const [order, setOrder] = useState<UpdateOneOrderParams>(orders?.[id]);
-
-  useEffect(() => {
-    setOrder(orders?.[id]);
-  }, [id, orders]);
-
-  const [form] = Form.useForm();
-
-  const [currentOrderStep, setCurrentOrderStep] = useState(UpdateOrderSteps.INFORMATION);
-  const [isLoadingUpdateOrder, setIsLoadingUpdateOrder] = useState<boolean>(false);
+  const [user] = useLocalStorage<Pick<User, '_id'>>(USER_IDENTITY, { _id: '' });
+  const [order, setOrder] = useState<CreateOneOrderParams>({
+    userId: user?._id,
+    name: '',
+    groupId: '',
+    createdOrderAt: new Date(),
+    products: [],
+  });
+  const [currentOrderStep, setCurrentOrderStep] = useState(CreateOrderSteps.INFORMATION);
+  const [isLoadingCreateOrder, setIsLoadingCreateOrder] = useState<boolean>(false);
   const [isLoadingCreateGroup, setIsLoadingCreateGroup] = useState<boolean>(false);
+  const [orderIdCreated, setOrderIdCreated] = useState<string>();
 
   const updateOrderParams = (params: Partial<Order>) => {
     setOrder((prevOrder) => ({ ...prevOrder, ...params }));
   };
 
-  const handleUpdateOrder = async () => {
-    setIsLoadingUpdateOrder(true);
+  const handleCreateOrder = async () => {
+    setIsLoadingCreateOrder(true);
     try {
-      return await dispatch?.updateOneOrder({
-        _id: order._id,
-        userId: order.userId,
-        createdOrderAt: order.createdOrderAt,
-        groupId: order.groupId,
-        name: order.name,
-        products: order.products,
-        description: order?.description,
-      });
+      return await dispatch?.createOneOrder(order);
     } catch (error) {
       if (error instanceof InternalServerError) {
-        message.error(`Can not update order ${error.message}`);
+        message.error(`Can not create order ${error.message}`);
       }
     } finally {
-      setIsLoadingUpdateOrder(false);
+      setIsLoadingCreateOrder(false);
     }
   };
+
+  const [form] = Form.useForm();
 
   const formatToVnd = (value: number | undefined) => {
     return formatCurrencyToVnd(value as number);
@@ -124,7 +103,7 @@ export const EditOrder = (props: EditOrderProps) => {
             </Space>
           </Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Item>Update Order</Breadcrumb.Item>
+        <Breadcrumb.Item>Create Order</Breadcrumb.Item>
       </Breadcrumb>
     );
   };
@@ -135,9 +114,10 @@ export const EditOrder = (props: EditOrderProps) => {
       .then(async () => {
         const formValues = form.getFieldsValue();
         updateOrderParams({ ...formValues });
-        if (currentOrderStep === UpdateOrderSteps.CONFIRM) {
-          const orderUpdated = await handleUpdateOrder();
-          if (orderUpdated) setCurrentOrderStep(currentOrderStep + 1);
+        if (currentOrderStep === CreateOrderSteps.CONFIRM) {
+          const orderCreated = await handleCreateOrder();
+          setOrderIdCreated(orderCreated?._id);
+          if (orderCreated) setCurrentOrderStep(currentOrderStep + 1);
         } else {
           setCurrentOrderStep(currentOrderStep + 1);
         }
@@ -177,7 +157,7 @@ export const EditOrder = (props: EditOrderProps) => {
 
   const createOrderBySteps = [
     {
-      key: UpdateOrderSteps.INFORMATION,
+      key: CreateOrderSteps.INFORMATION,
       content: (
         <>
           <Form.Item
@@ -228,6 +208,7 @@ export const EditOrder = (props: EditOrderProps) => {
             label={t('form.buyer.title')}
             name="userId"
             rules={[{ required: true, message: t('form.buyer.message') }]}
+            initialValue={user._id}
           >
             <Select
               loading={isLoading}
@@ -235,6 +216,7 @@ export const EditOrder = (props: EditOrderProps) => {
                 label: name,
                 value: _id,
               }))}
+              value={user._id}
             />
           </Form.Item>
 
@@ -251,9 +233,8 @@ export const EditOrder = (props: EditOrderProps) => {
             name="createdOrderAt"
             rules={[{ required: true, message: t('form.createdOrderAt.message') }]}
           >
-            <DatePicker format={'DD/MM/YYYY'} />
+            <DatePicker format={'YYYY-MM-DD'} />
           </Form.Item>
-
           <Form.Item label={t('form.description.title')} name="description">
             <Input />
           </Form.Item>
@@ -261,7 +242,7 @@ export const EditOrder = (props: EditOrderProps) => {
       ),
     },
     {
-      key: UpdateOrderSteps.PRODUCT,
+      key: CreateOrderSteps.PRODUCT,
       content: (
         <div>
           <Flex style={{ width: '100%', fontWeight: 'bold', marginTop: 10 }} justify="space-between">
@@ -328,22 +309,24 @@ export const EditOrder = (props: EditOrderProps) => {
       ),
     },
     {
-      ...(isLoadingUpdateOrder && { icon: <LoadingOutlined /> }),
-      key: UpdateOrderSteps.CONFIRM,
+      ...(isLoadingCreateOrder && { icon: <LoadingOutlined /> }),
+      key: CreateOrderSteps.CONFIRM,
       content: <OrderConfirm order={order as Order} users={users} operationalSettings={operationalSettings} />,
     },
     {
-      key: UpdateOrderSteps.DONE,
+      key: CreateOrderSteps.DONE,
       content: (
         <Result
-          title={'Updated order successfully'}
-          subTitle={`Order id: #${order?._id} Cloud server configuration takes 1-5 minutes, please wait.`}
+          title={'Create order successfully'}
+          subTitle={`Order id: #${orderIdCreated} Cloud server configuration takes 1-5 minutes, please wait.`}
           status="success"
           extra={[
             <Button
               type="primary"
               key="console"
-              onClick={() => navigate(getExactPath(routePaths.detailOrder, { id: order?._id || '' }))}
+              onClick={() =>
+                orderIdCreated && navigate(getExactPath(routePaths.detailOrder, { id: orderIdCreated || '' }))
+              }
             >
               Go To Order Detail
             </Button>,
@@ -368,19 +351,8 @@ export const EditOrder = (props: EditOrderProps) => {
     padding: 10,
   };
 
-  const initialOrderValues = useMemo(() => {
-    return {
-      name: order?.name,
-      userId: order?.userId,
-      groupId: order?.groupId,
-      createdOrderAt: dayjs(order?.createdOrderAt),
-      products: order?.products || [],
-      description: order?.description,
-    };
-  }, [order]);
-
   return (
-    <EditOrderStyled>
+    <CreateOrderStyled>
       {breadcrumb()}
 
       <Row gutter={[16, 16]} justify={'center'}>
@@ -391,48 +363,42 @@ export const EditOrder = (props: EditOrderProps) => {
               overflowY: 'auto',
               padding: 10,
             }}
-            title={t('update.form.title', 'Update Order')}
+            title={t('form.title')}
           >
-            {isLoading ? (
-              <Spin
-                style={{ width: '100%', height: 500, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-              />
-            ) : (
-              <Form initialValues={initialOrderValues} autoComplete="off" layout="vertical" form={form}>
-                <Steps style={{ padding: 10 }} current={currentOrderStep} size="small" items={orderStepItems} />
-                <div className="form-container" style={contentStyle}>
-                  {createOrderBySteps[currentOrderStep]?.content}
-                </div>
-                {currentOrderStep !== UpdateOrderSteps.DONE && (
-                  <Flex className="step-action" justify="space-between">
-                    <Button type="text" onClick={() => prevCurrentOrderStep()}>
-                      {currentOrderStep > 0 && (
-                        <Space>
-                          <LeftOutlined />
-                          {t('btnPrevious')}
-                        </Space>
-                      )}
+            <Form initialValues={{ remember: true }} autoComplete="off" layout="vertical" form={form}>
+              <Steps style={{ padding: 10 }} current={currentOrderStep} size="small" items={orderStepItems} />
+              <div className="form-container" style={contentStyle}>
+                {createOrderBySteps[currentOrderStep]?.content}
+              </div>
+              {currentOrderStep !== CreateOrderSteps.DONE && (
+                <Flex className="step-action" justify="space-between">
+                  <Button type="text" onClick={() => prevCurrentOrderStep()}>
+                    {currentOrderStep > 0 && (
+                      <Space>
+                        <LeftOutlined />
+                        {t('btnPrevious')}
+                      </Space>
+                    )}
+                  </Button>
+                  {currentOrderStep < createOrderBySteps.length - 1 && (
+                    <Button type="primary" onClick={() => nextCurrentOrderStep()}>
+                      <Space>
+                        {currentOrderStep === CreateOrderSteps.CONFIRM ? t('btnCreate') : t('btnNext')}
+                        <RightOutlined />
+                      </Space>
                     </Button>
-                    {currentOrderStep < createOrderBySteps.length - 1 && (
-                      <Button type="primary" onClick={() => nextCurrentOrderStep()}>
-                        <Space>
-                          {currentOrderStep === UpdateOrderSteps.CONFIRM ? t('btnUpdate') : t('btnNext')}
-                          <RightOutlined />
-                        </Space>
-                      </Button>
-                    )}
-                    {currentOrderStep === createOrderBySteps.length - 1 && (
-                      <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                        {t('btnDone')}
-                      </Button>
-                    )}
-                  </Flex>
-                )}
-              </Form>
-            )}
+                  )}
+                  {currentOrderStep === createOrderBySteps.length - 1 && (
+                    <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                      {t('btnDone')}
+                    </Button>
+                  )}
+                </Flex>
+              )}
+            </Form>
           </CardWithContent>
         </Col>
       </Row>
-    </EditOrderStyled>
+    </CreateOrderStyled>
   );
 };

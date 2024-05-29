@@ -3,10 +3,10 @@ import { User } from '@enigma-laboratory/shared';
 import { Button, Space, theme } from 'antd';
 import { useLocalStorage } from 'hooks';
 import { USER_IDENTITY } from 'utils';
-import { BaseSearch } from '../BaseSearch';
+import { BaseSearch } from '../base-search';
 import { HeaderLayoutStyled } from './Header.styles';
-import { UserMenu } from './UserMenu';
-import { UserNotification } from './UserNotification';
+import { UserMenu } from './user-menu';
+import { UserNotification } from './user-notification';
 type HeaderLayoutProps = {
   collapsed: boolean;
   toggleCollapsed: () => void;

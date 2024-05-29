@@ -1,6 +1,6 @@
 import { MoreOutlined } from '@ant-design/icons';
 import { Dropdown } from 'antd';
-import { IOrder } from 'interface';
+import { IOrder } from 'interfaces';
 
 type OrderActionProps = {
   record: IOrder;

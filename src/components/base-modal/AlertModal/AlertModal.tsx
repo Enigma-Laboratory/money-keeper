@@ -3,7 +3,7 @@ import { ResultStatusType } from 'antd/es/result';
 import { ReactElement, ReactNode, cloneElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { AlertModalPayload } from 'interface';
+import { AlertModalPayload } from 'interfaces';
 import { EVENT_NAME } from 'utils';
 import { EventAction } from 'utils/customEvent';
 

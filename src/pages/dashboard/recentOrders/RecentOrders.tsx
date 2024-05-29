@@ -1,5 +1,5 @@
 import { Flex, Space, Table, TableProps, Typography, theme } from 'antd';
-import { IOrder } from 'interface';
+import { IOrder } from 'interfaces';
 import { OrderActions } from './OrderAction';
 
 type OrderTimelineProps = {

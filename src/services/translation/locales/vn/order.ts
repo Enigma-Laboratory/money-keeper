@@ -1,4 +1,4 @@
-import { CreateOrderSteps } from 'pages/operationalSetting/createOrder/CreateOrder';
+import { CreateOrderSteps } from 'pages/operational-settings/create-order/CreateOrder';
 
 const { INFORMATION, PRODUCT, CONFIRM, DONE } = CreateOrderSteps;
 

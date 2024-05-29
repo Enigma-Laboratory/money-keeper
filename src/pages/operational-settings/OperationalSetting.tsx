@@ -11,7 +11,7 @@ import { OrderCard } from 'components';
 import { THC, formatCurrencyToVnd, getExactPath, routePaths } from 'utils';
 
 import { StyledOperationalSetting } from './OperationalSetting.styles';
-import { Drawer, OperationalSettingData } from './operationalSettingDrawer';
+import { Drawer, OperationalSettingData } from './operational-setting-drawer';
 import { OperationalSettingProps } from './withOperationalSettingController';
 
 export interface OperationalSettingWithOrders extends OperationalSetting {

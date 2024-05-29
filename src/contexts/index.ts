@@ -1,2 +1,2 @@
 export * from './authProvider';
-export * from './configProvider';
+export * from './config-provider';

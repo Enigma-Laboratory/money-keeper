@@ -1,5 +1,5 @@
 import { CloseCircleFilled, InfoCircleFilled } from '@ant-design/icons';
-import { AlertModalType, AlertType } from 'interface';
+import { AlertModalType, AlertType } from 'interfaces';
 import { ReactElement } from 'react';
 
 export const IconHeaderAlertModal = (props: { type: AlertModalType }): ReactElement => {

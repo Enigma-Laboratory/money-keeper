@@ -1,7 +1,7 @@
 import { Order, UpdateOneOperationalSettingParams } from '@enigma-laboratory/shared';
 
 import { useFetchInitData } from 'hooks';
-import { AlertModalPayload } from 'interface';
+import { AlertModalPayload } from 'interfaces';
 import { ComponentType, useMemo, useState } from 'react';
 import { OperationalSettingCollection, OperationalSettingService, UserCollection } from 'stores';
 import { EVENT_NAME, EventAction } from 'utils';
