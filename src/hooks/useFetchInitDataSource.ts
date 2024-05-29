@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { redirect } from 'react-router-dom';
 import {
   OperationalSettingCollection,
   OperationalSettingService,
@@ -40,6 +41,9 @@ export const useFetchInitData = (): FetchInitDataResult => {
         await OrderService.instance.fetchAllOrder(),
         await UsersService.instance.fetchUsers(),
       ]);
+      redirect('/login');
+    } catch (e) {
+      console.error(e);
     } finally {
       setIsLoading(false);
     }

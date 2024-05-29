@@ -21,7 +21,7 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
     dispatch,
   } = props;
 
-  const [user] = useLocalStorage<User>(USER_IDENTITY);
+  const [user] = useLocalStorage<Pick<User, '_id'>>(USER_IDENTITY, { _id: '' });
   const { orderNumber } = order || {};
 
   const navigate = useNavigate();

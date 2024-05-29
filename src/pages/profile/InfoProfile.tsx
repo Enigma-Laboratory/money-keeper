@@ -5,7 +5,7 @@ import { convertToTitleCase, generateColorFromAlphabet } from 'utils';
 
 interface InfoProfileProps {
   data: {
-    user: User;
+    user: Pick<User, 'name' | '_id'>;
   };
 }
 

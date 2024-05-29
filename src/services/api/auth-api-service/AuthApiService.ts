@@ -1,4 +1,10 @@
-import { CreateUserParams, LoginParams, LoginResponse } from '@enigma-laboratory/shared';
+import {
+  CreateUserParams,
+  CreateUserResponse,
+  ForgotPasswordParams,
+  LoginParams,
+  LoginResponse,
+} from '@enigma-laboratory/shared';
 import { ApiEndpointService, HttpClientService, HttpConfig, HttpConfigAuth } from 'services';
 
 export class AuthApiService extends ApiEndpointService {
@@ -18,9 +24,9 @@ export class AuthApiService extends ApiEndpointService {
     return await HttpClientService.httpPost<LoginResponse>(endpoint, params);
   }
 
-  public async signUp(params: CreateUserParams): Promise<void> {
+  public async signUp(params: CreateUserParams): Promise<CreateUserResponse> {
     const endpoint = `${this.endPoint}/${HttpConfigAuth.SIGN_UP}`;
-    return await HttpClientService.httpPost(endpoint, params);
+    return await HttpClientService.httpPost<CreateUserResponse>(endpoint, params);
   }
 
   public async refreshToken(params: { refreshToken: string }): Promise<{ token: string }> {
@@ -30,6 +36,11 @@ export class AuthApiService extends ApiEndpointService {
 
   public async signOut(params: { refreshToken: string }): Promise<void> {
     const endpoint = `${this.endPoint}/${HttpConfigAuth.SIGN_OUT}`;
+    return await HttpClientService.httpPost(endpoint, params);
+  }
+
+  public async forgotPassword(params: ForgotPasswordParams): Promise<void> {
+    const endpoint = `${this.endPoint}/${HttpConfigAuth.FORGOT_PASSWORD}`;
     return await HttpClientService.httpPost(endpoint, params);
   }
 }

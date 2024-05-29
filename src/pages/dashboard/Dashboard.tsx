@@ -1,7 +1,7 @@
 import { ClockCircleOutlined, DollarCircleOutlined, ShoppingOutlined, UserOutlined } from '@ant-design/icons';
 import { Col, Flex, Row, Select, Typography, theme } from 'antd';
 import { TrendDownIcon, TrendUpIcon } from 'assets/icons';
-import { CardWithContent, CardWithPlot } from 'components/CardWithPlot';
+import { CardWithContent, CardWithPlot } from 'components';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';

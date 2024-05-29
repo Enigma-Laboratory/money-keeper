@@ -13,7 +13,7 @@ type HeaderLayoutProps = {
 };
 
 export const HeaderLayout = ({ collapsed, toggleCollapsed }: HeaderLayoutProps) => {
-  const [user] = useLocalStorage<User>(USER_IDENTITY);
+  const [user] = useLocalStorage<Pick<User, 'name'>>(USER_IDENTITY, { name: '' });
 
   const {
     token: { colorBgContainer },

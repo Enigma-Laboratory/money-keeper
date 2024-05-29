@@ -9,7 +9,7 @@ import { generateColorFromAlphabet } from 'utils';
 import { StyledUserMenu } from './UserMenu.styles';
 
 type UserMenuProps = {
-  user: User;
+  user: Partial<User>;
 };
 
 export const UserMenu = ({ user }: UserMenuProps): ReactElement => {

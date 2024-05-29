@@ -9,11 +9,11 @@ import {
 import { User } from '@enigma-laboratory/shared';
 import { Flex, Typography } from 'antd';
 import type { MenuProps } from 'antd/es/menu';
-import { authProvider } from 'context/authProvider';
+import { authProvider } from 'context';
 import { useLocalStorage } from 'hooks';
 import { ReactElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { USER_IDENTITY, getExactPath, routePaths } from 'utils';
 import { BaseMenu } from '../BaseMenu';
 
@@ -23,12 +23,14 @@ export const Menu = (): ReactElement => {
   const { pathname } = useLocation();
   const { t } = useTranslation('common');
   const [activeItem, setActiveItem] = useState<string[]>([]);
+  const navigate = useNavigate();
 
   const handleUserLogout = async () => {
-    await authProvider.logout();
-    window.location.reload();
+    const { success, redirectTo } = await authProvider.logout();
+    if (success) navigate(redirectTo || '');
   };
-  const [user] = useLocalStorage<User>(USER_IDENTITY);
+
+  const [user] = useLocalStorage<Pick<User, '_id'>>(USER_IDENTITY, { _id: '' });
 
   const items: MenuItem[] = [
     {

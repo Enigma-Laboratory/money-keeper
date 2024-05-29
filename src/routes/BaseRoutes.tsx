@@ -1,20 +1,23 @@
-import { Navigate, Outlet, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Outlet, Route, BrowserRouter as Router, Routes, useNavigate } from 'react-router-dom';
 
 import { Authenticated, CatchAllNavigate } from 'components';
-import { authProvider } from 'context';
-import { LayoutMain } from 'layouts';
-import { LoginPage, RegisterPage } from 'pages';
-import { useMemo, useState } from 'react';
+import { InitialLayout, LayoutMain } from 'layouts';
+import { ForgotPage, LoginPage, RegisterPage } from 'pages';
+import { NavigateService } from 'services';
+
 import { RouteComponent, routeComponents } from './routeComponent';
 
-const RenderRouteComponent = (routes: RouteComponent[]) => {
-  const { authenticated } = useMemo(() => authProvider.check(), []);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(authenticated);
+const RenderRouteComponent = (props: { routes: RouteComponent[] }) => {
+  const { routes } = props;
+  const navigate = useNavigate();
+  NavigateService.instance.setNavigate(navigate);
+
   return (
     <Routes>
       <Route
+        path="/"
         element={
-          <Authenticated key="authentication-layout" isLoggedIn={isLoggedIn} fallback={<CatchAllNavigate to="login" />}>
+          <Authenticated key="authentication" fallback={<CatchAllNavigate to="login" />}>
             <LayoutMain>
               <Outlet />
             </LayoutMain>
@@ -27,21 +30,34 @@ const RenderRouteComponent = (routes: RouteComponent[]) => {
       </Route>
 
       <Route
+        path="/"
         element={
-          <Authenticated key="authentication-auth" isLoggedIn={isLoggedIn} fallback={<Outlet />}>
-            <Navigate to="/" />
+          <Authenticated
+            key="public"
+            fallback={
+              <InitialLayout>
+                <Outlet />
+              </InitialLayout>
+            }
+          >
+            <CatchAllNavigate to="login" />
           </Authenticated>
         }
       >
-        <Route path="login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
+        <Route path="forgot" element={<ForgotPage />} />
       </Route>
     </Routes>
   );
 };
 
 const BaseRoutes = () => {
-  return <Router>{RenderRouteComponent(routeComponents)}</Router>;
+  return (
+    <Router>
+      <RenderRouteComponent routes={routeComponents} />
+    </Router>
+  );
 };
 
 export default BaseRoutes;

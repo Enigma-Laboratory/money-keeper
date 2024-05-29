@@ -1,24 +1,70 @@
 export default {
   register: {
-    title: 'Đăng kí tài khoản',
+    title: 'Đăng ký tài khoản của bạn',
     email: 'Email',
     password: 'Mật khẩu',
-    error: {
-      validEmail: 'Email không đúng định dạng',
+    name: 'Tên',
+    confirmPassword: 'Xác nhận mật khẩu',
+    submitBtn: 'Đăng ký',
+    passwordStrength: {
+      minLength: 'Ít nhất 8 ký tự',
+      hasUppercase: 'Ít nhất 1 chữ hoa',
+      hasLowercase: 'Ít nhất 1 chữ thường',
     },
-    btnSubmit: 'Đăng kí',
+    placeholder: {
+      email: 'Nhập email của bạn',
+      name: 'Nhập tên của bạn',
+      password: 'Nhập mật khẩu của bạn',
+      confirmPassword: 'Nhập lại mật khẩu của bạn',
+    },
+    validation: {
+      emailEmpty: 'Vui lòng nhập email của bạn.',
+      emailInvalidFormat: 'Định dạng email không hợp lệ.',
+      emailExist: 'Email đã tồn tại.',
+      nameEmpty: 'Vui lòng nhập tên của bạn.',
+      passwordEmpty: 'Vui lòng nhập mật khẩu của bạn.',
+      confirmPasswordEmpty: 'Vui lòng nhập lại mật khẩu của bạn.',
+      confirmPasswordDontMatch: 'Mật khẩu xác nhận không khớp!',
+      passwordWeak: 'Vui lòng nhập mật khẩu mạnh của bạn!',
+    },
+    message: {
+      success: 'Chúc mừng, tài khoản của bạn đã được tạo thành công.',
+      failure: 'Đã xảy ra lỗi. Vui lòng thử lại!',
+    },
   },
   login: {
     title: 'Đăng nhập',
     email: 'Email',
     password: 'Mật khẩu',
-    errors: {
-      validEmail: 'Email không đúng định dạng',
-      password: 'Mật khẩu không đúng',
-    },
     forgotPassword: 'Quên mật khẩu?',
     btnSubmit: 'Đăng nhập',
     noAccount: 'Đăng kí tài khoản?',
     signup: 'Đăng kí',
+    placeholder: {
+      email: 'Nhập email của bạn',
+      password: 'Nhập mật khẩu của bạn',
+    },
+    validation: {
+      emailEmpty: 'Vui lòng nhập email của bạn.',
+      emailInvalidFormat: 'Định dạng email không hợp lệ.',
+      emailExist: 'Email không tồn tại.',
+      passwordEmpty: 'Vui lòng nhập mật khẩu của bạn.',
+      passwordIncorrect: 'Mật khẩu của bạn không đúng.',
+    },
+    message: {},
+  },
+  forgot: {
+    title: 'Đặt lại mật khẩu của bạn',
+    submitBtn: 'Gửi email cho tôi',
+    email: 'Nhập email của bạn',
+    validation: {
+      emailEmpty: 'Vui lòng nhập email của bạn.',
+      emailInvalidFormat: 'Định dạng địa chỉ email không hợp lệ.',
+      emailExist: 'Email này đã tồn tại.',
+    },
+    message: {
+      success: 'Chúc mừng, tài khoản của bạn đã được tạo thành công.',
+      failure: 'Đã xảy ra lỗi. Vui lòng thử lại!',
+    },
   },
 };

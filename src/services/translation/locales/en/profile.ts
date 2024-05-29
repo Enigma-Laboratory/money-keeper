@@ -4,12 +4,14 @@ export default {
   password: 'Password',
   passwordConfirm: 'Password Confirm',
   changePassword: 'Change Password',
+  currentPassword: 'Current Password',
   message: {
     changePasswordSuccess: 'Change password successfully.',
+    changePasswordFail: 'Change password unsuccessfully.',
   },
   validation: {
-    passwordInput: 'Please input your password!',
-    passwordConfirmInput: 'Please input your confirm password!',
+    passwordInput: 'Please enter your password!',
+    passwordConfirmInput: 'Please enter your confirm password!',
     passwordConfirmInputDontMatch: 'The new password that you entered do not match!',
   },
 };

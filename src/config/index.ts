@@ -4,6 +4,7 @@ import productionConfig from './production';
 export interface EnvironmentConfig {
   apiUrl: string;
   debugMode: boolean;
+  appTitle: string;
 }
 
 export interface AppConfig {

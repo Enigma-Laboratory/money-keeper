@@ -1,4 +1,4 @@
-import { CreateUserParams, LoginParams } from '@enigma-laboratory/shared';
+import { CreateUserParams, ForgotPasswordParams, LoginParams } from '@enigma-laboratory/shared';
 import { notification } from 'antd';
 import { AuthApiService, UserApiService } from 'services';
 import { REFRESH_TOKEN_KEY, TOKEN_KEY, USER_IDENTITY } from 'utils';
@@ -28,9 +28,7 @@ export type CheckResponse = {
   logout?: boolean;
   error?: Error;
 };
-type ForgotPasswordParams = {
-  email: string;
-};
+
 export type PermissionResponse = unknown;
 export type IdentityResponse = unknown;
 
@@ -38,8 +36,8 @@ type AuthProvider = {
   login: (params: LoginParams) => Promise<AuthActionResponse>;
   logout: () => Promise<AuthActionResponse>;
   check: () => CheckResponse;
-  register?: (params: CreateUserParams) => Promise<AuthActionResponse>;
-  forgotPassword?: (params: ForgotPasswordParams) => Promise<AuthActionResponse>;
+  register: (params: CreateUserParams) => Promise<AuthActionResponse>;
+  forgotPassword: (params: ForgotPasswordParams) => Promise<AuthActionResponse>;
   updatePassword?: () => Promise<AuthActionResponse>;
   getPermissions?: (params?: Record<string, object>) => Promise<PermissionResponse>;
   getIdentity?: () => Promise<IdentityResponse>;
@@ -47,16 +45,20 @@ type AuthProvider = {
 
 export const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
-    const { token, refreshToken } = await AuthApiService.instance.signIn({ email, password });
-    localStorage.setItem(TOKEN_KEY, token);
-    localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
-
     try {
+      const { token, refreshToken } = await AuthApiService.instance.signIn({ email, password });
+      localStorage.setItem(TOKEN_KEY, token);
+      localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+
       const user = await UserApiService.instance.fetchOneUser({ email });
       localStorage.setItem(USER_IDENTITY, JSON.stringify(user));
-    } catch {
+    } catch (error) {
       localStorage.removeItem(TOKEN_KEY);
       localStorage.removeItem(REFRESH_TOKEN_KEY);
+      return {
+        success: false,
+        error: error as Error,
+      };
     }
 
     return {
@@ -73,10 +75,7 @@ export const authProvider: AuthProvider = {
     } catch (error) {
       return {
         success: false,
-        error: {
-          message: 'Register failed',
-          name: 'Invalid email or password',
-        },
+        error: error as Error,
       };
     }
   },
@@ -90,10 +89,17 @@ export const authProvider: AuthProvider = {
     };
   },
   forgotPassword: async ({ email }) => {
-    notification.success({
-      message: 'Reset Password',
-      description: `Reset password link sent to "${email}"`,
-    });
+    try {
+      await AuthApiService.instance.forgotPassword({ email });
+    } catch (e) {
+      console.error(e);
+      return { success: false };
+    } finally {
+      notification.success({
+        message: 'Reset Password',
+        description: `Reset password link sent to "${email}"`,
+      });
+    }
     return {
       success: true,
     };
@@ -104,15 +110,16 @@ export const authProvider: AuthProvider = {
       await AuthApiService.instance.signOut({ refreshToken });
       localStorage.removeItem(TOKEN_KEY);
       localStorage.removeItem(USER_IDENTITY);
+      return {
+        success: true,
+        redirectTo: '/login',
+      };
     } catch {
+      console.error("Can't logout");
       return {
         success: false,
       };
     }
-    return {
-      success: true,
-      redirectTo: '/login',
-    };
   },
   check: () => {
     const token = localStorage.getItem(TOKEN_KEY);

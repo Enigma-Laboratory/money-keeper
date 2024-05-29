@@ -1,6 +1,6 @@
 import { Button, Result } from 'antd';
 import { ResultStatusType } from 'antd/es/result';
-import { ReactElement, cloneElement, useEffect, useState } from 'react';
+import { ReactElement, ReactNode, cloneElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { AlertModalPayload } from 'interface';
@@ -17,7 +17,7 @@ export interface AlertModalProps extends AlertModalPayload {
   footer: JSX.Element[];
   resultData: {
     status: ResultStatusType;
-    extra: React.ReactNode;
+    extra: ReactNode;
     deleteType?: {
       input: string;
       placeholderInput?: string;

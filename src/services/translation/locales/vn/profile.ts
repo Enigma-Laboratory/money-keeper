@@ -4,8 +4,10 @@ export default {
   password: 'Mật khẩu',
   passwordConfirm: 'Xác nhận mật khẩu',
   changePassword: 'Thay đổi mật khẩu',
+  currentPassword: 'Mật khẩu hiện tại',
   message: {
     changePasswordSuccess: 'Thay đổi mật khẩu thành công.',
+    changePasswordFail: 'Thay đổi mật khẩu thất bại.',
   },
   validation: {
     passwordInput: 'Vui lòng nhập mật khẩu của bạn!',

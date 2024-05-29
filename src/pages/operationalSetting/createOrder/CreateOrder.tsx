@@ -27,12 +27,14 @@ import {
   message,
   theme,
 } from 'antd';
-import { CardWithContent } from 'components/CardWithPlot';
-import { useLocalStorage } from 'hooks';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
+
+import { CardWithContent } from 'components';
+import { useLocalStorage } from 'hooks';
 import { USER_IDENTITY, formatCurrencyToVnd, getExactPath, routePaths } from 'utils';
+
 import { CreateOrderStyled } from './CreateOrder.styles';
 import { OrderConfirm } from './orderConfirm';
 import { CreateOrderProps } from './withCreateOrder';
@@ -50,7 +52,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
   const navigate = useNavigate();
   const { t } = useTranslation('order');
   const { token } = theme.useToken();
-  const [user] = useLocalStorage<User>(USER_IDENTITY);
+  const [user] = useLocalStorage<Pick<User, '_id'>>(USER_IDENTITY, { _id: '' });
   const [order, setOrder] = useState<CreateOneOrderParams>({
     userId: user?._id,
     name: '',
@@ -206,7 +208,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
             label={t('form.buyer.title')}
             name="userId"
             rules={[{ required: true, message: t('form.buyer.message') }]}
-            initialValue={user?._id}
+            initialValue={user._id}
           >
             <Select
               loading={isLoading}
@@ -214,7 +216,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
                 label: name,
                 value: _id,
               }))}
-              value={user?._id}
+              value={user._id}
             />
           </Form.Item>
 

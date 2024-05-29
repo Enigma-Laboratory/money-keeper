@@ -7,7 +7,7 @@ import {
   UnauthorizedError,
 } from '@enigma-laboratory/shared';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, CreateAxiosDefaults } from 'axios';
-import { AuthApiService, DEFAULT_HEADERS } from 'services';
+import { AuthApiService, DEFAULT_HEADERS, NavigateService } from 'services';
 
 import { REFRESH_TOKEN_KEY, TOKEN_KEY } from 'utils';
 
@@ -26,7 +26,6 @@ export class HttpClientService {
   private static create(): AxiosInstance {
     const requestConfig: CreateAxiosDefaults = { headers: DEFAULT_HEADERS };
     const instance = axios.create(requestConfig);
-
     instance.interceptors.response.use(
       (response) => response,
       async (error) => this.handleResponseError(error),
@@ -79,6 +78,8 @@ export class HttpClientService {
       } catch (err) {
         this.processQueue(err, null);
         localStorage.removeItem(TOKEN_KEY);
+
+        NavigateService.instance.navigate('/login');
         return Promise.reject(new UnauthorizedError(errorMessage));
       } finally {
         this.isRefreshing = false;
@@ -92,7 +93,10 @@ export class HttpClientService {
         originalRequest.headers['Authorization'] = `Bearer ${token}`;
         return this.instance(originalRequest);
       })
-      .catch((err) => Promise.reject(err));
+      .catch((err) => {
+        NavigateService.instance.navigate('/login');
+        return Promise.reject(err);
+      });
   }
 
   private static processQueue(error: unknown, token: string | null = null) {
