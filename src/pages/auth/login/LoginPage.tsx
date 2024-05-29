@@ -5,6 +5,11 @@ import { authProvider } from 'context/authProvider';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 
+enum ErrorMessage {
+  INVALID_EMAIL = 'Invalid email.',
+  WRONG_PASSWORD = 'Wrong password.',
+}
+
 export const LoginPage: React.FC = () => {
   const { token } = theme.useToken();
   const { t } = useTranslation('auth');
@@ -20,10 +25,10 @@ export const LoginPage: React.FC = () => {
       navigate(redirectTo);
     }
     switch (error?.message) {
-      case 'Invalid email.':
+      case ErrorMessage.INVALID_EMAIL:
         form.setFields([{ name: 'email', errors: [t('login.validation.emailExist')] }]);
         break;
-      case 'Wrong password.':
+      case ErrorMessage.WRONG_PASSWORD:
         form.setFields([{ name: 'password', errors: [t('login.validation.passwordIncorrect')] }]);
         break;
       default:
