@@ -1,9 +1,10 @@
+import { LoginParams } from '@enigma-laboratory/shared';
 import { Button, Form, Input, Typography, theme } from 'antd';
 import React, { useState } from 'react';
 
-import { authProvider } from 'contexts/authProvider';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthService } from 'stores';
 
 enum ErrorMessage {
   INVALID_EMAIL = 'Invalid email.',
@@ -18,9 +19,9 @@ export const LoginPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [form] = Form.useForm();
 
-  const handleOnSubmit = async (params: { email: string; password: string }): Promise<void> => {
+  const handleOnSubmit = async (params: LoginParams): Promise<void> => {
     setIsLoading(true);
-    const { success, redirectTo, error } = await authProvider.login(params);
+    const { success, redirectTo, error } = await AuthService.instance.signIn(params);
     if (success && !!redirectTo) {
       navigate(redirectTo);
     }
