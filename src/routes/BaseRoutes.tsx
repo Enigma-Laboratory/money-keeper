@@ -4,6 +4,7 @@ import { Authenticated, CatchAllNavigate } from 'components';
 import { InitialLayout, LayoutMain } from 'layouts';
 import { ForgotPage, LoginPage, RegisterPage } from 'pages';
 import { NavigateService } from 'services';
+
 import { RouteComponent, routeComponents } from './routeComponent';
 
 const RenderRouteComponent = (props: { routes: RouteComponent[] }) => {

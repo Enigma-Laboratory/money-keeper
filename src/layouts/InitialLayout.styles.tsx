@@ -1,29 +1,38 @@
-import { CSSProperties } from 'react';
+import { Card, Image, Typography } from 'antd';
+import styled from 'styled-components';
 
-export const layoutStyles: CSSProperties = {};
+const StyledTypographyTitle = styled(Typography.Title)`
+  && {
+    text-align: center;
+    margin: 0;
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 700;
+    overflow-wrap: break-word;
+    hyphens: manual;
+    text-overflow: unset;
+    white-space: pre-wrap;
+    color: ${(props) => props.theme.colorPrimaryTextHover};
+  }
+`;
 
-export const containerStyles: CSSProperties = {
-  maxWidth: '400px',
-  margin: 'auto',
-  padding: '32px',
-  boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.02), 0px 1px 6px -1px rgba(0, 0, 0, 0.02), 0px 1px 2px rgba(0, 0, 0, 0.03)',
+export const StyledCard = styled(Card)`
+  && {
+    width: 400;
+    border: none;
+    > div {
+      border: none;
+    }
+  }
+`;
+
+export const StyledTypography = {
+  Title: StyledTypographyTitle,
 };
 
-export const headStyles: CSSProperties = {
-  borderBottom: 0,
-  padding: 0,
-};
-
-export const bodyStyles: CSSProperties = { padding: 0, marginTop: '32px' };
-
-export const titleStyles: CSSProperties = {
-  textAlign: 'center',
-  marginTop: 0,
-  fontSize: '24px',
-  lineHeight: '32px',
-  fontWeight: 700,
-  overflowWrap: 'break-word',
-  hyphens: 'manual',
-  textOverflow: 'unset',
-  whiteSpace: 'pre-wrap',
-};
+export const StyledImage = styled(Image)`
+  && {
+    object-fit: cover;
+    height: 100vh;
+  }
+`;

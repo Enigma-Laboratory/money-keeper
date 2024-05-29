@@ -7,3 +7,4 @@ export * from './generateColorFromAlphabet';
 export * from './getExactPath';
 export * from './objectIsEmpty';
 export * from './routePaths';
+

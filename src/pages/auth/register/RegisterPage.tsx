@@ -20,7 +20,6 @@ export const RegisterPage: React.FC = () => {
       password: params.password,
       name: params.name,
     });
-    console.log(success);
     if (success) {
       EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
         data: { type: 'success', content: t('register.message.success') },

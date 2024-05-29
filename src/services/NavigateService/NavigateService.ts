@@ -6,7 +6,7 @@ import { NavigateFunction } from 'react-router-dom';
  * so NavigateService can call in many situations such as calling API response...
  *
  * First, create only one time in the context of a <Router> component.
- * Then, using in a normal function.
+ * Then, using in a normal class.
  */
 export class NavigateService {
   private static _instance: NavigateService;
