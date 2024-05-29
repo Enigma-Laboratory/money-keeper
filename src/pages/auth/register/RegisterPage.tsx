@@ -1,12 +1,12 @@
 import { CreateUserParams } from '@enigma-laboratory/shared';
 import { Button, Form, Input } from 'antd';
-import { authProvider } from 'contexts';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { PasswordStrengthIndicator } from 'components';
 import { AlertModalPayload } from 'interfaces';
 import { NavigateService } from 'services';
+import { AuthService } from 'stores';
 import { EVENT_NAME, EventAction, checkPasswordStrength } from 'utils';
 
 export const RegisterPage: React.FC = () => {
@@ -24,11 +24,7 @@ export const RegisterPage: React.FC = () => {
 
     setIsLoading(true);
 
-    const { success, error } = await authProvider.register({
-      email: params.email,
-      password: params.password,
-      name: params.name,
-    });
+    const { success, error } = await AuthService.instance.register(params);
     if (success) {
       EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
         data: { type: 'success', content: t('register.message.success') },
