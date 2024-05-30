@@ -1,6 +1,6 @@
 import { Layout } from 'antd';
 import styled, { css } from 'styled-components';
-import { tablet } from 'styles/media-queries';
+import { tablet } from 'styles';
 
 const StyledLayout = styled(Layout)<{ $pathname: string }>`
   transition: all 0.2s;
@@ -32,7 +32,7 @@ export const StyledHeader = styled(Layout.Header)`
   z-index: 1;
   background: none;
   display: inline-flex;
-  justify-content: center;
+  justify-content: space-between;
 `;
 
 StyledLayout.Sider = StyledSider as typeof StyledLayout.Sider;

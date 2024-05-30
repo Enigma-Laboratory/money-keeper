@@ -70,4 +70,8 @@ export default {
       failure: 'Something went wrong. Please try again!',
     },
   },
+  initialLayout: {
+    languageSite: 'Language Site',
+    lang: 'English',
+  },
 };

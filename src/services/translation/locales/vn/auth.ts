@@ -69,4 +69,8 @@ export default {
       failure: 'Đã xảy ra lỗi. Vui lòng thử lại!',
     },
   },
+  initialLayout: {
+    languageSite: 'Ngôn ngữ hiển thị',
+    lang: 'Tiếng Việt',
+  },
 };
