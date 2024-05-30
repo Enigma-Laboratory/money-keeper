@@ -6,3 +6,10 @@ export const StyledUserMenu = styled.div`
     margin-right: 10px !important;
   }
 `;
+
+export const Wrap = styled.div`
+  padding: 16px 0 16px;
+  > * {
+    padding: 0 16px;
+  }
+`;

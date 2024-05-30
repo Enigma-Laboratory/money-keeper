@@ -1,6 +1,6 @@
 import { DownOutlined } from '@ant-design/icons';
-import { Popover, theme } from 'antd';
-import { ReactNode } from 'react';
+import { Popover } from 'antd';
+import { FC, PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
@@ -15,19 +15,15 @@ import { useKeyboardShortcut } from 'hooks/useKeyboardShortcut';
 
 import StyledLayout from './InitialLayout.Layout.styles';
 import { LanguageButton, LanguageWrap, StyledCard, StyledImage, StyledTypography } from './InitialLayout.styles';
-interface InitialLayoutProps {
-  children: ReactNode;
-}
 
-export const InitialLayout = ({ children }: InitialLayoutProps) => {
+export const InitialLayout: FC<PropsWithChildren> = (props) => {
+  const { children } = props;
   const { t } = useTranslation('auth');
   const { pathname } = useLocation();
   const { mode, setLocate } = useConfigProvider();
-  const { language, theme: themeKeyboard } = useKeyboardShortcut();
-  const { token } = theme.useToken();
+  const { theme: themeKeyboard } = useKeyboardShortcut();
 
-  themeKeyboard({ character: '\\' });
-  language();
+  themeKeyboard();
 
   const CardTitle = (
     <StyledTypography.CardTitle level={3}>{t(`${pathname.substring(1)}.title`)}</StyledTypography.CardTitle>

@@ -206,6 +206,7 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
   return (
     <BaseModal width={600} open={modalSource.isOpen} footer={modalSource.footer} {...props} onCancel={handleCancel}>
       <Result
+        style={{ padding: 0 }}
         status={modalSource.resultData.status}
         title={modalSource.data.content}
         subTitle={modalSource.data.subContent}
