@@ -1,7 +1,7 @@
-import { useState, useLayoutEffect } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-function useObservable<T>(observable: Observable<T>): T {
+export const useObservable = <T>(observable: Observable<T>): T => {
   const [value, setValue] = useState<T>(() => observable instanceof BehaviorSubject && observable.getValue());
 
   useLayoutEffect(() => {
@@ -15,6 +15,4 @@ function useObservable<T>(observable: Observable<T>): T {
   }, [observable]);
 
   return value!;
-}
-
-export { useObservable };
+};

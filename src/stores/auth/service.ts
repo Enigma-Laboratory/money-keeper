@@ -110,7 +110,7 @@ export class AuthService {
   };
 
   public checkAuthenticated = (): AuthenticatedResponse => {
-    const [token] = useLocalStorage<string>(TOKEN_KEY);
+    const token = localStorage.getItem(TOKEN_KEY);
     if (token) {
       return {
         authenticated: true,

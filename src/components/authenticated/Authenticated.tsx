@@ -1,17 +1,39 @@
-import { authProvider } from 'contexts';
-import React, { ReactElement, ReactNode, useMemo } from 'react';
+import { Spin } from 'antd';
+import { ReactElement, ReactNode, useEffect, useState } from 'react';
+import { AuthService } from 'stores';
 
 type AuthenticatedProps = {
-  key: React.Key;
   fallback?: ReactNode;
-  loading?: ReactNode;
   children?: ReactNode;
 };
 
-export const Authenticated = (props: AuthenticatedProps): ReactElement => {
-  const { children, fallback } = props;
-  const { authenticated } = useMemo(() => authProvider.check(), []);
+export const Authenticated = ({ fallback = null, children }: AuthenticatedProps): ReactElement => {
+  const [authState, setAuthState] = useState<{ authenticated: boolean }>({ authenticated: false });
+  const [isLoading, setIsLoading] = useState(true);
 
-  if (!authenticated) return <>{fallback}</>;
+  useEffect(() => {
+    const checkAuth = async () => {
+      setIsLoading(true);
+      try {
+        const result = await AuthService.instance.checkAuthenticated();
+        setAuthState(result);
+      } catch {
+        setAuthState({ authenticated: false });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  if (isLoading) {
+    return <Spin style={{ width: '100%', marginTop: '45vh' }} tip="Loading" size="large" />;
+  }
+
+  if (!authState.authenticated) {
+    return <>{fallback}</>;
+  }
+
   return <>{children}</>;
 };

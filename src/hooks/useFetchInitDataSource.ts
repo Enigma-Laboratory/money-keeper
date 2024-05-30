@@ -9,10 +9,10 @@ import {
   UsersService,
   operationalSettingStore,
   orderStore,
-  useObservable,
   usersStore,
 } from 'stores';
 import { objectIsEmpty } from 'utils';
+import { useObservable } from './useObservable';
 
 interface FetchInitDataResult {
   isLoading: boolean;
