@@ -8,7 +8,7 @@ import { AlertModalPayload } from 'interfaces';
 import { AuthService } from 'stores';
 import { EVENT_NAME, EventAction } from 'utils';
 
-import { StyledLink } from '../register/Register.styles';
+import { StyledLink } from './ForgotPage.styles';
 
 export const ForgotPage: React.FC = () => {
   const { t } = useTranslation('auth');

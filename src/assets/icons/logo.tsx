@@ -6,7 +6,7 @@ export const Logo = (
 ) => {
   const { theme = 'default', size = 28 } = props;
   const color = { logo: 'black', background: 'white' };
-  const defaultSize = { width: 28, height: 28 };
+  const DEFAULT_SIZE = { width: 28, height: 28 };
 
   switch (theme) {
     case Mode.LIGHT: {
@@ -26,19 +26,19 @@ export const Logo = (
 
   switch (typeof size) {
     case 'number': {
-      defaultSize.width = size;
-      defaultSize.height = size;
+      DEFAULT_SIZE.width = size;
+      DEFAULT_SIZE.height = size;
       break;
     }
     case 'object': {
-      defaultSize.width = size[0];
-      defaultSize.height = size[1];
+      DEFAULT_SIZE.width = size[0];
+      DEFAULT_SIZE.height = size[1];
       break;
     }
   }
 
   return (
-    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" {...defaultSize}>
+    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" {...DEFAULT_SIZE}>
       <rect width="28" height="28" rx="2" fill={color.background} />
       <path
         d="M10 14C10 11.7909 11.7909 10 14 10C16.2091 10 18 11.7909 18 14C18 16.2091 16.2091 18 14 18H10V14Z"

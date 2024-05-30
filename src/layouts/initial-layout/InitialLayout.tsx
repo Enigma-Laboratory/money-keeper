@@ -1,55 +1,78 @@
-import { Typography } from 'antd';
-import { ReactNode, useEffect } from 'react';
+import { DownOutlined } from '@ant-design/icons';
+import { Popover } from 'antd';
+import { FC, PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
-import { Logo } from 'assets/icons';
+import { Logo, USAFlagIcon, VietnamFlagIcon } from 'assets/icons';
 import backgroundLogin from 'assets/images/background-login.webp';
 import backgroundWithoutLogin from 'assets/images/background-without-login.webp';
 
 import { appConfig } from 'config';
-import { Mode, useConfigProvider } from 'contexts';
+import { Languages, useConfigProvider } from 'contexts';
+import { useKeyboardShortcut } from 'hooks';
+
 import StyledLayout from './InitialLayout.Layout.styles';
-import { StyledCard, StyledImage, StyledTypography } from './InitialLayout.styles';
+import { LanguageButton, LanguageWrap, StyledCard, StyledImage, StyledTypography } from './InitialLayout.styles';
 
-interface InitialLayoutProps {
-  children: ReactNode;
-}
-
-export const InitialLayout = ({ children }: InitialLayoutProps) => {
+export const InitialLayout: FC<PropsWithChildren> = (props) => {
+  const { children } = props;
   const { t } = useTranslation('auth');
   const { pathname } = useLocation();
-  const { mode, setMode } = useConfigProvider();
+  const { mode, setLocate } = useConfigProvider();
+  const { toggleTheme } = useKeyboardShortcut();
 
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === '|') {
-        setMode(mode === Mode.LIGHT ? Mode.DARK : Mode.LIGHT);
-      }
-    };
-    document.addEventListener('keypress', handleKeyPress);
-    return () => {
-      document.removeEventListener('keypress', handleKeyPress);
-    };
-  }, [mode]);
+  toggleTheme();
+  const GOLDEN_RATIO: number = 196 / 7;
 
-  const CardTitle = <StyledTypography.Title level={3}>{t(`${pathname.substring(1)}.title`)}</StyledTypography.Title>;
+  const CardTitle = (
+    <StyledTypography.CardTitle level={3}>{t(`${pathname.substring(1)}.title`)}</StyledTypography.CardTitle>
+  );
+  const changeLanguage = (langType: Languages) => {
+    setLocate(langType);
+  };
+
+  const content = (
+    <div>
+      <LanguageButton type="text" onClick={() => changeLanguage(Languages.VI)}>
+        <VietnamFlagIcon style={{ height: '22px', width: '30px', marginRight: '6px' }} />
+        Tiếng Việt
+      </LanguageButton>
+      <LanguageButton type="text" onClick={() => changeLanguage(Languages.EN)}>
+        <USAFlagIcon style={{ height: '22px', width: '30px', marginRight: '6px' }} />
+        English
+      </LanguageButton>
+    </div>
+  );
 
   return (
-    <StyledLayout $pathname={pathname}>
-      <StyledLayout.Sider width={`${196 / 7}%`}>
+    <StyledLayout $pathname={pathname} $goldenRatio={GOLDEN_RATIO}>
+      <StyledLayout.Sider width={`${GOLDEN_RATIO}%`}>
         <StyledImage src={backgroundWithoutLogin} preview={false} width={'100%'} />
       </StyledLayout.Sider>
 
       <StyledLayout.Content>
         <StyledLayout.Header>
-          <Logo size={64} theme={mode} />
-          <Typography.Title style={{ lineHeight: '64px', margin: 0 }}>{appConfig.appTitle}</Typography.Title>
+          <div style={{ display: 'inline-flex' }}>
+            <Logo size={64} theme={mode} />
+            <StyledTypography.AppTitle>{appConfig.appTitle}</StyledTypography.AppTitle>
+          </div>
+
+          <LanguageWrap>
+            <Popover content={content} trigger="hover">
+              <StyledTypography.LanguageTitle>
+                <StyledTypography.LanguageTitleText>
+                  {t('initialLayout.languageSite')}: {t('initialLayout.lang')}
+                </StyledTypography.LanguageTitleText>
+                <DownOutlined style={{ fontSize: '14px' }} />
+              </StyledTypography.LanguageTitle>
+            </Popover>
+          </LanguageWrap>
         </StyledLayout.Header>
         <StyledCard title={CardTitle}>{children}</StyledCard>
       </StyledLayout.Content>
 
-      <StyledLayout.Sider width={`${196 / 7}%`}>
+      <StyledLayout.Sider width={`${GOLDEN_RATIO}%`}>
         <StyledImage src={backgroundLogin} preview={false} width={'100%'} />
       </StyledLayout.Sider>
     </StyledLayout>

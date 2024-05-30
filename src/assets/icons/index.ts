@@ -14,4 +14,6 @@ export * from './rank-3';
 export * from './rank-4';
 export * from './rank-5';
 export * from './trend';
+export * from './usa-flag';
 export * from './user';
+export * from './vietnam-flag';

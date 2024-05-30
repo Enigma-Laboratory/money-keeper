@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { FC, PropsWithChildren, useState } from 'react';
 
 import { Layout, theme } from 'antd';
 import { HeaderLayout, Menu } from 'components';
@@ -6,11 +6,7 @@ import { LayoutMainStyled } from './LayoutMain.styles';
 
 const { Content, Sider } = Layout;
 
-export interface LayoutMainProps {
-  children: ReactNode;
-}
-
-export const LayoutMain = (props: LayoutMainProps) => {
+export const LayoutMain: FC<PropsWithChildren> = (props) => {
   const { children } = props;
   const {
     token: { colorBgContainer },

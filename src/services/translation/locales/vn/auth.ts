@@ -1,6 +1,6 @@
 export default {
   register: {
-    title: 'Đăng ký tài khoản của bạn',
+    title: 'Đăng ký',
     email: 'Email',
     password: 'Mật khẩu',
     name: 'Tên',
@@ -68,5 +68,9 @@ export default {
       success: 'Chúc mừng, tài khoản của bạn đã được tạo thành công.',
       failure: 'Đã xảy ra lỗi. Vui lòng thử lại!',
     },
+  },
+  initialLayout: {
+    languageSite: 'Ngôn ngữ hiển thị',
+    lang: 'Tiếng Việt',
   },
 };

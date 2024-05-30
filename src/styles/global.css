@@ -39,3 +39,6 @@ code {
 .ant-table-body {
   scrollbar-color: auto !important;
 }
+.ant-popover-inner[role='tooltip'] {
+  padding: 0;
+}
