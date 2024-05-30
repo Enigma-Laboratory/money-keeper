@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { ForgotPasswordParams } from '@enigma-laboratory/shared';
-import { Button, Form, Input, Space, Typography, theme } from 'antd';
+import { Button, Form, Input, Space, Typography } from 'antd';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -11,7 +11,6 @@ import { EVENT_NAME, EventAction } from 'utils';
 import { StyledLink } from '../register/Register.styles';
 
 export const ForgotPage: React.FC = () => {
-  const { token } = theme.useToken();
   const { t } = useTranslation('auth');
 
   const recoverPassword = async (params: ForgotPasswordParams) => {
