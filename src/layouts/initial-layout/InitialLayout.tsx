@@ -72,7 +72,7 @@ export const InitialLayout: FC<PropsWithChildren> = (props) => {
         <StyledCard title={CardTitle}>{children}</StyledCard>
       </StyledLayout.Content>
 
-      <StyledLayout.Sider width={`${196 / 7}%`}>
+      <StyledLayout.Sider width={`${GOLDEN_RATIO}%`}>
         <StyledImage src={backgroundLogin} preview={false} width={'100%'} />
       </StyledLayout.Sider>
     </StyledLayout>
