@@ -4,10 +4,10 @@ import { FC, PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
-import { USAFlagIcon, VietnamFlagIcon } from 'assets/icons';
-import { Logo } from 'assets/icons/logo';
-import background1 from 'assets/images/background-1.webp';
-import background2 from 'assets/images/background-2.webp';
+import { Logo, USAFlagIcon, VietnamFlagIcon } from 'assets/icons';
+import backgroundLogin from 'assets/images/background-login.webp';
+import backgroundWithoutLogin from 'assets/images/background-without-login.webp';
+
 import { appConfig } from 'config';
 import { Languages, useConfigProvider } from 'contexts';
 import { useKeyboardShortcut } from 'hooks';
@@ -48,7 +48,7 @@ export const InitialLayout: FC<PropsWithChildren> = (props) => {
   return (
     <StyledLayout $pathname={pathname} $goldenRatio={GOLDEN_RATIO}>
       <StyledLayout.Sider width={`${GOLDEN_RATIO}%`}>
-        <StyledImage src={background2} preview={false} width={'100%'} />
+        <StyledImage src={backgroundWithoutLogin} preview={false} width={'100%'} />
       </StyledLayout.Sider>
 
       <StyledLayout.Content>
@@ -72,8 +72,8 @@ export const InitialLayout: FC<PropsWithChildren> = (props) => {
         <StyledCard title={CardTitle}>{children}</StyledCard>
       </StyledLayout.Content>
 
-      <StyledLayout.Sider width={`${GOLDEN_RATIO}%`}>
-        <StyledImage src={background1} preview={false} width={'100%'} />
+      <StyledLayout.Sider width={`${196 / 7}%`}>
+        <StyledImage src={backgroundLogin} preview={false} width={'100%'} />
       </StyledLayout.Sider>
     </StyledLayout>
   );

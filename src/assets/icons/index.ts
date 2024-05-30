@@ -6,6 +6,7 @@ export * from './decrease';
 export * from './icon-moon';
 export * from './icon-sun';
 export * from './increase';
+export * from './logo';
 export * from './pizza';
 export * from './rank-1';
 export * from './rank-2';
