@@ -1,3 +1,4 @@
+import { Mode } from 'contexts';
 import { SVGProps } from 'react';
 type Size = number;
 export const Logo = (
@@ -8,12 +9,12 @@ export const Logo = (
   const defaultSize = { width: 28, height: 28 };
 
   switch (theme) {
-    case 'light': {
+    case Mode.LIGHT: {
       color.logo = 'black';
       color.background = 'transparent';
       break;
     }
-    case 'dark': {
+    case Mode.DARK: {
       color.logo = 'white';
       color.background = 'transparent';
 

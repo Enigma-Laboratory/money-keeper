@@ -3,9 +3,9 @@ import { ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
-import { Logo } from 'assets/icons/logo';
-import background1 from 'assets/images/background-1.webp';
-import background2 from 'assets/images/background-2.webp';
+import { Logo } from 'assets/icons';
+import backgroundLogin from 'assets/images/background-login.webp';
+import backgroundWithoutLogin from 'assets/images/background-without-login.webp';
 
 import { appConfig } from 'config';
 import { Mode, useConfigProvider } from 'contexts';
@@ -38,7 +38,7 @@ export const InitialLayout = ({ children }: InitialLayoutProps) => {
   return (
     <StyledLayout $pathname={pathname}>
       <StyledLayout.Sider width={`${196 / 7}%`}>
-        <StyledImage src={background2} preview={false} width={'100%'} />
+        <StyledImage src={backgroundWithoutLogin} preview={false} width={'100%'} />
       </StyledLayout.Sider>
 
       <StyledLayout.Content>
@@ -50,7 +50,7 @@ export const InitialLayout = ({ children }: InitialLayoutProps) => {
       </StyledLayout.Content>
 
       <StyledLayout.Sider width={`${196 / 7}%`}>
-        <StyledImage src={background1} preview={false} width={'100%'} />
+        <StyledImage src={backgroundLogin} preview={false} width={'100%'} />
       </StyledLayout.Sider>
     </StyledLayout>
   );

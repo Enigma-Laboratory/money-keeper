@@ -39,37 +39,35 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <>
-      <Form form={form} layout="vertical" onFinish={handleOnSubmit} requiredMark={false}>
-        <Form.Item
-          name="email"
-          label={t('login.email')}
-          rules={[
-            { required: true, message: t('login.validation.emailEmpty') },
-            { type: 'email', message: t('login.validation.emailInvalidFormat') },
-          ]}
-        >
-          <Input size="large" placeholder={t('login.placeholder.email')} />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          label={t('login.password')}
-          rules={[{ required: true, message: t('login.validation.passwordEmpty') }]}
-        >
-          <Input type="password" placeholder={t('login.placeholder.password')} size="large" />
-        </Form.Item>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, marginTop: 60, zIndex: 0 }}>
-          <Link style={{ color: token.colorPrimaryTextHover, fontSize: '12px', marginLeft: 'auto' }} to="/forgot">
-            {t('login.forgotPassword')}
-          </Link>
-        </div>
+    <Form form={form} layout="vertical" onFinish={handleOnSubmit} requiredMark={false}>
+      <Form.Item
+        name="email"
+        label={t('login.email')}
+        rules={[
+          { required: true, message: t('login.validation.emailEmpty') },
+          { type: 'email', message: t('login.validation.emailInvalidFormat') },
+        ]}
+      >
+        <Input size="large" placeholder={t('login.placeholder.email')} />
+      </Form.Item>
+      <Form.Item
+        name="password"
+        label={t('login.password')}
+        rules={[{ required: true, message: t('login.validation.passwordEmpty') }]}
+      >
+        <Input type="password" placeholder={t('login.placeholder.password')} size="large" />
+      </Form.Item>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, marginTop: 60, zIndex: 0 }}>
+        <Link style={{ color: token.colorPrimaryTextHover, fontSize: '12px', marginLeft: 'auto' }} to="/forgot">
+          {t('login.forgotPassword')}
+        </Link>
+      </div>
 
-        <Form.Item style={{ marginBottom: 0 }}>
-          <Button type="primary" size="large" htmlType="submit" loading={isLoading} block>
-            {t('login.btnSubmit')}
-          </Button>
-        </Form.Item>
-      </Form>
+      <Form.Item style={{ marginBottom: 0 }}>
+        <Button type="primary" size="large" htmlType="submit" loading={isLoading} block>
+          {t('login.btnSubmit')}
+        </Button>
+      </Form.Item>
       <div style={{ marginTop: 20 }}>
         <Typography.Text style={{ fontSize: 12 }}>
           {t('login.noAccount')}
@@ -78,6 +76,6 @@ export const LoginPage: React.FC = () => {
           </Link>
         </Typography.Text>
       </div>
-    </>
+    </Form>
   );
 };

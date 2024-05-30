@@ -34,28 +34,26 @@ export const ForgotPage: React.FC = () => {
   };
 
   return (
-    <>
-      <Form layout="vertical" onFinish={recoverPassword} requiredMark={false}>
-        <Form.Item
-          name="email"
-          label={t('forgot.email')}
-          rules={[
-            { required: true, message: t('forgot.validation.emailEmpty') },
-            {
-              type: 'email',
-              message: t('forgot.validation.emailInvalidFormat'),
-            },
-          ]}
-        >
-          <Input size="large" />
-        </Form.Item>
+    <Form layout="vertical" onFinish={recoverPassword} requiredMark={false}>
+      <Form.Item
+        name="email"
+        label={t('forgot.email')}
+        rules={[
+          { required: true, message: t('forgot.validation.emailEmpty') },
+          {
+            type: 'email',
+            message: t('forgot.validation.emailInvalidFormat'),
+          },
+        ]}
+      >
+        <Input size="large" />
+      </Form.Item>
 
-        <Form.Item style={{ marginBottom: 0, marginTop: 60 }}>
-          <Button type="primary" size="large" htmlType="submit" block>
-            {t('forgot.submitBtn')}
-          </Button>
-        </Form.Item>
-      </Form>
+      <Form.Item style={{ marginBottom: 0, marginTop: 60 }}>
+        <Button type="primary" size="large" htmlType="submit" block>
+          {t('forgot.submitBtn')}
+        </Button>
+      </Form.Item>
       <div style={{ marginTop: 40, textAlign: 'center' }}>
         <StyledLink to="/login">
           <Space size={10}>
@@ -64,6 +62,6 @@ export const ForgotPage: React.FC = () => {
           </Space>
         </StyledLink>
       </div>
-    </>
+    </Form>
   );
 };
