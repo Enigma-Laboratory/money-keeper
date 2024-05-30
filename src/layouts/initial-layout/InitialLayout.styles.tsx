@@ -1,6 +1,8 @@
 import { Button, Card, Image, Typography } from 'antd';
+import { Logo } from 'assets/icons';
 import styled, { css } from 'styled-components';
 import { tablet } from 'styles';
+import { laptop } from 'styles/media-queries';
 
 const StyledTypographyCardTitle = styled(Typography.Title)`
   && {
@@ -41,9 +43,11 @@ const StyledTypographyLanguageTitle = styled(Typography.Title)`
 
 const StyledTypographyAppTitle = styled(Typography.Title)`
   && {
-    line-height: 64px;
     margin: 0;
     font-weight: bold;
+    ${laptop(css`
+      font-size: 32px;
+    `)}
     ${tablet(css`
       font-size: 20px;
     `)};
@@ -89,4 +93,13 @@ export const LanguageWrap = styled.div`
   ${tablet(css`
     display: none;
   `)};
+`;
+
+export const StyledLogo = styled(Logo)`
+  height: 64px;
+  width: 64px;
+  ${laptop(css`
+    height: 48px;
+    width: 48px;
+  `)}
 `;

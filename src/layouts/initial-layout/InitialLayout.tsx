@@ -4,7 +4,7 @@ import { FC, PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
-import { Logo, USAFlagIcon, VietnamFlagIcon } from 'assets/icons';
+import { USAFlagIcon, VietnamFlagIcon } from 'assets/icons';
 import backgroundLogin from 'assets/images/background-login.webp';
 import backgroundWithoutLogin from 'assets/images/background-without-login.webp';
 
@@ -13,7 +13,14 @@ import { Languages, useConfigProvider } from 'contexts';
 import { useKeyboardShortcut } from 'hooks';
 
 import StyledLayout from './InitialLayout.Layout.styles';
-import { LanguageButton, LanguageWrap, StyledCard, StyledImage, StyledTypography } from './InitialLayout.styles';
+import {
+  LanguageButton,
+  LanguageWrap,
+  StyledCard,
+  StyledImage,
+  StyledLogo,
+  StyledTypography,
+} from './InitialLayout.styles';
 
 export const InitialLayout: FC<PropsWithChildren> = (props) => {
   const { children } = props;
@@ -53,8 +60,8 @@ export const InitialLayout: FC<PropsWithChildren> = (props) => {
 
       <StyledLayout.Content>
         <StyledLayout.Header>
-          <div style={{ display: 'inline-flex' }}>
-            <Logo size={64} theme={mode} />
+          <div style={{ display: 'inline-flex', alignItems: 'center' }}>
+            <StyledLogo size={64} theme2={mode} />
             <StyledTypography.AppTitle>{appConfig.appTitle}</StyledTypography.AppTitle>
           </div>
 

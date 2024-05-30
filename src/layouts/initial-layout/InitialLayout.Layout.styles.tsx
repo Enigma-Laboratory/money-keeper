@@ -1,6 +1,6 @@
 import { Layout } from 'antd';
 import styled, { css } from 'styled-components';
-import { tablet } from 'styles';
+import { laptop, tablet } from 'styles';
 
 const animateBackground = (pathname: string, goldenRatio: number) => {
   return pathname === '/login' ? goldenRatio : 0;
@@ -15,6 +15,7 @@ const StyledLayout = styled(Layout)<{ $pathname: string; $goldenRatio: number }>
   background-color: ${(props) => props.theme.colorBgContainer};
   ${tablet(css`
     width: 100%;
+    transform: translateX(0);
   `)};
 `;
 
@@ -41,6 +42,10 @@ export const StyledHeader = styled(Layout.Header)`
   background: none;
   display: inline-flex;
   justify-content: space-between;
+  ${laptop(css`
+    padding-left: 12px;
+    padding-right: 12px;
+  `)}
   ${tablet(css`
     justify-content: center;
   `)}

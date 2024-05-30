@@ -1,14 +1,16 @@
 import { Mode } from 'contexts';
 import { SVGProps } from 'react';
+
 type Size = number;
+
 export const Logo = (
-  props: SVGProps<SVGSVGElement> & { theme?: 'default' | 'dark' | 'light'; size?: Size | Size[] },
+  props: SVGProps<SVGSVGElement> & { theme2?: 'default' | 'dark' | 'light'; size?: Size | Size[] },
 ) => {
-  const { theme = 'default', size = 28 } = props;
+  const { theme2 = 'default', size = 28 } = props;
   const color = { logo: 'black', background: 'white' };
   const DEFAULT_SIZE = { width: 28, height: 28 };
 
-  switch (theme) {
+  switch (theme2) {
     case Mode.LIGHT: {
       color.logo = 'black';
       color.background = 'transparent';
@@ -38,7 +40,7 @@ export const Logo = (
   }
 
   return (
-    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" {...DEFAULT_SIZE}>
+    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" {...DEFAULT_SIZE} {...props}>
       <rect width="28" height="28" rx="2" fill={color.background} />
       <path
         d="M10 14C10 11.7909 11.7909 10 14 10C16.2091 10 18 11.7909 18 14C18 16.2091 16.2091 18 14 18H10V14Z"
