@@ -6,7 +6,7 @@ import { Languages, Mode, useConfigProvider } from 'contexts';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateColorFromAlphabet } from 'utils';
-import { StyledUserMenu, Wrap } from './UserMenu.styles';
+import { StyledUserMenu, StyledWrap } from './UserMenu.styles';
 
 type UserMenuProps = {
   user: Partial<User>;
@@ -21,7 +21,7 @@ export const UserMenu = ({ user }: UserMenuProps): ReactElement => {
 
   const content = (
     <Space direction="vertical">
-      <Wrap style={{ width: 270 }}>
+      <StyledWrap style={{ width: 270 }}>
         <Flex gap={10} justify="space-between">
           <Space>
             <Avatar
@@ -90,7 +90,7 @@ export const UserMenu = ({ user }: UserMenuProps): ReactElement => {
             <Typography.Text> {t('sidebar.logout')} </Typography.Text>
           </Button>
         </Flex>
-      </Wrap>
+      </StyledWrap>
     </Space>
   );
 

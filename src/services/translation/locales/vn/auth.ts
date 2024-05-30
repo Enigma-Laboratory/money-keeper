@@ -1,6 +1,6 @@
 export default {
   register: {
-    title: 'Đăng ký tài khoản của bạn',
+    title: 'Đăng ký',
     email: 'Email',
     password: 'Mật khẩu',
     name: 'Tên',

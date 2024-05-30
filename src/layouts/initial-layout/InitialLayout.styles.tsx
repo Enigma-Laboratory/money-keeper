@@ -52,7 +52,7 @@ const StyledTypographyAppTitle = styled(Typography.Title)`
 
 export const StyledCard = styled(Card)`
   && {
-    width: 500px;
+    width: 400px;
     border: none;
     > div {
       border: none;

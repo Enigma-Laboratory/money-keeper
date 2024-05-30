@@ -2,7 +2,7 @@ import { Languages, Mode, useConfigProvider } from 'contexts';
 import { useEffect } from 'react';
 
 export const useKeyboardShortcut = () => {
-  const theme = (params?: { character: string }) => {
+  const toggleTheme = (params?: { character: string }) => {
     const character = params?.character || '`';
     const { mode, setMode } = useConfigProvider();
 
@@ -19,7 +19,7 @@ export const useKeyboardShortcut = () => {
     }, [mode]);
   };
 
-  const language = (params?: { character: string }) => {
+  const toggleLanguage = (params?: { character: string }) => {
     const character = params?.character || '`';
     const { locate, setLocate } = useConfigProvider();
 
@@ -36,5 +36,5 @@ export const useKeyboardShortcut = () => {
     }, [locate]);
   };
 
-  return { theme, language };
+  return { toggleLanguage, toggleTheme };
 };

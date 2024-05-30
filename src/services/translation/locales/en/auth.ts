@@ -1,6 +1,6 @@
 export default {
   register: {
-    title: 'Register for your account',
+    title: 'Sign up for your account',
     email: 'Email',
     password: 'Password',
     name: 'Name',
@@ -35,7 +35,7 @@ export default {
     },
   },
   login: {
-    title: 'Login for your account',
+    title: 'Sign in for your account',
     email: 'Email',
     password: 'Password',
     forgotPassword: 'Forgot password?',

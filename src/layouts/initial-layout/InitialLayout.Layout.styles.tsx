@@ -2,9 +2,13 @@ import { Layout } from 'antd';
 import styled, { css } from 'styled-components';
 import { tablet } from 'styles';
 
-const StyledLayout = styled(Layout)<{ $pathname: string }>`
+const animateBackground = (pathname: string, goldenRatio: number) => {
+  return pathname === '/login' ? goldenRatio : 0;
+};
+
+const StyledLayout = styled(Layout)<{ $pathname: string; $goldenRatio: number }>`
   transition: all 0.2s;
-  transform: translateX(-${(props) => (props.$pathname === '/login' ? 196 / 7 : 0)}%);
+  transform: translateX(-${(props) => animateBackground(props.$pathname, props.$goldenRatio)}%);
   height: 100vh;
   position: fixed;
   width: 140%;

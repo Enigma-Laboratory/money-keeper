@@ -7,7 +7,7 @@ export const StyledUserMenu = styled.div`
   }
 `;
 
-export const Wrap = styled.div`
+export const StyledWrap = styled.div`
   padding: 16px 0 16px;
   > * {
     padding: 0 16px;

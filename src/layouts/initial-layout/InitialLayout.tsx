@@ -4,14 +4,13 @@ import { FC, PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
+import { USAFlagIcon, VietnamFlagIcon } from 'assets/icons';
 import { Logo } from 'assets/icons/logo';
-import { USAFlagIcon } from 'assets/icons/usa-flag';
-import { VietnamFlagIcon } from 'assets/icons/vietnam-flag';
 import background1 from 'assets/images/background-1.webp';
 import background2 from 'assets/images/background-2.webp';
 import { appConfig } from 'config';
 import { Languages, useConfigProvider } from 'contexts';
-import { useKeyboardShortcut } from 'hooks/useKeyboardShortcut';
+import { useKeyboardShortcut } from 'hooks';
 
 import StyledLayout from './InitialLayout.Layout.styles';
 import { LanguageButton, LanguageWrap, StyledCard, StyledImage, StyledTypography } from './InitialLayout.styles';
@@ -21,9 +20,10 @@ export const InitialLayout: FC<PropsWithChildren> = (props) => {
   const { t } = useTranslation('auth');
   const { pathname } = useLocation();
   const { mode, setLocate } = useConfigProvider();
-  const { theme: themeKeyboard } = useKeyboardShortcut();
+  const { toggleTheme } = useKeyboardShortcut();
 
-  themeKeyboard();
+  toggleTheme();
+  const GOLDEN_RATIO: number = 196 / 7;
 
   const CardTitle = (
     <StyledTypography.CardTitle level={3}>{t(`${pathname.substring(1)}.title`)}</StyledTypography.CardTitle>
@@ -46,8 +46,8 @@ export const InitialLayout: FC<PropsWithChildren> = (props) => {
   );
 
   return (
-    <StyledLayout $pathname={pathname}>
-      <StyledLayout.Sider width={`${196 / 7}%`}>
+    <StyledLayout $pathname={pathname} $goldenRatio={GOLDEN_RATIO}>
+      <StyledLayout.Sider width={`${GOLDEN_RATIO}%`}>
         <StyledImage src={background2} preview={false} width={'100%'} />
       </StyledLayout.Sider>
 
@@ -72,7 +72,7 @@ export const InitialLayout: FC<PropsWithChildren> = (props) => {
         <StyledCard title={CardTitle}>{children}</StyledCard>
       </StyledLayout.Content>
 
-      <StyledLayout.Sider width={`${196 / 7}%`}>
+      <StyledLayout.Sider width={`${GOLDEN_RATIO}%`}>
         <StyledImage src={background1} preview={false} width={'100%'} />
       </StyledLayout.Sider>
     </StyledLayout>
