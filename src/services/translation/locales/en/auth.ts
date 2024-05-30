@@ -6,6 +6,8 @@ export default {
     name: 'Name',
     confirmPassword: 'Confirm Password',
     submitBtn: 'Sign up',
+    hasAccount: 'Already have an account?',
+    signIn: 'Sign in',
     passwordStrength: {
       minLength: '8 characters min.',
       hasUppercase: '1 uppercase',
@@ -57,6 +59,7 @@ export default {
     title: 'Reset your password',
     submitBtn: 'Email me',
     email: 'Enter your email address',
+    back: 'Back to sign in',
     validation: {
       emailEmpty: 'Please enter your email.',
       emailInvalidFormat: 'Invalid email address format.',

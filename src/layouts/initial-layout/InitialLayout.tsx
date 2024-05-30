@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
 import { Logo } from 'assets/icons/logo';
-import background from 'assets/images/background-1.webp';
+import background1 from 'assets/images/background-1.webp';
+import background2 from 'assets/images/background-2.webp';
 
 import { appConfig } from 'config';
 import { Mode, useConfigProvider } from 'contexts';
@@ -22,7 +23,7 @@ export const InitialLayout = ({ children }: InitialLayoutProps) => {
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === '\\') {
+      if (e.key === '|') {
         setMode(mode === Mode.LIGHT ? Mode.DARK : Mode.LIGHT);
       }
     };
@@ -35,7 +36,11 @@ export const InitialLayout = ({ children }: InitialLayoutProps) => {
   const CardTitle = <StyledTypography.Title level={3}>{t(`${pathname.substring(1)}.title`)}</StyledTypography.Title>;
 
   return (
-    <StyledLayout>
+    <StyledLayout $pathname={pathname}>
+      <StyledLayout.Sider width={`${196 / 7}%`}>
+        <StyledImage src={background2} preview={false} width={'100%'} />
+      </StyledLayout.Sider>
+
       <StyledLayout.Content>
         <StyledLayout.Header>
           <Logo size={64} theme={mode} />
@@ -43,8 +48,9 @@ export const InitialLayout = ({ children }: InitialLayoutProps) => {
         </StyledLayout.Header>
         <StyledCard title={CardTitle}>{children}</StyledCard>
       </StyledLayout.Content>
-      <StyledLayout.Sider width={'40%'}>
-        <StyledImage src={background} preview={false} width={'100%'} />
+
+      <StyledLayout.Sider width={`${196 / 7}%`}>
+        <StyledImage src={background1} preview={false} width={'100%'} />
       </StyledLayout.Sider>
     </StyledLayout>
   );

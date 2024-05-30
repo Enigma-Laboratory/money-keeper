@@ -3,10 +3,9 @@ import styled from 'styled-components';
 
 const StyledTypographyTitle = styled(Typography.Title)`
   && {
-    text-align: center;
     margin: 0;
-    font-size: 24px;
-    line-height: 32px;
+    font-size: 30px;
+    line-height: 40px;
     font-weight: 700;
     overflow-wrap: break-word;
     hyphens: manual;
@@ -18,7 +17,7 @@ const StyledTypographyTitle = styled(Typography.Title)`
 
 export const StyledCard = styled(Card)`
   && {
-    width: 400px;
+    width: 500px;
     border: none;
     > div {
       border: none;
