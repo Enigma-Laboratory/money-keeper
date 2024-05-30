@@ -9,11 +9,15 @@ const StyledLayout = styled(Layout)<{ $pathname: string }>`
   position: fixed;
   width: 140%;
   background-color: ${(props) => props.theme.colorBgContainer};
+  ${tablet(css`
+    width: 100%;
+  `)};
 `;
 
 const StyledSider = styled(Layout.Sider)`
   && {
     ${tablet(css`
+      display: none;
       visibility: hidden;
     `)};
   }
@@ -33,6 +37,9 @@ export const StyledHeader = styled(Layout.Header)`
   background: none;
   display: inline-flex;
   justify-content: space-between;
+  ${tablet(css`
+    justify-content: center;
+  `)}
 `;
 
 StyledLayout.Sider = StyledSider as typeof StyledLayout.Sider;

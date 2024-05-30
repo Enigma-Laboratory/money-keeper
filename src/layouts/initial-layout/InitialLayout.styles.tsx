@@ -81,3 +81,12 @@ export const LanguageButton = styled(Button)`
   padding: 8px;
   height: unset;
 `;
+
+export const LanguageWrap = styled.div`
+  display: inline-flex;
+  align-items: 'center';
+  color: ${(props) => props.theme.colorBgTextActive};
+  ${tablet(css`
+    display: none;
+  `)};
+`;

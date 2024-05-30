@@ -14,7 +14,7 @@ import { Languages, useConfigProvider } from 'contexts';
 import { useKeyboardShortcut } from 'hooks/useKeyboardShortcut';
 
 import StyledLayout from './InitialLayout.Layout.styles';
-import { LanguageButton, StyledCard, StyledImage, StyledTypography } from './InitialLayout.styles';
+import { LanguageButton, LanguageWrap, StyledCard, StyledImage, StyledTypography } from './InitialLayout.styles';
 interface InitialLayoutProps {
   children: ReactNode;
 }
@@ -25,9 +25,10 @@ export const InitialLayout = ({ children }: InitialLayoutProps) => {
   const { mode, setLocate } = useConfigProvider();
   const { language, theme: themeKeyboard } = useKeyboardShortcut();
   const { token } = theme.useToken();
-  console.log(token);
+
   themeKeyboard({ character: '\\' });
   language();
+
   const CardTitle = (
     <StyledTypography.CardTitle level={3}>{t(`${pathname.substring(1)}.title`)}</StyledTypography.CardTitle>
   );
@@ -61,7 +62,7 @@ export const InitialLayout = ({ children }: InitialLayoutProps) => {
             <StyledTypography.AppTitle>{appConfig.appTitle}</StyledTypography.AppTitle>
           </div>
 
-          <div style={{ display: 'inline-flex', alignItems: 'center', color: token.colorBgTextActive }}>
+          <LanguageWrap>
             <Popover content={content} trigger="hover">
               <StyledTypography.LanguageTitle>
                 <StyledTypography.LanguageTitleText>
@@ -70,7 +71,7 @@ export const InitialLayout = ({ children }: InitialLayoutProps) => {
                 <DownOutlined style={{ fontSize: '14px' }} />
               </StyledTypography.LanguageTitle>
             </Popover>
-          </div>
+          </LanguageWrap>
         </StyledLayout.Header>
         <StyledCard title={CardTitle}>{children}</StyledCard>
       </StyledLayout.Content>
