@@ -12,7 +12,7 @@ import { arrayToObject } from 'utils';
 import { orderStore } from './store';
 
 export class OrderService {
-  public static _instance: OrderService;
+  private static _instance: OrderService;
 
   public static get instance(): OrderService {
     if (!OrderService._instance) {
