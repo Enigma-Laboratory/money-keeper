@@ -1,18 +1,21 @@
 import { CreateUserParams } from '@enigma-laboratory/shared';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, Typography, theme } from 'antd';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { PasswordStrengthIndicator } from 'components';
 import { AlertModalPayload } from 'interfaces';
+import { Link } from 'react-router-dom';
 import { NavigateService } from 'services';
 import { AuthService } from 'stores';
 import { EVENT_NAME, EventAction, checkPasswordStrength } from 'utils';
 
 export const RegisterPage: React.FC = () => {
+  const { token } = theme.useToken();
   const { t } = useTranslation('auth');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [form] = Form.useForm();
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
 
   const handleOnRegisterUser = async (params: CreateUserParams): Promise<void> => {
@@ -101,6 +104,14 @@ export const RegisterPage: React.FC = () => {
           {t('register.submitBtn')}
         </Button>
       </Form.Item>
+      <div style={{ marginTop: 20, textAlign: 'center' }}>
+        <Typography.Text style={{ fontSize: 12 }}>
+          {t('register.hasAccount')}
+          <Link to="/login" style={{ fontWeight: 'bold', color: token.colorPrimaryTextHover }}>
+            {t('register.signIn')}
+          </Link>
+        </Typography.Text>
+      </div>
     </Form>
   );
 };

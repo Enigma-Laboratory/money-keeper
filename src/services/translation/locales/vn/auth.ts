@@ -6,6 +6,8 @@ export default {
     name: 'Tên',
     confirmPassword: 'Xác nhận mật khẩu',
     submitBtn: 'Đăng ký',
+    hasAccount: 'Đã có tài khoản?',
+    signIn: 'Đăng nhập',
     passwordStrength: {
       minLength: 'Ít nhất 8 ký tự',
       hasUppercase: 'Ít nhất 1 chữ hoa',

@@ -1,10 +1,14 @@
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import { ForgotPasswordParams } from '@enigma-laboratory/shared';
-import { Button, Form, Input } from 'antd';
-import { AlertModalPayload } from 'interfaces';
+import { Button, Form, Input, Space, Typography } from 'antd';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { AlertModalPayload } from 'interfaces';
 import { AuthService } from 'stores';
 import { EVENT_NAME, EventAction } from 'utils';
+
+import { StyledLink } from '../register/Register.styles';
 
 export const ForgotPage: React.FC = () => {
   const { t } = useTranslation('auth');
@@ -50,6 +54,14 @@ export const ForgotPage: React.FC = () => {
           {t('forgot.submitBtn')}
         </Button>
       </Form.Item>
+      <div style={{ marginTop: 40, textAlign: 'center' }}>
+        <StyledLink to="/login">
+          <Space size={10}>
+            <ArrowLeftOutlined style={{ fontSize: 12 }} />
+            <Typography.Text style={{ fontSize: 16, color: 'inherit' }}>{t('forgot.back')}</Typography.Text>
+          </Space>
+        </StyledLink>
+      </div>
     </Form>
   );
 };
