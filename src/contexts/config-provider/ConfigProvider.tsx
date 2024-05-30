@@ -24,7 +24,7 @@ type ConfigProviderContextType = {
   mode: Mode;
   setMode: (mode: Mode) => void;
   locate: Languages;
-  setLocate: (locate: Languages) => void;
+  setLocate: (locate: Languages | ((prevState: Languages) => Languages)) => void;
 };
 
 export const ConfigProviderContext = createContext<ConfigProviderContextType | undefined>(undefined);
@@ -74,9 +74,12 @@ export const ConfigProvider = ({ theme: themeFromProps, children }: PropsWithChi
     return i18n;
   }, [locate]);
 
-  const handleSetLocate = (locate: Languages) => {
+  const handleSetLocate = (locate: Languages | ((prevState: Languages) => Languages)) => {
     setLocate(locate);
-    i18n.changeLanguage(locate);
+    if (locate instanceof Function) {
+      const newLocate = locate(i18n.language as Languages);
+      i18n.changeLanguage(newLocate);
+    } else if (locate) i18n.changeLanguage(locate);
   };
 
   return (
