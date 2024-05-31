@@ -7,8 +7,7 @@ import { PropsWithChildren, createContext, useContext, useEffect, useMemo } from
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { en, vi } from 'services';
 
-import { BaseThemeColors } from './BaseThemeColors';
-import { ThemeProvider } from './ThemeProvider';
+import { BaseThemeColors, ThemeProvider } from '../theme-provider';
 
 export enum Languages {
   EN = 'en',
