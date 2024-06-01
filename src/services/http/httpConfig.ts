@@ -13,6 +13,7 @@ export const HttpConfigOrder = {
   DELETE_ORDER: 'delete-order',
   UPDATE_ORDER: 'update-order',
   UPDATE_ORDER_STATUS: 'order-status',
+  UPDATE_ORDER_STATUSES: 'order-statuses',
 };
 
 export const HttpConfigAuth = {

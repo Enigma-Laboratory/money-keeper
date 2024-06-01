@@ -28,7 +28,11 @@ export const Authenticated = ({ fallback = null, children }: AuthenticatedProps)
   }, []);
 
   if (isLoading) {
-    return <Spin style={{ width: '100%', marginTop: '45vh' }} tip="Loading" size="large" />;
+    return (
+      <Spin style={{ width: '100%', marginTop: '45vh' }} tip="Loading" size="large">
+        <></>
+      </Spin>
+    );
   }
 
   if (!authState.authenticated) {

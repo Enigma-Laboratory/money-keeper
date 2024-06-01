@@ -10,8 +10,8 @@ import backgroundWithoutLogin from 'assets/images/background-without-login.webp'
 
 import { appConfig } from 'config';
 import { Languages, useConfigProvider } from 'contexts';
-import { useKeyboardShortcut } from 'hooks';
 
+import { ERROR_IMAGE } from 'utils';
 import StyledLayout from './InitialLayout.Layout.styles';
 import {
   LanguageButton,
@@ -27,9 +27,6 @@ export const InitialLayout: FC<PropsWithChildren> = (props) => {
   const { t } = useTranslation('auth');
   const { pathname } = useLocation();
   const { mode, setLocate } = useConfigProvider();
-  const { toggleTheme } = useKeyboardShortcut();
-
-  toggleTheme();
   const GOLDEN_RATIO: number = 196 / 7;
 
   const CardTitle = (
@@ -80,7 +77,7 @@ export const InitialLayout: FC<PropsWithChildren> = (props) => {
       </StyledLayout.Content>
 
       <StyledLayout.Sider width={`${GOLDEN_RATIO}%`}>
-        <StyledImage src={backgroundLogin} preview={false} width={'100%'} />
+        <StyledImage src={backgroundLogin} preview={false} width={'100%'} fallback={ERROR_IMAGE} />
       </StyledLayout.Sider>
     </StyledLayout>
   );

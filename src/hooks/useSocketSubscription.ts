@@ -1,4 +1,4 @@
-import { OperationalSetting, OperationalSettingEvent, Order, OrderEvent } from '@enigma-laboratory/shared';
+import { OperationalSetting, OperationalSettingEvent, Order, OrderEvent, User } from '@enigma-laboratory/shared';
 import { useEffect } from 'react';
 import { EventHandler, socket } from 'services';
 import { OperationalSettingService, OrderService } from 'stores';
@@ -18,6 +18,11 @@ export const useSocketSubscription = <T>(eventHandlers: EventHandler<T>[]): void
     // Handle deletion of orders with input/output operations
     [OrderEvent.DELETED]: OrderService.instance.deletedOrderWithIO,
   };
+
+  const orderStatusEventHandlers: EventHandler<{ user: User; orders: Order[] }> = {
+    [OrderEvent.ALL_UPDATED]: OrderService.instance.updateManyOrderStatus,
+  };
+
   const operationalSettingEventHandlers: EventHandler<OperationalSetting> = {
     // Handle creation of operational settings with input/output operations
     [OperationalSettingEvent.CREATED]: OperationalSettingService.instance.createdOperationalSettingIO,
@@ -28,9 +33,19 @@ export const useSocketSubscription = <T>(eventHandlers: EventHandler<T>[]): void
   };
 
   useEffect(() => {
-    socket.onEventListeners([...eventHandlers, orderEventHandlers, operationalSettingEventHandlers]);
+    socket.onEventListeners([
+      ...eventHandlers,
+      orderEventHandlers,
+      operationalSettingEventHandlers,
+      orderStatusEventHandlers,
+    ]);
     return () => {
-      socket.offEventListeners([...eventHandlers, orderEventHandlers, operationalSettingEventHandlers]);
+      socket.offEventListeners([
+        ...eventHandlers,
+        orderEventHandlers,
+        operationalSettingEventHandlers,
+        orderStatusEventHandlers,
+      ]);
     };
   }, [eventHandlers]);
 };

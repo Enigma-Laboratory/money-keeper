@@ -5,9 +5,11 @@ import {
   FindAllOrderResponse,
   FindOneOrderParams,
   Order,
+  UpdateManyOrderStatusesParams,
+  UpdateManyOrderStatusesResponse,
   UpdateOneOrderParams,
-  UpdateOrderEventParams,
-  UpdateOrderEventResponse,
+  UpdateOrderStatusParams,
+  UpdateOrderStatusResponse,
 } from '@enigma-laboratory/shared';
 
 import { ApiEndpointService, HttpClientService, HttpConfig, HttpConfigOrder } from 'services';
@@ -36,14 +38,18 @@ export class OrderApiService extends ApiEndpointService {
     const endpoint = `${this.endPoint}`;
     return await HttpClientService.httpPost<Order>(endpoint, params);
   }
-
   public async updateOneOrder(params: UpdateOneOrderParams): Promise<Order> {
     return await HttpClientService.httpPut<Order>(this.endPoint, params);
   }
 
-  public async updateOrderStatus(params: UpdateOrderEventParams): Promise<UpdateOrderEventResponse> {
+  public async UpdateManyOrderStatus(params: UpdateManyOrderStatusesParams): Promise<UpdateManyOrderStatusesResponse> {
+    const endpoint = `${this.endPoint}/${HttpConfigOrder.UPDATE_ORDER_STATUSES}`;
+    return await HttpClientService.httpPut<UpdateManyOrderStatusesResponse>(endpoint, params);
+  }
+
+  public async updateOrderStatus(params: UpdateOrderStatusParams): Promise<UpdateOrderStatusResponse> {
     const endpoint = `${this.endPoint}/${HttpConfigOrder.UPDATE_ORDER_STATUS}`;
-    return await HttpClientService.httpPut<UpdateOrderEventResponse>(endpoint, params);
+    return await HttpClientService.httpPut<UpdateOrderStatusResponse>(endpoint, params);
   }
 
   public async deleteOneOrder(params: DeleteOneOrderParams): Promise<DeleteOneOrderResponse> {

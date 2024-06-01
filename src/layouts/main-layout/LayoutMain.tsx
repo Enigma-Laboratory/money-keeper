@@ -1,6 +1,6 @@
+import { Layout, theme } from 'antd';
 import { FC, PropsWithChildren, useState } from 'react';
 
-import { Layout, theme } from 'antd';
 import { HeaderLayout, Menu } from 'components';
 import { LayoutMainStyled } from './LayoutMain.styles';
 
@@ -8,9 +8,7 @@ const { Content, Sider } = Layout;
 
 export const LayoutMain: FC<PropsWithChildren> = (props) => {
   const { children } = props;
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  const { token } = theme.useToken();
 
   const [collapsed, setCollapsed] = useState(false);
 
@@ -21,7 +19,7 @@ export const LayoutMain: FC<PropsWithChildren> = (props) => {
     <LayoutMainStyled>
       <HeaderLayout collapsed={collapsed} toggleCollapsed={toggleCollapsed} />
       <Layout hasSider style={{ marginTop: 64 }}>
-        <Sider collapsed={collapsed} style={{ background: colorBgContainer }}>
+        <Sider collapsed={collapsed} style={{ background: token.colorBgContainer }}>
           <Menu />
         </Sider>
         <Content

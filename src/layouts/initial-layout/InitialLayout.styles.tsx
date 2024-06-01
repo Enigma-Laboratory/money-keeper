@@ -73,7 +73,6 @@ export const StyledTypography = {
 
 export const StyledImage = styled(Image)`
   && {
-    background-color: red;
     object-fit: cover;
     height: 100vh;
   }
