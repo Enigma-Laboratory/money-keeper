@@ -1,8 +1,7 @@
+import { Layout, theme } from 'antd';
 import { FC, PropsWithChildren, useState } from 'react';
 
-import { Layout, theme } from 'antd';
 import { HeaderLayout, Menu } from 'components';
-import { useKeyboardShortcut } from 'hooks';
 import { LayoutMainStyled } from './LayoutMain.styles';
 
 const { Content, Sider } = Layout;
@@ -10,8 +9,6 @@ const { Content, Sider } = Layout;
 export const LayoutMain: FC<PropsWithChildren> = (props) => {
   const { children } = props;
   const { token } = theme.useToken();
-  const { toggleTheme } = useKeyboardShortcut();
-  toggleTheme();
 
   const [collapsed, setCollapsed] = useState(false);
 

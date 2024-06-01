@@ -13,7 +13,7 @@ export const OperationalSettingDrawer = (props: OperationalSettingProps) => {
   const { t } = useTranslation('order');
   const { data, dispatch } = props;
 
-  const { isOpen, statusLoading } = data;
+  const { isOpen, statusLoading, isButtonLoading } = data;
   const [user] = useLocalStorage<User>(USER_IDENTITY, DEFAULT_USER_VALUES);
 
   const { handleUpdateOrderStatus } = dispatch;
@@ -65,7 +65,7 @@ export const OperationalSettingDrawer = (props: OperationalSettingProps) => {
                     {formatCurrencyToVnd(Math.abs(value.price))}
                   </Typography.Text>
                   {user._id === userId && (
-                    <Button size="small" onClick={() => dispatch.updateOrderStatusByUser?.()}>
+                    <Button size="small" onClick={() => dispatch.updateOrderStatusByUser?.()} loading={isButtonLoading}>
                       {t('', 'Finish')}
                     </Button>
                   )}

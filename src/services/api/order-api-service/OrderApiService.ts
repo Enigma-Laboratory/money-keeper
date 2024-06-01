@@ -44,7 +44,7 @@ export class OrderApiService extends ApiEndpointService {
 
   public async UpdateManyOrderStatus(params: UpdateManyOrderStatusesParams): Promise<UpdateManyOrderStatusesResponse> {
     const endpoint = `${this.endPoint}/${HttpConfigOrder.UPDATE_ORDER_STATUSES}`;
-    return await HttpClientService.httpPut<any>(endpoint, params);
+    return await HttpClientService.httpPut<UpdateManyOrderStatusesResponse>(endpoint, params);
   }
 
   public async updateOrderStatus(params: UpdateOrderStatusParams): Promise<UpdateOrderStatusResponse> {

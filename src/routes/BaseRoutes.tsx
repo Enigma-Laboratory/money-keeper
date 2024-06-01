@@ -5,13 +5,16 @@ import { InitialLayout, LayoutMain } from 'layouts';
 import { ForgotPage, LoginPage, RegisterPage } from 'pages';
 import { NavigateService } from 'services';
 
+import { useKeyboardShortcut } from 'hooks';
 import { RouteComponent, routeComponents } from './routeComponent';
 
 const RenderRouteComponent = (props: { routes: RouteComponent[] }) => {
   const { routes } = props;
   const navigate = useNavigate();
   NavigateService.instance.setNavigate(navigate);
+  const { toggleTheme } = useKeyboardShortcut();
 
+  toggleTheme();
   return (
     <Routes>
       <Route

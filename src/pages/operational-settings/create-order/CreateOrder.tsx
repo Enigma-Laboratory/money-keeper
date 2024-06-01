@@ -163,6 +163,19 @@ export const CreateOrder = (props: CreateOrderProps) => {
     setGroupName(event.target.value);
   };
 
+  const ProductSelect = (props: { meId: string; _id: string; name: string }) => {
+    const { meId, _id, name } = props;
+    if (meId === _id) {
+      return (
+        <>
+          <strong>{name} </strong> (me)
+        </>
+      );
+    }
+
+    return <>{name}</>;
+  };
+
   const createOrderBySteps = [
     {
       key: CreateOrderSteps.INFORMATION,
@@ -284,8 +297,8 @@ export const CreateOrder = (props: CreateOrderProps) => {
                         style={{ width: '100%' }}
                         options={sortUserByMe?.map(({ _id, name }) => {
                           return {
-                            label: `${name}${user._id === _id ? ' - me' : ''}`,
                             value: _id,
+                            label: <ProductSelect meId={user._id} _id={_id} name={name} />,
                           };
                         })}
                         mode="multiple"

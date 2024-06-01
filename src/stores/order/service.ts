@@ -82,10 +82,10 @@ export class OrderService {
       description: `The orders of ${user.name} has been successfully updated.`,
     });
 
-    const newOrders = orders.reduce((acc, order) => ({ ...acc, [order._id]: order }), {} as Record<string, Order>);
+    const updatedOrders = orders.reduce((acc, order) => ({ ...acc, [order._id]: order }), {} as Record<string, Order>);
     orderStore.updateModel((model) => ({
       count: model.count,
-      rows: { ...model.rows, ...newOrders },
+      rows: { ...model.rows, ...updatedOrders },
     }));
   }
 

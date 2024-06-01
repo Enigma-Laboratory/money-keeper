@@ -1,7 +1,9 @@
 import { OperationalSetting, Order, OrderStatus, UpdateOneOperationalSettingParams } from '@enigma-laboratory/shared';
-import { ComponentType } from 'react';
+import { AlertModalPayload } from 'interfaces';
+import { ComponentType, useState } from 'react';
 import { OrderApiService } from 'services';
 import { AuthService, UserCollection } from 'stores';
+import { EVENT_NAME, EventAction } from 'utils';
 import { OperationalSettingStatusLoading } from '../withOperationalSettingController';
 
 interface UserIdObjectPair {
@@ -14,6 +16,7 @@ export interface OperationalSettingData extends OperationalSetting {
   statusLoading: OperationalSettingStatusLoading;
   priceByUser: UserIdObjectPair;
   users: UserCollection;
+  isButtonLoading: boolean;
 }
 
 export interface OperationalSettingProps {
@@ -34,6 +37,7 @@ export const withOperationalSettingController = (
       dispatch: { handleUpdateOrderStatus, closeDrawer },
     } = props;
 
+    const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
     const user = AuthService.instance.getAuth();
 
     const UserIdObj: UserIdObjectPair = {};
@@ -54,6 +58,7 @@ export const withOperationalSettingController = (
     }); //
 
     const updateOrderStatusByUser = async () => {
+      setIsButtonLoading(true);
       try {
         await OrderApiService.instance.UpdateManyOrderStatus({
           status: OrderStatus.DONE,
@@ -61,11 +66,16 @@ export const withOperationalSettingController = (
         });
       } catch (e) {
         console.error(e);
+        EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
+          data: { type: 'error', content: 'Something wrong in Drawer in Operational Setting' },
+        });
+      } finally {
+        setIsButtonLoading(true);
       }
     };
 
     const LogicProps: OperationalSettingProps = {
-      data: { ...data, priceByUser: UserIdObj },
+      data: { ...data, isButtonLoading, priceByUser: UserIdObj },
       dispatch: {
         closeDrawer,
         handleUpdateOrderStatus,
