@@ -1,4 +1,5 @@
 import { InsertRowRightOutlined } from '@ant-design/icons';
+import { OperationalSetting, Order, OrderStatus, defaultDateTimeFormat } from '@enigma-laboratory/shared';
 import { Button, Progress, Space, Spin, Switch, Table, Typography, theme } from 'antd';
 import type { TableProps } from 'antd/es/table';
 import dayjs from 'dayjs';
@@ -6,7 +7,6 @@ import { ReactElement, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { OperationalSetting, Order, OrderStatus, defaultDateTimeFormat } from '@enigma-laboratory/shared';
 import { OrderCard } from 'components';
 import { THC, formatCurrencyToVnd, getExactPath, routePaths } from 'utils';
 
@@ -37,9 +37,9 @@ export const OperationalSettings = (props: OperationalSettingProps): ReactElemen
   useEffect(() => {
     setDrawerData((prevDrawerData) => {
       const updatedStatus = operationalSettings?.[prevDrawerData?._id || '']?.status;
-      return { ...prevDrawerData, statusLoading, status: updatedStatus };
+      return { ...prevDrawerData, users, statusLoading, status: updatedStatus };
     });
-  }, [statusLoading, operationalSettings]);
+  }, [statusLoading, operationalSettings, users]);
 
   const TABLE_HEIGHT = useMemo(
     () =>
@@ -73,7 +73,7 @@ export const OperationalSettings = (props: OperationalSettingProps): ReactElemen
       },
     },
     {
-      title: 'Process',
+      title: t('', 'Process'),
       key: 'process',
       dataIndex: 'orders',
       className: 'process',
@@ -119,6 +119,7 @@ export const OperationalSettings = (props: OperationalSettingProps): ReactElemen
       },
     },
   ];
+
   const dataSource: OperationalSettingWithOrders[] | undefined = useMemo(
     () =>
       Object.values(operationalSettings).map((operationalSetting) => {

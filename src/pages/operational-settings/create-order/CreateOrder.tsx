@@ -27,7 +27,7 @@ import {
   message,
   theme,
 } from 'antd';
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -108,6 +108,13 @@ export const CreateOrder = (props: CreateOrderProps) => {
       </Breadcrumb>
     );
   };
+
+  const sortUserByMe = useMemo(() => {
+    const clonedUsers = { ...users };
+    const myUser = clonedUsers[user._id];
+    delete clonedUsers[user._id];
+    return [myUser, ...Object.values(clonedUsers)];
+  }, [users]);
 
   const nextCurrentOrderStep = () => {
     form
@@ -275,9 +282,9 @@ export const CreateOrder = (props: CreateOrderProps) => {
                       <Select
                         loading={isLoading}
                         style={{ width: '100%' }}
-                        options={Object.values(users)?.map(({ _id, name }) => {
+                        options={sortUserByMe?.map(({ _id, name }) => {
                           return {
-                            label: name,
+                            label: `${name}${user._id === _id ? ' - me' : ''}`,
                             value: _id,
                           };
                         })}

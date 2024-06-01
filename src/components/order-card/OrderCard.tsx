@@ -6,9 +6,9 @@ import dayjs from 'dayjs';
 import { ReactElement, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { UserCollection } from 'stores';
+import { AuthService, UserCollection } from 'stores';
 import { formatCurrencyToVnd, getExactPath, routePaths } from 'utils';
-import { StyledOrderCard } from './OrderCard.styles';
+import { StyledName, StyledOrderCard } from './OrderCard.styles';
 
 interface OrderCardProps {
   order: Order;
@@ -17,11 +17,12 @@ interface OrderCardProps {
 
 export const OrderCard = ({ order, users }: OrderCardProps): ReactElement => {
   const { t } = useTranslation('orderDetail', { keyPrefix: 'information' });
+  const user = AuthService.instance.getAuth();
 
   const renderItem = (label: string, value: string | number, copyable: boolean = false) => {
     return (
       <Flex align="start" style={{ minWidth: 200 }}>
-        <Typography.Text style={{ fontSize: 12 }}>{label} </Typography.Text>
+        <Typography.Text style={{ fontSize: 12, marginRight: 5 }}>{label}:</Typography.Text>
         <Typography.Paragraph strong copyable={copyable} style={{ margin: 0, fontSize: 12 }}>
           {value}
         </Typography.Paragraph>
@@ -30,7 +31,7 @@ export const OrderCard = ({ order, users }: OrderCardProps): ReactElement => {
   };
 
   const totalPriceProduct = useMemo(() => {
-    return order.products.reduce((acc, { price }) => ++price, 0);
+    return order.products.reduce((_, { price }) => ++price, 0);
   }, [order.products]);
 
   return (
@@ -38,15 +39,15 @@ export const OrderCard = ({ order, users }: OrderCardProps): ReactElement => {
       <Flex wrap="wrap" justify="space-between" gap={50}>
         <Flex gap={20}>
           <Flex justify="center" align="flex-start" vertical>
-            {renderItem(` id :`, order._id, true)}
-            {renderItem(` ${t('name')}:`, order.name)}
-            {renderItem(` ${t('', 'Order number')}:`, `#${order.orderNumber}`)}
+            {renderItem('id', order._id, true)}
+            {renderItem(t('name'), order.name)}
+            {renderItem(t('', 'Order number'), `#${order.orderNumber}`)}
           </Flex>
           <Divider type="vertical" style={{ height: 50, margin: 'auto' }} />
           <Flex justify="center" align="flex-start" vertical>
-            {renderItem(` ${t('buyer')}:`, users?.[order.userId]?.name)}
-            {renderItem(` ${t('', 'Price')}:`, formatCurrencyToVnd(totalPriceProduct))}
-            {renderItem(` ${t('', 'Created Order At')}:`, dayjs(order.createdAt).format(defaultDateTimeFormat))}
+            {renderItem(t('buyer'), users?.[order.userId]?.name)}
+            {renderItem(t('', 'Price'), formatCurrencyToVnd(totalPriceProduct))}
+            {renderItem(t('', 'Created Order At'), dayjs(order.createdAt).format(defaultDateTimeFormat))}
           </Flex>
         </Flex>
 
@@ -60,7 +61,7 @@ export const OrderCard = ({ order, users }: OrderCardProps): ReactElement => {
               return (
                 <li key={userId}>
                   <Flex gap={10} justify="space-between">
-                    <Typography.Text>{users[userId].name}</Typography.Text>{' '}
+                    <StyledName $me={userId === user._id}>{users[userId].name}</StyledName>{' '}
                     <BaseOrderStatus style={{ width: 100 }} status={status} />
                   </Flex>
                 </li>

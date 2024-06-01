@@ -7,7 +7,7 @@
   "license": "MIT",
   "dependencies": {
     "@ant-design/icons": "^5.3.6",
-    "@enigma-laboratory/shared": "^1.9.0",
+    "@enigma-laboratory/shared": "^1.10.1",
     "@googlemaps/react-wrapper": "^1.1.35",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",

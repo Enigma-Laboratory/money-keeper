@@ -4,7 +4,8 @@ import {
   FindOneOrderParams,
   Order,
   UpdateOneOrderParams,
-  UpdateOrderEventParams,
+  UpdateOrderStatusParams,
+  User,
 } from '@enigma-laboratory/shared';
 import { notification } from 'antd';
 import { OrderApiService } from 'services';
@@ -57,10 +58,6 @@ export class OrderService {
     return createdOrder;
   }
 
-  public async updateOrderStatus(params: UpdateOrderEventParams): Promise<void> {
-    await OrderApiService.instance.updateOrderStatus(params);
-  }
-
   public async updateOneOrder(params: UpdateOneOrderParams): Promise<Order> {
     const updatedOrder = await OrderApiService.instance.updateOneOrder(params);
     const { count, rows: orders } = orderStore.getModel();
@@ -74,8 +71,22 @@ export class OrderService {
     return updatedOrder;
   }
 
-  public async updateOrderEvent(params: UpdateOrderEventParams): Promise<void> {
+  public async updateOrderEvent(params: UpdateOrderStatusParams): Promise<void> {
     await OrderApiService.instance.updateOrderStatus(params);
+  }
+
+  public async updateManyOrderStatus(params: { user: User; orders: Order[] }) {
+    const { user, orders } = params;
+    notification.success({
+      message: 'Order updated Successful',
+      description: `The orders of ${user.name} has been successfully updated.`,
+    });
+
+    const newOrders = orders.reduce((acc, order) => ({ ...acc, [order._id]: order }), {} as Record<string, Order>);
+    orderStore.updateModel((model) => ({
+      count: model.count,
+      rows: { ...model.rows, ...newOrders },
+    }));
   }
 
   public async deleteOneOrder(params: DeleteOneOrderParams): Promise<void> {

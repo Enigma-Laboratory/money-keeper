@@ -4,7 +4,7 @@ import {
   Order,
   OrderStatus,
   UpdateOneOrderParams,
-  UpdateOrderEventParams,
+  UpdateOrderStatusParams,
   User,
   defaultDateTimeFormat,
 } from '@enigma-laboratory/shared';
@@ -24,7 +24,7 @@ type OrderDetailActionsProps = {
   dispatch: {
     updateOrder: (params: UpdateOneOrderParams) => Promise<void>;
     deleteOrder: (params: DeleteOneOrderParams) => Promise<void>;
-    updateOrderStatus: (params: UpdateOrderEventParams) => Promise<void>;
+    updateOrderStatus: (params: UpdateOrderStatusParams) => Promise<void>;
   };
 };
 
@@ -77,7 +77,7 @@ export const OrderDetailActions = ({ order, users, currentUser, dispatch }: Orde
                         dispatch.updateOrderStatus({
                           status: e.key,
                           orderId: order._id,
-                        } as UpdateOrderEventParams),
+                        } as UpdateOrderStatusParams),
                     }}
                   >
                     <Space>
