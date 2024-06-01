@@ -70,7 +70,7 @@ export const withOperationalSettingController = (
           data: { type: 'error', content: 'Something wrong in Drawer in Operational Setting' },
         });
       } finally {
-        setIsButtonLoading(true);
+        setIsButtonLoading(false);
       }
     };
 
