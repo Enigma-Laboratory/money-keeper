@@ -3,6 +3,7 @@ import { User } from '@enigma-laboratory/shared';
 import { Avatar, Button, Divider, Dropdown, Flex, Popover, Space, Typography } from 'antd';
 import { IconMoon, IconSun } from 'assets/icons';
 import { Languages, Mode, useConfigProvider } from 'contexts';
+import i18n from 'contexts/config-provider/i18n';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateColorFromAlphabet } from 'utils';
@@ -13,7 +14,7 @@ type UserMenuProps = {
 };
 
 export const UserMenu = ({ user }: UserMenuProps): ReactElement => {
-  const { mode, setMode, locate, setLocate } = useConfigProvider();
+  const { mode, setMode } = useConfigProvider();
 
   const { t } = useTranslation('common');
 
@@ -54,12 +55,12 @@ export const UserMenu = ({ user }: UserMenuProps): ReactElement => {
             menu={{
               items: Object.values(Languages).map((key) => ({ label: t(`language.${key}`), key })),
               selectable: true,
-              defaultSelectedKeys: [locate],
-              onClick: (e) => setLocate(e.key as Languages),
+              defaultSelectedKeys: [i18n.language],
+              onClick: (e) => i18n.changeLanguage(e.key as Languages),
             }}
           >
             <Space>
-              {t(`language.${locate}`)}
+              {t(`language.${i18n.language}`)}
               <Button type="text" icon={<DownOutlined />} />
             </Space>
           </Dropdown>

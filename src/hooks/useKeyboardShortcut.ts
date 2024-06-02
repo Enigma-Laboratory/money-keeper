@@ -1,4 +1,5 @@
-import { Languages, Mode, useConfigProvider } from 'contexts';
+import { Mode, useConfigProvider } from 'contexts';
+import i18n, { Languages } from 'contexts/config-provider/i18n';
 import { useEffect } from 'react';
 
 export const useKeyboardShortcut = () => {
@@ -21,19 +22,18 @@ export const useKeyboardShortcut = () => {
 
   const toggleLanguage = (params?: { character: string }) => {
     const character = params?.character || '`';
-    const { locate, setLocate } = useConfigProvider();
 
     useEffect(() => {
       const handleKeyPress = (e: KeyboardEvent) => {
         if (e.key === character) {
-          setLocate((prev) => (prev === Languages.VI ? Languages.EN : Languages.VI));
+          i18n.changeLanguage(i18n.language === Languages.VI ? Languages.EN : Languages.VI);
         }
       };
       document.addEventListener('keypress', handleKeyPress);
       return () => {
         document.removeEventListener('keypress', handleKeyPress);
       };
-    }, [locate]);
+    }, []);
   };
 
   return { toggleLanguage, toggleTheme };

@@ -7,11 +7,11 @@ import { useLocation } from 'react-router-dom';
 import { USAFlagIcon, VietnamFlagIcon } from 'assets/icons';
 import backgroundLogin from 'assets/images/background-login.webp';
 import backgroundWithoutLogin from 'assets/images/background-without-login.webp';
-
 import { appConfig } from 'config';
 import { Languages, useConfigProvider } from 'contexts';
-
+import i18n from 'contexts/config-provider/i18n';
 import { ERROR_IMAGE } from 'utils';
+
 import StyledLayout from './InitialLayout.Layout.styles';
 import {
   LanguageButton,
@@ -26,14 +26,14 @@ export const InitialLayout: FC<PropsWithChildren> = (props) => {
   const { children } = props;
   const { t } = useTranslation('auth');
   const { pathname } = useLocation();
-  const { mode, setLocate } = useConfigProvider();
+  const { mode } = useConfigProvider();
   const GOLDEN_RATIO: number = 196 / 7;
+  const path = pathname.substring(1) as 'login' | 'register' | 'forgot';
 
-  const CardTitle = (
-    <StyledTypography.CardTitle level={3}>{t(`${pathname.substring(1)}.title`)}</StyledTypography.CardTitle>
-  );
+  const CardTitle = <StyledTypography.CardTitle level={3}>{t(`${path}.title` as const)}</StyledTypography.CardTitle>;
+
   const changeLanguage = (langType: Languages) => {
-    setLocate(langType);
+    i18n.changeLanguage(langType);
   };
 
   const content = (
