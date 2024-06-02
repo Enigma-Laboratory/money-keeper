@@ -20,7 +20,7 @@ export const ForgotPage: React.FC = () => {
         data: {
           type: 'info',
           content:
-            'We sent instructions to change your password to @gmail.com, please check both your inbox and spam folder.',
+            'We sent instructions to change your password to *******@gmail.com, please check both your inbox and spam folder.',
         },
       });
     } else {

@@ -52,7 +52,7 @@ export class HttpClientService {
         case 409:
           throw new ConflictError(data.message);
         default:
-          throw new InternalServerError();
+          throw new InternalServerError(data.message);
       }
     } else {
       throw new InternalServerError();

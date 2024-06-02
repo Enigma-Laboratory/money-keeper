@@ -18,8 +18,8 @@ export const RegisterPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
 
-  const handleOnRegisterUser = async (params: CreateUserParams): Promise<void> => {
-    const strength = checkPasswordStrength(params.password);
+  const handleOnRegisterUser = async ({ name, email, password }: CreateUserParams): Promise<void> => {
+    const strength = checkPasswordStrength(password);
     if (!strength.minLength || !strength.hasUppercase || !strength.hasLowercase) {
       form.setFields([{ name: 'password', errors: [t('register.validation.passwordWeak')] }]);
       return;
@@ -27,13 +27,14 @@ export const RegisterPage: React.FC = () => {
 
     setIsLoading(true);
 
-    const { success, error } = await AuthService.instance.register(params);
+    const { success, error } = await AuthService.instance.register({ name, email, password });
     if (success) {
       EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
         data: { type: 'success', content: t('register.message.success') },
       });
       NavigateService.instance.navigate('/login');
     } else {
+      console.log(error?.message);
       if (error?.message === 'Email already exists.') {
         form.setFields([{ name: 'email', errors: [t('register.validation.emailExist')] }]);
       } else {

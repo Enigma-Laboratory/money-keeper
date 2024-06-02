@@ -31,7 +31,7 @@ export const OrderCard = ({ order, users }: OrderCardProps): ReactElement => {
   };
 
   const totalPriceProduct = useMemo(() => {
-    return order.products.reduce((_, { price }) => ++price, 0);
+    return order.products?.reduce((sum, product) => sum + product.price, 0) || 0;
   }, [order.products]);
 
   return (
@@ -48,6 +48,7 @@ export const OrderCard = ({ order, users }: OrderCardProps): ReactElement => {
             {renderItem(t('buyer'), users?.[order.userId]?.name)}
             {renderItem(t('', 'Price'), formatCurrencyToVnd(totalPriceProduct))}
             {renderItem(t('', 'Created Order At'), dayjs(order.createdAt).format(defaultDateTimeFormat))}
+            {order?.description && renderItem(t('', 'description'), order.description)}
           </Flex>
         </Flex>
 
