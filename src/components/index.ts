@@ -9,6 +9,7 @@ export * from './button-status';
 export * from './card-with-content';
 export * from './card-with-plot';
 export * from './catch-all-navigate';
+export * from './dropdown-date-filter';
 export * from './header';
 export * from './menu';
 export * from './not-found';

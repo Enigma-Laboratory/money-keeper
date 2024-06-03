@@ -1,7 +1,7 @@
 import { ClockCircleOutlined, DollarCircleOutlined, ShoppingOutlined, UserOutlined } from '@ant-design/icons';
-import { Col, Flex, Row, Select, Typography, theme } from 'antd';
+import { Col, Flex, Row, Typography, theme } from 'antd';
 import { TrendDownIcon, TrendUpIcon } from 'assets/icons';
-import { CardWithContent, CardWithPlot } from 'components';
+import { CardWithContent, CardWithPlot, DropdownDateFilter } from 'components';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -87,15 +87,10 @@ export const DashboardPage = ({ data }: DashboardProps) => {
     <DashboardStyled>
       <div className="header">
         <h3>{t('dashboard.overview', 'Overview')}</h3>
-        <Select
-          defaultValue={{ label: 'week' }}
-          style={{ width: 120 }}
-          options={[
-            {
-              label: 'week',
-              value: 'week',
-            },
-          ]}
+        <DropdownDateFilter
+          onChange={(value) => {
+            console.log(value);
+          }}
         />
       </div>
       <Row gutter={[16, 16]}>
