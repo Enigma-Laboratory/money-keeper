@@ -20,16 +20,10 @@ export const HeaderLayout = ({ collapsed, toggleCollapsed }: HeaderLayoutProps) 
       <Button type="text" onClick={toggleCollapsed} style={{ marginBottom: 0 }}>
         {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
       </Button>
-      <div className="logo">
-        <p className="title">Money Keeper</p>
-        <p className="created-by"> by VietNam Team</p>
-      </div>
-
       <BaseSearch placeholder="Searching for everything" />
       <div className="container-notify">
         <Space size={24}>
           <UserNotification />
-
           <UserMenu user={user} />
         </Space>
       </div>
