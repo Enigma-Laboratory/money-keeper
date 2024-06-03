@@ -1,4 +1,18 @@
 export default {
+  title: 'Đơn hàng',
+  btnUpdate: 'Cập Nhật',
+  btnNext: 'Tiếp',
+  btnDone: 'Hoàn Thành',
+  btnCreate: 'Tạo',
+  btnPrevious: 'Trước',
+  createOrderBtn: 'Tạo đơn hàng',
+  table: {
+    name: 'Tên',
+    createdDate: 'Ngày khởi tạo',
+    process: 'Quy trình',
+    price: 'Tiền',
+    status: 'Trạng thái',
+  },
   form: {
     title: 'Tạo Đơn Hàng',
     group: {
@@ -43,9 +57,4 @@ export default {
     '2': 'Xác Nhận',
     '3': 'Hoàn Tất',
   },
-  btnUpdate: 'Cập Nhật',
-  btnNext: 'Tiếp',
-  btnDone: 'Hoàn Thành',
-  btnCreate: 'Tạo',
-  btnPrevious: 'Trước',
 };

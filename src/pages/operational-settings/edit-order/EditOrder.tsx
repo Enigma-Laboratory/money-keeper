@@ -393,7 +393,7 @@ export const EditOrder = (props: EditOrderProps) => {
               overflowY: 'auto',
               padding: 10,
             }}
-            title={t('update.form.title', 'Update Order')}
+            title={t('form.title')}
           >
             {isLoading ? (
               <Spin

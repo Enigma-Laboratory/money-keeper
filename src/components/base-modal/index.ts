@@ -1,2 +1,2 @@
-export * from './AlertModal';
+export * from './alert-modal';
 export * from './BaseModal';

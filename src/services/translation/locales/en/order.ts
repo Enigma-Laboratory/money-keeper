@@ -1,4 +1,18 @@
 export default {
+  title: 'Order',
+  btnUpdate: 'Update',
+  btnNext: 'Next',
+  btnDone: 'Done',
+  btnCreate: 'Create',
+  btnPrevious: 'Previous',
+  createOrderBtn: 'Create Order',
+  table: {
+    name: 'Name',
+    createdDate: 'Created Date',
+    process: 'Process',
+    price: 'Price',
+    status: 'Status',
+  },
   form: {
     title: 'Create Order',
     group: {
@@ -43,9 +57,4 @@ export default {
     '2': 'Confirm',
     '3': 'Done',
   },
-  btnUpdate: 'Update',
-  btnNext: 'Next',
-  btnDone: 'Done',
-  btnCreate: 'Create',
-  btnPrevious: 'Previous',
 };
