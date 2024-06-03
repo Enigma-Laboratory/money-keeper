@@ -13,12 +13,10 @@ type HeaderLayoutProps = {
 export const HeaderLayout = ({ collapsed, toggleCollapsed }: HeaderLayoutProps) => {
   const user = AuthService.instance.getAuth();
 
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  const { token } = theme.useToken();
 
   return (
-    <HeaderLayoutStyled style={{ background: colorBgContainer }}>
+    <HeaderLayoutStyled style={{ background: token.colorBgContainer }}>
       <Button type="text" onClick={toggleCollapsed} style={{ marginBottom: 0 }}>
         {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
       </Button>

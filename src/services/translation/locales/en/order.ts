@@ -1,7 +1,3 @@
-import { CreateOrderSteps } from 'pages/operational-settings/create-order/CreateOrder';
-
-const { INFORMATION, PRODUCT, CONFIRM, DONE } = CreateOrderSteps;
-
 export default {
   form: {
     title: 'Create Order',
@@ -42,10 +38,10 @@ export default {
     logout: 'Logout',
   },
   createOrderStep: {
-    [INFORMATION]: 'Information',
-    [PRODUCT]: 'Product',
-    [CONFIRM]: 'Confirm',
-    [DONE]: 'Done',
+    '0': 'Information',
+    '1': 'Product',
+    '2': 'Confirm',
+    '3': 'Done',
   },
   btnUpdate: 'Update',
   btnNext: 'Next',

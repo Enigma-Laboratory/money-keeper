@@ -10,7 +10,7 @@ import backgroundWithoutLogin from 'assets/images/background-without-login.webp'
 import { appConfig } from 'config';
 import { Languages, useConfigProvider } from 'contexts';
 import i18n from 'contexts/config-provider/i18n';
-import { ERROR_IMAGE } from 'utils';
+import { ERROR_IMAGE, LANGUAGE } from 'utils';
 
 import StyledLayout from './InitialLayout.Layout.styles';
 import {
@@ -30,7 +30,7 @@ export const InitialLayout: FC<PropsWithChildren> = (props) => {
   const GOLDEN_RATIO: number = 196 / 7;
   const path = pathname.substring(1) as 'login' | 'register' | 'forgot';
 
-  const CardTitle = <StyledTypography.CardTitle level={3}>{t(`${path}.title` as const)}</StyledTypography.CardTitle>;
+  const CardTitle = <StyledTypography.CardTitle level={3}>{t(`${path}.title`)}</StyledTypography.CardTitle>;
 
   const changeLanguage = (langType: Languages) => {
     i18n.changeLanguage(langType);
@@ -40,11 +40,11 @@ export const InitialLayout: FC<PropsWithChildren> = (props) => {
     <div>
       <LanguageButton type="text" onClick={() => changeLanguage(Languages.VI)}>
         <VietnamFlagIcon style={{ height: '22px', width: '30px', marginRight: '6px' }} />
-        Tiếng Việt
+        {LANGUAGE.VI}
       </LanguageButton>
       <LanguageButton type="text" onClick={() => changeLanguage(Languages.EN)}>
         <USAFlagIcon style={{ height: '22px', width: '30px', marginRight: '6px' }} />
-        English
+        {LANGUAGE.EN}
       </LanguageButton>
     </div>
   );

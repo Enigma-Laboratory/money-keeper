@@ -49,16 +49,16 @@ export default {
     validation: {
       emailEmpty: 'Vui lòng nhập email của bạn.',
       emailInvalidFormat: 'Định dạng email không hợp lệ.',
-      emailExist: 'Email không tồn tại.',
+      emailDontExist: 'Email không tồn tại.',
       passwordEmpty: 'Vui lòng nhập mật khẩu của bạn.',
       passwordIncorrect: 'Mật khẩu của bạn không đúng.',
     },
-    message: {},
   },
   forgot: {
     title: 'Đặt lại mật khẩu của bạn',
     submitBtn: 'Gửi email cho tôi',
     email: 'Nhập email của bạn',
+    back: 'Quay lại đăng nhập',
     validation: {
       emailEmpty: 'Vui lòng nhập email của bạn.',
       emailInvalidFormat: 'Định dạng địa chỉ email không hợp lệ.',
@@ -67,6 +67,8 @@ export default {
     message: {
       success: 'Chúc mừng, tài khoản của bạn đã được tạo thành công.',
       failure: 'Đã xảy ra lỗi. Vui lòng thử lại!',
+      emailDontExist: 'Email không tồn tại.',
+      resetPassword: 'Chúng tôi đã gửi hướng dẫn để thay đổi mật khẩu của bạn đến <0>{{email}}</0>, vui lòng kiểm tra cả hộp thư đến và thư mục spam của bạn.',
     },
   },
   initialLayout: {

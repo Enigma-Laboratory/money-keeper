@@ -353,11 +353,13 @@ export const EditOrder = (props: EditOrderProps) => {
     },
   ];
 
-  const orderStepItems = createOrderBySteps.map(({ key, icon }) => ({
-    key,
-    icon,
-    title: t(`createOrderStep.${key?.toString()}`),
-  }));
+  const orderStepItems = createOrderBySteps.map(({ key, icon }) => {
+    return {
+      key,
+      icon,
+      title: t(`createOrderStep.${key}`),
+    };
+  });
 
   const contentStyle: React.CSSProperties = {
     color: token.colorTextTertiary,

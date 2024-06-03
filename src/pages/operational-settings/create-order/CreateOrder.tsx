@@ -356,11 +356,10 @@ export const CreateOrder = (props: CreateOrderProps) => {
       ),
     },
   ];
-
   const orderStepItems = createOrderBySteps.map(({ key, icon }) => ({
     key,
     icon,
-    title: t(`createOrderStep.${key?.toString()}`),
+    title: t(`createOrderStep.${key}`),
   }));
 
   const contentStyle: React.CSSProperties = {

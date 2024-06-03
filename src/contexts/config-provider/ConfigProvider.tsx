@@ -1,9 +1,10 @@
 import { ConfigProvider as AntdConfigProvider, ThemeConfig, theme } from 'antd';
-import { useLocalStorage } from 'hooks';
 import { PropsWithChildren, createContext, useContext, useEffect, useMemo } from 'react';
 import { I18nextProvider } from 'react-i18next';
 
-import { BaseThemeColors, ThemeProvider } from '../theme-provider';
+import { BaseThemeColors, ThemeProvider } from 'contexts';
+import { useLocalStorage } from 'hooks';
+
 import i18n from './i18n';
 
 export enum Mode {

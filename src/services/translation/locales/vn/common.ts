@@ -14,8 +14,7 @@ export default {
   },
   language: {
     title: 'Ngôn ngữ',
-    en: 'Anh',
-    vi: 'Việt',
+    lang: 'Tiếng Việt',
   },
   mode: {
     title: 'Chủ đề',
@@ -40,5 +39,19 @@ export default {
     close: 'Đóng',
     ok: 'Đồng ý',
     delete: 'Xoá',
+  },
+  orderNotification: {
+    create: {
+      successMessage: 'Tạo đơn hàng thành công',
+      successDescription: 'Đơn hàng với {{orderName}} đã được tạo.',
+    },
+    delete: {
+      successMessage: 'Xóa đơn hàng thành công',
+      successDescription: 'Đơn hàng với {{orderName}} đã được xóa.',
+    },
+    update: {
+      successMessage: 'Cập nhật đơn hàng thành công',
+      successDescription: 'Đơn hàng với {{orderName}} đã được cập nhật.',
+    },
   },
 };

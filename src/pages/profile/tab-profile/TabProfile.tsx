@@ -2,10 +2,10 @@ import { Button, Form, FormProps, Input } from 'antd';
 import { ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { EVENT_NAME, EventAction } from 'utils';
-
 import { AlertModalPayload } from 'interfaces';
 import { AuthService, UsersService } from 'stores';
+import { EVENT_NAME, EventAction } from 'utils';
+
 import { StyledCard } from './TabProfile.styles';
 
 export type FieldType = {
@@ -45,7 +45,7 @@ export const TabProfile = () => {
   };
 
   const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+    console.error('Failed:', errorInfo);
   };
 
   const PasswordTab = (): React.ReactElement => {

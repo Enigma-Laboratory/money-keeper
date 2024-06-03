@@ -12,7 +12,7 @@ export const HeaderAlertModal = (props: { title: string | undefined; type: Alert
   return (
     <Space>
       <IconHeaderAlertModal type={type} />
-      {t(`alertTitle.title.${title ?? type}`)}
+      {/* {t(`alertTitle.title.${title ?? type}`)} */}
     </Space>
   );
 };

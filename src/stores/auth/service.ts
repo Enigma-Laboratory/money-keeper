@@ -1,8 +1,10 @@
 import { CreateUserParams, ForgotPasswordParams, LoginParams, User } from '@enigma-laboratory/shared';
 import { notification } from 'antd';
+
 import { useLocalStorage } from 'hooks';
 import { AuthApiService, UserApiService } from 'services';
 import { REFRESH_TOKEN_KEY, TOKEN_KEY, USER_IDENTITY } from 'utils';
+
 import {
   AuthActionResponse,
   AuthenticatedResponse,

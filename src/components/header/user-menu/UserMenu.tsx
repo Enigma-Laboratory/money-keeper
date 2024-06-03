@@ -1,12 +1,14 @@
 import { DownOutlined, EyeOutlined, LogoutOutlined, SettingOutlined, UserSwitchOutlined } from '@ant-design/icons';
 import { User } from '@enigma-laboratory/shared';
 import { Avatar, Button, Divider, Dropdown, Flex, Popover, Space, Typography } from 'antd';
+import { ReactElement } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { IconMoon, IconSun } from 'assets/icons';
 import { Languages, Mode, useConfigProvider } from 'contexts';
 import i18n from 'contexts/config-provider/i18n';
-import { ReactElement } from 'react';
-import { useTranslation } from 'react-i18next';
-import { generateColorFromAlphabet } from 'utils';
+import { LANGUAGE, generateColorFromAlphabet } from 'utils';
+
 import { StyledUserMenu, StyledWrap } from './UserMenu.styles';
 
 type UserMenuProps = {
@@ -53,14 +55,17 @@ export const UserMenu = ({ user }: UserMenuProps): ReactElement => {
 
           <Dropdown
             menu={{
-              items: Object.values(Languages).map((key) => ({ label: t(`language.${key}`), key })),
+              items: Object.values(Languages).map((key) => ({
+                label: key === Languages.EN ? LANGUAGE.EN : LANGUAGE.VI,
+                key,
+              })),
               selectable: true,
               defaultSelectedKeys: [i18n.language],
               onClick: (e) => i18n.changeLanguage(e.key as Languages),
             }}
           >
             <Space>
-              {t(`language.${i18n.language}`)}
+              {t`language.lang`}
               <Button type="text" icon={<DownOutlined />} />
             </Space>
           </Dropdown>

@@ -2,10 +2,13 @@ import 'i18next';
 import { createInstance } from 'i18next';
 import { en, vi } from 'services';
 
-export const resources = {
+/**
+ * Type of resources to check object in the languages is the same or not
+ */
+export const resources: { en: typeof vi; vi: typeof en } = {
   en,
   vi,
-} as const;
+};
 
 export enum Languages {
   EN = 'en',
@@ -14,7 +17,7 @@ export enum Languages {
 
 const i18n = createInstance({
   resources: resources,
-  lng: 'vi',
+  lng: Languages.EN,
   fallbackLng: [Languages.EN, Languages.VI],
   interpolation: {
     escapeValue: false,
