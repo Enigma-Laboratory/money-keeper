@@ -1,10 +1,12 @@
 import { ClockCircleOutlined, DollarCircleOutlined, ShoppingOutlined, UserOutlined } from '@ant-design/icons';
 import { Col, Flex, Row, Typography, theme } from 'antd';
-import { TrendDownIcon, TrendUpIcon } from 'assets/icons';
 import { CardWithContent, CardWithPlot, DropdownDateFilter } from 'components';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { TrendDownIcon, TrendUpIcon } from 'assets/icons';
+
 import { DashboardStyled } from './Dashboard.styles';
 import { DailyOrders } from './dailyOrders';
 import { DailyRevenue } from './dailyRevenue';
