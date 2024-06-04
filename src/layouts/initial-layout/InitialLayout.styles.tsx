@@ -14,7 +14,10 @@ const StyledTypographyCardTitle = styled(Typography.Title)`
     hyphens: manual;
     text-overflow: unset;
     white-space: pre-wrap;
-    color: ${(props) => props.theme.colorPrimaryTextHover};
+    color: ${(props) => props.theme.colorPrimaryText};
+    :hover {
+      color: ${(props) => props.theme.colorPrimaryTextHover};
+    }
   }
 `;
 

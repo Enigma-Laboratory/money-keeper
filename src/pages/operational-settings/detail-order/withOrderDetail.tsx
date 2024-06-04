@@ -6,9 +6,10 @@ import {
   UpdateOrderStatusParams,
 } from '@enigma-laboratory/shared';
 import { Spin } from 'antd';
-import { useFetchInitData } from 'hooks';
 import { ComponentType, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
+
+import { useFetchInitData } from 'hooks';
 import { OperationalSettingCollection, OrderService, UserCollection } from 'stores';
 
 export interface DetailOrderProps {

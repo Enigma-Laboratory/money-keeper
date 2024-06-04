@@ -1,20 +1,21 @@
 import { Outlet, Route, BrowserRouter as Router, Routes, useNavigate } from 'react-router-dom';
 
 import { Authenticated, CatchAllNavigate } from 'components';
+import { useKeyboardShortcut } from 'hooks';
 import { InitialLayout, LayoutMain } from 'layouts';
 import { ForgotPage, LoginPage, RegisterPage } from 'pages';
 import { NavigateService } from 'services';
 
-import { useKeyboardShortcut } from 'hooks';
 import { RouteComponent, routeComponents } from './routeComponent';
 
 const RenderRouteComponent = (props: { routes: RouteComponent[] }) => {
   const { routes } = props;
   const navigate = useNavigate();
   NavigateService.instance.setNavigate(navigate);
-  const { toggleTheme } = useKeyboardShortcut();
+  const { toggleTheme, toggleLanguage } = useKeyboardShortcut();
 
   toggleTheme();
+  toggleLanguage({ character: '|' });
   return (
     <Routes>
       <Route
@@ -55,12 +56,10 @@ const RenderRouteComponent = (props: { routes: RouteComponent[] }) => {
   );
 };
 
-const BaseRoutes = () => {
+export const BaseRoutes = () => {
   return (
     <Router>
       <RenderRouteComponent routes={routeComponents} />
     </Router>
   );
 };
-
-export default BaseRoutes;

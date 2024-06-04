@@ -56,14 +56,14 @@ export const OperationalSettings = (props: OperationalSettingProps): ReactElemen
 
   const columns: TableProps<OperationalSettingWithOrders>['columns'] = [
     {
-      title: t('', 'Name'),
+      title: t('table.name'),
       dataIndex: 'name',
       key: 'name',
       width: 200,
       render: (value) => <Typography.Text strong>{value}</Typography.Text>,
     },
     {
-      title: t('', 'Created Date'),
+      title: t('table.createdDate'),
       dataIndex: 'createdAt',
       key: 'createdAt',
       width: 200,
@@ -73,7 +73,7 @@ export const OperationalSettings = (props: OperationalSettingProps): ReactElemen
       },
     },
     {
-      title: t('', 'Process'),
+      title: t('table.process'),
       key: 'process',
       dataIndex: 'orders',
       className: 'process',
@@ -89,7 +89,7 @@ export const OperationalSettings = (props: OperationalSettingProps): ReactElemen
       },
     },
     {
-      title: t('', 'Price'),
+      title: t('table.price'),
       key: 'price',
       width: 150,
       render: (_, record) => {
@@ -97,7 +97,7 @@ export const OperationalSettings = (props: OperationalSettingProps): ReactElemen
       },
     },
     {
-      title: t('', 'Status'),
+      title: t('table.status'),
       dataIndex: 'status',
       key: 'status',
       width: 150,
@@ -138,13 +138,13 @@ export const OperationalSettings = (props: OperationalSettingProps): ReactElemen
   const headerOrder = () => {
     return (
       <Space>
-        <Typography.Title level={2}>{t('order.title', 'Order')}</Typography.Title>
+        <Typography.Title level={2}>{t('title')}</Typography.Title>
         <Button
           onClick={() => navigate(getExactPath(routePaths.createOrder))}
           type="dashed"
           icon={<InsertRowRightOutlined />}
         >
-          {t('orders.createOrder', 'Create order')}
+          {t('createOrderBtn')}
         </Button>
       </Space>
     );

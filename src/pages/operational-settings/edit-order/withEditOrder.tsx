@@ -4,10 +4,16 @@ import {
   Order,
   UpdateOneOrderParams,
 } from '@enigma-laboratory/shared';
-import { useFetchInitData } from 'hooks';
 import { ComponentType } from 'react';
-import { OperationalSettingCollection, OperationalSettingService, OrderCollection, OrderService } from 'stores';
-import { UserCollection } from 'stores/user';
+
+import { useFetchInitData } from 'hooks';
+import {
+  OperationalSettingCollection,
+  OperationalSettingService,
+  OrderCollection,
+  OrderService,
+  UserCollection,
+} from 'stores';
 export interface EditOrderProps {
   data: {
     isLoading: boolean;

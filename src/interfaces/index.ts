@@ -211,8 +211,8 @@ export type AlertModalType = 'confirm' | 'warning' | 'info' | 'error' | 'success
 export interface AlertModalPayload {
   data: {
     type: AlertModalType;
-    content?: string;
-    subContent?: string;
+    content?: string | JSX.Element;
+    subContent?: string | JSX.Element;
     confirmName?: string; //** Name which type in to confirm before deleted */
   };
   dispatch?: {

@@ -27,7 +27,7 @@ export const LoginPage: React.FC = () => {
     }
     switch (error?.message) {
       case ErrorMessage.INVALID_EMAIL:
-        form.setFields([{ name: 'email', errors: [t('login.validation.emailExist')] }]);
+        form.setFields([{ name: 'email', errors: [t('login.validation.emailDontExist')] }]);
         break;
       case ErrorMessage.WRONG_PASSWORD:
         form.setFields([{ name: 'password', errors: [t('login.validation.passwordIncorrect')] }]);
@@ -58,7 +58,7 @@ export const LoginPage: React.FC = () => {
         <Input type="password" placeholder={t('login.placeholder.password')} size="large" />
       </Form.Item>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, marginTop: 60, zIndex: 0 }}>
-        <Link style={{ color: token.colorPrimaryTextHover, fontSize: '12px', marginLeft: 'auto' }} to="/forgot">
+        <Link style={{ color: token.colorPrimaryText, fontSize: '12px', marginLeft: 'auto' }} to="/forgot">
           {t('login.forgotPassword')}
         </Link>
       </div>
@@ -71,7 +71,7 @@ export const LoginPage: React.FC = () => {
       <div style={{ marginTop: 20 }}>
         <Typography.Text style={{ fontSize: 12 }}>
           {t('login.noAccount')}
-          <Link to="/register" style={{ fontWeight: 'bold', color: token.colorPrimaryTextHover }}>
+          <Link to="/register" style={{ fontWeight: 'bold', color: token.colorPrimaryText }}>
             {t('login.signup')}
           </Link>
         </Typography.Text>

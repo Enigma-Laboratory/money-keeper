@@ -1,8 +1,8 @@
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { ForgotPasswordParams } from '@enigma-laboratory/shared';
-import { Button, Form, Input, Space, Typography } from 'antd';
+import { Button, Form, Input, Space, Typography, theme } from 'antd';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
 import { AlertModalPayload } from 'interfaces';
 import { AuthService } from 'stores';
@@ -12,24 +12,33 @@ import { StyledLink } from './ForgotPage.styles';
 
 export const ForgotPage: React.FC = () => {
   const { t } = useTranslation('auth');
+  const { token } = theme.useToken();
 
   const recoverPassword = async (params: ForgotPasswordParams) => {
-    const { success } = await AuthService.instance.forgotPassword(params);
+    const { success, error } = await AuthService.instance.forgotPassword(params);
+
     if (success) {
       EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
         data: {
           type: 'info',
-          content:
-            'We sent instructions to change your password to *******@gmail.com, please check both your inbox and spam folder.',
+          subContent: (
+            <Trans
+              i18nKey="auth:forgot.message.resetPassword"
+              values={{ email: params.email }}
+              components={[<strong style={{ color: token.colorPrimaryText }} />]}
+            />
+          ),
         },
       });
     } else {
-      EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
-        data: {
-          type: 'error',
-          content: t('forgot.message.failure'),
-        },
-      });
+      if (error?.message === 'User not found with the provided email address') {
+        EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
+          data: {
+            type: 'error',
+            content: t('forgot.message.emailDontExist'),
+          },
+        });
+      }
     }
   };
 
@@ -48,7 +57,6 @@ export const ForgotPage: React.FC = () => {
       >
         <Input size="large" />
       </Form.Item>
-
       <Form.Item style={{ marginBottom: 0, marginTop: 60 }}>
         <Button type="primary" size="large" htmlType="submit" block>
           {t('forgot.submitBtn')}

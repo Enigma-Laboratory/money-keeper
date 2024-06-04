@@ -14,8 +14,7 @@ export default {
   },
   language: {
     title: 'Ngôn ngữ',
-    en: 'Anh',
-    vi: 'Việt',
+    lang: 'Tiếng Việt',
   },
   mode: {
     title: 'Chủ đề',
@@ -30,15 +29,30 @@ export default {
     [PROCESSING]: 'Đang xử lý',
   },
   alert: {
+    closeBtn: 'Đóng',
+    okBtn: 'Đồng ý',
+    deleteBtn: 'Xoá',
     title: {
       info: 'Thông tin',
       confirm: 'Xác nhận',
       error: 'Lỗi',
       warning: 'Cảnh báo',
       success: 'Thành công',
+      delete: 'Xác nhận',
     },
-    close: 'Đóng',
-    ok: 'Đồng ý',
-    delete: 'Xoá',
+  },
+  orderNotification: {
+    create: {
+      successMessage: 'Tạo đơn hàng thành công',
+      successDescription: 'Đơn hàng với {{orderName}} đã được tạo.',
+    },
+    delete: {
+      successMessage: 'Xóa đơn hàng thành công',
+      successDescription: 'Đơn hàng với {{orderName}} đã được xóa.',
+    },
+    update: {
+      successMessage: 'Cập nhật đơn hàng thành công',
+      successDescription: 'Đơn hàng với {{orderName}} đã được cập nhật.',
+    },
   },
 };

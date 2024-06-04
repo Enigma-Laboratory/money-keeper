@@ -16,12 +16,10 @@ export default {
     price: 'Price',
     total: 'Total',
   },
-  
+
   orderEvenLog: 'Order event log',
-  btn: {
-    update: 'Update',
-    delete: 'Delete',
-  },
+  updateBtn: 'Update',
+  deleteBtn: 'Delete',
   orderDetails: 'Order Details',
   eventLogs: {
     [PROCESSING]: {

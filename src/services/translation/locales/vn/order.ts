@@ -1,8 +1,18 @@
-import { CreateOrderSteps } from 'pages/operational-settings/create-order/CreateOrder';
-
-const { INFORMATION, PRODUCT, CONFIRM, DONE } = CreateOrderSteps;
-
 export default {
+  title: 'Đơn hàng',
+  btnUpdate: 'Cập Nhật',
+  btnNext: 'Tiếp',
+  btnDone: 'Hoàn Thành',
+  btnCreate: 'Tạo',
+  btnPrevious: 'Trước',
+  createOrderBtn: 'Tạo đơn hàng',
+  table: {
+    name: 'Tên',
+    createdDate: 'Ngày khởi tạo',
+    process: 'Quy trình',
+    price: 'Tiền',
+    status: 'Trạng thái',
+  },
   form: {
     title: 'Tạo Đơn Hàng',
     group: {
@@ -33,18 +43,18 @@ export default {
       messageRequiredUserIds: 'Thiếu ID người dùng',
       messageRequiredPrice: 'Thiếu giá',
     },
-    addProduct: 'Thêm Sản Phẩm',
+    addProduct: 'Thêm sản phẩm',
     groupName: 'Tên nhóm',
+    orders: 'Đơn hàng',
+    customers: 'Khách hàng',
+    products: 'Sản phẩm',
+    categories: 'Danh mục',
+    logout: 'Đăng xuất',
   },
   createOrderStep: {
-    [INFORMATION]: 'Thông Tin',
-    [PRODUCT]: 'Sản Phẩm',
-    [CONFIRM]: 'Xác Nhận',
-    [DONE]: 'Hoàn Tất',
+    '0': 'Thông Tin',
+    '1': 'Sản Phẩm',
+    '2': 'Xác Nhận',
+    '3': 'Hoàn Tất',
   },
-  btnUpdate: 'Cập Nhật',
-  btnNext: 'Tiếp',
-  btnDone: 'Hoàn Thành',
-  btnCreate: 'Tạo',
-  btnPrevious: 'Trước',
 };

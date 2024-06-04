@@ -7,11 +7,10 @@ import { useLocation } from 'react-router-dom';
 import { USAFlagIcon, VietnamFlagIcon } from 'assets/icons';
 import backgroundLogin from 'assets/images/background-login.webp';
 import backgroundWithoutLogin from 'assets/images/background-without-login.webp';
-
 import { appConfig } from 'config';
-import { Languages, useConfigProvider } from 'contexts';
+import { Languages, i18n, useConfigProvider } from 'contexts';
+import { ERROR_IMAGE, LANGUAGE } from 'utils';
 
-import { ERROR_IMAGE } from 'utils';
 import StyledLayout from './InitialLayout.Layout.styles';
 import {
   LanguageButton,
@@ -26,25 +25,25 @@ export const InitialLayout: FC<PropsWithChildren> = (props) => {
   const { children } = props;
   const { t } = useTranslation('auth');
   const { pathname } = useLocation();
-  const { mode, setLocate } = useConfigProvider();
+  const { mode } = useConfigProvider();
   const GOLDEN_RATIO: number = 196 / 7;
+  const path = pathname.substring(1) as 'login' | 'register' | 'forgot';
 
-  const CardTitle = (
-    <StyledTypography.CardTitle level={3}>{t(`${pathname.substring(1)}.title`)}</StyledTypography.CardTitle>
-  );
+  const CardTitle = <StyledTypography.CardTitle level={3}>{t(`${path}.title`)}</StyledTypography.CardTitle>;
+
   const changeLanguage = (langType: Languages) => {
-    setLocate(langType);
+    i18n.changeLanguage(langType);
   };
 
   const content = (
     <div>
       <LanguageButton type="text" onClick={() => changeLanguage(Languages.VI)}>
         <VietnamFlagIcon style={{ height: '22px', width: '30px', marginRight: '6px' }} />
-        Tiếng Việt
+        {LANGUAGE.VI}
       </LanguageButton>
       <LanguageButton type="text" onClick={() => changeLanguage(Languages.EN)}>
         <USAFlagIcon style={{ height: '22px', width: '30px', marginRight: '6px' }} />
-        English
+        {LANGUAGE.EN}
       </LanguageButton>
     </div>
   );

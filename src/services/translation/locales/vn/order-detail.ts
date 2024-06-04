@@ -17,10 +17,8 @@ export default {
     total: 'Tổng',
   },
   orderEvenLog: 'Nhật ký sự kiện đơn hàng',
-  btn: {
-    update: 'Cập nhật',
-    delete: 'Xóa',
-  },
+  updateBtn: 'Cập nhật',
+  deleteBtn: 'Xóa',
   orderDetails: 'Chi tiết đơn hàng',
   eventLogs: {
     [PROCESSING]: {

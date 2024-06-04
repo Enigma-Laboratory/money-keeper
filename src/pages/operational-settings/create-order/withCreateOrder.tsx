@@ -1,8 +1,8 @@
 import { CreateOneOperationalSettingParams, CreateOneOrderParams, Order } from '@enigma-laboratory/shared';
-import { useFetchInitData } from 'hooks';
 import { ComponentType } from 'react';
-import { OperationalSettingCollection, OperationalSettingService, OrderService } from 'stores';
-import { UserCollection } from 'stores/user';
+
+import { useFetchInitData } from 'hooks';
+import { OperationalSettingCollection, OperationalSettingService, OrderService, UserCollection } from 'stores';
 export interface CreateOrderProps {
   data: {
     isLoading: boolean;

@@ -1,11 +1,13 @@
 import { User, defaultDateTimeFormat } from '@enigma-laboratory/shared';
 import { Avatar, Button, Divider, Flex, Switch, Typography } from 'antd';
 import dayjs from 'dayjs';
-import { useLocalStorage } from 'hooks';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { useLocalStorage } from 'hooks';
 import { DEFAULT_USER_VALUES } from 'stores';
 import { USER_IDENTITY, formatCurrencyToVnd, generateColorFromAlphabet } from 'utils';
+
 import { OperationalSettingDrawerStyled } from './OperationalSettingDrawer.styles';
 import { OperationalSettingProps } from './withOperationalSettingDrawerController';
 

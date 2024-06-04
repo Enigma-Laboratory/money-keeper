@@ -14,8 +14,7 @@ export default {
   },
   language: {
     title: 'Language',
-    en: 'English',
-    vi: 'Vietnamese',
+    lang: 'English',
   },
   mode: {
     title: 'Mode',
@@ -30,29 +29,30 @@ export default {
     [PROCESSING]: 'Processing',
   },
   alert: {
+    closeBtn: 'Close',
+    okBtn: 'Ok',
+    deleteBtn: 'Delete',
     title: {
       info: 'Info',
       confirm: 'Confirm',
       error: 'Error',
       warning: 'Warning',
       success: 'Success',
+      delete: 'Warning',
     },
-    close: 'Close',
-    ok: 'Ok',
-    delete: 'Delete',
   },
   orderNotification: {
     create: {
       successMessage: 'Order created successfully',
-      successDescription: 'The order with <strong>{{orderName}}</strong> has been created.',
+      successDescription: 'The order with {{orderName}} has been created.',
     },
     delete: {
       successMessage: 'Order deleted successfully',
-      successDescription: 'The order with <strong>{{orderName}}</strong> has been deleted.',
+      successDescription: 'The order with {{orderName}} has been deleted.',
     },
     update: {
       successMessage: 'Order updated successfully',
-      successDescription: 'The order with <strong>{{orderName}}</strong> has been updated.',
+      successDescription: 'The order with {{orderName}} has been updated.',
     },
   },
 };

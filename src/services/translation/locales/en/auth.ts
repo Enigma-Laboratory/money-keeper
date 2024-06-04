@@ -53,7 +53,6 @@ export default {
       passwordEmpty: 'Please enter your password.',
       passwordIncorrect: 'Your password is incorrect.',
     },
-    message: {},
   },
   forgot: {
     title: 'Reset your password',
@@ -68,6 +67,8 @@ export default {
     message: {
       success: 'Congratulations, your account has been successfully created.',
       failure: 'Something went wrong. Please try again!',
+      emailDontExist: 'The email do not exist.',
+      resetPassword: 'We sent instructions to change your password to <0>{{email}}</0>, please check both your inbox and spam folder',
     },
   },
   initialLayout: {

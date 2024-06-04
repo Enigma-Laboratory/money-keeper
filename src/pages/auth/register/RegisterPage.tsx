@@ -34,7 +34,6 @@ export const RegisterPage: React.FC = () => {
       });
       NavigateService.instance.navigate('/login');
     } else {
-      console.log(error?.message);
       if (error?.message === 'Email already exists.') {
         form.setFields([{ name: 'email', errors: [t('register.validation.emailExist')] }]);
       } else {
@@ -108,7 +107,7 @@ export const RegisterPage: React.FC = () => {
       <div style={{ marginTop: 20, textAlign: 'center' }}>
         <Typography.Text style={{ fontSize: 12 }}>
           {t('register.hasAccount')}
-          <Link to="/login" style={{ fontWeight: 'bold', color: token.colorPrimaryTextHover }}>
+          <Link to="/login" style={{ fontWeight: 'bold', color: token.colorPrimaryText }}>
             {t('register.signIn')}
           </Link>
         </Typography.Text>
