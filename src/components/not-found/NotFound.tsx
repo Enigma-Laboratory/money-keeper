@@ -9,10 +9,10 @@ export const NotFound = (): ReactElement => {
     <Result
       status="404"
       title="404"
-      subTitle={t('', 'Sorry, the page you visited does not exist.')}
+      subTitle={t('pageNotFound')}
       extra={
         <Button type="primary">
-          <Link to={'/'}> {t('', 'Back Home')}</Link>
+          <Link to={'/'}> {t('backToHome')}</Link>
         </Button>
       }
     />
