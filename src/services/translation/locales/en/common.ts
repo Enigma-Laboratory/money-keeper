@@ -55,4 +55,6 @@ export default {
       successDescription: 'The order with {{orderName}} has been updated.',
     },
   },
+  pageNotFound: 'Sorry, the page you visited does not exist.',
+  backToHome: 'Back Home',
 };
