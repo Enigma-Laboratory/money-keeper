@@ -8,8 +8,7 @@ import { USAFlagIcon, VietnamFlagIcon } from 'assets/icons';
 import backgroundLogin from 'assets/images/background-login.webp';
 import backgroundWithoutLogin from 'assets/images/background-without-login.webp';
 import { appConfig } from 'config';
-import { Languages, useConfigProvider } from 'contexts';
-import i18n from 'contexts/config-provider/i18n';
+import { Languages, i18n, useConfigProvider } from 'contexts';
 import { ERROR_IMAGE, LANGUAGE } from 'utils';
 
 import StyledLayout from './InitialLayout.Layout.styles';

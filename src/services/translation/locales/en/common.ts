@@ -29,16 +29,17 @@ export default {
     [PROCESSING]: 'Processing',
   },
   alert: {
+    closeBtn: 'Close',
+    okBtn: 'Ok',
+    deleteBtn: 'Delete',
     title: {
       info: 'Info',
       confirm: 'Confirm',
       error: 'Error',
       warning: 'Warning',
       success: 'Success',
+      delete: 'Warning',
     },
-    close: 'Close',
-    ok: 'Ok',
-    delete: 'Delete',
   },
   orderNotification: {
     create: {

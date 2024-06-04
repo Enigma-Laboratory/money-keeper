@@ -18,7 +18,7 @@ export const ConfirmDeleteButton = (props: ConfirmDeleteButtonProps) => {
       disabled={!(confirmInput === confirmName)}
       {...remaining}
     >
-      {t('alert.delete')}
+      {t('alert.deleteBtn')}
     </Button>
   );
 };

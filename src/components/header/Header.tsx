@@ -1,5 +1,5 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Button, Space, theme } from 'antd';
+import { Button, Space } from 'antd';
 import { AuthService } from 'stores';
 import { BaseSearch } from '../base-search';
 import { HeaderLayoutStyled } from './Header.styles';
@@ -13,10 +13,8 @@ type HeaderLayoutProps = {
 export const HeaderLayout = ({ collapsed, toggleCollapsed }: HeaderLayoutProps) => {
   const user = AuthService.instance.getAuth();
 
-  const { token } = theme.useToken();
-
   return (
-    <HeaderLayoutStyled style={{ background: token.colorBgContainer }}>
+    <HeaderLayoutStyled>
       <Button type="text" onClick={toggleCollapsed} style={{ marginBottom: 0 }}>
         {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
       </Button>

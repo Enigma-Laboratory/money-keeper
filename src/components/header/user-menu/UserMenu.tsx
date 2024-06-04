@@ -5,8 +5,7 @@ import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { IconMoon, IconSun } from 'assets/icons';
-import { Languages, Mode, useConfigProvider } from 'contexts';
-import i18n from 'contexts/config-provider/i18n';
+import { Languages, Mode, i18n, useConfigProvider } from 'contexts';
 import { LANGUAGE, generateColorFromAlphabet } from 'utils';
 
 import { StyledUserMenu, StyledWrap } from './UserMenu.styles';

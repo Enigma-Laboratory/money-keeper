@@ -49,7 +49,7 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
               icon={<CloseCircleOutlined />}
               danger
             >
-              {t('btn.update')}
+              {t('updateBtn')}
             </BaseButton>
             <BaseButton
               onClick={() => {
@@ -66,7 +66,7 @@ export const OrderDetail = (props: DetailOrderProps): ReactElement => {
               type="primary"
               icon={<CheckCircleOutlined />}
             >
-              {t('btn.delete')}
+              {t('deleteBtn')}
             </BaseButton>
           </Space>
         </Flex>

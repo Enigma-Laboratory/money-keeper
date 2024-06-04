@@ -57,7 +57,6 @@ export const ForgotPage: React.FC = () => {
       >
         <Input size="large" />
       </Form.Item>
-
       <Form.Item style={{ marginBottom: 0, marginTop: 60 }}>
         <Button type="primary" size="large" htmlType="submit" block>
           {t('forgot.submitBtn')}
@@ -71,8 +70,6 @@ export const ForgotPage: React.FC = () => {
           </Space>
         </StyledLink>
       </div>
-      <br />
-      <div></div>
     </Form>
   );
 };

@@ -1,9 +1,9 @@
-import 'i18next';
 import { createInstance } from 'i18next';
 import { en, vi } from 'services';
 
 /**
- * Type of resources to check object in the languages is the same or not
+ * Type of resources are used to check
+ * if objects in different languages are the same or not
  */
 export const resources: { en: typeof vi; vi: typeof en } = {
   en,
@@ -15,7 +15,7 @@ export enum Languages {
   VI = 'vi',
 }
 
-const i18n = createInstance({
+const i18nInit = createInstance({
   resources: resources,
   lng: Languages.EN,
   fallbackLng: [Languages.EN, Languages.VI],
@@ -25,6 +25,6 @@ const i18n = createInstance({
   appendNamespaceToMissingKey: true,
   // debug: true,
 });
+i18nInit.init();
 
-i18n.init();
-export default i18n;
+export const i18n = i18nInit;

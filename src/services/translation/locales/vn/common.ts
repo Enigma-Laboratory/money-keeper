@@ -29,16 +29,17 @@ export default {
     [PROCESSING]: 'Đang xử lý',
   },
   alert: {
+    closeBtn: 'Đóng',
+    okBtn: 'Đồng ý',
+    deleteBtn: 'Xoá',
     title: {
       info: 'Thông tin',
       confirm: 'Xác nhận',
       error: 'Lỗi',
       warning: 'Cảnh báo',
       success: 'Thành công',
+      delete: 'Xác nhận',
     },
-    close: 'Đóng',
-    ok: 'Đồng ý',
-    delete: 'Xoá',
   },
   orderNotification: {
     create: {

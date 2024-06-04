@@ -86,7 +86,7 @@ export const AlertModal = (props: BaseModalProps): ReactElement => {
     if (!modalSource.isOpen) return;
     const initFooter: JSX.Element[] = [
       <Button key={BUTTON_KEY.BUTTON_KEY_FIRST} onClick={closeModal}>
-        {t('alert.close')}
+        {t('alert.closeBtn')}
       </Button>,
     ];
     switch (modalSource.data.type) {

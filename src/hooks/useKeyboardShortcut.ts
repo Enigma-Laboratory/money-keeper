@@ -1,5 +1,4 @@
-import { Mode, useConfigProvider } from 'contexts';
-import i18n, { Languages } from 'contexts/config-provider/i18n';
+import { Languages, Mode, i18n, useConfigProvider } from 'contexts';
 import { useEffect } from 'react';
 
 export const useKeyboardShortcut = () => {
