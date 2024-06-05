@@ -55,4 +55,6 @@ export default {
       successDescription: 'Đơn hàng với {{orderName}} đã được cập nhật.',
     },
   },
+  pageNotFound: 'Xin lỗi, trang này không tồn tại.',
+  backToHome: 'Trở về trang chủ.',
 };
