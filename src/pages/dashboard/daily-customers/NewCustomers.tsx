@@ -1,18 +1,16 @@
-import { BarElement, CategoryScale, Chart, Legend, LinearScale, Title, Tooltip } from 'chart.js';
+import { BarElement, CategoryScale, Chart, Legend, LinearScale, ScriptableContext, Title, Tooltip } from 'chart.js';
+import dayjs from 'dayjs';
 import { Bar } from 'react-chartjs-2';
+import { ChartUnit } from 'stores/dashboard';
+
 type Props = {
-  data: {
-    timeUnix: number;
-    timeText: string;
-    value: number;
-    state: string;
-  }[];
+  data: ChartUnit[];
   height: number;
 };
 
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export const NewCustomers = ({ data, height }: Props) => {
+export const DailyCustomerChart = ({ data, height }: Props) => {
   // const t = useTranslation();
   // const { mode } = useConfigProvider();
 
@@ -32,22 +30,21 @@ export const NewCustomers = ({ data, height }: Props) => {
     },
   };
 
-  // eslint-disable-next-line
-  const gradientFill = (context: any) => {
-    const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, context.chart.height);
+  const createGradient = (context: ScriptableContext<'bar'>) => {
+    const ctx = context.chart.ctx;
+    const gradient = ctx.createLinearGradient(0, 0, 0, context.chart.height);
     gradient.addColorStop(1, '#ffffff');
-    gradient.addColorStop(0.5, '#D3EBFF');
-    gradient.addColorStop(0, '#1677FF');
+    gradient.addColorStop(0, '#ffbc2b');
     return gradient;
   };
 
   const dataTest = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    labels: data.map(({ date }) => dayjs(date).format('dddd')),
     datasets: [
       {
         data: data.map(({ value }) => value),
-        backgroundColor: gradientFill,
-        borderColor: '#1624de',
+        backgroundColor: createGradient,
+        borderColor: '#ff9100',
       },
     ],
   };

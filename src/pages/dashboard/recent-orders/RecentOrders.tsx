@@ -1,103 +1,50 @@
-import { Flex, Space, Table, TableProps, Typography, theme } from 'antd';
-import { IOrder } from 'interfaces';
-import { OrderActions } from './OrderAction';
+import { Order, Product } from '@enigma-laboratory/shared';
+import { Flex, Pagination, Space, Table, TableProps, Typography, theme } from 'antd';
+import { RecentOrder } from 'stores/dashboard';
 
 type OrderTimelineProps = {
-  data: {
-    orders?: IOrder[];
-    height?: string;
+  data: RecentOrder;
+  loading: boolean;
+  dispatch?: {
+    fetchRecentOrder: (page: number, pageSize?: number) => Promise<void>;
   };
-  dispatch: object;
 };
 
-// interface DataType {
-//   key: string;
-//   orderNumber: string;
-//   age: number;
-//   address: string;
-//   tags: string[];
-// }
+interface ColumnProps extends Order {
+  key?: string;
+}
 
-export const RecentOrders = ({ data }: OrderTimelineProps) => {
-  const { orders } = data;
-
+export const RecentOrderChart = ({ data, dispatch, loading }: OrderTimelineProps) => {
   const { token } = theme.useToken();
-
-  const columns: TableProps<IOrder>['columns'] = [
+  const columns: TableProps<ColumnProps>['columns'] = [
     {
-      title: 'orderNumber',
+      title: 'Order Number',
       dataIndex: 'orderNumber',
       key: 'orderNumber',
-      align: 'center',
-      width: 150,
+      width: 140,
       render: (_, record) => (
-        <Typography.Link
-          strong
-          onClick={() => console.log('redirect to order')}
-          style={{
-            whiteSpace: 'nowrap',
-            color: token.colorTextHeading,
-          }}
-        >
+        <Typography.Link strong style={{ whiteSpace: 'nowrap', color: token.colorTextHeading }}>
           #{record.orderNumber}
         </Typography.Link>
       ),
     },
-
     {
-      title: 'id',
-      dataIndex: 'id',
-      key: 'id',
-      width: '30%',
-      render: (_, record) => {
-        return (
-          <Space
-            size={0}
-            direction="vertical"
-            style={{
-              maxWidth: '220px',
-            }}
-          >
-            <Typography.Text
-              style={{
-                fontSize: 14,
-              }}
-            >
-              {record?.user?.firstName} {record?.user?.lastName}
-            </Typography.Text>
-            <Typography.Text
-              ellipsis
-              style={{
-                fontSize: 12,
-              }}
-              type="secondary"
-            >
-              {record?.user?.addresses?.[0]?.text}
-            </Typography.Text>
-          </Space>
-        );
-      },
+      title: 'name',
+      dataIndex: 'name',
+      key: 'name',
+      render: (value) => <Typography.Text style={{ fontSize: 14 }}>{value}</Typography.Text>,
     },
     {
-      title: 'product',
+      title: 'Product',
       dataIndex: 'products',
-      key: 'product',
-      width: '20%',
-      render: (products: IOrder['products']) => {
-        if (!products.length) {
-          return <Typography.Text>-</Typography.Text>;
-        }
-
+      key: 'products',
+      width: 200,
+      render: (products) => {
+        if (!products.length) return <Typography.Text>__</Typography.Text>;
         return (
-          <Space
-            size={0}
-            direction="vertical"
-            style={{
-              maxWidth: '220px',
-            }}
-          >
-            {products.map((product) => (
-              <Flex key={product.id} gap={4}>
+          <Space size={0} direction="vertical">
+            {products.map((product: Product) => (
+              <Flex key={product._id} gap={4}>
                 <Typography.Text ellipsis>{product.name}</Typography.Text>
               </Flex>
             ))}
@@ -109,8 +56,9 @@ export const RecentOrders = ({ data }: OrderTimelineProps) => {
       title: 'amount',
       key: 'amount',
       dataIndex: 'amount',
-      width: 150,
+      width: 100,
       render: (amount) => {
+        if (!amount) return <Typography.Text>__</Typography.Text>;
         return (
           <Typography.Text>
             {(amount / 100).toLocaleString('us', { style: 'currency', currency: 'USD' })}
@@ -118,15 +66,25 @@ export const RecentOrders = ({ data }: OrderTimelineProps) => {
         );
       },
     },
-    {
-      title: 'Action',
-      key: 'actions',
-      fixed: 'right',
-      align: 'center',
-      width: 150,
-      render: (_, record) => <OrderActions record={record} />,
-    },
   ];
-
-  return <Table columns={columns} dataSource={orders} scroll={{ x: 850, y: 300 }} />;
+  return (
+    <>
+      <Table
+        loading={loading}
+        columns={columns}
+        dataSource={data.data?.[data.page] || []}
+        scroll={{ x: 850, y: 300 }}
+        pagination={false}
+      />
+      <Pagination
+        defaultCurrent={data.page}
+        defaultPageSize={data.pageSize}
+        onChange={(page) =>
+          dispatch?.fetchRecentOrder(page) || ((): Promise<void> => new Promise((resolve) => resolve()))
+        }
+        total={data.count}
+        style={{ textAlign: 'center', marginTop: 16 }}
+      />
+    </>
+  );
 };

@@ -1,53 +1,38 @@
+import { ScriptableContext } from 'chart.js';
+import dayjs from 'dayjs';
 import { Line } from 'react-chartjs-2';
-
+import { ChartUnit } from 'stores/dashboard';
 type Props = {
-  data: {
-    timeUnix: number;
-    timeText: string;
-    value: number;
-    state: string;
-  }[];
+  data: ChartUnit[];
   height: number;
 };
 
-export const DailyRevenue = ({ data, height }: Props) => {
-  // const t = useTranslation();
-  // const { mode } = useConfigProvider();
-
+export const DailyRevenueChart = ({ data, height }: Props) => {
   const options = {
     maintainAspectRatio: false,
     responsive: true,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    elements: {
-      line: {
-        tension: 0.4,
-      },
-    },
-    animation: {
-      duration: 1000,
-    },
+    plugins: { legend: { display: false } },
+    elements: { line: { tension: 0.4 } },
+    animation: { duration: 1000 },
   };
-  // eslint-disable-next-line
-  const gradientFill = (context: any) => {
-    const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, context.chart.height);
+
+  const createGradient = (context: ScriptableContext<'line'>) => {
+    const ctx = context.chart.ctx;
+    const gradient = ctx.createLinearGradient(0, 0, 0, context.chart.height);
     gradient.addColorStop(1, '#ffffff');
-    gradient.addColorStop(0.5, '#D3EBFF');
-    gradient.addColorStop(0, '#D3EBFF');
+    gradient.addColorStop(0, '#ffbc2b');
     return gradient;
   };
 
   const dataTest = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    type: 'line',
+    labels: data.map(({ date }) => dayjs(date).format('dddd')),
     datasets: [
       {
         data: data.map(({ value }) => value),
         fill: true,
-        backgroundColor: gradientFill,
-        borderColor: '#1677FF',
+        backgroundColor: createGradient,
+        borderColor: '#ff9100',
         borderWidth: 2,
       },
     ],

@@ -19,7 +19,17 @@ export const routeComponents: RouteComponent[] = [
   {
     name: 'dashboard',
     path: routePaths.dashboard,
-    component: <Dashboard />,
+    component: (
+      <Dashboard
+        data={{
+          dailyOrder: { data: [], total: 0, trend: 0 },
+          dailyRevenue: { data: [], total: 0, trend: 0 },
+          dailyCustomer: { data: [], total: 0, trend: 0 },
+          recentOrder: { data: {}, count: 0, nextPage: false, prevPage: false, page: 1 },
+          orderTimeline: { data: [], count: 0, nextPage: false, prevPage: false, page: 1 },
+        }}
+      />
+    ),
   },
   {
     name: 'order',

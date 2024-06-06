@@ -1,11 +1,13 @@
 import {
   DeleteOneUserParams,
+  FindAllDailyUserParams,
+  FindAllDailyUserResponse,
   FindAllUserResponse,
   FindOneUserParams,
   UpdateOneUserParams,
   User,
 } from '@enigma-laboratory/shared';
-import { ApiEndpointService, HttpClientService, HttpConfig } from 'services';
+import { ApiEndpointService, HttpClientService, HttpConfig, HttpConfigUser } from 'services';
 
 export class UserApiService extends ApiEndpointService {
   private static _instance: UserApiService;
@@ -34,5 +36,10 @@ export class UserApiService extends ApiEndpointService {
   public async deleteOneUser(params: DeleteOneUserParams): Promise<void> {
     const endpoint = `${this.endPoint}/${params._id}`;
     return await HttpClientService.httpDelete(endpoint);
+  }
+
+  public async fetchDailyCustomer(params: FindAllDailyUserParams): Promise<FindAllDailyUserResponse> {
+    const endpoint = `${this.endPoint}/${HttpConfigUser.DAILY_USER}`;
+    return await HttpClientService.httpGet<FindAllDailyUserResponse>(endpoint, { params });
   }
 }
