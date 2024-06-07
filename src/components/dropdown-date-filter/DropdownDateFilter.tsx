@@ -15,30 +15,11 @@ type DropdownDateFilterProps = {
 
 type DateFilter = 'lastWeek' | 'lastMonth' | 'custom';
 
-const DATE_FILTERS: Record<
-  DateFilter,
-  {
-    text: string;
-    value: DateFilter;
-  }
-> = {
-  lastWeek: {
-    text: 'lastWeek',
-    value: 'lastWeek',
-  },
-  lastMonth: {
-    text: 'lastMonth',
-    value: 'lastMonth',
-  },
-  custom: {
-    text: 'custom',
-    value: 'custom',
-  },
-};
+const filters: DateFilter[] = ['lastWeek', 'lastMonth', 'custom'];
 
 export const DropdownDateFilter: React.FC<DropdownDateFilterProps> = ({ onChange }): ReactElement => {
-  const { t } = useTranslation();
-  const [selectedDateFilter, setSelectedDateFilter] = useState<DateFilter>(DATE_FILTERS.lastWeek.value);
+  const { t } = useTranslation('dashboard');
+  const [selectedDateFilter, setSelectedDateFilter] = useState<DateFilter>(filters[0]);
   const [customRange, setCustomRange] = useState<[dayjs.Dayjs, dayjs.Dayjs] | null>(null);
 
   const handleMenuClick = useCallback((filter: DateFilter) => {
@@ -46,15 +27,11 @@ export const DropdownDateFilter: React.FC<DropdownDateFilterProps> = ({ onChange
   }, []);
 
   const dateFilters: MenuProps['items'] = useMemo(() => {
-    const filters = Object.keys(DATE_FILTERS) as DateFilter[];
-
-    return filters.map((filter) => {
+    return filters.map((filter: DateFilter) => {
       return {
-        key: DATE_FILTERS[filter].value,
-        label: t(`dashboard.filter.date.${DATE_FILTERS[filter].text}`),
-        onClick: () => {
-          handleMenuClick(DATE_FILTERS[filter].value);
-        },
+        key: filter,
+        label: t(`${filter}`),
+        onClick: () => handleMenuClick(filter),
       };
     });
   }, []);
@@ -72,7 +49,7 @@ export const DropdownDateFilter: React.FC<DropdownDateFilterProps> = ({ onChange
     <StyledDropdownDateFilter>
       <Dropdown menu={{ items: dateFilters }}>
         <Button>
-          {t(`dashboard.filter.date.${DATE_FILTERS[selectedDateFilter].text}`)}
+          {t(`${selectedDateFilter}`)}
           <DownOutlined />
         </Button>
       </Dropdown>

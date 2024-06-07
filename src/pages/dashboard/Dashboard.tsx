@@ -20,46 +20,6 @@ export const DashboardPage = (props: DashboardProps) => {
   const { token } = theme.useToken();
   const { t } = useTranslation();
 
-  // const orders = useMemo(() => {
-  //   const data = dailyOrdersData?.data?.data;
-  //   if (!data) return { data: [], trend: 0 };
-
-  //   const plotData = data.map((order) => {
-  //     const date = dayjs(order.date);
-  //     return {
-  //       timeUnix: date.unix(),
-  //       timeText: date.format('DD MMM YYYY'),
-  //       value: order.value,
-  //       state: 'Daily Orders',
-  //     };
-  //   });
-
-  //   return {
-  //     data: plotData,
-  //     trend: dailyOrdersData?.data?.trend || 0,
-  //   };
-  // }, [dailyOrdersData]);
-
-  // const newCustomers = useMemo(() => {
-  //   const data = newCustomersData?.data?.data;
-  //   if (!data) return { data: [], trend: 0 };
-
-  //   const plotData = data.map((customer) => {
-  //     const date = dayjs(customer.date);
-  //     return {
-  //       timeUnix: date.unix(),
-  //       timeText: date.format('DD MMM YYYY'),
-  //       value: customer.value,
-  //       state: 'New Customers',
-  //     };
-  //   });
-
-  //   return {
-  //     data: plotData,
-  //     trend: newCustomersData?.data?.trend || 0,
-  //   };
-  // }, [newCustomersData]);
-
   return (
     <DashboardStyled>
       <div className="header">
@@ -80,7 +40,7 @@ export const DashboardPage = (props: DashboardProps) => {
                 rightSlot={
                   <Flex align="center" gap={8}>
                     <Typography.Text>
-                      {/* {revenue.trend.toLocaleString('us', { style: 'currency', currency: 'USD' })} */}
+                      {dailyRevenue.trend.toLocaleString('us', { style: 'currency', currency: 'USD' })}
                     </Typography.Text>
                     {dailyRevenue.trend > 0 ? <TrendUpIcon /> : <TrendDownIcon />}
                   </Flex>
