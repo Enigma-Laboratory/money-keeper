@@ -6,11 +6,11 @@ import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DashboardStyled } from './Dashboard.styles';
-import { DailyOrders } from './dailyOrders';
-import { DailyRevenue } from './dailyRevenue';
-import { NewCustomers } from './newCustomers';
-import { OrderTimeline } from './orderTimeline';
-import { RecentOrders } from './recentOrders';
+import { DailyRevenue } from './dail-revenue';
+import { NewCustomers } from './daily-customers';
+import { DailyOrders } from './daily-orders';
+import { OrderTimeline } from './order-timeline';
+import { RecentOrders } from './recent-orders';
 import { DashboardProps } from './withDashboardController';
 
 export const DashboardPage = ({ data }: DashboardProps) => {
