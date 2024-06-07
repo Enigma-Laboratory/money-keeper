@@ -1,6 +1,7 @@
-import { Header } from 'antd/es/layout/layout';
+import { Layout } from 'antd';
 import styled from 'styled-components';
-export const HeaderLayoutStyled = styled(Header)`
+
+export const HeaderLayoutStyled = styled(Layout.Header)`
   position: fixed;
   width: 100%;
   left: 0;
