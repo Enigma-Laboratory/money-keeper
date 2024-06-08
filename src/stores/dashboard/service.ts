@@ -8,7 +8,7 @@ import {
   FindAllOrderResponse,
 } from '@enigma-laboratory/shared';
 import { OrderApiService, UserApiService } from 'services';
-import { DailyResponse } from './interfaces';
+import { DailyResponse, DateFilter } from './interfaces';
 import { dashboardStore } from './store';
 
 export class DashboardService {
@@ -34,10 +34,10 @@ export class DashboardService {
 
   public async fetchDailyRevenue(params: FindAllDailyOrderRevenueParams): Promise<FindAllDailyOrderResponse> {
     const order = await OrderApiService.instance.fetchDailyRevenue(params);
-    const store = dashboardStore.getModel();
+    const dashboard = dashboardStore.getModel();
 
     dashboardStore.updateModel({
-      ...store,
+      ...dashboard,
       dailyRevenue: order as DailyResponse,
     });
     return order;
@@ -121,5 +121,14 @@ export class DashboardService {
     });
 
     return response;
+  }
+
+  public setFilter(filter: DateFilter): void {
+    const store = dashboardStore.getModel();
+
+    dashboardStore.updateModel({
+      ...store,
+      filter,
+    });
   }
 }

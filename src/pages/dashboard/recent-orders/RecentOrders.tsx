@@ -1,6 +1,6 @@
 import { Order, Product } from '@enigma-laboratory/shared';
 import { Flex, Pagination, Space, Table, TableProps, Typography, theme } from 'antd';
-import { RecentOrder } from 'stores/dashboard';
+import { RecentOrder } from 'stores';
 
 type OrderTimelineProps = {
   data: RecentOrder;
@@ -14,7 +14,7 @@ interface ColumnProps extends Order {
   key?: string;
 }
 
-export const RecentOrderChart = ({ data, dispatch, loading }: OrderTimelineProps) => {
+export const RecentOrderTable = ({ data, dispatch, loading }: OrderTimelineProps) => {
   const { token } = theme.useToken();
   const columns: TableProps<ColumnProps>['columns'] = [
     {

@@ -3,7 +3,7 @@ import { BaseOrderStatus } from 'components/order-status';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { OrderTimeline } from 'stores/dashboard';
+import { OrderTimeline } from 'stores';
 
 dayjs.extend(relativeTime);
 
@@ -15,7 +15,7 @@ type OrderTimelineProps = {
   };
 };
 
-export const OrderTimelineChart = ({ data, dispatch, loading }: OrderTimelineProps) => {
+export const OrderTimelineTable = ({ data, dispatch, loading }: OrderTimelineProps) => {
   // const { hasNextPage, isLoading, orders = [] } = data;
   const { nextPage } = data;
   const { token } = theme.useToken();
@@ -24,7 +24,7 @@ export const OrderTimelineChart = ({ data, dispatch, loading }: OrderTimelinePro
     <div id="scrollableDiv" style={{ height: 432, overflow: 'auto' }}>
       <InfiniteScroll
         dataLength={data.data.length}
-        next={dispatch?.fetchNextPage || ((): Promise<void> => new Promise((resolve) => resolve()))}
+        next={dispatch?.fetchNextPage || Promise.resolve}
         hasMore={nextPage}
         loader={<Spin spinning style={{ height: 56, display: 'flex', justifyContent: 'center', marginTop: 16 }} />}
         endMessage={<Divider plain>That&apos;s all, nothing more.</Divider>}

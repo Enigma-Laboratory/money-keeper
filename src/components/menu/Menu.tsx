@@ -61,8 +61,8 @@ export const Menu = (): ReactElement => {
   ];
 
   useEffect(() => {
-    console.log(pathname.match(/(\w+)/g)?.[0]);
-    switch (pathname.match(/(\w+)/g)?.[0] || '') {
+    const firstPathname = pathname.match(/(\w+)/g)?.[0] || '';
+    switch (firstPathname) {
       case routePaths.dashboard:
         setActiveItem(['dashboard']);
         break;

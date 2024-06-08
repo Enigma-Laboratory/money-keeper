@@ -5,8 +5,6 @@ import { I18nextProvider } from 'react-i18next';
 import { BaseThemeColors, ThemeProvider, i18n } from 'contexts';
 import { useLocalStorage } from 'hooks';
 
-import { dayjsInit } from './dayjs';
-
 export enum Mode {
   LIGHT = 'light',
   DARK = 'dark',
@@ -25,7 +23,6 @@ type ConfigProviderProps = {
 
 export const ConfigProvider = ({ theme: themeFromProps, children }: PropsWithChildren<ConfigProviderProps>) => {
   const [mode, setMode] = useLocalStorage<Mode>('theme', Mode.LIGHT);
-  dayjsInit();
 
   const handleSetMode = (mode: Mode) => {
     setMode(mode);

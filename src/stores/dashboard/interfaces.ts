@@ -5,6 +5,8 @@ export interface ChartUnit {
   value: number;
 }
 
+export type DateFilter = 'lastWeek' | 'lastMonth' | 'custom';
+
 export interface RecentOrder extends Omit<FindAllParams, 'page'>, Required<Pick<FindAllParams, 'page'>> {
   data: Record<number, Order[]>;
   count: number;
@@ -30,4 +32,5 @@ export type DashboardState = {
   dailyCustomer: DailyResponse;
   recentOrder: RecentOrder;
   orderTimeline: OrderTimeline;
+  filter: DateFilter;
 };

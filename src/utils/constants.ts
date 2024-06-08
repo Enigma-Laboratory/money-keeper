@@ -30,3 +30,8 @@ export const LANGUAGE = {
   VI: 'Tiếng Việt',
   EN: 'English',
 };
+
+export const DEFAULT_PARAMS = {
+  PAGE: 1,
+  PAGE_SIZE: 10,
+};

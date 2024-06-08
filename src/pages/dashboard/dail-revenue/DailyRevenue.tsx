@@ -1,16 +1,18 @@
 import { ScriptableContext } from 'chart.js';
 import dayjs from 'dayjs';
 import { Line } from 'react-chartjs-2';
-import { ChartUnit } from 'stores/dashboard';
+import { ChartUnit, DateFilter } from 'stores';
 type Props = {
   data: ChartUnit[];
   height: number;
+  filter: DateFilter | undefined;
 };
 
-export const DailyRevenueChart = ({ data, height }: Props) => {
+export const DailyRevenueChart = ({ data, height, filter }: Props) => {
   const options = {
     maintainAspectRatio: false,
     responsive: true,
+    scales: { y: { beginAtZero: true } },
     plugins: { legend: { display: false } },
     elements: { line: { tension: 0.4 } },
     animation: { duration: 1000 },
@@ -24,9 +26,27 @@ export const DailyRevenueChart = ({ data, height }: Props) => {
     return gradient;
   };
 
+  const getLabels = (): string[] => {
+    let format: string = '';
+    switch (filter) {
+      case 'lastWeek':
+        format = 'dddd';
+        break;
+      case 'lastMonth':
+        format = 'D-MMM';
+        break;
+      case 'custom':
+        format = 'l';
+        break;
+      default:
+        break;
+    }
+    return data.map(({ date }) => dayjs(date).format(format));
+  };
+
   const dataTest = {
     type: 'line',
-    labels: data.map(({ date }) => dayjs(date).format('dddd')),
+    labels: getLabels(),
     datasets: [
       {
         data: data.map(({ value }) => value),

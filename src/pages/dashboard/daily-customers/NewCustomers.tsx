@@ -1,19 +1,17 @@
 import { BarElement, CategoryScale, Chart, Legend, LinearScale, ScriptableContext, Title, Tooltip } from 'chart.js';
 import dayjs from 'dayjs';
 import { Bar } from 'react-chartjs-2';
-import { ChartUnit } from 'stores/dashboard';
+import { ChartUnit, DateFilter } from 'stores';
 
 type Props = {
   data: ChartUnit[];
   height: number;
+  filter: DateFilter | undefined;
 };
 
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export const DailyCustomerChart = ({ data, height }: Props) => {
-  // const t = useTranslation();
-  // const { mode } = useConfigProvider();
-
+export const DailyCustomerChart = ({ data, height, filter }: Props) => {
   const options = {
     maintainAspectRatio: false,
     responsive: true,
@@ -38,8 +36,26 @@ export const DailyCustomerChart = ({ data, height }: Props) => {
     return gradient;
   };
 
+  const getLabels = (): string[] => {
+    let format: string = '';
+    switch (filter) {
+      case 'lastWeek':
+        format = 'dddd';
+        break;
+      case 'lastMonth':
+        format = 'D-MMM';
+        break;
+      case 'custom':
+        format = 'l';
+        break;
+      default:
+        break;
+    }
+    return data.map(({ date }) => dayjs(date).format(format));
+  };
+
   const dataTest = {
-    labels: data.map(({ date }) => dayjs(date).format('dddd')),
+    labels: getLabels(),
     datasets: [
       {
         data: data.map(({ value }) => value),

@@ -3,54 +3,51 @@ import { Col, Flex, Row, Typography, theme } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import { TrendDownIcon, TrendUpIcon } from 'assets/icons';
-import { CardWithContent, CardWithPlot, DropdownDateFilter } from 'components';
+import { CardWithContent, CardWithPlot, DateFilterSelect } from 'components';
+import { formatCurrencyToVnd } from 'utils';
 
 import { DashboardStyled } from './Dashboard.styles';
 import { DailyRevenueChart } from './dail-revenue';
 import { DailyCustomerChart } from './daily-customers';
 import { DailyOrderChart } from './daily-orders';
-import { OrderTimelineChart } from './order-timeline';
-import { RecentOrderChart } from './recent-orders';
-import { DashboardProps } from './withDashboardController';
+import { OrderTimelineTable } from './order-timeline';
+import { RecentOrderTable } from './recent-orders';
+import { DashboardProps, loadingInit } from './withDashboardController';
 
 export const DashboardPage = (props: DashboardProps) => {
-  const { data, dispatch, loading } = props;
-  const { dailyOrder, dailyRevenue, dailyCustomer, recentOrder, orderTimeline } = data;
+  const { data, dispatch, loading = loadingInit } = props;
+  const { dailyOrder, dailyRevenue, dailyCustomer, recentOrder, orderTimeline, filter } = data;
 
   const { token } = theme.useToken();
-  const { t } = useTranslation();
+  const { t } = useTranslation('dashboard');
 
   return (
     <DashboardStyled>
       <div className="header">
-        <h3>{t('dashboard.overview', 'Overview')}</h3>
-        <DropdownDateFilter
-          onChange={(value) => {
-            console.log(value);
-          }}
-        />
+        <h3>{t('', 'Overview')}</h3>
+        <DateFilterSelect onChange={dispatch?.fetchDaily} />
       </div>
       <Row gutter={[16, 16]}>
         <Col md={24}>
           <Row gutter={[16, 16]}>
             <Col xl={{ span: 10 }} lg={24} md={24} sm={24} xs={24}>
               <CardWithPlot
+                loading={loading.dailyRevenue}
                 icon={<DollarCircleOutlined style={{ fontSize: 14, color: token.colorPrimary }} />}
-                title={t('dashboard.dailyRevenue.title')}
+                title={t('', 'Daily Revenue')}
                 rightSlot={
                   <Flex align="center" gap={8}>
-                    <Typography.Text>
-                      {dailyRevenue.trend.toLocaleString('us', { style: 'currency', currency: 'USD' })}
-                    </Typography.Text>
+                    <Typography.Text>{formatCurrencyToVnd(dailyRevenue.trend)}</Typography.Text>
                     {dailyRevenue.trend > 0 ? <TrendUpIcon /> : <TrendDownIcon />}
                   </Flex>
                 }
               >
-                <DailyRevenueChart height={170} data={dailyRevenue.data} />
+                <DailyRevenueChart height={170} data={dailyRevenue.data} filter={filter} />
               </CardWithPlot>
             </Col>
             <Col xl={{ span: 7 }} lg={12} md={24} sm={24} xs={24}>
               <CardWithPlot
+                loading={loading.dailyOrder}
                 icon={<ShoppingOutlined style={{ fontSize: 14, color: token.colorPrimary }} />}
                 rightSlot={
                   <Flex align="center" gap={8}>
@@ -58,15 +55,16 @@ export const DashboardPage = (props: DashboardProps) => {
                     {dailyOrder.trend > 0 ? <TrendUpIcon /> : <TrendDownIcon />}
                   </Flex>
                 }
-                title={t('dashboard.dailyOrders.title')}
+                title={t('', 'Daily Order')}
               >
-                <DailyOrderChart height={170} data={dailyOrder.data} />
+                <DailyOrderChart height={170} data={dailyOrder.data} filter={filter} />
               </CardWithPlot>
             </Col>
             <Col xl={{ span: 7 }} lg={12} md={24} sm={24} xs={24}>
               <CardWithPlot
+                loading={loading.dailyCustomer}
                 icon={<UserOutlined style={{ fontSize: 14, color: token.colorPrimary }} />}
-                title={t('dashboard.newCustomers.title')}
+                title={t('', 'New Customer')}
                 rightSlot={
                   <Flex align="center" gap={8}>
                     <Typography.Text>{`${dailyCustomer.trend / 100}%`}</Typography.Text>
@@ -74,7 +72,7 @@ export const DashboardPage = (props: DashboardProps) => {
                   </Flex>
                 }
               >
-                <DailyCustomerChart height={170} data={dailyCustomer.data} />
+                <DailyCustomerChart height={170} data={dailyCustomer.data} filter={filter} />
               </CardWithPlot>
             </Col>
           </Row>
@@ -83,13 +81,13 @@ export const DashboardPage = (props: DashboardProps) => {
           <CardWithContent
             bodyStyles={{ height: 432, overflow: 'hidden', padding: 0 }}
             icon={<ClockCircleOutlined style={{ fontSize: 14, color: token.colorPrimary }} />}
-            title={t('dashboard.recentOrders.title')}
+            title={t('', 'Recent Order')}
           >
-            <RecentOrderChart
+            <RecentOrderTable
               data={recentOrder}
-              loading={loading?.recentOrder || false}
+              loading={loading.recentOrder}
               dispatch={{
-                fetchRecentOrder: dispatch?.fetchRecentOrder || (() => new Promise((resolve) => resolve())),
+                fetchRecentOrder: dispatch?.fetchRecentOrder || Promise.resolve,
               }}
             />
           </CardWithContent>
@@ -98,13 +96,13 @@ export const DashboardPage = (props: DashboardProps) => {
           <CardWithContent
             bodyStyles={{ height: 430, overflow: 'hidden', padding: 0 }}
             icon={<ClockCircleOutlined style={{ fontSize: 14, color: token.colorPrimary }} />}
-            title={t('dashboard.timeline.title')}
+            title={t('', 'Order Timeline')}
           >
-            <OrderTimelineChart
+            <OrderTimelineTable
               data={orderTimeline}
-              loading={loading?.orderTimeline || false}
+              loading={loading.orderTimeline}
               dispatch={{
-                fetchNextPage: dispatch?.fetchOrderTimelineNext || (() => new Promise((resolve) => resolve())),
+                fetchNextPage: dispatch?.fetchOrderTimelineNext || Promise.resolve,
               }}
             />
           </CardWithContent>

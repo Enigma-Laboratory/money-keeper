@@ -7,6 +7,7 @@ import {
   OrderDetailScreen,
   ProfileScreen,
 } from 'pages';
+import { DEFAULT_DASHBOARD_STORE_INIT } from 'stores';
 import { routePaths } from 'utils';
 
 export interface RouteComponent {
@@ -22,9 +23,9 @@ export const routeComponents: RouteComponent[] = [
     component: (
       <Dashboard
         data={{
-          dailyOrder: { data: [], total: 0, trend: 0 },
-          dailyRevenue: { data: [], total: 0, trend: 0 },
-          dailyCustomer: { data: [], total: 0, trend: 0 },
+          dailyOrder: DEFAULT_DASHBOARD_STORE_INIT,
+          dailyRevenue: DEFAULT_DASHBOARD_STORE_INIT,
+          dailyCustomer: DEFAULT_DASHBOARD_STORE_INIT,
           recentOrder: { data: {}, count: 0, nextPage: false, prevPage: false, page: 1 },
           orderTimeline: { data: [], count: 0, nextPage: false, prevPage: false, page: 1 },
         }}

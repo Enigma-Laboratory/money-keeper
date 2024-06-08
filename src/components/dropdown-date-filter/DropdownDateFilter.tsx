@@ -1,103 +1,61 @@
-import { DownOutlined } from '@ant-design/icons';
-import { Button, DatePicker, Dropdown, MenuProps } from 'antd';
-import dayjs from 'dayjs';
-import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
+import { DatePicker, Select, Space } from 'antd';
+import dayjs, { Dayjs } from 'dayjs';
+import { DailyParams } from 'pages/dashboard/withDashboardController';
+import { ReactElement, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyledDropdownDateFilter } from './DropdownDateFilter.styles';
+import { DashboardService, DateFilter } from 'stores';
 
-const { RangePicker } = DatePicker;
-
-type QueryDateType = { start: string; end: string };
-
-type DropdownDateFilterProps = {
-  onChange: (queryDateType: QueryDateType) => void;
+type DateFilterSelectProps = {
+  onChange?: (params: DailyParams) => Promise<void>;
 };
-
-type DateFilter = 'lastWeek' | 'lastMonth' | 'custom';
 
 const filters: DateFilter[] = ['lastWeek', 'lastMonth', 'custom'];
 
-export const DropdownDateFilter: React.FC<DropdownDateFilterProps> = ({ onChange }): ReactElement => {
+export const DateFilterSelect: React.FC<DateFilterSelectProps> = ({ onChange }): ReactElement => {
   const { t } = useTranslation('dashboard');
   const [selectedDateFilter, setSelectedDateFilter] = useState<DateFilter>(filters[0]);
-  const [customRange, setCustomRange] = useState<[dayjs.Dayjs, dayjs.Dayjs] | null>(null);
 
-  const handleMenuClick = useCallback((filter: DateFilter) => {
-    setSelectedDateFilter(filter);
+  const dateFilters = useMemo(() => {
+    return filters.map((filter) => ({ value: filter, label: t(`${filter}`) }));
   }, []);
 
-  const dateFilters: MenuProps['items'] = useMemo(() => {
-    return filters.map((filter: DateFilter) => {
-      return {
-        key: filter,
-        label: t(`${filter}`),
-        onClick: () => handleMenuClick(filter),
-      };
-    });
-  }, []);
+  const handleChangeSelect = async (value: DateFilter) => {
+    setSelectedDateFilter(value);
+    const params: DailyParams = { start: new Date(), end: new Date() };
 
-  const dateFilterQuery = useMemo(
-    () => getDateFilterQuery(selectedDateFilter, customRange || undefined),
-    [selectedDateFilter, customRange],
-  );
+    switch (value) {
+      case 'lastWeek': {
+        params.start = new Date(dayjs().subtract(6, 'd').format());
+        params.end = new Date(dayjs().format());
+        break;
+      }
+      case 'lastMonth': {
+        params.start = new Date(dayjs().subtract(1, 'M').format());
+        params.end = new Date(dayjs().format());
+        break;
+      }
+      default:
+        return;
+    }
+    await onChange?.(params);
+    DashboardService.instance.setFilter(value);
+  };
 
-  useEffect(() => {
-    onChange(dateFilterQuery);
-  }, [dateFilterQuery, selectedDateFilter]);
+  const handleChangeRangePicker = async (dates: [Date, Date] | unknown) => {
+    const [start, end] = dates as [Dayjs, Dayjs];
+    await onChange?.({ start: new Date(start.startOf('day').format()), end: new Date(end.startOf('day').format()) });
+    DashboardService.instance.setFilter('custom');
+  };
 
   return (
-    <StyledDropdownDateFilter>
-      <Dropdown menu={{ items: dateFilters }}>
-        <Button>
-          {t(`${selectedDateFilter}`)}
-          <DownOutlined />
-        </Button>
-      </Dropdown>
-      {selectedDateFilter === 'custom' && (
-        <RangePicker
-          style={{ marginLeft: 10 }}
-          onChange={(dates) => {
-            if (dates) {
-              setCustomRange(dates as [dayjs.Dayjs, dayjs.Dayjs]);
-            }
-          }}
-        />
-      )}
-    </StyledDropdownDateFilter>
+    <Space size={10}>
+      {selectedDateFilter === 'custom' && <DatePicker.RangePicker onChange={handleChangeRangePicker} />}
+      <Select
+        style={{ width: 120 }}
+        defaultValue={dateFilters[0].value}
+        options={dateFilters}
+        onChange={handleChangeSelect}
+      />
+    </Space>
   );
-};
-
-const getDateFilterQuery = (
-  selectedDateFilter: DateFilter,
-  customRange?: [dayjs.Dayjs, dayjs.Dayjs],
-): QueryDateType => {
-  const now = dayjs();
-  switch (selectedDateFilter) {
-    case 'lastWeek':
-      return {
-        start: now.subtract(6, 'days').startOf('day').format(),
-        end: now.endOf('day').format(),
-      };
-    case 'lastMonth':
-      return {
-        start: now.subtract(1, 'month').startOf('day').format(),
-        end: now.endOf('day').format(),
-      };
-    case 'custom':
-      if (customRange) {
-        return {
-          start: customRange[0].startOf('day').format(),
-          end: customRange[1].endOf('day').format(),
-        };
-      }
-      return {
-        start: now.subtract(6, 'days').startOf('day').format(),
-        end: now.endOf('day').format(),
-      };
-    default:
-      return {
-        start: now.subtract(7, 'days').startOf('day').format(),
-        end: now.endOf('day').format(),
-      };
-  }
 };
