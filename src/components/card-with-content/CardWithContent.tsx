@@ -1,6 +1,6 @@
 import { Card, Space, Typography } from 'antd';
+import { useConfigProvider } from 'contexts';
 import { PropsWithChildren, ReactNode } from 'react';
-import { useConfigProvider } from '../../contexts';
 
 export const CardWithContent = (
   props: PropsWithChildren<{
@@ -18,20 +18,12 @@ export const CardWithContent = (
           backgroundColor: mode === 'light' ? '#FAFAFA' : '#1F1F1F',
           padding: '16px',
         },
-        body: {
-          ...(props?.bodyStyles || {}),
-        },
+        body: { ...(props?.bodyStyles || {}) },
       }}
       title={
         <Space align="center" size={8}>
           {props.icon}
-          <Typography.Text
-            style={{
-              fontWeight: 400,
-            }}
-          >
-            {props.title}
-          </Typography.Text>
+          <Typography.Text style={{ fontWeight: 400, lineHeight: '26px' }}>{props.title}</Typography.Text>
         </Space>
       }
     >

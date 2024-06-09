@@ -1,10 +1,10 @@
 import { ClockCircleOutlined, DollarCircleOutlined, ShoppingOutlined, UserOutlined } from '@ant-design/icons';
-import { Col, Flex, Row, Typography, theme } from 'antd';
+import { Col, Row, Typography, theme } from 'antd';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { TrendDownIcon, TrendUpIcon } from 'assets/icons';
 import { CardWithContent, CardWithPlot, DateFilterSelect } from 'components';
-import { formatCurrencyToVnd } from 'utils';
+import { THC } from 'utils';
 
 import { DashboardStyled } from './Dashboard.styles';
 import { DailyRevenueChart } from './dail-revenue';
@@ -14,76 +14,89 @@ import { OrderTimelineTable } from './order-timeline';
 import { RecentOrderTable } from './recent-orders';
 import { DashboardProps, loadingInit } from './withDashboardController';
 
+export const CHART_HEIGHT = 150;
+const MIN_TABLE_HEIGHT = 400;
+
 export const DashboardPage = (props: DashboardProps) => {
   const { data, dispatch, loading = loadingInit } = props;
   const { dailyOrder, dailyRevenue, dailyCustomer, recentOrder, orderTimeline, filter } = data;
 
+  const TABLE_HEIGHT = useMemo(
+    () =>
+      window.innerHeight -
+      THC.HEADER_HEIGHT -
+      THC.PADDING_MAIN_LAYOUT_HEIGHT * 2 -
+      THC.DASHBOARD_PAGE.HEADER_HEIGHT -
+      THC.DASHBOARD_PAGE.CHART_CARD -
+      THC.DASHBOARD_PAGE.TABLE_CHART_SPACE -
+      THC.DASHBOARD_PAGE.HEADER_CARD_HEIGHT -
+      THC.DASHBOARD_PAGE.HEADER_CARD_BORDER,
+    [],
+  );
+
+  const RECENT_ORDER_TABLE_HEIGHT = useMemo(
+    () =>
+      TABLE_HEIGHT -
+      THC.DASHBOARD_PAGE.TABLE.PAGINATION_HEIGHT -
+      THC.DASHBOARD_PAGE.TABLE.PAGINATION_MARGIN -
+      THC.DASHBOARD_PAGE.TABLE.HEADER_HEIGHT -
+      THC.DASHBOARD_PAGE.TABLE.BOTTOM_PADDING,
+    [],
+  );
+
   const { token } = theme.useToken();
   const { t } = useTranslation('dashboard');
-
   return (
     <DashboardStyled>
       <div className="header">
-        <h3>{t('', 'Overview')}</h3>
-        <DateFilterSelect onChange={dispatch?.fetchDaily} />
+        <Typography.Title level={4} style={{ margin: '0 0 16px' }}>
+          {t('overview')}
+        </Typography.Title>
+        <DateFilterSelect onChange={dispatch?.fetchChartData} />
       </div>
-      <Row gutter={[16, 16]}>
+      <Row gutter={[THC.DASHBOARD_PAGE.TABLE_CHART_SPACE, THC.DASHBOARD_PAGE.TABLE_CHART_SPACE]}>
         <Col md={24}>
           <Row gutter={[16, 16]}>
             <Col xl={{ span: 10 }} lg={24} md={24} sm={24} xs={24}>
               <CardWithPlot
                 loading={loading.dailyRevenue}
                 icon={<DollarCircleOutlined style={{ fontSize: 14, color: token.colorPrimary }} />}
-                title={t('', 'Daily Revenue')}
-                rightSlot={
-                  <Flex align="center" gap={8}>
-                    <Typography.Text>{formatCurrencyToVnd(dailyRevenue.trend)}</Typography.Text>
-                    {dailyRevenue.trend > 0 ? <TrendUpIcon /> : <TrendDownIcon />}
-                  </Flex>
-                }
+                title={t('dailyRevenue')}
+                trend={dailyRevenue.trend}
               >
-                <DailyRevenueChart height={170} data={dailyRevenue.data} filter={filter} />
+                <DailyRevenueChart height={CHART_HEIGHT} data={dailyRevenue.data} filter={filter} />
               </CardWithPlot>
             </Col>
             <Col xl={{ span: 7 }} lg={12} md={24} sm={24} xs={24}>
               <CardWithPlot
                 loading={loading.dailyOrder}
                 icon={<ShoppingOutlined style={{ fontSize: 14, color: token.colorPrimary }} />}
-                rightSlot={
-                  <Flex align="center" gap={8}>
-                    <Typography.Text>{dailyOrder.trend}</Typography.Text>
-                    {dailyOrder.trend > 0 ? <TrendUpIcon /> : <TrendDownIcon />}
-                  </Flex>
-                }
-                title={t('', 'Daily Order')}
+                trend={dailyOrder.trend}
+                title={t('dailyOrder')}
               >
-                <DailyOrderChart height={170} data={dailyOrder.data} filter={filter} />
+                <DailyOrderChart height={CHART_HEIGHT} data={dailyOrder.data} filter={filter} />
               </CardWithPlot>
             </Col>
             <Col xl={{ span: 7 }} lg={12} md={24} sm={24} xs={24}>
               <CardWithPlot
                 loading={loading.dailyCustomer}
                 icon={<UserOutlined style={{ fontSize: 14, color: token.colorPrimary }} />}
-                title={t('', 'New Customer')}
-                rightSlot={
-                  <Flex align="center" gap={8}>
-                    <Typography.Text>{`${dailyCustomer.trend / 100}%`}</Typography.Text>
-                    {dailyCustomer.trend > 0 ? <TrendUpIcon /> : <TrendDownIcon />}
-                  </Flex>
-                }
+                title={t('newCustomer')}
+                trend={dailyCustomer.trend}
               >
-                <DailyCustomerChart height={170} data={dailyCustomer.data} filter={filter} />
+                <DailyCustomerChart height={CHART_HEIGHT} data={dailyCustomer.data} filter={filter} />
               </CardWithPlot>
             </Col>
           </Row>
         </Col>
         <Col xl={15} lg={15} md={24} sm={24} xs={24}>
           <CardWithContent
-            bodyStyles={{ height: 432, overflow: 'hidden', padding: 0 }}
+            bodyStyles={{ minHeight: MIN_TABLE_HEIGHT, height: TABLE_HEIGHT, overflow: 'hidden', padding: 0 }}
             icon={<ClockCircleOutlined style={{ fontSize: 14, color: token.colorPrimary }} />}
-            title={t('', 'Recent Order')}
+            title={t('recentOrder')}
           >
             <RecentOrderTable
+              height={RECENT_ORDER_TABLE_HEIGHT}
               data={recentOrder}
               loading={loading.recentOrder}
               dispatch={{
@@ -94,13 +107,14 @@ export const DashboardPage = (props: DashboardProps) => {
         </Col>
         <Col xl={9} lg={9} md={24} sm={24} xs={24}>
           <CardWithContent
-            bodyStyles={{ height: 430, overflow: 'hidden', padding: 0 }}
+            bodyStyles={{ minHeight: MIN_TABLE_HEIGHT, height: TABLE_HEIGHT, overflow: 'hidden', padding: 0 }}
             icon={<ClockCircleOutlined style={{ fontSize: 14, color: token.colorPrimary }} />}
-            title={t('', 'Order Timeline')}
+            title={t('orderTimeline')}
           >
             <OrderTimelineTable
               data={orderTimeline}
               loading={loading.orderTimeline}
+              height={TABLE_HEIGHT}
               dispatch={{
                 fetchNextPage: dispatch?.fetchOrderTimelineNext || Promise.resolve,
               }}

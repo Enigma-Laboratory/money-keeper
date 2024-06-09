@@ -22,45 +22,42 @@ export class DashboardService {
   }
 
   public async fetchDailyOrder(params: FindAllDailyOrderParams): Promise<FindAllDailyOrderResponse> {
-    const order = await OrderApiService.instance.fetchDailyOrder(params);
+    const response = await OrderApiService.instance.fetchDailyOrder(params);
     const store = dashboardStore.getModel();
 
     dashboardStore.updateModel({
       ...store,
-      dailyOrder: order as DailyResponse,
+      dailyOrder: response as DailyResponse,
     });
-    return order;
+    return response;
   }
 
   public async fetchDailyRevenue(params: FindAllDailyOrderRevenueParams): Promise<FindAllDailyOrderResponse> {
-    const order = await OrderApiService.instance.fetchDailyRevenue(params);
-    const dashboard = dashboardStore.getModel();
-
-    dashboardStore.updateModel({
-      ...dashboard,
-      dailyRevenue: order as DailyResponse,
-    });
-    return order;
-  }
-
-  public async fetchDailyCustomer(params: FindAllDailyUserParams): Promise<FindAllDailyUserResponse> {
-    const order = await UserApiService.instance.fetchDailyCustomer(params);
+    const response = await OrderApiService.instance.fetchDailyRevenue(params);
     const store = dashboardStore.getModel();
 
     dashboardStore.updateModel({
       ...store,
-      dailyCustomer: order as DailyResponse,
+      dailyRevenue: response as DailyResponse,
     });
-    return order;
+    return response;
+  }
+
+  public async fetchDailyCustomer(params: FindAllDailyUserParams): Promise<FindAllDailyUserResponse> {
+    const response = await UserApiService.instance.fetchDailyCustomer(params);
+    const store = dashboardStore.getModel();
+
+    dashboardStore.updateModel({
+      ...store,
+      dailyCustomer: response as DailyResponse,
+    });
+    return response;
   }
 
   public async fetchBothRecentOrderAndOrderTimeline(params: FindAllOrderParams): Promise<FindAllOrderResponse> {
+    const response = await OrderApiService.instance.fetchAllOrder(params);
     const store = dashboardStore.getModel();
     const { recentOrder, orderTimeline } = store;
-    const response = await OrderApiService.instance.fetchAllOrder({
-      page: recentOrder.page,
-      pageSize: recentOrder.pageSize,
-    });
 
     dashboardStore.updateModel({
       ...store,
@@ -105,9 +102,9 @@ export class DashboardService {
   }
 
   public async fetchRecentOrder(params: FindAllOrderParams): Promise<FindAllOrderResponse> {
+    const response = await OrderApiService.instance.fetchAllOrder(params);
     const store = dashboardStore.getModel();
     const { recentOrder } = store;
-    const response = await OrderApiService.instance.fetchAllOrder(params);
 
     dashboardStore.updateModel({
       ...store,
@@ -116,7 +113,6 @@ export class DashboardService {
         page: params.page as number,
         data: { ...recentOrder.data, [params.page as number]: response.rows },
         count: response.count,
-        // nextPage: dataStack.length !== response.count,
       },
     });
 

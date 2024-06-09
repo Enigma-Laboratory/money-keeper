@@ -1,27 +1,33 @@
 import { Order, Product } from '@enigma-laboratory/shared';
-import { Flex, Pagination, Space, Table, TableProps, Typography, theme } from 'antd';
+import { Flex, Pagination, Space, TableProps, Typography, theme } from 'antd';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { RecentOrder } from 'stores';
+import { StyledDescriptionText, StyledNameText, StyledTable } from './RecentOrder.styles';
 
 type OrderTimelineProps = {
   data: RecentOrder;
   loading: boolean;
+  height: number;
   dispatch?: {
     fetchRecentOrder: (page: number, pageSize?: number) => Promise<void>;
   };
 };
 
-interface ColumnProps extends Order {
-  key?: string;
+export interface ColumnProps extends Order {
+  key: React.Key;
 }
 
-export const RecentOrderTable = ({ data, dispatch, loading }: OrderTimelineProps) => {
+export const RecentOrderTable = ({ data, dispatch, loading, height }: OrderTimelineProps) => {
   const { token } = theme.useToken();
+  const { t } = useTranslation('dashboard');
+
   const columns: TableProps<ColumnProps>['columns'] = [
     {
-      title: 'Order Number',
+      title: t('recentOrderTable.orderNumber'),
       dataIndex: 'orderNumber',
       key: 'orderNumber',
-      width: 140,
+      width: 100,
       render: (_, record) => (
         <Typography.Link strong style={{ whiteSpace: 'nowrap', color: token.colorTextHeading }}>
           #{record.orderNumber}
@@ -29,13 +35,24 @@ export const RecentOrderTable = ({ data, dispatch, loading }: OrderTimelineProps
       ),
     },
     {
-      title: 'name',
+      title: t('recentOrderTable.name'),
       dataIndex: 'name',
+      width: 300,
       key: 'name',
-      render: (value) => <Typography.Text style={{ fontSize: 14 }}>{value}</Typography.Text>,
+      render: (value, record) => {
+        console.log(record.description?.length);
+        return (
+          <>
+            <StyledNameText $description={record.description}>{value}</StyledNameText>
+            <StyledDescriptionText ellipsis={{ tooltip: record.description }}>
+              {record.description}
+            </StyledDescriptionText>
+          </>
+        );
+      },
     },
     {
-      title: 'Product',
+      title: t('recentOrderTable.product'),
       dataIndex: 'products',
       key: 'products',
       width: 200,
@@ -53,7 +70,7 @@ export const RecentOrderTable = ({ data, dispatch, loading }: OrderTimelineProps
       },
     },
     {
-      title: 'amount',
+      title: t('recentOrderTable.amount'),
       key: 'amount',
       dataIndex: 'amount',
       width: 100,
@@ -67,21 +84,30 @@ export const RecentOrderTable = ({ data, dispatch, loading }: OrderTimelineProps
       },
     },
   ];
+
+  const dataSource: ColumnProps[] = useMemo(
+    () =>
+      data?.data?.[data.page]?.map((item) => ({
+        ...item,
+        key: item._id,
+      })) || [],
+    [data?.data?.[data.page]],
+  );
+
   return (
     <>
-      <Table
-        loading={loading}
+      <StyledTable
         columns={columns}
-        dataSource={data.data?.[data.page] || []}
-        scroll={{ x: 850, y: 300 }}
+        $bodyHeight={height}
+        loading={loading}
+        dataSource={dataSource}
+        scroll={{ x: 'max-content', y: height }}
         pagination={false}
       />
       <Pagination
         defaultCurrent={data.page}
         defaultPageSize={data.pageSize}
-        onChange={(page) =>
-          dispatch?.fetchRecentOrder(page) || ((): Promise<void> => new Promise((resolve) => resolve()))
-        }
+        onChange={(page) => dispatch?.fetchRecentOrder(page) || Promise.resolve}
         total={data.count}
         style={{ textAlign: 'center', marginTop: 16 }}
       />

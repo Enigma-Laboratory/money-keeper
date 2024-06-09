@@ -16,8 +16,8 @@ export const DateFilterSelect: React.FC<DateFilterSelectProps> = ({ onChange }):
   const [selectedDateFilter, setSelectedDateFilter] = useState<DateFilter>(filters[0]);
 
   const dateFilters = useMemo(() => {
-    return filters.map((filter) => ({ value: filter, label: t(`${filter}`) }));
-  }, []);
+    return filters.map((filter) => ({ value: filter, label: t(`filter.${filter}`) }));
+  }, [t]);
 
   const handleChangeSelect = async (value: DateFilter) => {
     setSelectedDateFilter(value);
@@ -49,7 +49,12 @@ export const DateFilterSelect: React.FC<DateFilterSelectProps> = ({ onChange }):
 
   return (
     <Space size={10}>
-      {selectedDateFilter === 'custom' && <DatePicker.RangePicker onChange={handleChangeRangePicker} />}
+      {selectedDateFilter === 'custom' && (
+        <DatePicker.RangePicker
+          onChange={handleChangeRangePicker}
+          placeholder={[t('dateFilter.startDate'), t('dateFilter.endDate')]}
+        />
+      )}
       <Select
         style={{ width: 120 }}
         defaultValue={dateFilters[0].value}

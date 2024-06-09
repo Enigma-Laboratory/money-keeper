@@ -11,7 +11,8 @@ import { appConfig } from 'config';
 import { Languages, i18n, useConfigProvider } from 'contexts';
 import { ERROR_IMAGE, LANGUAGE } from 'utils';
 
-import StyledLayout from './InitialLayout.Layout.styles';
+import dayjs from 'dayjs';
+import { StyledLayout } from './InitialLayout.Layout.styles';
 import {
   LanguageButton,
   LanguageWrap,
@@ -33,6 +34,7 @@ export const InitialLayout: FC<PropsWithChildren> = (props) => {
 
   const changeLanguage = (langType: Languages) => {
     i18n.changeLanguage(langType);
+    dayjs.locale(langType);
   };
 
   const content = (

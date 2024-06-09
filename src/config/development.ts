@@ -2,7 +2,7 @@ import { EnvironmentConfig } from './index';
 
 const developmentConfig: EnvironmentConfig = {
   apiUrl: 'https://money-keeper-backend.onrender.com',
-  // apiUrl: 'http://localhost:1337',
+  // apiUrl: 'http://localhost:3301',
   debugMode: true,
   appTitle: 'Pencusto',
 };

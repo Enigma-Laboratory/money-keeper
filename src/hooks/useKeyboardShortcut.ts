@@ -1,4 +1,5 @@
 import { Languages, Mode, i18n, useConfigProvider } from 'contexts';
+import dayjs from 'dayjs';
 import { useEffect } from 'react';
 
 export const useKeyboardShortcut = () => {
@@ -26,6 +27,7 @@ export const useKeyboardShortcut = () => {
       const handleKeyPress = (e: KeyboardEvent) => {
         if (e.key === character) {
           i18n.changeLanguage(i18n.language === Languages.VI ? Languages.EN : Languages.VI);
+          dayjs.locale(i18n.language);
         }
       };
       document.addEventListener('keypress', handleKeyPress);

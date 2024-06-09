@@ -17,7 +17,7 @@ export interface DashboardProps {
   dispatch?: {
     fetchOrderTimelineNext: () => Promise<void>;
     fetchRecentOrder: (page: number, pageSize?: number) => Promise<void>;
-    fetchDaily: (filter: DailyParams) => Promise<void>;
+    fetchChartData: (filter: DailyParams) => Promise<void>;
   };
 }
 
@@ -34,7 +34,7 @@ type LoadingTypes = {
   orderTimeline: boolean;
 };
 
-const getDefaultParams = {
+const getDefaultParams: DailyParams = {
   start: new Date(dayjs().subtract(6, 'd').format()),
   end: new Date(dayjs().format()),
 };
@@ -47,6 +47,9 @@ export const loadingInit = {
   dailyRevenue: false,
 };
 
+let RECENT_ORDER_PAGE_INCREASE = 1;
+let ORDER_TIMELINE_PAGE_INCREASE = 1;
+
 export const withDashboardController = <P,>(Component: ComponentType<P>): ComponentType<P> => {
   return (props: P) => {
     const { dailyOrder, dailyRevenue, dailyCustomer, orderTimeline, recentOrder, filter } = useObservable(
@@ -54,12 +57,12 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
     );
     const [loading, setLoading] = useState<LoadingTypes>(loadingInit);
 
-    const fetchDailyChart = async (params: DailyParams): Promise<void> => {
+    const fetchChartData = async (params: DailyParams): Promise<void> => {
       setLoading((prev) => ({ ...prev, dailyCustomer: true, dailyOrder: true, dailyRevenue: true }));
       try {
         Promise.all([
-          await DashboardService.instance.fetchDailyOrder(params),
           await DashboardService.instance.fetchDailyRevenue(params),
+          await DashboardService.instance.fetchDailyOrder(params),
           await DashboardService.instance.fetchDailyCustomer(params),
         ]);
       } catch (e) {
@@ -69,22 +72,29 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
       }
     };
 
-    const fetchOrder = async (): Promise<void> => {
+    const fetchTableData = async (): Promise<void> => {
       setLoading((prev) => ({ ...prev, orderTimeline: true, recentOrder: true }));
       try {
         await DashboardService.instance.fetchBothRecentOrderAndOrderTimeline({
           page: DEFAULT_PARAMS.PAGE,
           pageSize: DEFAULT_PARAMS.PAGE_SIZE,
+          sorters: DEFAULT_PARAMS.SORTERS,
         });
       } catch (e) {
       } finally {
+        RECENT_ORDER_PAGE_INCREASE++;
+        ORDER_TIMELINE_PAGE_INCREASE++;
         setLoading((prev) => ({ ...prev, orderTimeline: false, recentOrder: false }));
       }
     };
 
     const fetchOrderTimelineNext = async () => {
       try {
-        await DashboardService.instance.fetchOrderTimelineNext({ page: 1, pageSize: 10 });
+        await DashboardService.instance.fetchOrderTimelineNext({
+          page: RECENT_ORDER_PAGE_INCREASE++,
+          pageSize: DEFAULT_PARAMS.PAGE_SIZE,
+          sorters: DEFAULT_PARAMS.SORTERS,
+        });
       } catch (e) {
         console.error(e);
       }
@@ -98,7 +108,12 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
             ...dashboardStore.getModel(),
             recentOrder: { ...recentOrder, page: page },
           });
-        } else await DashboardService.instance.fetchRecentOrder({ page, pageSize: 10 });
+        } else
+          await DashboardService.instance.fetchRecentOrder({
+            page: ORDER_TIMELINE_PAGE_INCREASE++,
+            pageSize: DEFAULT_PARAMS.PAGE_SIZE,
+            sorters: DEFAULT_PARAMS.SORTERS,
+          });
       } catch (e) {
         console.error(e);
       } finally {
@@ -107,8 +122,8 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
     };
 
     useEffect(() => {
-      fetchDailyChart(getDefaultParams);
-      fetchOrder();
+      fetchChartData(getDefaultParams);
+      fetchTableData();
     }, []);
 
     const logicProps: DashboardProps = {
@@ -124,7 +139,7 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
       dispatch: {
         fetchOrderTimelineNext,
         fetchRecentOrder,
-        fetchDaily: fetchDailyChart,
+        fetchChartData,
       },
     };
 
