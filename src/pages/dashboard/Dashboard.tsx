@@ -1,222 +1,123 @@
 import { ClockCircleOutlined, DollarCircleOutlined, ShoppingOutlined, UserOutlined } from '@ant-design/icons';
-import { Col, Flex, Row, Typography, theme } from 'antd';
-import { TrendDownIcon, TrendUpIcon } from 'assets/icons';
-import { CardWithContent, CardWithPlot, DropdownDateFilter } from 'components';
-import dayjs from 'dayjs';
+import { Col, Row, Typography, theme } from 'antd';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DashboardStyled } from './Dashboard.styles';
-import { DailyRevenue } from './dail-revenue';
-import { NewCustomers } from './daily-customers';
-import { DailyOrders } from './daily-orders';
-import { OrderTimeline } from './order-timeline';
-import { RecentOrders } from './recent-orders';
 import { DashboardProps } from './withDashboardController';
 
-export const DashboardPage = ({ data }: DashboardProps) => {
-  const { orders: orderTimelines, dailyRevenueData, dailyOrdersData, newCustomersData } = data || {};
+import { CardWithContent, CardWithPlot, DateFilterSelect } from 'components';
+import { THC } from 'utils';
+
+import { DailyRevenueChart } from './dail-revenue';
+import { DailyCustomerChart } from './daily-customers';
+import { DailyOrderChart } from './daily-orders';
+import { OrderTimelineTable } from './order-timeline';
+import { RecentOrderTable } from './recent-orders';
+import { loadingInit } from './withDashboardController';
+
+export const CHART_HEIGHT = 150;
+const MIN_TABLE_HEIGHT = 400;
+
+export const DashboardPage = (props: DashboardProps) => {
+  const { data, dispatch, loading = loadingInit } = props;
+  const { dailyOrder, dailyRevenue, dailyCustomer, recentOrder, orderTimeline, filter } = data;
+
+  const TABLE_HEIGHT = useMemo(
+    () =>
+      window.innerHeight -
+      THC.HEADER_HEIGHT -
+      THC.PADDING_MAIN_LAYOUT_HEIGHT * 2 -
+      THC.DASHBOARD_PAGE.HEADER_HEIGHT -
+      THC.DASHBOARD_PAGE.CHART_CARD -
+      THC.DASHBOARD_PAGE.TABLE_CHART_SPACE -
+      THC.DASHBOARD_PAGE.HEADER_CARD_HEIGHT -
+      THC.DASHBOARD_PAGE.HEADER_CARD_BORDER,
+    [],
+  );
+
+  const RECENT_ORDER_TABLE_HEIGHT = useMemo(
+    () =>
+      TABLE_HEIGHT -
+      THC.DASHBOARD_PAGE.TABLE.PAGINATION_HEIGHT -
+      THC.DASHBOARD_PAGE.TABLE.PAGINATION_MARGIN -
+      THC.DASHBOARD_PAGE.TABLE.HEADER_HEIGHT -
+      THC.DASHBOARD_PAGE.TABLE.BOTTOM_PADDING,
+    [],
+  );
 
   const { token } = theme.useToken();
-  const { t } = useTranslation();
-
-  const revenue = useMemo(() => {
-    const data = dailyRevenueData?.data?.data;
-    if (!data)
-      return {
-        data: [],
-        trend: 0,
-      };
-
-    const plotData = data.map((revenue) => {
-      const date = dayjs(revenue.date);
-      return {
-        timeUnix: date.unix(),
-        timeText: date.format('DD MMM YYYY'),
-        value: revenue.value,
-        state: 'Daily Revenue',
-      };
-    });
-
-    return {
-      data: plotData,
-      trend: dailyRevenueData?.data?.trend || 0,
-    };
-  }, [dailyRevenueData]);
-
-  const orders = useMemo(() => {
-    const data = dailyOrdersData?.data?.data;
-    if (!data) return { data: [], trend: 0 };
-
-    const plotData = data.map((order) => {
-      const date = dayjs(order.date);
-      return {
-        timeUnix: date.unix(),
-        timeText: date.format('DD MMM YYYY'),
-        value: order.value,
-        state: 'Daily Orders',
-      };
-    });
-
-    return {
-      data: plotData,
-      trend: dailyOrdersData?.data?.trend || 0,
-    };
-  }, [dailyOrdersData]);
-
-  const newCustomers = useMemo(() => {
-    const data = newCustomersData?.data?.data;
-    if (!data) return { data: [], trend: 0 };
-
-    const plotData = data.map((customer) => {
-      const date = dayjs(customer.date);
-      return {
-        timeUnix: date.unix(),
-        timeText: date.format('DD MMM YYYY'),
-        value: customer.value,
-        state: 'New Customers',
-      };
-    });
-
-    return {
-      data: plotData,
-      trend: newCustomersData?.data?.trend || 0,
-    };
-  }, [newCustomersData]);
-
+  const { t } = useTranslation('dashboard');
   return (
     <DashboardStyled>
       <div className="header">
-        <h3>{t('dashboard.overview', 'Overview')}</h3>
-        <DropdownDateFilter
-          onChange={(value) => {
-            console.log(value);
-          }}
-        />
+        <Typography.Title level={4} style={{ margin: '0 0 16px' }}>
+          {t('overview')}
+        </Typography.Title>
+        <DateFilterSelect onChange={dispatch?.fetchChartData} />
       </div>
-      <Row gutter={[16, 16]}>
+      <Row gutter={[THC.DASHBOARD_PAGE.TABLE_CHART_SPACE, THC.DASHBOARD_PAGE.TABLE_CHART_SPACE]}>
         <Col md={24}>
           <Row gutter={[16, 16]}>
             <Col xl={{ span: 10 }} lg={24} md={24} sm={24} xs={24}>
               <CardWithPlot
-                icon={
-                  <DollarCircleOutlined
-                    style={{
-                      fontSize: 14,
-                      color: token.colorPrimary,
-                    }}
-                  />
-                }
-                title={t('dashboard.dailyRevenue.title')}
-                rightSlot={
-                  <Flex align="center" gap={8}>
-                    <Typography.Text>
-                      {revenue.trend.toLocaleString('us', { style: 'currency', currency: 'USD' })}
-                    </Typography.Text>
-                    {revenue.trend > 0 ? <TrendUpIcon /> : <TrendDownIcon />}
-                  </Flex>
-                }
+                loading={loading.dailyRevenue}
+                icon={<DollarCircleOutlined style={{ fontSize: 14, color: token.colorPrimary }} />}
+                title={t('dailyRevenue')}
+                trend={dailyRevenue.trend}
               >
-                <DailyRevenue height={170} data={revenue.data} />
+                <DailyRevenueChart height={CHART_HEIGHT} data={dailyRevenue.data} filter={filter} />
               </CardWithPlot>
             </Col>
             <Col xl={{ span: 7 }} lg={12} md={24} sm={24} xs={24}>
               <CardWithPlot
-                icon={
-                  <ShoppingOutlined
-                    style={{
-                      fontSize: 14,
-                      color: token.colorPrimary,
-                    }}
-                  />
-                }
-                rightSlot={
-                  <Flex align="center" gap={8}>
-                    <Typography.Text>{orders.trend}</Typography.Text>
-                    {orders.trend > 0 ? <TrendUpIcon /> : <TrendDownIcon />}
-                  </Flex>
-                }
-                title={t('dashboard.dailyOrders.title')}
+                loading={loading.dailyOrder}
+                icon={<ShoppingOutlined style={{ fontSize: 14, color: token.colorPrimary }} />}
+                trend={dailyOrder.trend}
+                title={t('dailyOrder')}
               >
-                <DailyOrders height={170} data={orders.data} />
+                <DailyOrderChart height={CHART_HEIGHT} data={dailyOrder.data} filter={filter} />
               </CardWithPlot>
             </Col>
             <Col xl={{ span: 7 }} lg={12} md={24} sm={24} xs={24}>
               <CardWithPlot
-                icon={
-                  <UserOutlined
-                    style={{
-                      fontSize: 14,
-                      color: token.colorPrimary,
-                    }}
-                  />
-                }
-                title={t('dashboard.newCustomers.title')}
-                rightSlot={
-                  <Flex align="center" gap={8}>
-                    <Typography.Text>{`${newCustomers.trend / 100}%`}</Typography.Text>
-
-                    {newCustomers.trend > 0 ? <TrendUpIcon /> : <TrendDownIcon />}
-                  </Flex>
-                }
+                loading={loading.dailyCustomer}
+                icon={<UserOutlined style={{ fontSize: 14, color: token.colorPrimary }} />}
+                title={t('newCustomer')}
+                trend={dailyCustomer.trend}
               >
-                <NewCustomers height={170} data={newCustomers.data} />
+                <DailyCustomerChart height={CHART_HEIGHT} data={dailyCustomer.data} filter={filter} />
               </CardWithPlot>
             </Col>
           </Row>
         </Col>
         <Col xl={15} lg={15} md={24} sm={24} xs={24}>
           <CardWithContent
-            bodyStyles={{
-              height: '432px',
-              overflow: 'hidden',
-              padding: 0,
-            }}
-            icon={
-              <ClockCircleOutlined
-                style={{
-                  fontSize: 14,
-                  color: token.colorPrimary,
-                }}
-              />
-            }
-            title={t('dashboard.recentOrders.title')}
+            bodyStyles={{ minHeight: MIN_TABLE_HEIGHT, height: TABLE_HEIGHT, overflow: 'hidden', padding: 0 }}
+            icon={<ClockCircleOutlined style={{ fontSize: 14, color: token.colorPrimary }} />}
+            title={t('recentOrder')}
           >
-            <RecentOrders
-              data={{
-                orders: orderTimelines,
+            <RecentOrderTable
+              height={RECENT_ORDER_TABLE_HEIGHT}
+              data={recentOrder}
+              loading={loading.recentOrder}
+              dispatch={{
+                fetchRecentOrder: dispatch?.fetchRecentOrder || Promise.resolve,
               }}
-              dispatch={{}}
             />
           </CardWithContent>
         </Col>
         <Col xl={9} lg={9} md={24} sm={24} xs={24}>
           <CardWithContent
-            bodyStyles={{
-              height: '430px',
-              overflow: 'hidden',
-              padding: 0,
-            }}
-            icon={
-              <ClockCircleOutlined
-                style={{
-                  fontSize: 14,
-                  color: token.colorPrimary,
-                }}
-              />
-            }
-            title={t('dashboard.timeline.title')}
+            bodyStyles={{ minHeight: MIN_TABLE_HEIGHT, height: TABLE_HEIGHT, overflow: 'hidden', padding: 0 }}
+            icon={<ClockCircleOutlined style={{ fontSize: 14, color: token.colorPrimary }} />}
+            title={t('orderTimeline')}
           >
-            <OrderTimeline
-              data={{
-                orders: orderTimelines,
-                height: undefined,
-                hasNextPage: undefined,
-                isLoading: undefined,
-              }}
+            <OrderTimelineTable
+              data={orderTimeline}
+              loading={loading.orderTimeline}
+              height={TABLE_HEIGHT}
               dispatch={{
-                fetchNextPage: function (): void {
-                  throw new Error('Function not implemented.');
-                },
+                fetchNextPage: dispatch?.fetchOrderTimelineNext || Promise.resolve,
               }}
             />
           </CardWithContent>

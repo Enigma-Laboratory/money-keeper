@@ -11,8 +11,10 @@ import type { MenuProps } from 'antd/es/menu';
 import { ReactElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+
 import { AuthService } from 'stores';
 import { getExactPath, routePaths } from 'utils';
+
 import { BaseMenu } from '../base-menu';
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -59,7 +61,8 @@ export const Menu = (): ReactElement => {
   ];
 
   useEffect(() => {
-    switch (pathname.substring(1)) {
+    const firstPathname = pathname.match(/(\w+)/g)?.[0] || '';
+    switch (firstPathname) {
       case routePaths.dashboard:
         setActiveItem(['dashboard']);
         break;
@@ -72,7 +75,7 @@ export const Menu = (): ReactElement => {
       case routePaths.product:
         setActiveItem(['products']);
         break;
-      case routePaths.profile:
+      case 'profile':
         setActiveItem(['profile']);
         break;
       case 'logout':

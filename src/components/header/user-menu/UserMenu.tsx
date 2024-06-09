@@ -8,6 +8,7 @@ import { IconMoon, IconSun } from 'assets/icons';
 import { Languages, Mode, i18n, useConfigProvider } from 'contexts';
 import { LANGUAGE, generateColorFromAlphabet } from 'utils';
 
+import dayjs from 'dayjs';
 import { StyledUserMenu, StyledWrap } from './UserMenu.styles';
 
 type UserMenuProps = {
@@ -60,7 +61,10 @@ export const UserMenu = ({ user }: UserMenuProps): ReactElement => {
               })),
               selectable: true,
               defaultSelectedKeys: [i18n.language],
-              onClick: (e) => i18n.changeLanguage(e.key as Languages),
+              onClick: (e) => {
+                i18n.changeLanguage(e.key as Languages);
+                dayjs.locale(e.key);
+              },
             }}
           >
             <Space>

@@ -1,3 +1,4 @@
+export * from './abbreviateNumbers';
 export * from './arrayToObject';
 export * from './checkPasswordStrength';
 export * from './constants';
@@ -8,4 +9,3 @@ export * from './generateColorFromAlphabet';
 export * from './getExactPath';
 export * from './objectIsEmpty';
 export * from './routePaths';
-

@@ -128,6 +128,7 @@ export class OrderService {
       message: 'Order deleted Successful',
       description: `The order with id: ${order.name} has been successfully deleted.`,
     });
+
     orderStore.updateModel((model) => {
       delete model.rows[order._id];
       return {

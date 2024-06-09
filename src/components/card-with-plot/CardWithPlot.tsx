@@ -1,44 +1,43 @@
-import { Card, Flex, Typography } from 'antd';
+import { Card, Flex, Spin, Typography } from 'antd';
+import { DownTrendIcon, UnchangedIcon, UpTrendIcon } from 'assets/icons';
 import { PropsWithChildren, ReactNode } from 'react';
+interface CardWithPlotProps extends PropsWithChildren {
+  icon: ReactNode;
+  title: string;
+  bodyStyles?: React.CSSProperties;
+  loading: boolean;
+  trend: number;
+}
+const renderTrendIcon = (trend: number) => {
+  if (trend > 0) return <UpTrendIcon />;
+  else if (trend < 0) return <DownTrendIcon />;
+  else return <UnchangedIcon />;
+};
 
-export const CardWithPlot = (
-  props: PropsWithChildren<{
-    icon: ReactNode;
-    title: string;
-    rightSlot?: ReactNode;
-    bodyStyles?: React.CSSProperties;
-  }>,
-) => {
+export const CardWithPlot = (props: CardWithPlotProps) => {
+  const { loading, bodyStyles, trend, icon } = props;
   return (
-    <Card
-      styles={{
-        header: {
-          padding: '16px 16px 10px 16px',
-          minHeight: 'max-content',
-          borderBottom: 0,
-        },
-        body: {
-          padding: '24px 16px 24px 24px',
-          ...(props?.bodyStyles || {}),
-        },
-      }}
-      title={
-        <Flex align="center" justify="space-between">
+    <Spin spinning={loading}>
+      <Card
+        styles={{
+          header: { padding: 10, minHeight: 'max-content', borderBottom: 0 },
+          body: { padding: 10, ...(bodyStyles || {}) },
+        }}
+        title={
           <Flex gap={8}>
-            {props.icon}
-            <Typography.Text
-              style={{
-                fontWeight: 400,
-              }}
-            >
-              {props.title}
-            </Typography.Text>
+            {icon}
+            <Typography.Text style={{ fontWeight: 400 }}>{props.title}</Typography.Text>
           </Flex>
-          {props?.rightSlot}
-        </Flex>
-      }
-    >
-      {props.children}
-    </Card>
+        }
+        extra={
+          <Flex gap={8}>
+            <Typography.Text>{`${trend / 100}%`}</Typography.Text>
+            {renderTrendIcon(trend)}
+          </Flex>
+        }
+      >
+        {props.children}
+      </Card>
+    </Spin>
   );
 };

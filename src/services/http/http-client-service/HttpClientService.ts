@@ -159,13 +159,18 @@ export class HttpClientService {
   }
 
   private static async getConfig(customOptions?: AxiosRequestConfig): Promise<any> {
-    const { headers: customHeaders, ...remainingCustomOptions } = customOptions ?? {};
+    const { headers: customHeaders, params, ...remainingCustomOptions } = customOptions ?? {};
+    const customParams = { ...params };
+    Object.entries(customParams).forEach(([key, value]) => {
+      if (Array.isArray(value)) customParams[key] = JSON.stringify(value);
+    });
     const additionalHeader = customHeaders ?? (await this.generateHeaders());
     return {
       headers: {
         ...HttpClientService.instance.defaults.headers,
         ...additionalHeader,
       },
+      params: customParams,
       ...remainingCustomOptions,
     };
   }

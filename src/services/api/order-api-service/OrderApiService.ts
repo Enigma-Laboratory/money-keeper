@@ -2,6 +2,11 @@ import {
   CreateOneOrderParams,
   DeleteOneOrderParams,
   DeleteOneOrderResponse,
+  FindAllDailyOrderParams,
+  FindAllDailyOrderResponse,
+  FindAllDailyOrderRevenueParams,
+  FindAllDailyOrderRevenueResponse,
+  FindAllOrderParams,
   FindAllOrderResponse,
   FindOneOrderParams,
   Order,
@@ -26,18 +31,30 @@ export class OrderApiService extends ApiEndpointService {
     this.endPoint = `${this.endPoint}/${HttpConfig.ORDERS}`;
   }
 
-  public async fetchAllOrder(): Promise<FindAllOrderResponse> {
-    return await HttpClientService.httpGet<FindAllOrderResponse>(this.endPoint);
+  public async fetchAllOrder(params?: FindAllOrderParams): Promise<FindAllOrderResponse> {
+    return await HttpClientService.httpGet<FindAllOrderResponse>(this.endPoint, { params });
   }
+
   public async fetchOneOrder(params: FindOneOrderParams): Promise<Order> {
     const endpoint = `${this.endPoint}/${params._id}`;
     return await HttpClientService.httpGet<Order>(endpoint);
+  }
+
+  public async fetchDailyOrder(params: FindAllDailyOrderParams): Promise<FindAllDailyOrderResponse> {
+    const endpoint = `${this.endPoint}/${HttpConfigOrder.DAILY_ORDER}`;
+    return await HttpClientService.httpGet<FindAllDailyOrderResponse>(endpoint, { params });
+  }
+
+  public async fetchDailyRevenue(params: FindAllDailyOrderRevenueParams): Promise<FindAllDailyOrderRevenueResponse> {
+    const endpoint = `${this.endPoint}/${HttpConfigOrder.DAILY_REVENUE}`;
+    return await HttpClientService.httpGet<FindAllDailyOrderRevenueResponse>(endpoint, { params });
   }
 
   public async createOneOrder(params: CreateOneOrderParams): Promise<Order> {
     const endpoint = `${this.endPoint}`;
     return await HttpClientService.httpPost<Order>(endpoint, params);
   }
+
   public async updateOneOrder(params: UpdateOneOrderParams): Promise<Order> {
     return await HttpClientService.httpPut<Order>(this.endPoint, params);
   }

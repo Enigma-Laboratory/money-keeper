@@ -6,7 +6,7 @@ const animateBackground = (pathname: string, goldenRatio: number) => {
   return pathname === '/login' ? goldenRatio : 0;
 };
 
-const StyledLayout = styled(Layout)<{ $pathname: string; $goldenRatio: number }>`
+export const StyledLayout = styled(Layout)<{ $pathname: string; $goldenRatio: number }>`
   transition: all 0.2s;
   transform: translateX(-${(props) => animateBackground(props.$pathname, props.$goldenRatio)}%);
   height: 100vh;
@@ -54,5 +54,3 @@ export const StyledHeader = styled(Layout.Header)`
 StyledLayout.Sider = StyledSider as typeof StyledLayout.Sider;
 StyledLayout.Content = StyledContent as typeof StyledLayout.Content;
 StyledLayout.Header = StyledHeader as typeof StyledLayout.Header;
-
-export default StyledLayout;

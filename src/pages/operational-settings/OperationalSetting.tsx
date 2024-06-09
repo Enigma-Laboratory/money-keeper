@@ -19,6 +19,16 @@ export interface OperationalSettingWithOrders extends OperationalSetting {
   key: React.Key;
 }
 
+const TABLE_HEIGHT =
+  window.innerHeight -
+  THC.HEADER_HEIGHT -
+  THC.PADDING_MAIN_LAYOUT_HEIGHT * 2 -
+  THC.ORDER_PAGE.HEADER_HEIGHT -
+  THC.ORDER_PAGE.HEADER_MARGIN -
+  THC.ORDER_PAGE.PAGINATION_HEIGHT -
+  THC.ORDER_PAGE.PAGINATION_MARGIN * 2 -
+  THC.ORDER_PAGE.HEADER_TABLE;
+
 export const OperationalSettings = (props: OperationalSettingProps): ReactElement => {
   const { data, dispatch } = props;
   const { isLoading, statusLoading, groupOrders, operationalSettings, users } = data;
@@ -40,19 +50,6 @@ export const OperationalSettings = (props: OperationalSettingProps): ReactElemen
       return { ...prevDrawerData, users, statusLoading, status: updatedStatus };
     });
   }, [statusLoading, operationalSettings, users]);
-
-  const TABLE_HEIGHT = useMemo(
-    () =>
-      window.innerHeight -
-      THC.HEADER_HEIGHT -
-      THC.PADDING_MAIN_LAYOUT_HEIGHT * 2 -
-      THC.ORDER_PAGE.HEADER_HEIGHT -
-      THC.ORDER_PAGE.HEADER_MARGIN -
-      THC.ORDER_PAGE.PAGINATION_HEIGHT -
-      THC.ORDER_PAGE.PAGINATION_MARGIN * 2 -
-      THC.ORDER_PAGE.HEADER_TABLE,
-    [],
-  );
 
   const columns: TableProps<OperationalSettingWithOrders>['columns'] = [
     {

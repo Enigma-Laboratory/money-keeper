@@ -9,6 +9,12 @@ export const HttpConfig = {
 export const HttpConfigOrder = {
   UPDATE_ORDER_STATUS: 'order-status',
   UPDATE_ORDER_STATUSES: 'order-statuses',
+  DAILY_ORDER: 'daily-order',
+  DAILY_REVENUE: 'daily-revenue',
+};
+
+export const HttpConfigUser = {
+  DAILY_USER: 'daily-user',
 };
 
 export const HttpConfigAuth = {
