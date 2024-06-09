@@ -81,6 +81,7 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
           sorters: DEFAULT_PARAMS.SORTERS,
         });
       } catch (e) {
+        console.error(e);
       } finally {
         RECENT_ORDER_PAGE_INCREASE++;
         ORDER_TIMELINE_PAGE_INCREASE++;
