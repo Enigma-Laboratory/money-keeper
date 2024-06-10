@@ -1,3 +1,5 @@
+import { CHART_HEIGHT } from 'pages/dashboard/Dashboard';
+
 export const ROUTE_PATH = '';
 
 export const EVENT_NAME = {
@@ -5,7 +7,7 @@ export const EVENT_NAME = {
   CLOSE_MODAL: 'event_name_close_modal',
 };
 
-// THC: TABLE_HEIGHT_CONFIG
+// THCOS: TABLE_HEIGHT_CONFIG for dashboard and operational setting
 export const THC = {
   HEADER_HEIGHT: 64,
   PADDING_MAIN_LAYOUT_HEIGHT: 14,
@@ -15,6 +17,19 @@ export const THC = {
     PAGINATION_HEIGHT: 32,
     PAGINATION_MARGIN: 16,
     HEADER_TABLE: 55,
+  },
+  DASHBOARD_PAGE: {
+    HEADER_HEIGHT: 44,
+    CHART_CARD: 63 + CHART_HEIGHT,
+    TABLE_CHART_SPACE: 16,
+    HEADER_CARD_HEIGHT: 60,
+    HEADER_CARD_BORDER: 1,
+    TABLE: {
+      PAGINATION_MARGIN: 16,
+      PAGINATION_HEIGHT: 32,
+      HEADER_HEIGHT: 55,
+      BOTTOM_PADDING: 16,
+    },
   },
 };
 
@@ -29,4 +44,10 @@ export const ERROR_IMAGE =
 export const LANGUAGE = {
   VI: 'Tiếng Việt',
   EN: 'English',
+};
+
+export const DEFAULT_PARAMS = {
+  PAGE: 1,
+  PAGE_SIZE: 10,
+  SORTERS: ['createdAt:desc'],
 };

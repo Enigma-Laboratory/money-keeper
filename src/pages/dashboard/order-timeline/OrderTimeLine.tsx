@@ -2,74 +2,47 @@ import { Divider, List, Skeleton, Spin, Typography, theme } from 'antd';
 import { BaseOrderStatus } from 'components/order-status';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { IOrder } from 'interfaces';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { NavigateService } from 'services';
+import { OrderTimeline } from 'stores';
+import { StyledList } from './OrderTimelineTable.styles';
 
 dayjs.extend(relativeTime);
 
 type OrderTimelineProps = {
-  data: {
-    orders?: IOrder[];
-    height?: string;
-    hasNextPage?: boolean;
-    isLoading?: boolean;
-  };
-  dispatch: {
-    fetchNextPage: () => void;
+  data: OrderTimeline;
+  loading: boolean;
+  height: number;
+  dispatch?: {
+    fetchNextPage: () => Promise<void>;
   };
 };
 
-export const OrderTimeline = ({ data, dispatch }: OrderTimelineProps) => {
-  const { height = '432px', hasNextPage, isLoading, orders = [] } = data;
-  const { fetchNextPage } = dispatch;
+export const OrderTimelineTable = ({ data, dispatch, loading, height }: OrderTimelineProps) => {
+  const { nextPage } = data;
   const { token } = theme.useToken();
 
   return (
-    <div
-      id="scrollableDiv"
-      style={{
-        display: 'block',
-        height: height,
-        overflow: 'auto',
-      }}
-    >
+    <div id="scrollableDiv" style={{ height, overflow: 'auto' }}>
       <InfiniteScroll
-        dataLength={orders.length}
-        next={() => fetchNextPage()}
-        hasMore={hasNextPage || false}
-        loader={
-          <Spin
-            spinning
-            style={{
-              height: '56px',
-              display: 'flex',
-              justifyContent: 'center',
-              marginTop: '16px',
-            }}
-          />
-        }
+        dataLength={data.data.length}
+        next={dispatch?.fetchNextPage || Promise.resolve}
+        hasMore={nextPage}
+        loader={<Spin spinning style={{ height: 56, display: 'flex', justifyContent: 'center', marginTop: 16 }} />}
         endMessage={<Divider plain>That&apos;s all, nothing more.</Divider>}
         scrollableTarget="scrollableDiv"
       >
         <List
           itemLayout="horizontal"
-          dataSource={orders}
+          dataSource={data.data}
+          loading={loading}
           renderItem={(item) => {
+            const firstProductStatus = Object.entries(item.usersStatus)[0][1];
             return (
-              <List.Item
-                onClick={() => console.log('Navigate to order.')}
-                style={{
-                  cursor: 'pointer',
-                  height: '54px',
-                  padding: '16px',
-                }}
+              <StyledList.Item
+                onClick={() => NavigateService.instance.navigate(`/orders/detail/${item._id}`)}
                 actions={[
-                  <Typography.Text
-                    style={{
-                      color: token.colorTextDescription,
-                    }}
-                    key={'createdAt'}
-                  >
+                  <Typography.Text style={{ color: token.colorTextDescription }} key={item._id}>
                     {dayjs(item.createdAt).fromNow()}
                   </Typography.Text>,
                 ]}
@@ -79,22 +52,17 @@ export const OrderTimeline = ({ data, dispatch }: OrderTimelineProps) => {
                   avatar={false}
                   title={false}
                   paragraph={{ rows: 1, width: '100%' }}
-                  loading={isLoading}
+                  loading={loading}
                   active
                 >
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <div style={{ width: '128px' }}>
-                      <BaseOrderStatus status={item.status.text} />
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div style={{ width: 128 }}>
+                      <BaseOrderStatus status={firstProductStatus} />
                     </div>
                     <Typography.Text strong>#{item.orderNumber}</Typography.Text>
                   </div>
                 </Skeleton>
-              </List.Item>
+              </StyledList.Item>
             );
           }}
         />

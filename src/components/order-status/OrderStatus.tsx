@@ -38,7 +38,7 @@ export const BaseOrderStatus: React.FC<OrderStatusProps> = ({ status, ...remaini
 
   return (
     <div {...remaining}>
-      <Tag color={color} icon={icon} style={{ textAlign: 'start', margin: 2 }}>
+      <Tag color={color} icon={icon} style={{ textAlign: 'start', margin: 2, borderRadius: 11 }}>
         {t(`orderStatus.${status}`, status)}
       </Tag>
     </div>

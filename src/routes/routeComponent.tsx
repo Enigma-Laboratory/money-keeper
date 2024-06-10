@@ -7,6 +7,7 @@ import {
   OrderDetailScreen,
   ProfileScreen,
 } from 'pages';
+import { DEFAULT_DASHBOARD_STORE_INIT } from 'stores';
 import { routePaths } from 'utils';
 
 export interface RouteComponent {
@@ -19,7 +20,17 @@ export const routeComponents: RouteComponent[] = [
   {
     name: 'dashboard',
     path: routePaths.dashboard,
-    component: <Dashboard />,
+    component: (
+      <Dashboard
+        data={{
+          dailyOrder: DEFAULT_DASHBOARD_STORE_INIT,
+          dailyRevenue: DEFAULT_DASHBOARD_STORE_INIT,
+          dailyCustomer: DEFAULT_DASHBOARD_STORE_INIT,
+          recentOrder: { data: {}, count: 0, nextPage: false, prevPage: false, page: 1 },
+          orderTimeline: { data: [], count: 0, nextPage: false, prevPage: false, page: 1 },
+        }}
+      />
+    ),
   },
   {
     name: 'order',

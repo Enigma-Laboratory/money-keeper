@@ -17,6 +17,6 @@ const config: AppConfig = {
   production: productionConfig,
 };
 
-const environment = (process.env.REACT_APP_ENV || 'development') as keyof AppConfig;
+export const environment = (process.env.REACT_APP_ENV || 'development') as keyof AppConfig;
 
 export const appConfig = config[environment];

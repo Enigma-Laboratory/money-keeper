@@ -1,54 +1,59 @@
-import { BarElement, CategoryScale, Chart, Legend, LinearScale, Title, Tooltip } from 'chart.js';
+import { theme } from 'antd';
+import {
+  BarElement,
+  CategoryScale,
+  Chart,
+  ChartOptions,
+  ChartType,
+  Legend,
+  LinearScale,
+  Scale,
+  ScriptableContext,
+  Title,
+  Tooltip,
+} from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { ChartUnit, DateFilter } from 'stores';
+import { createGradientChart, getLabelChart } from 'utils/chart';
+
 type Props = {
-  data: {
-    timeUnix: number;
-    timeText: string;
-    value: number;
-    state: string;
-  }[];
+  data: ChartUnit[];
   height: number;
+  filter: DateFilter | undefined;
 };
 
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export const DailyOrders = ({ data, height }: Props) => {
-  // const t = useTranslation();
-  // const { mode } = useConfigProvider();
+export const DailyOrderChart = ({ data, height, filter }: Props) => {
+  const { token } = theme.useToken();
 
-  const options = {
+  const options: ChartOptions<'bar'> = {
     maintainAspectRatio: false,
     responsive: true,
-    plugins: {
-      legend: {
-        display: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: function (this: Scale, tickValue: number | string) {
+            return (tickValue as number) % 1 === 0 ? tickValue : undefined;
+          },
+        },
       },
     },
-    elements: {
-      bar: {
-        borderRadius: 5,
-        tension: 0.4,
-      },
-    },
-  };
-  // eslint-disable-next-line
-  const gradientFill = (context: any) => {
-    const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, context.chart.height);
-    gradient.addColorStop(1, '#ffffff');
-    gradient.addColorStop(0.5, '#D3EBFF');
-    gradient.addColorStop(0, '#1677FF');
-    return gradient;
+    plugins: { legend: { display: false } },
+    elements: { bar: { borderRadius: 5 } },
   };
 
-  const dataTest = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+  const dataConfig = {
+    labels: getLabelChart(data, filter),
     datasets: [
       {
         data: data.map(({ value }) => value),
-        backgroundColor: gradientFill,
-        borderColor: '#1624de',
+        backgroundColor: (context: ScriptableContext<ChartType>) => createGradientChart(context, token),
+        borderColor: token.colorPrimaryActive,
       },
     ],
   };
-  return <Bar options={options} data={dataTest} height={height} />;
+
+  return <Bar options={options} data={dataConfig} height={height} />;
 };

@@ -1,57 +1,51 @@
+import { theme } from 'antd';
+import { ChartOptions, ChartType, ScriptableContext } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { ChartUnit, DateFilter } from 'stores';
+import { abbreviateNumbers } from 'utils';
+import { createGradientChart, getLabelChart } from 'utils/chart';
 
 type Props = {
-  data: {
-    timeUnix: number;
-    timeText: string;
-    value: number;
-    state: string;
-  }[];
+  data: ChartUnit[];
   height: number;
+  filter: DateFilter | undefined;
 };
 
-export const DailyRevenue = ({ data, height }: Props) => {
-  // const t = useTranslation();
-  // const { mode } = useConfigProvider();
+export const DailyRevenueChart = ({ data, height, filter }: Props) => {
+  const { token } = theme.useToken();
 
-  const options = {
+  const options: ChartOptions<'line'> = {
     maintainAspectRatio: false,
     responsive: true,
-    plugins: {
-      legend: {
-        display: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: function (this, val) {
+            const { value, unit } = abbreviateNumbers(val as number);
+            return `${value}${unit} đ`;
+          },
+        },
       },
     },
-    elements: {
-      line: {
-        tension: 0.4,
-      },
-    },
-    animation: {
-      duration: 1000,
-    },
-  };
-  // eslint-disable-next-line
-  const gradientFill = (context: any) => {
-    const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, context.chart.height);
-    gradient.addColorStop(1, '#ffffff');
-    gradient.addColorStop(0.5, '#D3EBFF');
-    gradient.addColorStop(0, '#D3EBFF');
-    return gradient;
+    plugins: { legend: { display: false } },
+    elements: { line: { tension: 0.4 } },
+    animation: { duration: 1000 },
   };
 
-  const dataTest = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+  const dataConfig = {
+    type: 'line',
+    labels: getLabelChart(data, filter),
     datasets: [
       {
         data: data.map(({ value }) => value),
         fill: true,
-        backgroundColor: gradientFill,
-        borderColor: '#1677FF',
-        borderWidth: 2,
+        backgroundColor: (context: ScriptableContext<ChartType>) => createGradientChart(context, token),
+        borderColor: token.colorPrimaryActive,
+        borderWidth: 1,
       },
     ],
   };
 
-  return <Line options={options} data={dataTest} height={height} />;
+  return <Line options={options} data={dataConfig} height={height} />;
 };
