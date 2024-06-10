@@ -34,6 +34,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { CardWithContent } from 'components';
 import { formatCurrencyToVnd, getExactPath, routePaths } from 'utils';
 
+import dayjs from 'dayjs';
 import { AuthService } from 'stores';
 import { CreateOrderStyled } from './CreateOrder.styles';
 import { OrderConfirm } from './confirm-order';
@@ -253,6 +254,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
             label={t('form.createdOrderAt.title')}
             name="createdOrderAt"
             rules={[{ required: true, message: t('form.createdOrderAt.message') }]}
+            initialValue={dayjs()}
           >
             <DatePicker format={'YYYY-MM-DD'} />
           </Form.Item>
