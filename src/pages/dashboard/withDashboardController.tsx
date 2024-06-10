@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useObservable } from 'hooks';
-import { ComponentType, useEffect, useState } from 'react';
+import { ComponentType, useCallback, useEffect, useState } from 'react';
 import { DailyResponse, DashboardService, DateFilter, OrderTimeline, RecentOrder, dashboardStore } from 'stores';
 import { DEFAULT_PARAMS } from 'utils';
 
@@ -72,7 +72,7 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
       }
     };
 
-    const fetchTableData = async (): Promise<void> => {
+    const fetchTableData = useCallback(async (): Promise<void> => {
       setLoading((prev) => ({ ...prev, orderTimeline: true, recentOrder: true }));
       try {
         await DashboardService.instance.fetchBothRecentOrderAndOrderTimeline({
@@ -87,7 +87,7 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
         ORDER_TIMELINE_PAGE_INCREASE++;
         setLoading((prev) => ({ ...prev, orderTimeline: false, recentOrder: false }));
       }
-    };
+    }, []);
 
     const fetchOrderTimelineNext = async () => {
       try {

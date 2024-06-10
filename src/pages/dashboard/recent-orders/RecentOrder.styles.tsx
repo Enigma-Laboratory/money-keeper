@@ -8,7 +8,7 @@ export const StyledTable = styled(Table<ColumnProps>)<{ $bodyHeight: number }>`
   }
 `;
 
-export const StyledNameText = styled(Typography.Text)<{ $description: string | undefined }>`
+export const StyledNameText = styled(Typography.Text)<{ $description?: string }>`
   font-size: 14px;
   font-weight: bold;
   display: block;

@@ -12,6 +12,7 @@ import {
   Title,
   Tooltip,
 } from 'chart.js';
+import { memo } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { ChartUnit, DateFilter } from 'stores';
 import { createGradientChart, getLabelChart } from 'utils/chart';
@@ -19,12 +20,12 @@ import { createGradientChart, getLabelChart } from 'utils/chart';
 type Props = {
   data: ChartUnit[];
   height: number;
-  filter: DateFilter | undefined;
+  filter?: DateFilter;
 };
 
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export const DailyOrderChart = ({ data, height, filter }: Props) => {
+export const DailyOrderChartMemo = ({ data, height, filter }: Props) => {
   const { token } = theme.useToken();
 
   const options: ChartOptions<'bar'> = {
@@ -57,3 +58,4 @@ export const DailyOrderChart = ({ data, height, filter }: Props) => {
 
   return <Bar options={options} data={dataConfig} height={height} />;
 };
+export const DailyOrderChart = memo(DailyOrderChartMemo);
