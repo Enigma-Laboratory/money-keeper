@@ -23,7 +23,7 @@ export class OrderService {
   }
 
   public async fetchAllOrder(): Promise<void> {
-    const { count, rows } = await OrderApiService.instance.fetchAllOrder();
+    const { count, rows } = await OrderApiService.instance.fetchAllOrder({});
     const orders = arrayToObject('_id', rows);
     orderStore.setModel({ count, rows: orders });
   }

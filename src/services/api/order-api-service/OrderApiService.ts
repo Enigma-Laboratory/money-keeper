@@ -31,7 +31,7 @@ export class OrderApiService extends ApiEndpointService {
     this.endPoint = `${this.endPoint}/${HttpConfig.ORDERS}`;
   }
 
-  public async fetchAllOrder(params?: FindAllOrderParams): Promise<FindAllOrderResponse> {
+  public async fetchAllOrder(params: FindAllOrderParams): Promise<FindAllOrderResponse> {
     return await HttpClientService.httpGet<FindAllOrderResponse>(this.endPoint, { params });
   }
 

@@ -1,8 +1,7 @@
+import { GlobalToken } from 'antd';
 import { ChartType, ScriptableContext } from 'chart.js';
 import dayjs from 'dayjs';
-import { AntdTokenService } from 'services';
 import { ChartUnit, DateFilter } from 'stores';
-import { CHART_COLOR } from './constants';
 
 export const getLabelChart = (data: ChartUnit[], filter: DateFilter | undefined): string[] => {
   let format: string = '';
@@ -29,11 +28,10 @@ export const getLabelChart = (data: ChartUnit[], filter: DateFilter | undefined)
   return data.map(({ date }) => dayjs(date).format(format));
 };
 
-export const createGradientChart = (context: ScriptableContext<ChartType>) => {
-  const theme = AntdTokenService.instance.theme;
+export const createGradientChart = (context: ScriptableContext<ChartType>, token: GlobalToken) => {
   const ctx = context.chart.ctx;
   const gradient = ctx.createLinearGradient(0, 0, 0, context.chart.height);
-  gradient.addColorStop(1, theme.colorBgContainer);
-  gradient.addColorStop(0, CHART_COLOR.background);
+  gradient.addColorStop(1, token.colorBgContainer);
+  gradient.addColorStop(0, token.colorPrimary);
   return gradient;
 };

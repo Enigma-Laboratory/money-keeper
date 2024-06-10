@@ -1,7 +1,8 @@
-import { ChartOptions } from 'chart.js';
+import { theme } from 'antd';
+import { ChartOptions, ChartType, ScriptableContext } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { ChartUnit, DateFilter } from 'stores';
-import { CHART_COLOR, abbreviateNumbers } from 'utils';
+import { abbreviateNumbers } from 'utils';
 import { createGradientChart, getLabelChart } from 'utils/chart';
 
 type Props = {
@@ -11,6 +12,8 @@ type Props = {
 };
 
 export const DailyRevenueChart = ({ data, height, filter }: Props) => {
+  const { token } = theme.useToken();
+
   const options: ChartOptions<'line'> = {
     maintainAspectRatio: false,
     responsive: true,
@@ -37,8 +40,8 @@ export const DailyRevenueChart = ({ data, height, filter }: Props) => {
       {
         data: data.map(({ value }) => value),
         fill: true,
-        backgroundColor: createGradientChart,
-        borderColor: CHART_COLOR.border,
+        backgroundColor: (context: ScriptableContext<ChartType>) => createGradientChart(context, token),
+        borderColor: token.colorPrimaryActive,
         borderWidth: 1,
       },
     ],

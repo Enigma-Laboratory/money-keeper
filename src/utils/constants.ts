@@ -51,8 +51,3 @@ export const DEFAULT_PARAMS = {
   PAGE_SIZE: 10,
   SORTERS: ['createdAt:desc'],
 };
-
-export const CHART_COLOR = {
-  background: '#ff9c6e', // token.colorPrimary
-  border: '#d4380d', // token.colorPrimaryActive
-};

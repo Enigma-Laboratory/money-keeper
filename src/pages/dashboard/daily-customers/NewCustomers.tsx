@@ -1,7 +1,19 @@
-import { BarElement, CategoryScale, Chart, ChartOptions, Legend, LinearScale, Scale, Title, Tooltip } from 'chart.js';
+import { theme } from 'antd';
+import {
+  BarElement,
+  CategoryScale,
+  Chart,
+  ChartOptions,
+  ChartType,
+  Legend,
+  LinearScale,
+  Scale,
+  ScriptableContext,
+  Title,
+  Tooltip,
+} from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { ChartUnit, DateFilter } from 'stores';
-import { CHART_COLOR } from 'utils';
 import { createGradientChart, getLabelChart } from 'utils/chart';
 
 type Props = {
@@ -13,6 +25,8 @@ type Props = {
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export const DailyCustomerChart = ({ data, height, filter }: Props) => {
+  const { token } = theme.useToken();
+
   const options: ChartOptions<'bar'> = {
     maintainAspectRatio: false,
     responsive: true,
@@ -35,8 +49,8 @@ export const DailyCustomerChart = ({ data, height, filter }: Props) => {
     datasets: [
       {
         data: data.map(({ value }) => value),
-        backgroundColor: createGradientChart,
-        borderColor: CHART_COLOR.border,
+        backgroundColor: (context: ScriptableContext<ChartType>) => createGradientChart(context, token),
+        borderColor: token.colorPrimaryActive,
       },
     ],
   };
