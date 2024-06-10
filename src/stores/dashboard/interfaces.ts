@@ -7,11 +7,12 @@ export interface ChartUnit {
 
 export type DateFilter = 'lastWeek' | 'lastMonth' | 'custom';
 
-export interface RecentOrder extends Omit<FindAllParams, 'page'>, Required<Pick<FindAllParams, 'page'>> {
+export interface RecentOrder extends FindAllParams {
   data: Record<number, Order[]>;
   count: number;
   nextPage: boolean;
   prevPage: boolean;
+  page: number;
 }
 
 export interface OrderTimeline extends FindAllParams {
