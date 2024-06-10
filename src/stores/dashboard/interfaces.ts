@@ -14,7 +14,7 @@ export interface RecentOrder extends Omit<FindAllParams, 'page'>, Required<Pick<
   prevPage: boolean;
 }
 
-export interface OrderTimeline extends Omit<FindAllParams, 'page'>, Required<Pick<FindAllParams, 'page'>> {
+export interface OrderTimeline extends Omit<FindAllParams, 'page'> {
   data: Order[];
   count: number;
   nextPage: boolean;

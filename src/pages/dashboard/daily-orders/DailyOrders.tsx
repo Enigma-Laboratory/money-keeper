@@ -44,7 +44,7 @@ export const DailyOrderChart = ({ data, height, filter }: Props) => {
     elements: { bar: { borderRadius: 5 } },
   };
 
-  const dataTest = {
+  const dataConfig = {
     labels: getLabelChart(data, filter),
     datasets: [
       {
@@ -55,5 +55,5 @@ export const DailyOrderChart = ({ data, height, filter }: Props) => {
     ],
   };
 
-  return <Bar options={options} data={dataTest} height={height} />;
+  return <Bar options={options} data={dataConfig} height={height} />;
 };

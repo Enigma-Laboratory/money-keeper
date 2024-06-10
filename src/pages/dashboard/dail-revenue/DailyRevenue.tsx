@@ -33,7 +33,7 @@ export const DailyRevenueChart = ({ data, height, filter }: Props) => {
     animation: { duration: 1000 },
   };
 
-  const dataTest = {
+  const dataConfig = {
     type: 'line',
     labels: getLabelChart(data, filter),
     datasets: [
@@ -47,5 +47,5 @@ export const DailyRevenueChart = ({ data, height, filter }: Props) => {
     ],
   };
 
-  return <Line options={options} data={dataTest} height={height} />;
+  return <Line options={options} data={dataConfig} height={height} />;
 };
