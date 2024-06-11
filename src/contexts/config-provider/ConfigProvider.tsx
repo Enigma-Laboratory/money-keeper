@@ -4,6 +4,8 @@ import { I18nextProvider } from 'react-i18next';
 
 import { BaseThemeColors, ThemeProvider, i18n } from 'contexts';
 import { useLocalStorage } from 'hooks';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 export enum Mode {
   LIGHT = 'light',
@@ -16,7 +18,7 @@ type ConfigProviderContextType = {
 };
 
 export const ConfigProviderContext = createContext<ConfigProviderContextType | undefined>(undefined);
-
+const queryClient = new QueryClient();
 type ConfigProviderProps = {
   theme?: ThemeConfig;
 };
@@ -46,13 +48,16 @@ export const ConfigProvider = ({ theme: themeFromProps, children }: PropsWithChi
   }, [mode, themeFromProps]);
 
   return (
-    <ConfigProviderContext.Provider value={{ mode, setMode: handleSetMode }}>
-      <I18nextProvider i18n={i18n}>
-        <AntdConfigProvider {...configProviderProps}>
-          <ThemeProvider>{children}</ThemeProvider>
-        </AntdConfigProvider>
-      </I18nextProvider>
-    </ConfigProviderContext.Provider>
+    <QueryClientProvider client={queryClient}>
+      <ConfigProviderContext.Provider value={{ mode, setMode: handleSetMode }}>
+        <I18nextProvider i18n={i18n}>
+          <AntdConfigProvider {...configProviderProps}>
+            <ThemeProvider>{children}</ThemeProvider>
+          </AntdConfigProvider>
+        </I18nextProvider>
+      </ConfigProviderContext.Provider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 };
 

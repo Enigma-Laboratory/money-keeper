@@ -3,6 +3,7 @@ import { useObservable } from 'hooks';
 import { ComponentType, useEffect, useState } from 'react';
 import { DailyResponse, DashboardService, DateFilter, OrderTimeline, RecentOrder, dashboardStore } from 'stores';
 import { DEFAULT_PARAMS } from 'utils';
+import { useFetchDailyCustomer, useFetchDailyOrder, useFetchDailyRevenue } from '../../stores/dashboard/service-hooks';
 
 export interface DashboardProps {
   data: {
@@ -50,26 +51,26 @@ export const loadingInit = {
 let RECENT_ORDER_PAGE_INCREASE = 1;
 let ORDER_TIMELINE_PAGE_INCREASE = 1;
 
-export const withDashboardController = <P,>(Component: ComponentType<P>): ComponentType<P> => {
+const roundDate = (params: DailyParams):DailyParams => {
+  params.start.setHours(0,0,0,0);
+  params.end.setHours(23, 59, 59, 999);
+  return params
+}
+
+export const withDashboardController = <P, >(Component: ComponentType<P>): ComponentType<P> => {
   return (props: P) => {
-    const { dailyOrder, dailyRevenue, dailyCustomer, orderTimeline, recentOrder, filter } = useObservable(
+    const { orderTimeline, recentOrder, filter } = useObservable(
       dashboardStore.model,
     );
     const [loading, setLoading] = useState<LoadingTypes>(loadingInit);
+    const [params, setParams] = useState<DailyParams>(roundDate(getDefaultParams));
 
-    const fetchChartData = async (params: DailyParams): Promise<void> => {
-      setLoading((prev) => ({ ...prev, dailyCustomer: true, dailyOrder: true, dailyRevenue: true }));
-      try {
-        Promise.all([
-          await DashboardService.instance.fetchDailyRevenue(params),
-          await DashboardService.instance.fetchDailyOrder(params),
-          await DashboardService.instance.fetchDailyCustomer(params),
-        ]);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setLoading((prev) => ({ ...prev, dailyCustomer: false, dailyOrder: false, dailyRevenue: false }));
-      }
+    const { data: _dailyOrder, isLoading: isLoadingDailyOrder } = useFetchDailyOrder(params);
+    const { data: _dailyRevenue, isLoading: isLoadingDailyRevenue } = useFetchDailyRevenue(params);
+    const { data: _dailyCustomer, isLoading: isLoadingDailyCustomer } = useFetchDailyCustomer(params);
+
+    const reFetchChartData = async (params: DailyParams): Promise<void> => {
+      setParams(roundDate(params));
     };
 
     const fetchTableData = async (): Promise<void> => {
@@ -123,24 +124,29 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
     };
 
     useEffect(() => {
-      fetchChartData(getDefaultParams);
+      // fetchChartData(getDefaultParams);
       fetchTableData();
     }, []);
 
     const logicProps: DashboardProps = {
       data: {
-        dailyOrder,
-        dailyRevenue,
-        dailyCustomer,
+        dailyOrder: _dailyOrder!,
+        dailyRevenue: _dailyRevenue!,
+        dailyCustomer: _dailyCustomer!,
         recentOrder,
         orderTimeline,
         filter,
       },
-      loading,
+      loading: {
+        ...loading,
+        dailyOrder: isLoadingDailyOrder,
+        dailyCustomer: isLoadingDailyCustomer,
+        dailyRevenue: isLoadingDailyRevenue,
+      },
       dispatch: {
         fetchOrderTimelineNext,
         fetchRecentOrder,
-        fetchChartData,
+        fetchChartData: reFetchChartData,
       },
     };
 
