@@ -60,13 +60,7 @@ export const loadingInit = {
 let RECENT_ORDER_PAGE_INCREASE = 1;
 let ORDER_TIMELINE_PAGE_INCREASE = 1;
 
-const roundDate = (params: DailyParams):DailyParams => {
-  params.start.setHours(0,0,0,0);
-  params.end.setHours(23, 59, 59, 999);
-  return params
-}
-
-export const withDashboardController = <P, >(Component: ComponentType<P>): ComponentType<P> => {
+export const withDashboardController = <P,>(Component: ComponentType<P>): ComponentType<P> => {
   return (props: P) => {
     const { orderTimeline, filter, recentOrderPage } = useObservable(dashboardStore.model);
     const { data: dailyRevenue, isLoading: dailyRevenueLoading } = useFetchDailyRevenue(filter);
@@ -107,11 +101,6 @@ export const withDashboardController = <P, >(Component: ComponentType<P>): Compo
     const fetchRecentOrder = async (page: number) => {
       setLoading((prev) => ({ ...prev, recentOrder: true }));
       try {
-        // if (recentOrder.data[page]) {
-        //   dashboardStore.updateModel({
-        //     ...dashboardStore.getModel(),
-        //   });
-        // } else
         await DashboardService.instance.fetchRecentOrder({
           page: ORDER_TIMELINE_PAGE_INCREASE++,
           pageSize: DEFAULT_PARAMS.PAGE_SIZE,
