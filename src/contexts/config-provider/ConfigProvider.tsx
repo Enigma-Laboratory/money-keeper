@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BaseThemeColors, ThemeProvider, i18n } from 'contexts';
 import { useLocalStorage } from 'hooks';
+import { chartInit, dayjsInit } from 'utils';
 
 export enum Mode {
   LIGHT = 'light',
@@ -24,6 +25,8 @@ type ConfigProviderProps = {
 };
 
 export const ConfigProvider = ({ theme: themeFromProps, children }: PropsWithChildren<ConfigProviderProps>) => {
+  dayjsInit();
+  chartInit();
   const queryClient = new QueryClient();
   const [mode, setMode] = useLocalStorage<Mode>('theme', Mode.LIGHT);
 

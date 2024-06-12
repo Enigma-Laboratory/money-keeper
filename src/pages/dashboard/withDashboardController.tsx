@@ -64,9 +64,12 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
     const { data: dailyRevenue, isLoading: dailyRevenueLoading } = useFetchDailyRevenue(filter);
     const { data: dailyOrder, isLoading: dailyOrderLoading } = useFetchDailyOrder(filter);
     const { data: dailyCustomer, isLoading: dailyCustomerLoading } = useFetchDailyCustomer(filter);
-    const { data: recentOrder, isLoading: recentOrderLoading } = useFetchRecentOrder({ page: recentOrderPage });
+    const {
+      data: recentOrder,
+      isLoading: recentOrderLoading,
+      isPlaceholderData: recentOrderPlaceholder,
+    } = useFetchRecentOrder({ page: recentOrderPage });
     const [loading, setLoading] = useState<Pick<LoadingTypes, 'orderTimeline' | 'recentOrder'>>(loadingInit);
-
     const fetchOrderTimelineNext = async () => {
       try {
         await DashboardService.instance.fetchOrderTimelineNext({
@@ -109,7 +112,7 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
       },
       loading: {
         ...loading,
-        recentOrder: recentOrderLoading,
+        recentOrder: recentOrderLoading || recentOrderPlaceholder,
         dailyCustomer: dailyCustomerLoading,
         dailyRevenue: dailyRevenueLoading,
         dailyOrder: dailyOrderLoading,

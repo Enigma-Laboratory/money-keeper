@@ -11,7 +11,7 @@ type Props = {
   filter: FilterDateParams;
 };
 
-const DailyRevenueChartMemo = ({ data, height, filter }: Props) => {
+const DailyRevenueChartDesktop = ({ data, height, filter }: Props) => {
   const { token } = theme.useToken();
 
   const options: ChartOptions<'line'> = {
@@ -50,4 +50,4 @@ const DailyRevenueChartMemo = ({ data, height, filter }: Props) => {
   return <Line options={options} data={dataConfig} height={height} />;
 };
 
-export const DailyRevenueChart = memo(DailyRevenueChartMemo);
+export const DailyRevenueChart = memo(DailyRevenueChartDesktop);

@@ -22,44 +22,36 @@ export class DashboardService {
   }
 
   public async fetchDailyOrder(params: FindAllDailyOrderParams): Promise<FindAllDailyOrderResponse> {
-    const response = await OrderApiService.instance.fetchDailyOrder(params);
-
-    return response;
+    return await OrderApiService.instance.fetchDailyOrder(params);
   }
 
   public async fetchDailyRevenue(params: FindAllDailyOrderRevenueParams): Promise<FindAllDailyOrderResponse> {
-    const response = await OrderApiService.instance.fetchDailyRevenue(params);
-
-    return response;
+    return await OrderApiService.instance.fetchDailyRevenue(params);
   }
 
   public async fetchDailyCustomer(params: FindAllDailyUserParams): Promise<FindAllDailyUserResponse> {
-    const response = await UserApiService.instance.fetchDailyCustomer(params);
-
-    return response;
+    return await UserApiService.instance.fetchDailyCustomer(params);
   }
 
   public async fetchOrderTimelineNext(params: FindAllOrderParams): Promise<FindAllOrderResponse> {
-    const response = await OrderApiService.instance.fetchAllOrder(params);
+    const order = await OrderApiService.instance.fetchAllOrder(params);
     const store = dashboardStore.getModel();
     const { orderTimeline } = store;
 
     const dataStack = [...orderTimeline.rows];
-    dataStack.push(...response.rows);
+    dataStack.push(...order.rows);
     dashboardStore.updateModel({
       ...store,
       orderTimeline: {
-        ...response,
+        ...order,
         rows: dataStack,
       },
     });
-    return response;
+    return order;
   }
 
   public async fetchRecentOrder(params: FindAllOrderParams): Promise<FindAllOrderResponse> {
-    const response = await OrderApiService.instance.fetchAllOrder(params);
-
-    return response;
+    return await OrderApiService.instance.fetchAllOrder(params);
   }
 
   public setFilter(filter: FilterDateParams): void {

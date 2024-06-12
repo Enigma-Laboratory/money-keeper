@@ -5,6 +5,7 @@ export * from './checkPasswordStrength';
 export * from './constants';
 export * from './convertToTitleCase';
 export * from './customEvent';
+export * from './dayjs';
 export * from './formatCurrencyToVnd';
 export * from './generateColorFromAlphabet';
 export * from './getExactPath';

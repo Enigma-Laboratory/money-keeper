@@ -11,7 +11,7 @@ type Props = {
   filter: FilterDateParams;
 };
 
-export const DailyOrderChartMemo = ({ data, height, filter }: Props) => {
+export const DailyOrderChartDesktop = ({ data, height, filter }: Props) => {
   const { token } = theme.useToken();
 
   const options: ChartOptions<'bar'> = {
@@ -44,4 +44,4 @@ export const DailyOrderChartMemo = ({ data, height, filter }: Props) => {
 
   return <Bar options={options} data={dataConfig} height={height} />;
 };
-export const DailyOrderChart = memo(DailyOrderChartMemo);
+export const DailyOrderChart = memo(DailyOrderChartDesktop);
