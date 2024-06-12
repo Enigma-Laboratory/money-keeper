@@ -1,7 +1,15 @@
 import dayjs from 'dayjs';
-import { useFetchDailyOrder, useFetchDailyRevenue, useFetchNewCustomer, useObservable } from 'hooks';
+import { useFetchDailyCustomer, useFetchDailyOrder, useFetchDailyRevenue, useObservable } from 'hooks';
 import { ComponentType, useCallback, useEffect, useState } from 'react';
-import { DailyResponse, DashboardService, FilterDateParams, OrderTimeline, RecentOrder, dashboardStore } from 'stores';
+import {
+  DEFAULT_DASHBOARD_STORE_INIT,
+  DailyResponse,
+  DashboardService,
+  FilterDateParams,
+  OrderTimeline,
+  RecentOrder,
+  dashboardStore,
+} from 'stores';
 import { DEFAULT_PARAMS } from 'utils';
 
 export interface DashboardProps {
@@ -50,8 +58,8 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
     const { orderTimeline, recentOrder, filter } = useObservable(dashboardStore.model);
     const { data: dailyRevenue, isLoading: dailyRevenueLoading } = useFetchDailyRevenue(filter);
     const { data: dailyOrder, isLoading: dailyOrderLoading } = useFetchDailyOrder(filter);
-    const { data: dailyCustomer, isLoading: dailyCustomerLoading } = useFetchNewCustomer(filter);
-
+    const { data: dailyCustomer, isLoading: dailyCustomerLoading } = useFetchDailyCustomer(filter);
+    console.log(dailyRevenueLoading, dailyOrderLoading, dailyCustomerLoading);
     const [loading, setLoading] = useState<Pick<LoadingTypes, 'orderTimeline' | 'recentOrder'>>(loadingInit);
 
     const fetchTableData = useCallback(async (): Promise<void> => {
@@ -110,9 +118,9 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
 
     const logicProps: DashboardProps = {
       data: {
-        dailyOrder: dailyOrder || ({} as DailyResponse),
-        dailyRevenue: dailyRevenue || ({} as DailyResponse),
-        dailyCustomer: dailyCustomer || ({} as DailyResponse),
+        dailyOrder: dailyOrder || DEFAULT_DASHBOARD_STORE_INIT,
+        dailyRevenue: dailyRevenue || DEFAULT_DASHBOARD_STORE_INIT,
+        dailyCustomer: dailyCustomer || DEFAULT_DASHBOARD_STORE_INIT,
         recentOrder,
         orderTimeline,
         filter,
