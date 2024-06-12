@@ -29,7 +29,10 @@ export const routeComponents: RouteComponent[] = [
           dailyRevenue: DEFAULT_DASHBOARD_CHART_INIT,
           dailyCustomer: DEFAULT_DASHBOARD_CHART_INIT,
           recentOrder: DEFAULT_DASHBOARD_RECENT_ORDER_INIT,
-          orderTimeline: { data: [], count: 0, nextPage: false, prevPage: false, page: 1 },
+          orderTimeline: {
+            rows: DEFAULT_DASHBOARD_RECENT_ORDER_INIT.rows,
+            count: DEFAULT_DASHBOARD_RECENT_ORDER_INIT.count,
+          },
         }}
       />
     ),

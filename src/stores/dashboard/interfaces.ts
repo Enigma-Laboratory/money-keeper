@@ -1,4 +1,4 @@
-import { FindAllDailyOrderResponse, FindAllParams, Order } from '@enigma-laboratory/shared';
+import { FindAllDailyOrderResponse, FindAllOrderResponse, FindAllParams, Order } from '@enigma-laboratory/shared';
 
 export interface ChartUnit {
   date: Date;
@@ -13,11 +13,6 @@ export type FilterDateParams = {
   type: DateFilterType;
 };
 
-export interface RecentOrder extends FindAllParams {
-  data: Record<number, Order[]>;
-  count: number;
-}
-
 export interface OrderTimeline extends FindAllParams {
   data: Order[];
   count: number;
@@ -30,6 +25,6 @@ export interface DailyResponse extends FindAllDailyOrderResponse {}
 
 export type DashboardState = {
   recentOrderPage: number;
-  orderTimeline: OrderTimeline;
+  orderTimeline: FindAllOrderResponse;
   filter: FilterDateParams;
 };

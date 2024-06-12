@@ -39,41 +39,18 @@ export class DashboardService {
     return response;
   }
 
-  public async fetchBothRecentOrderAndOrderTimeline(params: FindAllOrderParams): Promise<FindAllOrderResponse> {
+  public async fetchOrderTimelineNext(params: FindAllOrderParams): Promise<FindAllOrderResponse> {
     const response = await OrderApiService.instance.fetchAllOrder(params);
     const store = dashboardStore.getModel();
     const { orderTimeline } = store;
 
-    dashboardStore.updateModel({
-      ...store,
-      orderTimeline: {
-        ...store.orderTimeline,
-        count: response.count,
-        data: response.rows,
-        page: orderTimeline.page,
-        pageSize: orderTimeline.pageSize,
-        prevPage: false,
-        nextPage: response.count !== response.rows.length,
-      },
-    });
-    return response;
-  }
-
-  public async fetchOrderTimelineNext(params: FindAllOrderParams): Promise<FindAllOrderResponse> {
-    const store = dashboardStore.getModel();
-    const { orderTimeline } = store;
-    const response = await OrderApiService.instance.fetchAllOrder({ ...params, page: orderTimeline.page + 1 });
-
-    const dataStack = [...store.orderTimeline.data];
+    const dataStack = [...orderTimeline.rows];
     dataStack.push(...response.rows);
-
     dashboardStore.updateModel({
       ...store,
       orderTimeline: {
-        ...orderTimeline,
-        page: orderTimeline.page + 1,
-        data: dataStack,
-        nextPage: dataStack.length !== response.count,
+        ...response,
+        rows: dataStack,
       },
     });
     return response;
