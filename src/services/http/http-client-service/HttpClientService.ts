@@ -116,9 +116,9 @@ export class HttpClientService {
     if (!refreshToken) throw new Error('Failed to refresh token');
 
     try {
-      const response = await AuthApiService.instance.refreshToken({ refreshToken });
-      if (response.token) {
-        return response.token;
+      const refreshTokenResponse = await AuthApiService.instance.refreshToken({ refreshToken });
+      if (refreshTokenResponse.token) {
+        return refreshTokenResponse.token;
       } else {
         throw new Error('Failed to refresh token');
       }

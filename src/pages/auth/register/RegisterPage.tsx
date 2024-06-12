@@ -30,7 +30,7 @@ export const RegisterPage: React.FC = () => {
     const { success, error } = await AuthService.instance.register({ name, email, password });
     if (success) {
       EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
-        data: { type: 'success', content: t('register.message.success') },
+        data: { type: 'success', content: t('register.message.success'), subContent: t('register.message.subSuccess') },
       });
       NavigateService.instance.navigate('/login');
     } else {

@@ -1,7 +1,21 @@
+import { FindAllOrderResponse } from '@enigma-laboratory/shared';
 import dayjs from 'dayjs';
-import { useObservable } from 'hooks';
+import {
+  useFetchDailyCustomer,
+  useFetchDailyOrder,
+  useFetchDailyRevenue,
+  useFetchRecentOrder,
+  useObservable,
+} from 'hooks';
 import { ComponentType, useEffect, useState } from 'react';
-import { DailyResponse, DashboardService, DateFilter, OrderTimeline, RecentOrder, dashboardStore } from 'stores';
+import {
+  DEFAULT_DASHBOARD_CHART_INIT,
+  DEFAULT_DASHBOARD_RECENT_ORDER_INIT,
+  DailyResponse,
+  DashboardService,
+  FilterDateParams,
+  dashboardStore,
+} from 'stores';
 import { DEFAULT_PARAMS } from 'utils';
 
 export interface DashboardProps {
@@ -9,22 +23,16 @@ export interface DashboardProps {
     dailyRevenue: DailyResponse;
     dailyOrder: DailyResponse;
     dailyCustomer: DailyResponse;
-    recentOrder: RecentOrder;
-    orderTimeline: OrderTimeline;
-    filter?: DateFilter;
+    recentOrder: FindAllOrderResponse & { page: number };
+    orderTimeline: FindAllOrderResponse;
+    filter: FilterDateParams;
   };
   loading?: LoadingTypes;
   dispatch?: {
     fetchOrderTimelineNext: () => Promise<void>;
     fetchRecentOrder: (page: number, pageSize?: number) => Promise<void>;
-    fetchChartData: (filter: DailyParams) => Promise<void>;
   };
 }
-
-export type DailyParams = {
-  start: Date;
-  end: Date;
-};
 
 type LoadingTypes = {
   dailyRevenue: boolean;
@@ -34,9 +42,10 @@ type LoadingTypes = {
   orderTimeline: boolean;
 };
 
-const getDefaultParams: DailyParams = {
+export const getDefaultParams: FilterDateParams = {
   start: new Date(dayjs().subtract(6, 'd').format()),
   end: new Date(dayjs().format()),
+  type: 'lastWeek',
 };
 
 export const loadingInit = {
@@ -48,47 +57,19 @@ export const loadingInit = {
 };
 
 let RECENT_ORDER_PAGE_INCREASE = 1;
-let ORDER_TIMELINE_PAGE_INCREASE = 1;
 
 export const withDashboardController = <P,>(Component: ComponentType<P>): ComponentType<P> => {
   return (props: P) => {
-    const { dailyOrder, dailyRevenue, dailyCustomer, orderTimeline, recentOrder, filter } = useObservable(
-      dashboardStore.model,
-    );
-    const [loading, setLoading] = useState<LoadingTypes>(loadingInit);
-
-    const fetchChartData = async (params: DailyParams): Promise<void> => {
-      setLoading((prev) => ({ ...prev, dailyCustomer: true, dailyOrder: true, dailyRevenue: true }));
-      try {
-        Promise.all([
-          await DashboardService.instance.fetchDailyRevenue(params),
-          await DashboardService.instance.fetchDailyOrder(params),
-          await DashboardService.instance.fetchDailyCustomer(params),
-        ]);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setLoading((prev) => ({ ...prev, dailyCustomer: false, dailyOrder: false, dailyRevenue: false }));
-      }
-    };
-
-    const fetchTableData = async (): Promise<void> => {
-      setLoading((prev) => ({ ...prev, orderTimeline: true, recentOrder: true }));
-      try {
-        await DashboardService.instance.fetchBothRecentOrderAndOrderTimeline({
-          page: DEFAULT_PARAMS.PAGE,
-          pageSize: DEFAULT_PARAMS.PAGE_SIZE,
-          sorters: DEFAULT_PARAMS.SORTERS,
-        });
-      } catch (e) {
-        console.error(e);
-      } finally {
-        RECENT_ORDER_PAGE_INCREASE++;
-        ORDER_TIMELINE_PAGE_INCREASE++;
-        setLoading((prev) => ({ ...prev, orderTimeline: false, recentOrder: false }));
-      }
-    };
-
+    const { orderTimeline, filter, recentOrderPage } = useObservable(dashboardStore.model);
+    const { data: dailyRevenue, isLoading: dailyRevenueLoading } = useFetchDailyRevenue(filter);
+    const { data: dailyOrder, isLoading: dailyOrderLoading } = useFetchDailyOrder(filter);
+    const { data: dailyCustomer, isLoading: dailyCustomerLoading } = useFetchDailyCustomer(filter);
+    const {
+      data: recentOrder,
+      isLoading: recentOrderLoading,
+      isPlaceholderData: recentOrderPlaceholder,
+    } = useFetchRecentOrder({ page: recentOrderPage });
+    const [loading, setLoading] = useState<Pick<LoadingTypes, 'orderTimeline' | 'recentOrder'>>(loadingInit);
     const fetchOrderTimelineNext = async () => {
       try {
         await DashboardService.instance.fetchOrderTimelineNext({
@@ -101,20 +82,14 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
       }
     };
 
-    const fetchRecentOrder = async (page: number) => {
+    const fetchRecentOrder = async () => {
       setLoading((prev) => ({ ...prev, recentOrder: true }));
       try {
-        if (recentOrder.data[page]) {
-          dashboardStore.updateModel({
-            ...dashboardStore.getModel(),
-            recentOrder: { ...recentOrder, page: page },
-          });
-        } else
-          await DashboardService.instance.fetchRecentOrder({
-            page: ORDER_TIMELINE_PAGE_INCREASE++,
-            pageSize: DEFAULT_PARAMS.PAGE_SIZE,
-            sorters: DEFAULT_PARAMS.SORTERS,
-          });
+        await DashboardService.instance.fetchRecentOrder({
+          page: recentOrderPage,
+          pageSize: DEFAULT_PARAMS.PAGE_SIZE,
+          sorters: DEFAULT_PARAMS.SORTERS,
+        });
       } catch (e) {
         console.error(e);
       } finally {
@@ -123,24 +98,28 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
     };
 
     useEffect(() => {
-      fetchChartData(getDefaultParams);
-      fetchTableData();
+      fetchOrderTimelineNext();
     }, []);
 
     const logicProps: DashboardProps = {
       data: {
-        dailyOrder,
-        dailyRevenue,
-        dailyCustomer,
-        recentOrder,
+        dailyOrder: dailyOrder || DEFAULT_DASHBOARD_CHART_INIT,
+        dailyRevenue: dailyRevenue || DEFAULT_DASHBOARD_CHART_INIT,
+        dailyCustomer: dailyCustomer || DEFAULT_DASHBOARD_CHART_INIT,
+        recentOrder: { ...(recentOrder || DEFAULT_DASHBOARD_RECENT_ORDER_INIT), page: recentOrderPage },
         orderTimeline,
         filter,
       },
-      loading,
+      loading: {
+        ...loading,
+        recentOrder: recentOrderLoading || recentOrderPlaceholder,
+        dailyCustomer: dailyCustomerLoading,
+        dailyRevenue: dailyRevenueLoading,
+        dailyOrder: dailyOrderLoading,
+      },
       dispatch: {
         fetchOrderTimelineNext,
         fetchRecentOrder,
-        fetchChartData,
       },
     };
 

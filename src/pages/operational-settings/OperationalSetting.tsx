@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { OrderCard } from 'components';
-import { THC, formatCurrencyToVnd, getExactPath, routePaths } from 'utils';
+import { DEFAULT_PARAMS, THC, formatCurrencyToVnd, getExactPath, routePaths } from 'utils';
 
 import { StyledOperationalSetting } from './OperationalSetting.styles';
 import { Drawer, OperationalSettingData } from './operational-setting-drawer';
@@ -181,7 +181,7 @@ export const OperationalSettings = (props: OperationalSettingProps): ReactElemen
             };
           }}
           scroll={{ y: TABLE_HEIGHT }}
-          pagination={{ pageSize: 10 }}
+          pagination={{ pageSize: DEFAULT_PARAMS.PAGE_SIZE }}
         />
       </Spin>
       <Drawer data={drawerData as OperationalSettingData} dispatch={{ closeDrawer, handleUpdateOrderStatus }} />

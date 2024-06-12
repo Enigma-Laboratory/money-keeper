@@ -1,17 +1,17 @@
 import { theme } from 'antd';
 import { ChartOptions, ChartType, ScriptableContext } from 'chart.js';
+import { memo } from 'react';
 import { Line } from 'react-chartjs-2';
-import { ChartUnit, DateFilter } from 'stores';
-import { abbreviateNumbers } from 'utils';
-import { createGradientChart, getLabelChart } from 'utils/chart';
+import { ChartUnit, FilterDateParams } from 'stores';
+import { abbreviateNumbers, createGradientChart, getLabelChart } from 'utils';
 
 type Props = {
   data: ChartUnit[];
   height: number;
-  filter: DateFilter | undefined;
+  filter: FilterDateParams;
 };
 
-export const DailyRevenueChart = ({ data, height, filter }: Props) => {
+const DailyRevenueChartDesktop = ({ data, height, filter }: Props) => {
   const { token } = theme.useToken();
 
   const options: ChartOptions<'line'> = {
@@ -35,7 +35,7 @@ export const DailyRevenueChart = ({ data, height, filter }: Props) => {
 
   const dataConfig = {
     type: 'line',
-    labels: getLabelChart(data, filter),
+    labels: getLabelChart(data, filter.type),
     datasets: [
       {
         data: data.map(({ value }) => value),
@@ -49,3 +49,5 @@ export const DailyRevenueChart = ({ data, height, filter }: Props) => {
 
   return <Line options={options} data={dataConfig} height={height} />;
 };
+
+export const DailyRevenueChart = memo(DailyRevenueChartDesktop);

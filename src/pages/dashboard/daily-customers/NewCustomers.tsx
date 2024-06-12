@@ -1,30 +1,17 @@
 import { theme } from 'antd';
-import {
-  BarElement,
-  CategoryScale,
-  Chart,
-  ChartOptions,
-  ChartType,
-  Legend,
-  LinearScale,
-  Scale,
-  ScriptableContext,
-  Title,
-  Tooltip,
-} from 'chart.js';
+import { ChartOptions, ChartType, Scale, ScriptableContext } from 'chart.js';
+import { memo } from 'react';
 import { Bar } from 'react-chartjs-2';
-import { ChartUnit, DateFilter } from 'stores';
-import { createGradientChart, getLabelChart } from 'utils/chart';
+import { ChartUnit, FilterDateParams } from 'stores';
+import { createGradientChart, getLabelChart } from 'utils';
 
 type Props = {
   data: ChartUnit[];
   height: number;
-  filter?: DateFilter;
+  filter: FilterDateParams;
 };
 
-Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
-export const DailyCustomerChart = ({ data, height, filter }: Props) => {
+const DailyCustomerChartDesktop = ({ data, height, filter }: Props) => {
   const { token } = theme.useToken();
 
   const options: ChartOptions<'bar'> = {
@@ -45,7 +32,7 @@ export const DailyCustomerChart = ({ data, height, filter }: Props) => {
   };
 
   const dataConfig = {
-    labels: getLabelChart(data, filter),
+    labels: getLabelChart(data, filter.type),
     datasets: [
       {
         data: data.map(({ value }) => value),
@@ -54,5 +41,8 @@ export const DailyCustomerChart = ({ data, height, filter }: Props) => {
       },
     ],
   };
+
   return <Bar options={options} data={dataConfig} height={height} />;
 };
+
+export const DailyCustomerChart = memo(DailyCustomerChartDesktop);

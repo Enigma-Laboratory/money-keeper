@@ -24,6 +24,7 @@ export class UserApiService extends ApiEndpointService {
   public async fetchAllUser(): Promise<FindAllUserResponse> {
     return await HttpClientService.httpGet<FindAllUserResponse>(this.endPoint);
   }
+
   public async fetchOneUser(params: FindOneUserParams): Promise<User> {
     const endpoint = `${this.endPoint}/${params.email}`;
     return await HttpClientService.httpGet<User>(endpoint);

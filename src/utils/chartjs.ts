@@ -1,9 +1,43 @@
 import { GlobalToken } from 'antd';
-import { ChartType, ScriptableContext } from 'chart.js';
+import {
+  BarElement,
+  CategoryScale,
+  Chart,
+  ChartType,
+  Filler,
+  Legend,
+  LineController,
+  LineElement,
+  LinearScale,
+  PointElement,
+  ScriptableContext,
+  Title,
+  Tooltip,
+} from 'chart.js';
 import dayjs from 'dayjs';
-import { ChartUnit, DateFilter } from 'stores';
+import { ChartUnit, DateFilterType } from 'stores';
 
-export const getLabelChart = (data: ChartUnit[], filter: DateFilter | undefined): string[] => {
+export const chartInit = () => {
+  Chart.register(
+    CategoryScale,
+    LineElement,
+    LineController,
+    LinearScale,
+    BarElement,
+    PointElement,
+    Title,
+    Tooltip,
+    Legend,
+    Filler,
+  );
+  /**
+   * or use this:
+   * import { Chart, registerables} from 'chart.js';
+   * Chart.register(...registerables);
+   */
+};
+
+export const getLabelChart = (data: ChartUnit[], filter: DateFilterType): string[] => {
   let format: string = '';
   switch (filter) {
     case 'lastWeek':

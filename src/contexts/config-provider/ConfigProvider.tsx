@@ -2,8 +2,11 @@ import { ConfigProvider as AntdConfigProvider, ThemeConfig, theme } from 'antd';
 import { PropsWithChildren, createContext, useContext, useEffect, useMemo } from 'react';
 import { I18nextProvider } from 'react-i18next';
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BaseThemeColors, ThemeProvider, i18n } from 'contexts';
 import { useLocalStorage } from 'hooks';
+import { chartInit, dayjsInit } from 'utils';
 
 export enum Mode {
   LIGHT = 'light',
@@ -22,6 +25,9 @@ type ConfigProviderProps = {
 };
 
 export const ConfigProvider = ({ theme: themeFromProps, children }: PropsWithChildren<ConfigProviderProps>) => {
+  dayjsInit();
+  chartInit();
+  const queryClient = new QueryClient();
   const [mode, setMode] = useLocalStorage<Mode>('theme', Mode.LIGHT);
 
   const handleSetMode = (mode: Mode) => {
@@ -49,7 +55,12 @@ export const ConfigProvider = ({ theme: themeFromProps, children }: PropsWithChi
     <ConfigProviderContext.Provider value={{ mode, setMode: handleSetMode }}>
       <I18nextProvider i18n={i18n}>
         <AntdConfigProvider {...configProviderProps}>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <QueryClientProvider client={queryClient}>
+              {children}
+              <ReactQueryDevtools initialIsOpen />
+            </QueryClientProvider>
+          </ThemeProvider>
         </AntdConfigProvider>
       </I18nextProvider>
     </ConfigProviderContext.Provider>

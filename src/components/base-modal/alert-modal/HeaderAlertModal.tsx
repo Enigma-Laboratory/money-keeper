@@ -7,7 +7,7 @@ import { IconHeaderAlertModal } from './IconHEaderAlertModal';
 /**
  * Improving the modal, using HeaderAlertModal for modal afterwards
  */
-export const HeaderAlertModal = (props: { title: string | undefined; type: AlertModalType }): ReactElement => {
+export const HeaderAlertModal = (props: { title?: string; type: AlertModalType }): ReactElement => {
   const { type } = props;
 
   const { t } = useTranslation('common');

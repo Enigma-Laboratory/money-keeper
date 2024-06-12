@@ -1,16 +1,16 @@
+import { FindAllOrderResponse } from '@enigma-laboratory/shared';
 import { Divider, List, Skeleton, Spin, Typography, theme } from 'antd';
 import { BaseOrderStatus } from 'components/order-status';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { NavigateService } from 'services';
-import { OrderTimeline } from 'stores';
 import { StyledList } from './OrderTimelineTable.styles';
 
 dayjs.extend(relativeTime);
 
 type OrderTimelineProps = {
-  data: OrderTimeline;
+  data: FindAllOrderResponse;
   loading: boolean;
   height: number;
   dispatch?: {
@@ -19,22 +19,21 @@ type OrderTimelineProps = {
 };
 
 export const OrderTimelineTable = ({ data, dispatch, loading, height }: OrderTimelineProps) => {
-  const { nextPage } = data;
   const { token } = theme.useToken();
 
   return (
     <div id="scrollableDiv" style={{ height, overflow: 'auto' }}>
       <InfiniteScroll
-        dataLength={data.data.length}
+        dataLength={data.rows.length}
         next={dispatch?.fetchNextPage || Promise.resolve}
-        hasMore={nextPage}
+        hasMore={data.rows.length !== data.count}
         loader={<Spin spinning style={{ height: 56, display: 'flex', justifyContent: 'center', marginTop: 16 }} />}
         endMessage={<Divider plain>That&apos;s all, nothing more.</Divider>}
         scrollableTarget="scrollableDiv"
       >
         <List
           itemLayout="horizontal"
-          dataSource={data.data}
+          dataSource={data.rows}
           loading={loading}
           renderItem={(item) => {
             const firstProductStatus = Object.entries(item.usersStatus)[0][1];
