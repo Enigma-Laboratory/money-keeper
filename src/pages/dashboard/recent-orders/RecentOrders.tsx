@@ -1,24 +1,21 @@
-import { Order, Product } from '@enigma-laboratory/shared';
+import { FindAllOrderResponse, Order, Product } from '@enigma-laboratory/shared';
 import { Flex, Pagination, Space, TableProps, Typography, theme } from 'antd';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { RecentOrder } from 'stores';
+import { DEFAULT_DASHBOARD_RECENT_ORDER_PAGE_SIZE, dashboardStore } from 'stores';
 import { StyledDescriptionText, StyledNameText, StyledTable } from './RecentOrder.styles';
 
 type OrderTimelineProps = {
-  data: RecentOrder;
+  data: FindAllOrderResponse & { page: number };
   loading: boolean;
   height: number;
-  dispatch?: {
-    fetchRecentOrder: (page: number, pageSize?: number) => Promise<void>;
-  };
 };
 
 export interface ColumnProps extends Order {
   key: React.Key;
 }
 
-export const RecentOrderTable = ({ data, dispatch, loading, height }: OrderTimelineProps) => {
+export const RecentOrderTable = ({ data, loading, height }: OrderTimelineProps) => {
   const { token } = theme.useToken();
   const { t } = useTranslation('dashboard');
 
@@ -86,12 +83,21 @@ export const RecentOrderTable = ({ data, dispatch, loading, height }: OrderTimel
 
   const dataSource: ColumnProps[] = useMemo(
     () =>
-      data?.data?.[data.page]?.map((item) => ({
+      data.rows.map((item) => ({
         ...item,
         key: item._id,
       })) || [],
-    [data?.data?.[data.page]],
+    [data.rows],
   );
+
+  const changePage = (page: number) => {
+    console.log(page);
+    const store = dashboardStore.getModel();
+    dashboardStore.updateModel({
+      ...store,
+      recentOrderPage: page,
+    });
+  };
 
   return (
     <>
@@ -105,8 +111,8 @@ export const RecentOrderTable = ({ data, dispatch, loading, height }: OrderTimel
       />
       <Pagination
         defaultCurrent={data.page}
-        defaultPageSize={data.pageSize}
-        onChange={(page) => dispatch?.fetchRecentOrder(page) || Promise.resolve}
+        defaultPageSize={DEFAULT_DASHBOARD_RECENT_ORDER_PAGE_SIZE}
+        onChange={changePage}
         total={data.count}
         style={{ textAlign: 'center', marginTop: 16 }}
       />

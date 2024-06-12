@@ -93,14 +93,7 @@ export const DashboardPage = (props: DashboardProps) => {
         icon={<ClockCircleOutlined style={{ fontSize: 14, color: token.colorPrimary }} />}
         title={t('recentOrder')}
       >
-        <RecentOrderTable
-          height={RECENT_ORDER_TABLE_HEIGHT}
-          data={recentOrder}
-          loading={loading.recentOrder}
-          dispatch={{
-            fetchRecentOrder: dispatch?.fetchRecentOrder || Promise.resolve,
-          }}
-        />
+        <RecentOrderTable height={RECENT_ORDER_TABLE_HEIGHT} data={recentOrder} loading={loading.recentOrder} />
       </CardWithContent>
     );
   }, [recentOrder, loading.recentOrder]);

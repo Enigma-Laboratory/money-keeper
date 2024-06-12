@@ -42,17 +42,10 @@ export class DashboardService {
   public async fetchBothRecentOrderAndOrderTimeline(params: FindAllOrderParams): Promise<FindAllOrderResponse> {
     const response = await OrderApiService.instance.fetchAllOrder(params);
     const store = dashboardStore.getModel();
-    const { recentOrder, orderTimeline } = store;
+    const { orderTimeline } = store;
 
     dashboardStore.updateModel({
       ...store,
-      recentOrder: {
-        ...store.recentOrder,
-        count: response.count,
-        data: { 1: response.rows },
-        page: recentOrder.page,
-        pageSize: recentOrder.pageSize,
-      },
       orderTimeline: {
         ...store.orderTimeline,
         count: response.count,
@@ -88,18 +81,6 @@ export class DashboardService {
 
   public async fetchRecentOrder(params: FindAllOrderParams): Promise<FindAllOrderResponse> {
     const response = await OrderApiService.instance.fetchAllOrder(params);
-    const store = dashboardStore.getModel();
-    const { recentOrder } = store;
-
-    dashboardStore.updateModel({
-      ...store,
-      recentOrder: {
-        ...recentOrder,
-        page: params.page as number,
-        data: { ...recentOrder.data, [params.page as number]: response.rows },
-        count: response.count,
-      },
-    });
 
     return response;
   }

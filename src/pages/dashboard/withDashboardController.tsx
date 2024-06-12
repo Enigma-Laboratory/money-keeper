@@ -1,13 +1,20 @@
+import { FindAllOrderResponse } from '@enigma-laboratory/shared';
 import dayjs from 'dayjs';
-import { useFetchDailyCustomer, useFetchDailyOrder, useFetchDailyRevenue, useObservable } from 'hooks';
+import {
+  useFetchDailyCustomer,
+  useFetchDailyOrder,
+  useFetchDailyRevenue,
+  useFetchRecentOrder,
+  useObservable,
+} from 'hooks';
 import { ComponentType, useCallback, useEffect, useState } from 'react';
 import {
-  DEFAULT_DASHBOARD_STORE_INIT,
+  DEFAULT_DASHBOARD_CHART_INIT,
+  DEFAULT_DASHBOARD_RECENT_ORDER_INIT,
   DailyResponse,
   DashboardService,
   FilterDateParams,
   OrderTimeline,
-  RecentOrder,
   dashboardStore,
 } from 'stores';
 import { DEFAULT_PARAMS } from 'utils';
@@ -17,7 +24,7 @@ export interface DashboardProps {
     dailyRevenue: DailyResponse;
     dailyOrder: DailyResponse;
     dailyCustomer: DailyResponse;
-    recentOrder: RecentOrder;
+    recentOrder: FindAllOrderResponse & { page: number };
     orderTimeline: OrderTimeline;
     filter: FilterDateParams;
   };
@@ -55,11 +62,11 @@ let ORDER_TIMELINE_PAGE_INCREASE = 1;
 
 export const withDashboardController = <P,>(Component: ComponentType<P>): ComponentType<P> => {
   return (props: P) => {
-    const { orderTimeline, recentOrder, filter } = useObservable(dashboardStore.model);
+    const { orderTimeline, filter, recentOrderPage } = useObservable(dashboardStore.model);
     const { data: dailyRevenue, isLoading: dailyRevenueLoading } = useFetchDailyRevenue(filter);
     const { data: dailyOrder, isLoading: dailyOrderLoading } = useFetchDailyOrder(filter);
     const { data: dailyCustomer, isLoading: dailyCustomerLoading } = useFetchDailyCustomer(filter);
-    console.log(dailyRevenueLoading, dailyOrderLoading, dailyCustomerLoading);
+    const { data: recentOrder, isLoading: recentOrderLoading } = useFetchRecentOrder({ page: recentOrderPage });
     const [loading, setLoading] = useState<Pick<LoadingTypes, 'orderTimeline' | 'recentOrder'>>(loadingInit);
 
     const fetchTableData = useCallback(async (): Promise<void> => {
@@ -94,17 +101,16 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
     const fetchRecentOrder = async (page: number) => {
       setLoading((prev) => ({ ...prev, recentOrder: true }));
       try {
-        if (recentOrder.data[page]) {
-          dashboardStore.updateModel({
-            ...dashboardStore.getModel(),
-            recentOrder: { ...recentOrder, page: page },
-          });
-        } else
-          await DashboardService.instance.fetchRecentOrder({
-            page: ORDER_TIMELINE_PAGE_INCREASE++,
-            pageSize: DEFAULT_PARAMS.PAGE_SIZE,
-            sorters: DEFAULT_PARAMS.SORTERS,
-          });
+        // if (recentOrder.data[page]) {
+        //   dashboardStore.updateModel({
+        //     ...dashboardStore.getModel(),
+        //   });
+        // } else
+        await DashboardService.instance.fetchRecentOrder({
+          page: ORDER_TIMELINE_PAGE_INCREASE++,
+          pageSize: DEFAULT_PARAMS.PAGE_SIZE,
+          sorters: DEFAULT_PARAMS.SORTERS,
+        });
       } catch (e) {
         console.error(e);
       } finally {
@@ -118,15 +124,16 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
 
     const logicProps: DashboardProps = {
       data: {
-        dailyOrder: dailyOrder || DEFAULT_DASHBOARD_STORE_INIT,
-        dailyRevenue: dailyRevenue || DEFAULT_DASHBOARD_STORE_INIT,
-        dailyCustomer: dailyCustomer || DEFAULT_DASHBOARD_STORE_INIT,
-        recentOrder,
+        dailyOrder: dailyOrder || DEFAULT_DASHBOARD_CHART_INIT,
+        dailyRevenue: dailyRevenue || DEFAULT_DASHBOARD_CHART_INIT,
+        dailyCustomer: dailyCustomer || DEFAULT_DASHBOARD_CHART_INIT,
+        recentOrder: { ...(recentOrder || DEFAULT_DASHBOARD_RECENT_ORDER_INIT), page: recentOrderPage },
         orderTimeline,
         filter,
       },
       loading: {
         ...loading,
+        recentOrder: recentOrderLoading,
         dailyCustomer: dailyCustomerLoading,
         dailyRevenue: dailyRevenueLoading,
         dailyOrder: dailyOrderLoading,

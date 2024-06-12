@@ -16,9 +16,6 @@ export type FilterDateParams = {
 export interface RecentOrder extends FindAllParams {
   data: Record<number, Order[]>;
   count: number;
-  nextPage: boolean;
-  prevPage: boolean;
-  page: number;
 }
 
 export interface OrderTimeline extends FindAllParams {
@@ -32,7 +29,7 @@ export interface OrderTimeline extends FindAllParams {
 export interface DailyResponse extends FindAllDailyOrderResponse {}
 
 export type DashboardState = {
-  recentOrder: RecentOrder;
+  recentOrderPage: number;
   orderTimeline: OrderTimeline;
   filter: FilterDateParams;
 };
