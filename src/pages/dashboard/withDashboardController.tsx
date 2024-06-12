@@ -60,7 +60,13 @@ export const loadingInit = {
 let RECENT_ORDER_PAGE_INCREASE = 1;
 let ORDER_TIMELINE_PAGE_INCREASE = 1;
 
-export const withDashboardController = <P,>(Component: ComponentType<P>): ComponentType<P> => {
+const roundDate = (params: DailyParams):DailyParams => {
+  params.start.setHours(0,0,0,0);
+  params.end.setHours(23, 59, 59, 999);
+  return params
+}
+
+export const withDashboardController = <P, >(Component: ComponentType<P>): ComponentType<P> => {
   return (props: P) => {
     const { orderTimeline, filter, recentOrderPage } = useObservable(dashboardStore.model);
     const { data: dailyRevenue, isLoading: dailyRevenueLoading } = useFetchDailyRevenue(filter);
