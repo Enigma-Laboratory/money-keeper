@@ -3,8 +3,7 @@ import { ChartOptions, ChartType, ScriptableContext } from 'chart.js';
 import { memo } from 'react';
 import { Line } from 'react-chartjs-2';
 import { ChartUnit, FilterDateParams } from 'stores';
-import { abbreviateNumbers } from 'utils';
-import { createGradientChart, getLabelChart } from 'utils/chart';
+import { abbreviateNumbers, createGradientChart, getLabelChart } from 'utils';
 
 type Props = {
   data: ChartUnit[];

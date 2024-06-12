@@ -1,5 +1,6 @@
 export * from './abbreviateNumbers';
 export * from './arrayToObject';
+export * from './chartjs';
 export * from './checkPasswordStrength';
 export * from './constants';
 export * from './convertToTitleCase';
