@@ -79,7 +79,7 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
       }
     };
 
-    const fetchRecentOrder = async (page: number) => {
+    const fetchRecentOrder = async () => {
       setLoading((prev) => ({ ...prev, recentOrder: true }));
       try {
         await DashboardService.instance.fetchRecentOrder({

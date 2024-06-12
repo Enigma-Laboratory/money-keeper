@@ -18,7 +18,7 @@ type ConfigProviderContextType = {
 };
 
 export const ConfigProviderContext = createContext<ConfigProviderContextType | undefined>(undefined);
-const queryClient = new QueryClient();
+
 type ConfigProviderProps = {
   theme?: ThemeConfig;
 };
