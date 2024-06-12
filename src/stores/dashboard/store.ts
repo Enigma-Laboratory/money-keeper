@@ -8,7 +8,7 @@ export const DEFAULT_DASHBOARD_RECENT_ORDER_PAGE_SIZE = 10;
 
 const initialState: DashboardState = {
   recentOrderPage: 1,
-  orderTimeline: { data: [], count: 0, page: 1, pageSize: 10, prevPage: false, nextPage: false },
+  orderTimeline: DEFAULT_DASHBOARD_RECENT_ORDER_INIT,
   filter: getDefaultParams,
 };
 

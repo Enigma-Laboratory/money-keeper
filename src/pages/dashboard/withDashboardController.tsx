@@ -7,14 +7,13 @@ import {
   useFetchRecentOrder,
   useObservable,
 } from 'hooks';
-import { ComponentType, useCallback, useEffect, useState } from 'react';
+import { ComponentType, useEffect, useState } from 'react';
 import {
   DEFAULT_DASHBOARD_CHART_INIT,
   DEFAULT_DASHBOARD_RECENT_ORDER_INIT,
   DailyResponse,
   DashboardService,
   FilterDateParams,
-  OrderTimeline,
   dashboardStore,
 } from 'stores';
 import { DEFAULT_PARAMS } from 'utils';
@@ -25,7 +24,7 @@ export interface DashboardProps {
     dailyOrder: DailyResponse;
     dailyCustomer: DailyResponse;
     recentOrder: FindAllOrderResponse & { page: number };
-    orderTimeline: OrderTimeline;
+    orderTimeline: FindAllOrderResponse;
     filter: FilterDateParams;
   };
   loading?: LoadingTypes;
@@ -58,7 +57,6 @@ export const loadingInit = {
 };
 
 let RECENT_ORDER_PAGE_INCREASE = 1;
-let ORDER_TIMELINE_PAGE_INCREASE = 1;
 
 export const withDashboardController = <P,>(Component: ComponentType<P>): ComponentType<P> => {
   return (props: P) => {
@@ -68,23 +66,6 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
     const { data: dailyCustomer, isLoading: dailyCustomerLoading } = useFetchDailyCustomer(filter);
     const { data: recentOrder, isLoading: recentOrderLoading } = useFetchRecentOrder({ page: recentOrderPage });
     const [loading, setLoading] = useState<Pick<LoadingTypes, 'orderTimeline' | 'recentOrder'>>(loadingInit);
-
-    const fetchTableData = useCallback(async (): Promise<void> => {
-      setLoading((prev) => ({ ...prev, orderTimeline: true, recentOrder: true }));
-      try {
-        await DashboardService.instance.fetchBothRecentOrderAndOrderTimeline({
-          page: DEFAULT_PARAMS.PAGE,
-          pageSize: DEFAULT_PARAMS.PAGE_SIZE,
-          sorters: DEFAULT_PARAMS.SORTERS,
-        });
-      } catch (e) {
-        console.error(e);
-      } finally {
-        RECENT_ORDER_PAGE_INCREASE++;
-        ORDER_TIMELINE_PAGE_INCREASE++;
-        setLoading((prev) => ({ ...prev, orderTimeline: false, recentOrder: false }));
-      }
-    }, []);
 
     const fetchOrderTimelineNext = async () => {
       try {
@@ -101,13 +82,8 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
     const fetchRecentOrder = async (page: number) => {
       setLoading((prev) => ({ ...prev, recentOrder: true }));
       try {
-        // if (recentOrder.data[page]) {
-        //   dashboardStore.updateModel({
-        //     ...dashboardStore.getModel(),
-        //   });
-        // } else
         await DashboardService.instance.fetchRecentOrder({
-          page: ORDER_TIMELINE_PAGE_INCREASE++,
+          page: recentOrderPage,
           pageSize: DEFAULT_PARAMS.PAGE_SIZE,
           sorters: DEFAULT_PARAMS.SORTERS,
         });
@@ -119,7 +95,7 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
     };
 
     useEffect(() => {
-      fetchTableData();
+      fetchOrderTimelineNext();
     }, []);
 
     const logicProps: DashboardProps = {
