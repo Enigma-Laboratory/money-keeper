@@ -8,9 +8,9 @@ import { DashboardProps } from './withDashboardController';
 import { CardWithContent, CardWithPlot, DateFilterSelect } from 'components';
 import { THC } from 'utils';
 
-import { DailyRevenueChart } from './dail-revenue';
 import { DailyCustomerChart } from './daily-customers';
 import { DailyOrderChart } from './daily-orders';
+import { DailyRevenueChart } from './daily-revenue';
 import { OrderTimelineTable } from './order-timeline';
 import { RecentOrderTable } from './recent-orders';
 import { loadingInit } from './withDashboardController';

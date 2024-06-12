@@ -1,4 +1,3 @@
-export * from './area-chart';
 export * from './authenticated';
 export * from './base-button';
 export * from './base-layout';
