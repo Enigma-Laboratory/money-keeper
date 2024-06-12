@@ -30,7 +30,8 @@ export default {
       passwordWeak: 'Vui lòng nhập mật khẩu mạnh của bạn!',
     },
     message: {
-      success: 'Chúc mừng, tài khoản của bạn đã được tạo thành công.',
+      success: 'Đăng ký thành công!',
+      subSuccess: 'Chúc mừng, tài khoản của bạn đã được tạo thành công.',
       failure: 'Đã xảy ra lỗi. Vui lòng thử lại!',
     },
   },

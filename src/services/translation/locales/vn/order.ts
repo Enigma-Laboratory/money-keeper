@@ -6,6 +6,7 @@ export default {
   btnCreate: 'Tạo',
   btnPrevious: 'Trước',
   createOrderBtn: 'Tạo đơn hàng',
+  me: 'Tôi',
   table: {
     name: 'Tên',
     createdDate: 'Ngày khởi tạo',

@@ -1,9 +1,9 @@
 import { GlobalToken } from 'antd';
 import { ChartType, ScriptableContext } from 'chart.js';
 import dayjs from 'dayjs';
-import { ChartUnit, DateFilter } from 'stores';
+import { ChartUnit, DateFilterType } from 'stores';
 
-export const getLabelChart = (data: ChartUnit[], filter: DateFilter | undefined): string[] => {
+export const getLabelChart = (data: ChartUnit[], filter: DateFilterType): string[] => {
   let format: string = '';
   switch (filter) {
     case 'lastWeek':

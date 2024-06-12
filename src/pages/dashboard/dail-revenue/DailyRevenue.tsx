@@ -2,14 +2,14 @@ import { theme } from 'antd';
 import { ChartOptions, ChartType, ScriptableContext } from 'chart.js';
 import { memo } from 'react';
 import { Line } from 'react-chartjs-2';
-import { ChartUnit, DateFilter } from 'stores';
+import { ChartUnit, FilterDateParams } from 'stores';
 import { abbreviateNumbers } from 'utils';
 import { createGradientChart, getLabelChart } from 'utils/chart';
 
 type Props = {
   data: ChartUnit[];
   height: number;
-  filter?: DateFilter;
+  filter: FilterDateParams;
 };
 
 const DailyRevenueChartMemo = ({ data, height, filter }: Props) => {
@@ -36,7 +36,7 @@ const DailyRevenueChartMemo = ({ data, height, filter }: Props) => {
 
   const dataConfig = {
     type: 'line',
-    labels: getLabelChart(data, filter),
+    labels: getLabelChart(data, filter.type),
     datasets: [
       {
         data: data.map(({ value }) => value),

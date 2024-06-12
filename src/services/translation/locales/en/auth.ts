@@ -30,7 +30,8 @@ export default {
       passwordWeak: 'Please enter your strong password !',
     },
     message: {
-      success: 'Congratulations, your account has been successfully created.',
+      success: 'Registration successful!',
+      subSuccess: 'Congratulations, your account has been successfully created.',
       failure: 'Something went wrong. Please try again!',
     },
   },

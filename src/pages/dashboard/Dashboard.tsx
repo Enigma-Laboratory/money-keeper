@@ -53,12 +53,12 @@ export const DashboardPage = (props: DashboardProps) => {
         loading={loading.dailyRevenue}
         icon={<DollarCircleOutlined style={{ fontSize: 14, color: token.colorPrimary }} />}
         title={t('dailyRevenue')}
-        trend={dailyRevenue.trend}
+        trend={dailyRevenue?.trend || 0}
       >
-        <DailyRevenueChart height={CHART_HEIGHT} data={dailyRevenue.data} filter={filter} />
+        <DailyRevenueChart height={CHART_HEIGHT} data={dailyRevenue?.data || []} filter={filter} />
       </CardWithPlot>
     );
-  }, [dailyRevenue.data, loading.dailyRevenue]);
+  }, [dailyRevenue?.data, loading.dailyRevenue]);
 
   const renderDailyOrderCard = useMemo(() => {
     return (
@@ -130,7 +130,7 @@ export const DashboardPage = (props: DashboardProps) => {
         <Typography.Title level={4} style={{ margin: '0 0 16px' }}>
           {t('overview')}
         </Typography.Title>
-        <DateFilterSelect onChange={dispatch?.fetchChartData} />
+        <DateFilterSelect />
       </div>
       <Row gutter={[THC.DASHBOARD_PAGE.TABLE_CHART_SPACE, THC.DASHBOARD_PAGE.TABLE_CHART_SPACE]}>
         <Col md={24}>

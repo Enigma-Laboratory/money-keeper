@@ -6,6 +6,7 @@ export default {
   btnCreate: 'Create',
   btnPrevious: 'Previous',
   createOrderBtn: 'Create Order',
+  me: 'Me',
   table: {
     name: 'Name',
     createdDate: 'Created Date',

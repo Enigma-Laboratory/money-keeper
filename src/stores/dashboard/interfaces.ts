@@ -5,7 +5,13 @@ export interface ChartUnit {
   value: number;
 }
 
-export type DateFilter = 'lastWeek' | 'lastMonth' | 'custom';
+export type DateFilterType = 'lastWeek' | 'lastMonth' | 'custom';
+
+export type FilterDateParams = {
+  start: Date;
+  end: Date;
+  type: DateFilterType;
+};
 
 export interface RecentOrder extends FindAllParams {
   data: Record<number, Order[]>;
@@ -23,15 +29,10 @@ export interface OrderTimeline extends FindAllParams {
   page: number;
 }
 
-export interface DailyResponse extends Pick<FindAllDailyOrderResponse, 'total' | 'trend'> {
-  data: ChartUnit[];
-}
+export interface DailyResponse extends FindAllDailyOrderResponse {}
 
 export type DashboardState = {
-  dailyRevenue: DailyResponse;
-  dailyOrder: DailyResponse;
-  dailyCustomer: DailyResponse;
   recentOrder: RecentOrder;
   orderTimeline: OrderTimeline;
-  filter: DateFilter;
+  filter: FilterDateParams;
 };

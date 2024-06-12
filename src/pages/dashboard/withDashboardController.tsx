@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
-import { useObservable } from 'hooks';
+import { useFetchDailyOrder, useFetchDailyRevenue, useFetchNewCustomer, useObservable } from 'hooks';
 import { ComponentType, useCallback, useEffect, useState } from 'react';
-import { DailyResponse, DashboardService, DateFilter, OrderTimeline, RecentOrder, dashboardStore } from 'stores';
+import { DailyResponse, DashboardService, FilterDateParams, OrderTimeline, RecentOrder, dashboardStore } from 'stores';
 import { DEFAULT_PARAMS } from 'utils';
 
 export interface DashboardProps {
@@ -11,20 +11,14 @@ export interface DashboardProps {
     dailyCustomer: DailyResponse;
     recentOrder: RecentOrder;
     orderTimeline: OrderTimeline;
-    filter?: DateFilter;
+    filter: FilterDateParams;
   };
   loading?: LoadingTypes;
   dispatch?: {
     fetchOrderTimelineNext: () => Promise<void>;
     fetchRecentOrder: (page: number, pageSize?: number) => Promise<void>;
-    fetchChartData: (filter: DailyParams) => Promise<void>;
   };
 }
-
-export type DailyParams = {
-  start: Date;
-  end: Date;
-};
 
 type LoadingTypes = {
   dailyRevenue: boolean;
@@ -34,9 +28,10 @@ type LoadingTypes = {
   orderTimeline: boolean;
 };
 
-const getDefaultParams: DailyParams = {
+export const getDefaultParams: FilterDateParams = {
   start: new Date(dayjs().subtract(6, 'd').format()),
   end: new Date(dayjs().format()),
+  type: 'lastWeek',
 };
 
 export const loadingInit = {
@@ -52,25 +47,12 @@ let ORDER_TIMELINE_PAGE_INCREASE = 1;
 
 export const withDashboardController = <P,>(Component: ComponentType<P>): ComponentType<P> => {
   return (props: P) => {
-    const { dailyOrder, dailyRevenue, dailyCustomer, orderTimeline, recentOrder, filter } = useObservable(
-      dashboardStore.model,
-    );
-    const [loading, setLoading] = useState<LoadingTypes>(loadingInit);
+    const { orderTimeline, recentOrder, filter } = useObservable(dashboardStore.model);
+    const { data: dailyRevenue, isLoading: dailyRevenueLoading } = useFetchDailyRevenue(filter);
+    const { data: dailyOrder, isLoading: dailyOrderLoading } = useFetchDailyOrder(filter);
+    const { data: dailyCustomer, isLoading: dailyCustomerLoading } = useFetchNewCustomer(filter);
 
-    const fetchChartData = async (params: DailyParams): Promise<void> => {
-      setLoading((prev) => ({ ...prev, dailyCustomer: true, dailyOrder: true, dailyRevenue: true }));
-      try {
-        Promise.all([
-          await DashboardService.instance.fetchDailyRevenue(params),
-          await DashboardService.instance.fetchDailyOrder(params),
-          await DashboardService.instance.fetchDailyCustomer(params),
-        ]);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setLoading((prev) => ({ ...prev, dailyCustomer: false, dailyOrder: false, dailyRevenue: false }));
-      }
-    };
+    const [loading, setLoading] = useState<Pick<LoadingTypes, 'orderTimeline' | 'recentOrder'>>(loadingInit);
 
     const fetchTableData = useCallback(async (): Promise<void> => {
       setLoading((prev) => ({ ...prev, orderTimeline: true, recentOrder: true }));
@@ -123,24 +105,27 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
     };
 
     useEffect(() => {
-      fetchChartData(getDefaultParams);
       fetchTableData();
     }, []);
 
     const logicProps: DashboardProps = {
       data: {
-        dailyOrder,
-        dailyRevenue,
-        dailyCustomer,
+        dailyOrder: dailyOrder || ({} as DailyResponse),
+        dailyRevenue: dailyRevenue || ({} as DailyResponse),
+        dailyCustomer: dailyCustomer || ({} as DailyResponse),
         recentOrder,
         orderTimeline,
         filter,
       },
-      loading,
+      loading: {
+        ...loading,
+        dailyCustomer: dailyCustomerLoading,
+        dailyRevenue: dailyRevenueLoading,
+        dailyOrder: dailyOrderLoading,
+      },
       dispatch: {
         fetchOrderTimelineNext,
         fetchRecentOrder,
-        fetchChartData,
       },
     };
 

@@ -1,4 +1,5 @@
 import { NotFound } from 'components';
+import dayjs from 'dayjs';
 import {
   CreateOrderScreen,
   Dashboard,
@@ -23,6 +24,7 @@ export const routeComponents: RouteComponent[] = [
     component: (
       <Dashboard
         data={{
+          filter: { start: dayjs().toDate(), end: dayjs().toDate(), type: 'lastWeek' },
           dailyOrder: DEFAULT_DASHBOARD_STORE_INIT,
           dailyRevenue: DEFAULT_DASHBOARD_STORE_INIT,
           dailyCustomer: DEFAULT_DASHBOARD_STORE_INIT,

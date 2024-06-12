@@ -168,7 +168,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
     if (meId === _id) {
       return (
         <>
-          <strong>{name} </strong> (me)
+          <strong>{name} </strong> ({t('me')})
         </>
       );
     }
