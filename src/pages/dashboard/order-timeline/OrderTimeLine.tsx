@@ -1,5 +1,5 @@
 import { FindAllOrderResponse } from '@enigma-laboratory/shared';
-import { Divider, List, Skeleton, Spin, Typography, theme } from 'antd';
+import { Divider, List, Spin, Typography, theme } from 'antd';
 import { BaseOrderStatus } from 'components/order-status';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -20,7 +20,6 @@ type OrderTimelineProps = {
 
 export const OrderTimelineTable = ({ data, dispatch, loading, height }: OrderTimelineProps) => {
   const { token } = theme.useToken();
-
   return (
     <div id="scrollableDiv" style={{ height, overflow: 'auto' }}>
       <InfiniteScroll
@@ -46,21 +45,21 @@ export const OrderTimelineTable = ({ data, dispatch, loading, height }: OrderTim
                   </Typography.Text>,
                 ]}
               >
-                <Skeleton
+                {/* <Skeleton
                   style={{ display: 'flex', width: '100%' }}
                   avatar={false}
                   title={false}
                   paragraph={{ rows: 1, width: '100%' }}
                   loading={loading}
                   active
-                >
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <div style={{ width: 128 }}>
-                      <BaseOrderStatus status={firstProductStatus} />
-                    </div>
-                    <Typography.Text strong>#{item.orderNumber}</Typography.Text>
+                > */}
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <div style={{ width: 128 }}>
+                    <BaseOrderStatus status={firstProductStatus} />
                   </div>
-                </Skeleton>
+                  <Typography.Text strong>#{item.orderNumber}</Typography.Text>
+                </div>
+                {/* </Skeleton> */}
               </StyledList.Item>
             );
           }}

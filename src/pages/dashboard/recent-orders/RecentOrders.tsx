@@ -91,7 +91,6 @@ export const RecentOrderTable = ({ data, loading, height }: OrderTimelineProps) 
   );
 
   const changePage = (page: number) => {
-    // console.log(page);
     const store = dashboardStore.getModel();
     dashboardStore.updateModel({
       ...store,
