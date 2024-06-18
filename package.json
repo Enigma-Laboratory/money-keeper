@@ -15,7 +15,7 @@
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.44.0",
+    "@tanstack/react-query": "^5.45.1",
     "@tanstack/react-query-devtools": "^5.44.0",
     "antd": "^5.16.2",
     "axios": "^1.4.0",

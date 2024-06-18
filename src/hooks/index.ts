@@ -1,4 +1,4 @@
-export * from './reactQuery';
+export * from './react-query';
 export * from './useFetchInitDataSource';
 export * from './useKeyboardShortcut';
 export * from './useLocalStorage';

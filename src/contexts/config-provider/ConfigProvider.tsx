@@ -8,6 +8,9 @@ import { BaseThemeColors, ThemeProvider, i18n } from 'contexts';
 import { useLocalStorage } from 'hooks';
 import { chartInit, dayjsInit } from 'utils';
 
+dayjsInit();
+chartInit();
+
 export enum Mode {
   LIGHT = 'light',
   DARK = 'dark',
@@ -25,16 +28,17 @@ type ConfigProviderProps = {
 };
 
 export const ConfigProvider = ({ theme: themeFromProps, children }: PropsWithChildren<ConfigProviderProps>) => {
-  dayjsInit();
-  chartInit();
-  const queryClient = new QueryClient();
   const [mode, setMode] = useLocalStorage<Mode>('theme', Mode.LIGHT);
 
-  const handleSetMode = (mode: Mode) => {
-    setMode(mode);
-    const html = document.querySelector('html');
-    html?.setAttribute('data-theme', mode);
-  };
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 5 * 60 * 1000,
+        refetchOnWindowFocus: false,
+        retry: 1,
+      },
+    },
+  });
 
   useEffect(() => {
     const html = document.querySelector('html');
@@ -50,6 +54,12 @@ export const ConfigProvider = ({ theme: themeFromProps, children }: PropsWithChi
       },
     };
   }, [mode, themeFromProps]);
+
+  const handleSetMode = (mode: Mode) => {
+    setMode(mode);
+    const html = document.querySelector('html');
+    html?.setAttribute('data-theme', mode);
+  };
 
   return (
     <ConfigProviderContext.Provider value={{ mode, setMode: handleSetMode }}>
