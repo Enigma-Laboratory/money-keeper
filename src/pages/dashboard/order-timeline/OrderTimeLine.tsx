@@ -45,21 +45,12 @@ export const OrderTimelineTable = ({ data, dispatch, loading, height }: OrderTim
                   </Typography.Text>,
                 ]}
               >
-                {/* <Skeleton
-                  style={{ display: 'flex', width: '100%' }}
-                  avatar={false}
-                  title={false}
-                  paragraph={{ rows: 1, width: '100%' }}
-                  loading={loading}
-                  active
-                > */}
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <div style={{ width: 128 }}>
                     <BaseOrderStatus status={firstProductStatus} />
                   </div>
                   <Typography.Text strong>#{item.orderNumber}</Typography.Text>
                 </div>
-                {/* </Skeleton> */}
               </StyledList.Item>
             );
           }}

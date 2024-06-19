@@ -1,5 +1,10 @@
-import _ from 'lodash';
+import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
+import { EventAction } from 'utils';
+
+const DELAY_MS = 100;
+const MAX_WAIT_MS = 1000;
+
 export const useWindowSize = () => {
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
@@ -13,11 +18,11 @@ export const useWindowSize = () => {
         height: window.innerHeight,
       });
     };
-    const debouce = _.debounce(handler, 100, { maxWait: 1000 });
-    window.addEventListener('resize', debouce);
+    const debouncedHandler = debounce(handler, DELAY_MS, { maxWait: MAX_WAIT_MS });
+    EventAction.on('resize', debouncedHandler);
 
     return () => {
-      window.removeEventListener('resize', debouce);
+      EventAction.remove('resize', debouncedHandler);
     };
   }, []);
   return { width: windowSize.width, height: windowSize.height };
