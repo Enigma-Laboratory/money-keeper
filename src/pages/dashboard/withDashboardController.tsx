@@ -6,6 +6,7 @@ import {
   useFetchDailyRevenue,
   useFetchRecentOrder,
   useObservable,
+  useWindowSize,
 } from 'hooks';
 import { ComponentType, useEffect, useState } from 'react';
 import {
@@ -70,15 +71,20 @@ export const withDashboardController = <P,>(Component: ComponentType<P>): Compon
       isPlaceholderData: recentOrderPlaceholder,
     } = useFetchRecentOrder({ page: recentOrderPage });
     const [loading, setLoading] = useState<Pick<LoadingTypes, 'orderTimeline' | 'recentOrder'>>(loadingInit);
+    const { height } = useWindowSize();
+
     const fetchOrderTimelineNext = async () => {
+      if (RECENT_ORDER_PAGE_INCREASE === 1) setLoading((prev) => ({ ...prev, orderTimeline: true }));
       try {
         await DashboardService.instance.fetchOrderTimelineNext({
           page: RECENT_ORDER_PAGE_INCREASE++,
-          pageSize: DEFAULT_PARAMS.PAGE_SIZE,
+          pageSize: height < 1000 ? DEFAULT_PARAMS.PAGE_SIZE : DEFAULT_PARAMS.PAGE_SIZE_TIME_LINE,
           sorters: DEFAULT_PARAMS.SORTERS,
         });
       } catch (e) {
         console.error(e);
+      } finally {
+        setLoading((prev) => ({ ...prev, orderTimeline: false }));
       }
     };
 

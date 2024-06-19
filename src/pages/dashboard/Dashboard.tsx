@@ -23,7 +23,6 @@ export const DashboardPage = (props: DashboardProps) => {
   const { dailyOrder, dailyRevenue, dailyCustomer, recentOrder, orderTimeline, filter } = data;
   const { token } = theme.useToken();
   const { t } = useTranslation('dashboard');
-
   const TABLE_HEIGHT = useMemo(
     () =>
       window.innerHeight -

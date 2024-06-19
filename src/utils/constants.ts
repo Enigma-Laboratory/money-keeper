@@ -49,5 +49,6 @@ export const LANGUAGE = {
 export const DEFAULT_PARAMS = {
   PAGE: 1,
   PAGE_SIZE: 10,
+  PAGE_SIZE_TIME_LINE: 20,
   SORTERS: ['createdAt:desc'],
 };
