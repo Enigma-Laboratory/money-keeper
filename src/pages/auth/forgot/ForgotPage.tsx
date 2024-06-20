@@ -1,7 +1,7 @@
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { ForgotPasswordParams } from '@enigma-laboratory/shared';
 import { Button, Form, Input, Space, Typography, theme } from 'antd';
-import React from 'react';
+import { FC } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
 import { AlertModalPayload } from 'interfaces';
@@ -10,7 +10,7 @@ import { EVENT_NAME, EventAction } from 'utils';
 
 import { StyledLink } from './ForgotPage.styles';
 
-export const ForgotPage: React.FC = () => {
+export const ForgotPage: FC = () => {
   const { t } = useTranslation('auth');
   const { token } = theme.useToken();
 

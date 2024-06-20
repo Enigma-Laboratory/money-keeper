@@ -1,5 +1,5 @@
-import React, { ReactElement, ReactNode } from 'react';
 import { notification } from 'antd';
+import { ReactElement, ReactNode } from 'react';
 
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
 

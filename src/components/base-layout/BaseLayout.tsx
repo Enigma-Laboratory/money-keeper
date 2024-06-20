@@ -1,5 +1,5 @@
 import { LayoutProps } from 'antd';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { BaseLayoutStyled } from './BaseLayout.styles';
 
 export interface BaseLayoutProps extends LayoutProps {}

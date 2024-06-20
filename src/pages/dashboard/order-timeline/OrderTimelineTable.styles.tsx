@@ -6,7 +6,7 @@ export const StyledList = styled(List)``;
 const StyledListItem = styled(List.Item)`
   && {
     cursor: pointer;
-    height: 54px;
+    height: 60px;
     padding: 16px;
     :hover {
       background-color: ${(props) => props.theme.colorBgTextHover};
