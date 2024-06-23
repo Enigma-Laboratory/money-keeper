@@ -1,19 +1,19 @@
-import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { DEFAULT_DASHBOARD_CHART_INIT, DashboardService, FilterDateParams } from 'stores';
+import { DashboardService, FilterDateParams } from 'stores';
+import useQueryHook from './useBaseQuery';
 
 const DASHBOARD_DAILY_REVENUE_KEY = ' dashboard-dailyRevenue';
 
-export const useFetchDailyRevenue = (params: FilterDateParams) => {
-  return useQuery({
-    queryKey: [DASHBOARD_DAILY_REVENUE_KEY, dayjs(params.start).format('L'), dayjs(params.end).format('L')],
-    queryFn: () => {
-      try {
-        return DashboardService.instance.fetchDailyRevenue({ start: params.start, end: params.end });
-      } catch (e) {
-        console.error(e);
-        return DEFAULT_DASHBOARD_CHART_INIT;
-      }
-    },
-  });
+export const useFetchDailyRevenue = ({ start, end }: FilterDateParams) => {
+  const queryKey = [DASHBOARD_DAILY_REVENUE_KEY, dayjs(start).format('L'), dayjs(end).format('L')];
+
+  const queryFunc = async () => {
+    try {
+      return await DashboardService.instance.fetchDailyRevenue({ start, end });
+    } catch (error) {
+      throw new Error('Failed to fetch daily revenue data');
+    }
+  };
+
+  return useQueryHook(queryKey, queryFunc);
 };
