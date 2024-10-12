@@ -27,12 +27,7 @@ export class OperationalSettingService {
   }
 
   public async createOneOperationalSetting(params: CreateOneOperationalSettingParams): Promise<void> {
-    const operationalSetting = await OperationalSettingApiService.instance.createOneOperationalSetting(params);
-    const { rows: operationalSettings, count } = operationalSettingStore.getModel();
-    operationalSettingStore.updateModel({
-      count: count + 1,
-      rows: { ...operationalSettings, operationalSetting },
-    });
+    await OperationalSettingApiService.instance.createOneOperationalSetting(params);
   }
 
   public async updateOneOperationalSetting(params: UpdateOneOperationalSettingParams): Promise<void> {

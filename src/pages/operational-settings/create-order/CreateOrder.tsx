@@ -50,6 +50,7 @@ export enum CreateOrderSteps {
 export const CreateOrder = (props: CreateOrderProps) => {
   const { data, dispatch } = props;
   const { users, operationalSettings, isLoading } = data || {};
+  console.log('🚀 ~ CreateOrder ~ operationalSettings:', operationalSettings);
   const navigate = useNavigate();
   const { t } = useTranslation('order');
   const { token } = theme.useToken();
@@ -112,7 +113,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
 
   const sortUserByMe = useMemo(() => {
     const clonedUsers = { ...users };
-    const myUser = clonedUsers[user._id];
+    const myUser = clonedUsers?.[user?._id] || [];
     delete clonedUsers[user._id];
     return [myUser, ...Object.values(clonedUsers)];
   }, [users]);
@@ -131,8 +132,11 @@ export const CreateOrder = (props: CreateOrderProps) => {
           setCurrentOrderStep(currentOrderStep + 1);
         }
       })
-      .catch((errorInfo) => {
-        message.error('Validation failed:', errorInfo);
+      .catch(() => {
+        message.error({
+          content: `Validation failed`,
+          duration: 3,
+        });
       });
   };
 
@@ -142,12 +146,13 @@ export const CreateOrder = (props: CreateOrderProps) => {
 
   const inputRef = useRef<InputRef>(null);
   const [groupName, setGroupName] = useState('');
+  const [selectedUserIdInGroup, setSelectedUserIdInGroup] = useState<string[]>(() => []);
 
   const handleCreateOperationalSetting = async (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
     e.preventDefault();
     setIsLoadingCreateGroup(true);
     try {
-      await dispatch?.createOperationalSettings({ name: groupName });
+      await dispatch?.createOperationalSettings({ name: groupName, userIds: selectedUserIdInGroup });
       setGroupName('');
     } catch (error) {
       if (error instanceof ConflictError) {
@@ -177,6 +182,10 @@ export const CreateOrder = (props: CreateOrderProps) => {
     return <>{name}</>;
   };
 
+  const handleUserIdInGroupChange = (value: string[]) => {
+    setSelectedUserIdInGroup(value);
+  };
+
   const createOrderBySteps = [
     {
       key: CreateOrderSteps.INFORMATION,
@@ -191,7 +200,6 @@ export const CreateOrder = (props: CreateOrderProps) => {
               showSearch
               loading={isLoading}
               options={Object.values(operationalSettings)
-
                 ?.filter(({ status }) => status === 'opening')
                 ?.map(({ _id, name }) => {
                   return {
@@ -199,9 +207,12 @@ export const CreateOrder = (props: CreateOrderProps) => {
                     value: _id,
                   };
                 })}
+              filterOption={(input, option) =>
+                option?.label.toLowerCase().includes(input.toLowerCase()) ? true : false
+              }
               placeholder={t('form.group.message')}
               dropdownRender={(menu) => (
-                <>
+                <div onKeyDown={(e) => e.stopPropagation()}>
                   {menu}
                   <Divider style={{ margin: '8px 0' }} />
                   <Space style={{ padding: '0 8px 4px' }}>
@@ -212,6 +223,25 @@ export const CreateOrder = (props: CreateOrderProps) => {
                       onChange={onNameChange}
                       onKeyDown={(e) => e.stopPropagation()}
                     />
+
+                    <Select
+                      showSearch
+                      style={{ width: 200 }}
+                      options={sortUserByMe?.map(({ _id, name }) => {
+                        return {
+                          value: _id,
+                          label: <ProductSelect meId={user._id} _id={_id} name={name} />,
+                        };
+                      })}
+                      mode="multiple"
+                      maxTagCount={'responsive'}
+                      onChange={handleUserIdInGroupChange}
+                      onClick={(e) => e.stopPropagation()}
+                      onMouseDown={(e) => e.stopPropagation()}
+                      filterOption={(input, option) =>
+                        option?.label.props.name.toLowerCase().includes(input.toLowerCase())
+                      }
+                    />
                     <Button
                       type="text"
                       icon={<PlusOutlined />}
@@ -221,7 +251,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
                       Create
                     </Button>
                   </Space>
-                </>
+                </div>
               )}
             />
           </Form.Item>
@@ -233,11 +263,15 @@ export const CreateOrder = (props: CreateOrderProps) => {
             initialValue={user._id}
           >
             <Select
+              showSearch
               loading={isLoading}
-              options={Object.values(users)?.map(({ _id, name }) => ({
-                label: name,
-                value: _id,
-              }))}
+              options={sortUserByMe?.map(({ _id, name }) => {
+                return {
+                  value: _id,
+                  label: <ProductSelect meId={user._id} _id={_id} name={name} />,
+                };
+              })}
+              filterOption={(input, option) => option?.label.props.name.toLowerCase().includes(input.toLowerCase())}
               value={user._id}
             />
           </Form.Item>
@@ -256,7 +290,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
             rules={[{ required: true, message: t('form.createdOrderAt.message') }]}
             initialValue={dayjs()}
           >
-            <DatePicker format={'YYYY-MM-DD'} />
+            <DatePicker format={'DD/MM/YYYY'} />
           </Form.Item>
           <Form.Item label={t('form.description.title')} name="description">
             <Input />
@@ -295,15 +329,25 @@ export const CreateOrder = (props: CreateOrderProps) => {
                       rules={[{ required: true, message: t('form.product.messageRequiredUserIds') }]}
                     >
                       <Select
+                        showSearch
                         loading={isLoading}
                         style={{ width: '100%' }}
-                        options={sortUserByMe?.map(({ _id, name }) => {
-                          return {
-                            value: _id,
-                            label: <ProductSelect meId={user._id} _id={_id} name={name} />,
-                          };
-                        })}
+                        options={sortUserByMe
+                          ?.filter(({ _id }) => {
+                            const selectedUserIdsInGroup =
+                              operationalSettings[form.getFieldValue('groupId')]?.userIds || [];
+                            return selectedUserIdsInGroup?.includes(_id);
+                          })
+                          .map(({ _id, name }) => {
+                            return {
+                              value: _id,
+                              label: <ProductSelect meId={user._id} _id={_id} name={name} />,
+                            };
+                          })}
                         mode="multiple"
+                        filterOption={(input, option) =>
+                          option?.label.props.name.toLowerCase().includes(input.toLowerCase())
+                        }
                         maxTagCount={'responsive'}
                       />
                     </Form.Item>
