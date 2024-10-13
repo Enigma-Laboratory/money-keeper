@@ -1,7 +1,7 @@
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { ForgotPasswordParams } from '@enigma-laboratory/shared';
 import { Button, Form, Input, Space, Typography, theme } from 'antd';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
 import { AlertModalPayload } from 'interfaces';
@@ -13,9 +13,12 @@ import { StyledLink } from './ForgotPage.styles';
 export const ForgotPage: FC = () => {
   const { t } = useTranslation('auth');
   const { token } = theme.useToken();
+  const [loading, setLoading] = useState(false);
 
   const recoverPassword = async (params: ForgotPasswordParams) => {
+    setLoading(true);
     const { success, error } = await AuthService.instance.forgotPassword(params);
+    setLoading(false);
 
     if (success) {
       EventAction.dispatch<AlertModalPayload>(EVENT_NAME.OPEN_MODAL, {
@@ -58,7 +61,7 @@ export const ForgotPage: FC = () => {
         <Input size="large" />
       </Form.Item>
       <Form.Item style={{ marginBottom: 0, marginTop: 60 }}>
-        <Button type="primary" size="large" htmlType="submit" block>
+        <Button type="primary" size="large" htmlType="submit" block loading={loading}>
           {t('forgot.submitBtn')}
         </Button>
       </Form.Item>

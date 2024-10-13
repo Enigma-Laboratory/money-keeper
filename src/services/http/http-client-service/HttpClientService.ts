@@ -120,9 +120,11 @@ export class HttpClientService {
       if (refreshTokenResponse.token) {
         return refreshTokenResponse.token;
       } else {
+        NavigateService.instance.navigate('/login');
         throw new Error('Failed to refresh token');
       }
     } catch {
+      NavigateService.instance.navigate('/login');
       throw new UnauthorizedError('Failed to refresh token:');
     }
   }
