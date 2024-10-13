@@ -31,7 +31,7 @@ import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { CardWithContent } from 'components';
+import { CardWithContent, ProductSelect } from 'components';
 import { formatCurrencyToVnd, getExactPath, routePaths } from 'utils';
 
 import dayjs from 'dayjs';
@@ -169,19 +169,6 @@ export const CreateOrder = (props: CreateOrderProps) => {
     setGroupName(event.target.value);
   };
 
-  const ProductSelect = (props: { meId: string; _id: string; name: string }) => {
-    const { meId, _id, name } = props;
-    if (meId === _id) {
-      return (
-        <>
-          <strong>{name} </strong> ({t('me')})
-        </>
-      );
-    }
-
-    return <>{name}</>;
-  };
-
   const handleUserIdInGroupChange = (value: string[]) => {
     setSelectedUserIdInGroup(value);
   };
@@ -217,7 +204,7 @@ export const CreateOrder = (props: CreateOrderProps) => {
                   <Divider style={{ margin: '8px 0' }} />
                   <Space style={{ padding: '0 8px 4px' }}>
                     <Input
-                      placeholder="Please enter new group"
+                      placeholder="Enter group name"
                       ref={inputRef}
                       value={groupName}
                       onChange={onNameChange}

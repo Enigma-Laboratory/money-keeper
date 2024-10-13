@@ -44,15 +44,15 @@ export const Menu = (): ReactElement => {
       icon: <ShoppingCartOutlined />,
     },
     {
-      label: <Link to={routePaths.customer}>{t('sidebar.customers')}</Link>,
-      key: 'customers',
-      icon: <UserOutlined />,
-    },
-    {
-      label: <Link to={routePaths.product}>{t('sidebar.products')}</Link>,
-      key: 'products',
+      label: <Link to={routePaths.groups}>{t('sidebar.groups')}</Link>,
+      key: 'groups',
       icon: <TagsOutlined />,
     },
+    // {
+    //   label: <Link to={routePaths.product}>{t('sidebar.products')}</Link>,
+    //   key: 'products',
+    //   icon: <TagsOutlined />,
+    // },
     {
       label: <Link to={getExactPath(routePaths.profile, { id: user._id })}>{t('sidebar.profile')}</Link>,
       key: 'profile',

@@ -8,6 +8,7 @@ import {
   OrderDetailScreen,
   ProfileScreen,
 } from 'pages';
+import { GroupsSettingScreen } from 'pages/groups';
 import { DEFAULT_DASHBOARD_CHART_INIT, DEFAULT_DASHBOARD_RECENT_ORDER_INIT } from 'stores';
 import { routePaths } from 'utils';
 
@@ -70,6 +71,23 @@ export const routeComponents: RouteComponent[] = [
     name: 'order-edit',
     path: routePaths.editOrder,
     component: <EditOrderScreen />,
+  },
+  {
+    name: 'groups',
+    path: routePaths.groups,
+    component: (
+      <GroupsSettingScreen
+        data={{
+          isLoading: false,
+          groups: {},
+          users: {},
+          statusLoading: {
+            id: '',
+            status: false,
+          },
+        }}
+      />
+    ),
   },
   {
     name: 'detail-order',

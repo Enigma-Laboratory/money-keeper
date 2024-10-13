@@ -15,3 +15,4 @@ export * from './not-found';
 export * from './order-card';
 export * from './order-status';
 export * from './password-strength-indicator';
+export * from './product-select';

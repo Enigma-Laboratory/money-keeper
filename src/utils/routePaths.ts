@@ -11,4 +11,5 @@ export const routePaths = {
   profile: getPath('profile/:id'),
   customer: getPath('customer'),
   product: getPath('product'),
+  groups: getPath('groups'),
 };

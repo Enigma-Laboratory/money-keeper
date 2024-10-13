@@ -11,6 +11,7 @@ export default {
     categories: 'Categories',
     profile: 'Profile',
     logout: 'Logout',
+    groups: 'Groups',
   },
   language: {
     title: 'Language',

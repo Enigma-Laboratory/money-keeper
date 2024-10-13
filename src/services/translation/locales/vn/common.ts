@@ -11,6 +11,7 @@ export default {
     categories: 'Danh Mục',
     profile: 'Trang cá nhân',
     logout: 'Đăng Xuất',
+    groups: 'Nhóm',
   },
   language: {
     title: 'Ngôn ngữ',
